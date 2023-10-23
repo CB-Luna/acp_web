@@ -1,0 +1,36 @@
+name: acp_web
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  dart_jsonwebtoken: ^2.12.0
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_portal: ^1.1.4
+  flutter_secure_storage: ^9.0.0
+  fluttertoast: ^8.2.2
+  go_router: ^12.0.0
+  google_fonts: ^6.1.0
+  http: ^1.1.0
+  image_picker: ^1.0.4
+  path: ^1.8.3
+  pluto_grid: ^7.0.2
+  provider: ^6.0.5
+  shared_preferences: ^2.2.2
+  supabase_flutter: ^1.10.23
+  url_strategy: ^0.2.0
+  uuid: ^4.1.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
