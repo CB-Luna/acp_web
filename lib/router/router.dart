@@ -1,5 +1,6 @@
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/pages.dart';
+import 'package:acp_web/pages/seleccion_pagos_anticipados/seleccion_pagos_anticipados_page.dart';
 import 'package:acp_web/services/navigation_service.dart';
 
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ final GoRouter router = GoRouter(
     if (state.matchedLocation.contains('/cambio-contrasena')) return null;
 
     //If user is not logged in and not in the login page
-    if (!loggedIn && !isLoggingIn) return '/login';
+    //if (!loggedIn && !isLoggingIn) return '/login';
 
     //if user is logged in and in the login page
     if (loggedIn && isLoggingIn) return '/';
@@ -105,6 +106,17 @@ final GoRouter router = GoRouter(
     //     ),
     //   ],
     // ),
+
+    GoRoute(
+      path: '/seleccion_pagos_anticipados',
+      name: 'Selección Pagos Anticipados',
+      builder: (BuildContext context, GoRouterState state) {
+        /* if (currentUser!.rol.permisos.pagos == null) {
+          return const PageNotFoundPage();
+        } */
+        return const SeleccionPagosAnticipadosPage();
+      },
+    ),
 
     // GoRoute(
     //   path: '/pagos',

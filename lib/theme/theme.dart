@@ -26,8 +26,7 @@ abstract class AppTheme {
     darkTheme = DarkModeTheme(mode: conf?.dark);
   }
 
-  static void saveThemeMode(ThemeMode mode) =>
-      mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
   static AppTheme of(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
 
@@ -40,6 +39,16 @@ abstract class AppTheme {
   abstract Color primaryText;
   abstract Color secondaryText;
   abstract Color gris;
+  Gradient blueGradient = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment(4, 0.8),
+    colors: <Color>[
+      Color(0xFF0090FF),
+      Color(0xFF0363C8),
+      Color(0xFF063E9B),
+      Color(0xFF0A0859),
+    ],
+  );
 
   String get title1Family => typography.title1Family;
   TextStyle get title1 => typography.title1;
@@ -298,8 +307,7 @@ class ThemeTypography extends Typography {
       );
 
   @override
-  TextStyle get encabezadoSubTablas =>
-      TextStyle(fontSize: 35, fontFamily: 'Bicyclette-Bold', fontWeight: FontWeight.w800, color: theme.primaryColor);
+  TextStyle get encabezadoSubTablas => TextStyle(fontSize: 35, fontFamily: 'Bicyclette-Bold', fontWeight: FontWeight.w800, color: theme.primaryColor);
 
   @override
   TextStyle get contenidoTablas => TextStyle(
