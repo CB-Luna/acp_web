@@ -19,8 +19,8 @@ final GoRouter router = GoRouter(
 
     if (state.matchedLocation.contains('/cambio-contrasena')) return null;
 
-    //If user is not logged in and not in the login page
-    //if (!loggedIn && !isLoggingIn) return '/login';
+    // If user is not logged in and not in the login page
+    if (!loggedIn && !isLoggingIn) return '/login';
 
     //if user is logged in and in the login page
     if (loggedIn && isLoggingIn) return '/';
@@ -45,7 +45,7 @@ final GoRouter router = GoRouter(
         //   final tokenMap = parseToken(token);
         //   return LoginPage(token: tokenMap);
         // }
-        return const PageNotFoundPage();
+        return const LoginPage();
       },
     ),
     // GoRoute(
