@@ -60,6 +60,8 @@ abstract class AppTheme {
   TextStyle get subtitle1 => typography.subtitle1;
   String get subtitle2Family => typography.subtitle2Family;
   TextStyle get subtitle2 => typography.subtitle2;
+  String get subtitle3Family => typography.subtitle3Family;
+  TextStyle get subtitle3 => typography.subtitle3;
   String get bodyText1Family => typography.bodyText1Family;
   TextStyle get bodyText1 => typography.bodyText1;
   String get bodyText2Family => typography.bodyText2Family;
@@ -95,7 +97,7 @@ class LightModeTheme extends AppTheme {
   @override
   Color secondaryText = const Color(0XFFE6E5E6);
   @override
-  Color gris = Colors.grey.shade200;
+  Color gris = Colors.grey.shade500;
 
   LightModeTheme({Mode? mode}) {
     if (mode != null) {
@@ -185,6 +187,8 @@ abstract class Typography {
   TextStyle get subtitle1;
   String get subtitle2Family;
   TextStyle get subtitle2;
+  String get subtitle3Family;
+  TextStyle get subtitle3;
   String get bodyText1Family;
   TextStyle get bodyText1;
   String get bodyText2Family;
@@ -226,7 +230,7 @@ class ThemeTypography extends Typography {
   String get title3Family => 'Gotham';
   @override
   TextStyle get title3 => TextStyle(
-        fontSize: 30,
+        fontSize: 18,
         fontFamily: 'Gotham',
         fontWeight: FontWeight.bold,
         color: theme.primaryText,
@@ -235,19 +239,29 @@ class ThemeTypography extends Typography {
   String get subtitle1Family => 'Gotham';
   @override
   TextStyle get subtitle1 => TextStyle(
-        fontSize: 16,
-        fontFamily: 'Gotham-Light',
+        fontFamily: 'Gotham-Regular',
         color: theme.primaryText,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
       );
 
   @override
-  String get subtitle2Family => 'Bicyclette';
+  String get subtitle2Family => 'Gotham';
   @override
   TextStyle get subtitle2 => TextStyle(
-        fontFamily: 'Bicyclette-Light',
-        color: theme.secondaryText,
-        fontWeight: FontWeight.w600,
-        fontSize: 16,
+        fontFamily: 'Gotham-Light',
+        color: theme.primaryText,
+        fontSize: 14,
+        fontWeight: FontWeight.w200,
+      );
+  @override
+  String get subtitle3Family => 'Gotham';
+  @override
+  TextStyle get subtitle3 => TextStyle(
+        fontFamily: 'Gotham-Light',
+        color: theme.gris,
+        fontSize: 14,
+        fontWeight: FontWeight.w200,
       );
   @override
   String get bodyText1Family => 'Gotham';

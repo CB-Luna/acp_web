@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 
 class CustomSideMenu extends StatefulWidget {
-  const CustomSideMenu({super.key});
+  const CustomSideMenu({
+    super.key,
+    required this.controller,
+  });
+
+  final SideMenuController controller;
 
   @override
   State<CustomSideMenu> createState() => _CustomSideMenuState();
 }
 
 class _CustomSideMenuState extends State<CustomSideMenu> {
-  final _controller = SideMenuController();
   double _currentIndex = 0;
 
   EdgeInsetsDirectional paddingHItems = const EdgeInsetsDirectional.only(start: 15, end: 15);
@@ -45,7 +49,9 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
         Container(
           decoration: BoxDecoration(gradient: AppTheme.of(context).blueGradient),
           child: SideMenu(
-            controller: _controller,
+            controller: widget.controller,
+            hasResizer: false,
+            hasResizerToggle: false,
             backgroundColor: Colors.transparent,
             mode: SideMenuMode.auto,
             maxWidth: 210,
