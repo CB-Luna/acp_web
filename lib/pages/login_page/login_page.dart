@@ -11,7 +11,6 @@ import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/providers/user_provider.dart';
 import 'package:acp_web/services/api_error_handler.dart';
-import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/models/models.dart';
 import 'package:acp_web/pages/login_page/access_blocked_popup.dart';
 import 'package:acp_web/pages/login_page/access_code_popup.dart';
@@ -185,13 +184,13 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Image.asset(
                       'assets/images/Logo.png',
-                      height: 50,
+                      height: 118,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 28.5),
                     Container(
-                      // width: 464,
-                      // height: 519,
+                      width: 464,
+                      height: 519,
                       padding: const EdgeInsets.all(40),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -209,6 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                         key: formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
                               'Inicio de Sesión',
@@ -219,12 +220,171 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Colors.white,
                               ),
                             ),
-                            Text('Usuario'),
-                            Text('Contraseña'),
-                            Text('Recordarme'),
-                            Text('¿Olvidaste tu Contraseña?'),
-                            Text('Ingresar'),
-                            Text('La seguridad...'),
+                            const SizedBox(height: 28),
+                            SizedBox(
+                              height: 40,
+                              child: TextFormField(
+                                controller: userState.emailController,
+                                onFieldSubmitted: (value) async {
+                                  if (!formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  await login();
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'El correo es requerido';
+                                  } else if (!EmailValidator.validate(value)) {
+                                    return 'Por favor ingresa un correo válido';
+                                  }
+                                  return null;
+                                },
+                                decoration: _buildInputDecoration('Usuario'),
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: const Color.fromARGB(204, 0, 0, 0),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            SizedBox(
+                              height: 40,
+                              child: TextFormField(
+                                controller: userState.passwordController,
+                                obscureText: !passwordVisibility,
+                                onFieldSubmitted: (value) async {
+                                  if (!formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  await login();
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'La contraseña es requerida';
+                                  }
+                                  return null;
+                                },
+                                decoration: _buildInputDecoration('Contraseña', isPassword: true),
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: const Color.fromARGB(204, 0, 0, 0),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ToggleIcon(
+                                  onPressed: () async {
+                                    userState.updateRecuerdame();
+                                  },
+                                  value: userState.recuerdame,
+                                  onIcon: const Icon(
+                                    Icons.radio_button_checked,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  offIcon: const Icon(
+                                    Icons.radio_button_off,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Text(
+                                  'Recordarme',
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 28),
+                            InkWell(
+                              onTap: () => showDialog(
+                                context: context,
+                                builder: (_) => const ResetPasswordPopup(),
+                              ),
+                              child: Text(
+                                '¿Olvidaste tu Contraseña?',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: const Color.fromARGB(204, 255, 255, 255),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 28),
+                            CustomButton(
+                              onPressed: () async {
+                                if (!formKey.currentState!.validate()) {
+                                  return;
+                                }
+                                await login();
+                              },
+                              text: 'Ingresar',
+                              options: ButtonOptions(
+                                width: 200,
+                                height: 50,
+                                color: const Color(0xFF1C1C1C),
+                                textStyle: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            const SizedBox(height: 22),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    const Icon(
+                                      Icons.shield_outlined,
+                                      color: Color.fromARGB(102, 255, 255, 255),
+                                      size: 42,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      'Acceso\nseguro',
+                                      style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        color: const Color.fromARGB(102, 255, 255, 255),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Container(
+                                    width: 2,
+                                    height: 40,
+                                    color: const Color.fromARGB(102, 255, 255, 255),
+                                  ),
+                                ),
+                                Text(
+                                  'La seguridad es nuestra prioridad, por\neso usamos los estándares mas altos.',
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: const Color.fromARGB(102, 255, 255, 255),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -237,336 +397,53 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
 
-    // return Scaffold(
-    //   key: scaffoldKey,
-    //   backgroundColor: AppTheme.of(context).primaryBackground,
-    //   body: GestureDetector(
-    //     onTap: () => FocusScope.of(context).unfocus(),
-    //     child: Container(
-    //       width: double.infinity,
-    //       height: double.infinity,
-    //       decoration: BoxDecoration(
-    //         color: Colors.black,
-    //         image: DecorationImage(
-    //           fit: BoxFit.cover,
-    //           image: Image.asset('assets/images/bg1.png').image,
-    //         ),
-    //       ),
-    //       child: Stack(
-    //         children: [
-    //           Positioned(
-    //             top: 50,
-    //             left: 100,
-    //             child: Image.asset(
-    //               'assets/images/LogoBlanco.png',
-    //               height: 50,
-    //               fit: BoxFit.cover,
-    //             ),
-    //           ),
-    //           Center(
-    //             child: Form(
-    //               key: formKey,
-    //               child: SingleChildScrollView(
-    //                 child: Column(
-    //                   mainAxisSize: MainAxisSize.min,
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 50),
-    //                       child: Text(
-    //                         'Inicio de sesión',
-    //                         style: AppTheme.of(context).bodyText1.override(
-    //                               fontFamily: 'Bicyclette-Light',
-    //                               color: Colors.white,
-    //                               fontSize: 60,
-    //                               fontWeight: FontWeight.w600,
-    //                               useGoogleFonts: false,
-    //                             ),
-    //                       ),
-    //                     ),
-    //                     SizedBox(
-    //                       width: MediaQuery.of(context).size.width * 0.3,
-    //                       child: TextFormField(
-    //                         controller: userState.emailController,
-    //                         onFieldSubmitted: (value) async {
-    //                           if (!formKey.currentState!.validate()) {
-    //                             return;
-    //                           }
-    //                           await login();
-    //                         },
-    //                         validator: (value) {
-    //                           if (value == null || value.isEmpty) {
-    //                             return 'El correo es requerido';
-    //                           } else if (!EmailValidator.validate(value)) {
-    //                             return 'Por favor ingresa un correo válido';
-    //                           }
-    //                           return null;
-    //                         },
-    //                         decoration: InputDecoration(
-    //                           labelText: 'Usuario',
-    //                           hintText: 'Usuario',
-    //                           labelStyle: AppTheme.of(context).bodyText2.override(
-    //                                 fontFamily: 'Poppins',
-    //                                 color: Colors.white,
-    //                                 fontWeight: FontWeight.normal,
-    //                               ),
-    //                           hintStyle: AppTheme.of(context).bodyText2.override(
-    //                                 fontFamily: 'Poppins',
-    //                                 color: Colors.white,
-    //                                 fontWeight: FontWeight.normal,
-    //                               ),
-    //                           enabledBorder: const UnderlineInputBorder(
-    //                             borderSide: BorderSide(
-    //                               color: Colors.white,
-    //                               width: 1,
-    //                             ),
-    //                             borderRadius: BorderRadius.only(
-    //                               topLeft: Radius.circular(4.0),
-    //                               topRight: Radius.circular(4.0),
-    //                             ),
-    //                           ),
-    //                           focusedBorder: const UnderlineInputBorder(
-    //                             borderSide: BorderSide(
-    //                               color: Colors.white,
-    //                               width: 1,
-    //                             ),
-    //                             borderRadius: BorderRadius.only(
-    //                               topLeft: Radius.circular(4.0),
-    //                               topRight: Radius.circular(4.0),
-    //                             ),
-    //                           ),
-    //                         ),
-    //                         style: AppTheme.of(context).bodyText1.override(
-    //                               fontFamily: 'Poppins',
-    //                               color: Colors.white,
-    //                               fontSize: 15,
-    //                               fontWeight: FontWeight.normal,
-    //                             ),
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: const EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
-    //                       child: SizedBox(
-    //                         width: MediaQuery.of(context).size.width * 0.3,
-    //                         child: TextFormField(
-    //                           controller: userState.passwordController,
-    //                           obscureText: !passwordVisibility,
-    //                           onFieldSubmitted: (value) async {
-    //                             if (!formKey.currentState!.validate()) {
-    //                               return;
-    //                             }
-    //                             await login();
-    //                           },
-    //                           validator: (value) {
-    //                             if (value == null || value.isEmpty) {
-    //                               return 'La contraseña es requerida';
-    //                             }
-    //                             return null;
-    //                           },
-    //                           decoration: InputDecoration(
-    //                             labelText: 'Contraseña',
-    //                             hintText: 'Contraseña',
-    //                             hintStyle: AppTheme.of(context).bodyText2.override(
-    //                                   fontFamily: 'Poppins',
-    //                                   color: Colors.white,
-    //                                   fontWeight: FontWeight.normal,
-    //                                 ),
-    //                             labelStyle: AppTheme.of(context).bodyText2.override(
-    //                                   fontFamily: 'Poppins',
-    //                                   color: Colors.white,
-    //                                   fontWeight: FontWeight.normal,
-    //                                 ),
-    //                             enabledBorder: const UnderlineInputBorder(
-    //                               borderSide: BorderSide(
-    //                                 color: Colors.white,
-    //                                 width: 1,
-    //                               ),
-    //                               borderRadius: BorderRadius.only(
-    //                                 topLeft: Radius.circular(4.0),
-    //                                 topRight: Radius.circular(4.0),
-    //                               ),
-    //                             ),
-    //                             focusedBorder: const UnderlineInputBorder(
-    //                               borderSide: BorderSide(
-    //                                 color: Colors.white,
-    //                                 width: 1,
-    //                               ),
-    //                               borderRadius: BorderRadius.only(
-    //                                 topLeft: Radius.circular(4.0),
-    //                                 topRight: Radius.circular(4.0),
-    //                               ),
-    //                             ),
-    //                             suffixIcon: InkWell(
-    //                               onTap: () => setState(
-    //                                 () => passwordVisibility = !passwordVisibility,
-    //                               ),
-    //                               focusNode: FocusNode(skipTraversal: true),
-    //                               child: Icon(
-    //                                 passwordVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-    //                                 color: Colors.white,
-    //                                 size: 22,
-    //                               ),
-    //                             ),
-    //                           ),
-    //                           style: AppTheme.of(context).bodyText1.override(
-    //                                 fontFamily: 'Poppins',
-    //                                 color: Colors.white,
-    //                                 fontSize: 15,
-    //                                 fontWeight: FontWeight.normal,
-    //                               ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: const EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
-    //                       child: Row(
-    //                         mainAxisSize: MainAxisSize.max,
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         children: [
-    //                           Padding(
-    //                             padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
-    //                             child: ToggleIcon(
-    //                               onPressed: () async {
-    //                                 userState.updateRecuerdame();
-    //                               },
-    //                               value: userState.recuerdame,
-    //                               onIcon: const Icon(
-    //                                 Icons.check_circle_outline_sharp,
-    //                                 color: Color(0xFF03C774),
-    //                                 size: 36,
-    //                               ),
-    //                               offIcon: const Icon(
-    //                                 Icons.circle,
-    //                                 color: Color(0xFF03C774),
-    //                                 size: 36,
-    //                               ),
-    //                             ),
-    //                           ),
-    //                           Padding(
-    //                             padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
-    //                             child: Text(
-    //                               'Recordarme',
-    //                               style: AppTheme.of(context).bodyText1.override(
-    //                                     fontFamily: 'Montserrat',
-    //                                     color: Colors.white,
-    //                                     fontSize: 18,
-    //                                     fontWeight: FontWeight.w500,
-    //                                   ),
-    //                             ),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: const EdgeInsetsDirectional.fromSTEB(0, 40, 5, 0),
-    //                       child: InkWell(
-    //                         onTap: () => showDialog(
-    //                           context: context,
-    //                           builder: (_) => const ResetPasswordPopup(),
-    //                         ),
-    //                         child: Text(
-    //                           '¿Olvidaste tu contraseña?',
-    //                           style: AppTheme.of(context).bodyText1.override(
-    //                                 fontFamily: 'Montserrat',
-    //                                 color: Colors.white,
-    //                                 fontSize: 20,
-    //                                 fontWeight: FontWeight.normal,
-    //                                 decoration: TextDecoration.underline,
-    //                               ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: const EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
-    //                       child: CustomButton(
-    //                         onPressed: () async {
-    //                           if (!formKey.currentState!.validate()) {
-    //                             return;
-    //                           }
-    //                           await login();
-    //                         },
-    //                         text: 'Ingresar',
-    //                         options: ButtonOptions(
-    //                           width: 200,
-    //                           height: 50,
-    //                           color: const Color(0xFF03C774),
-    //                           textStyle: AppTheme.of(context).subtitle2.override(
-    //                                 fontFamily: 'Poppins',
-    //                                 color: Colors.white,
-    //                                 fontSize: 20,
-    //                                 fontWeight: FontWeight.normal,
-    //                               ),
-    //                           borderSide: const BorderSide(
-    //                             color: Colors.transparent,
-    //                             width: 1,
-    //                           ),
-    //                           borderRadius: BorderRadius.circular(30),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     /* const MSLoginButton(), */
-    //                     Padding(
-    //                       padding: const EdgeInsetsDirectional.fromSTEB(15, 40, 15, 0),
-    //                       child: Row(
-    //                         mainAxisSize: MainAxisSize.min,
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         children: [
-    //                           Row(
-    //                             mainAxisSize: MainAxisSize.max,
-    //                             children: [
-    //                               const Padding(
-    //                                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-    //                                 child: Icon(
-    //                                   Icons.shield_outlined,
-    //                                   color: Colors.white,
-    //                                   size: 40,
-    //                                 ),
-    //                               ),
-    //                               Padding(
-    //                                 padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-    //                                 child: Text(
-    //                                   'Acceso\nseguro',
-    //                                   style: AppTheme.of(context).bodyText1.override(
-    //                                         fontFamily: 'Poppins',
-    //                                         color: Colors.white,
-    //                                         fontSize: 15,
-    //                                       ),
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           Container(
-    //                             width: 2,
-    //                             height: 70,
-    //                             decoration: const BoxDecoration(
-    //                               color: Color(0xFFE7E7E7),
-    //                             ),
-    //                           ),
-    //                           Padding(
-    //                             padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 2),
-    //                             child: Text(
-    //                               'La seguridad es nuestra prioridad, por\neso usamos los estándares mas altos.',
-    //                               style: AppTheme.of(context).bodyText1.override(
-    //                                     fontFamily: 'Poppins',
-    //                                     color: const Color(0xFFE7E7E7),
-    //                                     fontSize: 14,
-    //                                     fontWeight: FontWeight.normal,
-    //                                   ),
-    //                             ),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+  InputDecoration _buildInputDecoration(String label, {bool isPassword = false}) {
+    Widget? suffixIcon;
+    if (isPassword) {
+      suffixIcon = InkWell(
+        onTap: () => setState(
+          () => passwordVisibility = !passwordVisibility,
+        ),
+        focusNode: FocusNode(skipTraversal: true),
+        child: Icon(
+          passwordVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          color: const Color.fromARGB(204, 0, 0, 0),
+          size: 22,
+        ),
+      );
+    }
+    return InputDecoration(
+      labelText: label,
+      hintText: label,
+      filled: true,
+      fillColor: Colors.white,
+      labelStyle: GoogleFonts.inter(
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: const Color.fromARGB(204, 0, 0, 0),
+      ),
+      hintStyle: GoogleFonts.inter(
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: const Color.fromARGB(204, 0, 0, 0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Colors.white,
+          width: 1,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Colors.white,
+          width: 1,
+        ),
+      ),
+      suffixIcon: suffixIcon,
+    );
   }
 }
