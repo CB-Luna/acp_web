@@ -1,13 +1,19 @@
 import 'dart:html';
 
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/contenedores_pagos_anticipados.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_card.dart';
-import 'package:acp_web/widgets/custom_scrollbar.dart';
-import 'package:acp_web/widgets/custom_side_menu.dart';
+import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_list.dart';
+import 'package:acp_web/pages/widgets/custom_header_options.dart';
+import 'package:acp_web/pages/widgets/custom_scrollbar.dart';
+import 'package:acp_web/pages/widgets/custom_side_menu.dart';
+import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
+import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/theme/theme.dart';
-import 'package:acp_web/widgets/custom_side_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 class SeleccionPagosAnticipadosPage extends StatefulWidget {
@@ -21,8 +27,17 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
   SideMenuController sideMenuController = SideMenuController();
   SideMenuController sideNotificationsController = SideMenuController();
 
+  bool filterSelected = false;
+  bool gridSelected = true;
+
+  bool listOpenned = false;
+
+  late List<PlutoGridStateManager> listStateManager;
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width / 1440;
+    double height = MediaQuery.of(context).size.height / 1024;
     //final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     //visualState.setTapedOption(2);
 
@@ -230,463 +245,216 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
             Expanded(
               child: Column(
                 children: [
-                  SizedBox(
-                    //Top Menu
-                    height: 85,
-                    child: Column(
-                      children: [
-                        const Spacer(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Wrap(
-                                spacing: 8,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  Wrap(
-                                    spacing: 8,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.format_indent_decrease_outlined,
-                                          size: 24,
-                                        ),
-                                        splashRadius: 0.01,
-                                        onPressed: () {
-                                          sideMenuController.toggle();
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.star_border_outlined,
-                                          size: 24,
-                                        ),
-                                        splashRadius: 0.01,
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
-                                  Wrap(
-                                    spacing: 8,
-                                    children: [
-                                      Text(
-                                        'Tesorero',
-                                        style: AppTheme.of(context).subtitle3,
-                                      ),
-                                      Text(
-                                        '/',
-                                        style: AppTheme.of(context).subtitle3,
-                                      ),
-                                      Text(
-                                        'Propuestas de Pago',
-                                        style: AppTheme.of(context).subtitle2,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Wrap(
-                                spacing: 8,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 160,
-                                    height: 30,
-                                    color: AppTheme.of(context).gris,
-                                  ),
-                                  Container(
-                                    width: 42,
-                                    height: 42,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  Wrap(
-                                    spacing: 8,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.wb_sunny_outlined,
-                                          size: 24,
-                                        ),
-                                        splashRadius: 0.01,
-                                        onPressed: () {},
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.history_outlined,
-                                          size: 24,
-                                        ),
-                                        splashRadius: 0.01,
-                                        onPressed: () {},
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.notifications_outlined,
-                                          size: 24,
-                                        ),
-                                        splashRadius: 0.01,
-                                        onPressed: () {},
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.format_indent_increase_outlined,
-                                          size: 24,
-                                        ),
-                                        splashRadius: 0.01,
-                                        onPressed: () {
-                                          sideNotificationsController.toggle();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Divider()
-                      ],
-                    ),
+                  //Top Menu
+                  CustomTopMenu(
+                    sideMenuController: sideMenuController,
+                    sideNotificationsController: sideNotificationsController,
+                    pantalla: 'Porpuesta de Pago',
                   ),
                   //Contenido
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: CustomScrollBar(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //Encabezado
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Selección de Pagos Anticipados',
-                                  style: AppTheme.of(context).subtitle1,
-                                ),
-                                Wrap(
-                                  spacing: 10,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.filter_alt_outlined,
-                                        size: 24,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //Encabezado
+                          CustomHeaderOptions(
+                            encabezado: 'Selección de Pagos Anticipados',
+                            filterSelected: filterSelected,
+                            gridSelected: gridSelected,
+                            onFilterSelected: () {
+                              setState(() {
+                                filterSelected = !filterSelected;
+                              });
+                            },
+                            onGridSelected: () {
+                              setState(() {
+                                gridSelected = true;
+                              });
+                            },
+                            onListSelected: () {
+                              setState(() {
+                                gridSelected = false;
+                              });
+                            },
+                          ),
+                          //Contenedores
+                          const ContenedoresPagosAnticipados(),
+                          //Lista - Grid
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: SizedBox(
+                              height: height * 1024 - 415,
+                              child: gridSelected
+                                  ? GridView.builder(
+                                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 400,
+                                        //childAspectRatio: 3,
+                                        crossAxisSpacing: 35,
+                                        mainAxisSpacing: 35,
+                                        mainAxisExtent: 230,
                                       ),
-                                      splashRadius: 0.01,
-                                      onPressed: () {},
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.format_list_bulleted_outlined,
-                                        size: 24,
-                                      ),
-                                      splashRadius: 0.01,
-                                      onPressed: () {},
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.grid_on_outlined,
-                                        size: 24,
-                                      ),
-                                      splashRadius: 0.01,
-                                      onPressed: () {},
-                                    ),
-                                    Wrap(
-                                      spacing: 8,
-                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                      shrinkWrap: true,
+                                      itemCount: listadoEjemplo.length,
+                                      itemBuilder: (BuildContext ctx, index) {
+                                        return CustomCard(
+                                          moneda: 'GTQ',
+                                          nombreCliente: listadoEjemplo[index]['nombreCliente'],
+                                          facturacion: listadoEjemplo[index]['facturacion'],
+                                          beneficio: listadoEjemplo[index]['beneficio'],
+                                          pagoAdelantado: listadoEjemplo[index]['pagoAdelantado'],
+                                          cantidadFacturas: listadoEjemplo[index]['cantidadFacturas'],
+                                          cantidadFacturasSeleccionadas: listadoEjemplo[index]['cantidadFacturasSeleccionadas'],
+                                        );
+                                      },
+                                    )
+                                  : Column(
                                       children: [
-                                        Text(
-                                          'Moneda',
-                                          style: AppTheme.of(context).subtitle1.override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context).primaryColor,
-                                              ),
-                                        ),
-                                        Text(
-                                          'USD',
-                                          style: AppTheme.of(context).subtitle1.override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context).tertiaryColor,
-                                              ),
-                                        ),
-                                        Text(
-                                          'GTQ',
-                                          style: AppTheme.of(context).subtitle1.override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context).primaryColor,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.more_horiz_outlined,
-                                        size: 24,
-                                      ),
-                                      splashRadius: 0.01,
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 432,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFE5ECF6),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(24),
-                                    child: Wrap(
-                                      runSpacing: 16,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Ganancias',
-                                              style: AppTheme.of(context).subtitle1,
+                                        //Encabezado
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 16.0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: height * 79,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(6),
+                                              color: AppTheme.of(context).primaryColor,
                                             ),
-                                            Container(
-                                              width: 30,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.black12,
-                                                borderRadius: BorderRadius.circular(8),
-                                              ),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(4),
-                                                child: Icon(
-                                                  Icons.monetization_on_outlined,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Monto de Facturación',
-                                                  style: AppTheme.of(context).subtitle2,
-                                                ),
-                                                Text(
-                                                  'GTQ ${moneyFormat(1213513.00)}',
-                                                  style: AppTheme.of(context).title3,
-                                                ),
-                                              ],
-                                            ),
-                                            Container(color: AppTheme.of(context).gris, width: 1, height: 55),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'CxP',
-                                                  style: AppTheme.of(context).subtitle2,
-                                                ),
-                                                Text(
-                                                  '47 de 95',
-                                                  style: AppTheme.of(context).title3,
-                                                ),
-                                              ],
-                                            ),
-                                            Container(color: AppTheme.of(context).gris, width: 1, height: 55),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Total de pagos',
-                                                  style: AppTheme.of(context).subtitle2,
-                                                ),
-                                                Text(
-                                                  'GTQ ${moneyFormat(1921.00)}',
-                                                  style: AppTheme.of(context).title3,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Ganancias calculadas de los ultimos 30 dias',
-                                              style: AppTheme.of(context).subtitle1,
-                                            ),
-                                            Container(
-                                              height: 30,
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 432,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFE3F5FF),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(24),
-                                    child: Wrap(
-                                      runSpacing: 16,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Facturas Seleccionadas',
-                                              style: AppTheme.of(context).subtitle1,
-                                            ),
-                                            Wrap(
-                                              spacing: 16,
-                                              children: [
-                                                Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black12,
-                                                    borderRadius: BorderRadius.circular(8),
-                                                  ),
-                                                  child: const Padding(
-                                                    padding: EdgeInsets.all(4),
-                                                    child: Icon(
-                                                      Icons.energy_savings_leaf_outlined,
-                                                      size: 20,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.person,
+                                                          size: 20,
+                                                          color: AppTheme.of(context).primaryBackground,
+                                                        ),
+                                                        Text(
+                                                          'Cliente',
+                                                          style: AppTheme.of(context).subtitle1.override(
+                                                                fontFamily: 'Gotham',
+                                                                useGoogleFonts: false,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                              ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black12,
-                                                    borderRadius: BorderRadius.circular(8),
-                                                  ),
-                                                  child: const Padding(
-                                                    padding: EdgeInsets.all(4),
-                                                    child: Icon(
-                                                      Icons.play_arrow_outlined,
-                                                      size: 20,
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.content_paste,
+                                                          size: 20,
+                                                          color: AppTheme.of(context).primaryBackground,
+                                                        ),
+                                                        Text(
+                                                          'Num. Facturas',
+                                                          style: AppTheme.of(context).subtitle1.override(
+                                                                fontFamily: 'Gotham',
+                                                                useGoogleFonts: false,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                              ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Fondo Disponible Restante',
-                                                  style: AppTheme.of(context).subtitle2,
-                                                ),
-                                                Text(
-                                                  'GTQ ${moneyFormat(10000.00)}',
-                                                  style: AppTheme.of(context).title3,
-                                                ),
-                                              ],
-                                            ),
-                                            Container(color: AppTheme.of(context).gris, width: 1, height: 55),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Beneficio Total',
-                                                  style: AppTheme.of(context).subtitle2,
-                                                ),
-                                                Text(
-                                                  'GTQ ${moneyFormat(135000.00)}',
-                                                  style: AppTheme.of(context).title3,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              'Fondo disponible:',
-                                              style: AppTheme.of(context).subtitle1,
-                                            ),
-                                            Container(
-                                              width: 185,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.of(context).primaryBackground,
-                                                borderRadius: BorderRadius.circular(16),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.receipt_long,
+                                                          color: AppTheme.of(context).primaryBackground,
+                                                        ),
+                                                        Text(
+                                                          'Facturación',
+                                                          style: AppTheme.of(context).subtitle1.override(
+                                                                fontFamily: 'Gotham',
+                                                                useGoogleFonts: false,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.payments_outlined,
+                                                          color: AppTheme.of(context).primaryBackground,
+                                                        ),
+                                                        Text(
+                                                          'Beneficio',
+                                                          style: AppTheme.of(context).subtitle1.override(
+                                                                fontFamily: 'Gotham',
+                                                                useGoogleFonts: false,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.shopping_bag,
+                                                          color: AppTheme.of(context).primaryBackground,
+                                                        ),
+                                                        Text(
+                                                          'Pago Adelantado',
+                                                          style: AppTheme.of(context).subtitle1.override(
+                                                                fontFamily: 'Gotham',
+                                                                useGoogleFonts: false,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 65),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        )
+                                          ),
+                                        ),
+                                        //Contenido
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: height * 505,
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: 20,
+                                              scrollDirection: Axis.vertical,
+                                              itemBuilder: (BuildContext ctx, index) {
+                                                return CustomListCard(
+                                                  moneda: 'GTQ',
+                                                  nombreCliente: listadoEjemplo[index]['nombreCliente'],
+                                                  facturacion: listadoEjemplo[index]['facturacion'],
+                                                  beneficio: listadoEjemplo[index]['beneficio'],
+                                                  pagoAdelantado: listadoEjemplo[index]['pagoAdelantado'],
+                                                  cantidadFacturas: listadoEjemplo[index]['cantidadFacturas'],
+                                                  cantidadFacturasSeleccionadas: listadoEjemplo[index]['cantidadFacturasSeleccionadas'],
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                ),
-                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.64,
-                                child: GridView.builder(
-                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 400,
-                                      //childAspectRatio: 3,
-                                      crossAxisSpacing: 35,
-                                      mainAxisSpacing: 35,
-                                      mainAxisExtent: 230,
-                                    ),
-                                    shrinkWrap: true,
-                                    itemCount: 100,
-                                    itemBuilder: (BuildContext ctx, index) {
-                                      return CustomCard(
-                                        moneda: 'GTQ',
-                                        nombreCliente: listadoEjemplo[index]['nombreCliente'],
-                                        facturacion: listadoEjemplo[index]['facturacion'],
-                                        beneficio: listadoEjemplo[index]['beneficio'],
-                                        pagoAdelantado: listadoEjemplo[index]['pagoAdelantado'],
-                                        cantidadFacturas: listadoEjemplo[index]['cantidadFacturas'],
-                                        cantidadFacturasSeleccionadas: listadoEjemplo[index]['cantidadFacturasSeleccionadas'],
-                                      );
-                                    }),
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     ),
                   ),

@@ -161,7 +161,10 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                   children: [
                                     Row(
                                       children: [
-                                        const DotIndicator(size: 24),
+                                        const DotIndicator(
+                                          size: 24,
+                                          color: Colors.red,
+                                        ),
                                         const SizedBox(width: 10),
                                         SizedBox(
                                           width: 180,
@@ -241,7 +244,10 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                     const Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        DotIndicator(size: 24),
+                                        DotIndicator(
+                                          size: 24,
+                                          color: Colors.red,
+                                        ),
                                       ],
                                     ),
                                     if (index != 4)

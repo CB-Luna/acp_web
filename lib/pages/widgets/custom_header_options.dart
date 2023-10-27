@@ -1,0 +1,115 @@
+import 'package:acp_web/theme/theme.dart';
+import 'package:flutter/material.dart';
+
+class CustomHeaderOptions extends StatefulWidget {
+  const CustomHeaderOptions({
+    super.key,
+    required this.filterSelected,
+    required this.gridSelected,
+    this.onFilterSelected,
+    this.onGridSelected,
+    this.onListSelected,
+    required this.encabezado,
+  });
+
+  final String encabezado;
+
+  final bool filterSelected;
+  final bool gridSelected;
+
+  final Function()? onFilterSelected;
+  final Function()? onGridSelected;
+  final Function()? onListSelected;
+
+  @override
+  State<CustomHeaderOptions> createState() => Custom_HeaderOptionsState();
+}
+
+class Custom_HeaderOptionsState extends State<CustomHeaderOptions> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          widget.encabezado,
+          style: AppTheme.of(context).subtitle1,
+        ),
+        Wrap(
+          spacing: 10,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.filter_alt_outlined,
+                size: 24,
+                color: widget.filterSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+              ),
+              splashRadius: 0.01,
+              onPressed: widget.onFilterSelected,
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.format_list_bulleted_outlined,
+                size: 24,
+                color: !widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+              ),
+              isSelected: !widget.gridSelected,
+              splashRadius: 0.01,
+              onPressed: widget.onListSelected,
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.grid_on_outlined,
+                size: 24,
+                color: widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+              ),
+              isSelected: widget.gridSelected,
+              splashRadius: 0.01,
+              onPressed: widget.onGridSelected,
+            ),
+            Wrap(
+              spacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  'Moneda',
+                  style: AppTheme.of(context).subtitle1.override(
+                        fontFamily: 'Gotham-Regular',
+                        useGoogleFonts: false,
+                        color: AppTheme.of(context).primaryColor,
+                      ),
+                ),
+                Text(
+                  'USD',
+                  style: AppTheme.of(context).subtitle1.override(
+                        fontFamily: 'Gotham-Regular',
+                        useGoogleFonts: false,
+                        color: AppTheme.of(context).secondaryColor,
+                      ),
+                ),
+                Text(
+                  'GTQ',
+                  style: AppTheme.of(context).subtitle1.override(
+                        fontFamily: 'Gotham-Regular',
+                        useGoogleFonts: false,
+                        color: AppTheme.of(context).primaryColor,
+                      ),
+                ),
+              ],
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.more_horiz_outlined,
+                size: 24,
+                color: AppTheme.of(context).secondaryColor,
+              ),
+              splashRadius: 0.01,
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

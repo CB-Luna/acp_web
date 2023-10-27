@@ -20,7 +20,7 @@ final GoRouter router = GoRouter(
     if (state.matchedLocation.contains('/cambio-contrasena')) return null;
 
     // If user is not logged in and not in the login page
-    if (!loggedIn && !isLoggingIn) return '/login';
+    if (!loggedIn && !isLoggingIn) return '/seleccion_pagos_anticipados';
 
     //if user is logged in and in the login page
     if (loggedIn && isLoggingIn) return '/';

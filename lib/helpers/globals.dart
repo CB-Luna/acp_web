@@ -38,17 +38,25 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
       ? PlutoGridStyleConfig(
-          rowHeight: 60,
-          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          //
+          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          //
+          enableColumnBorderVertical: true,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
+          iconColor: AppTheme.of(context).primaryColor,
+          borderColor: Colors.transparent,
+          //
+          rowHeight: 60,
+          rowColor: AppTheme.of(context).primaryBackground,
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
           enableCellBorderVertical: false,
-          borderColor: AppTheme.of(context).primaryBackground,
+          enableCellBorderHorizontal: false,
           checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
-          iconColor: AppTheme.of(context).primaryColor,
-          gridBackgroundColor: AppTheme.of(context).primaryBackground,
-          rowColor: AppTheme.of(context).primaryBackground,
-          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          //
+          gridBackgroundColor: Colors.transparent,
+          gridBorderColor: Colors.transparent,
+          //
           activatedColor: AppTheme.of(context).primaryBackground,
         )
       : PlutoGridStyleConfig.dark(
@@ -56,11 +64,11 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
           enableCellBorderVertical: false,
-          borderColor: AppTheme.of(context).primaryBackground,
+          borderColor: Colors.transparent,
           checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           iconColor: AppTheme.of(context).primaryColor,
-          gridBackgroundColor: AppTheme.of(context).primaryBackground,
+          gridBackgroundColor: Colors.transparent,
           rowColor: AppTheme.of(context).primaryBackground,
           menuBackgroundColor: AppTheme.of(context).primaryBackground,
           activatedColor: AppTheme.of(context).primaryBackground,
