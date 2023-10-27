@@ -1,21 +1,21 @@
+import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class CustomSideMenu extends StatefulWidget {
   const CustomSideMenu({
     super.key,
-    required this.controller,
   });
-
-  final SideMenuController controller;
 
   @override
   State<CustomSideMenu> createState() => _CustomSideMenuState();
 }
 
 class _CustomSideMenuState extends State<CustomSideMenu> {
-  double _currentIndex = 0;
+  //double _currentIndex = 0;
 
   EdgeInsetsDirectional paddingHItems = const EdgeInsetsDirectional.only(start: 15, end: 15);
   EdgeInsetsDirectional paddingHItemsGroup = const EdgeInsetsDirectional.only(start: 30, end: 15);
@@ -38,18 +38,16 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
 
   double iconSize = 20;
 
-  Map<String, bool> sideMenuItemDataTileGroupsOpened = {
-    'Propuesta de Pago': false,
-  };
-
   @override
   Widget build(BuildContext context) {
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
+
     return Row(
       children: [
         Container(
           decoration: BoxDecoration(gradient: AppTheme.of(context).blueGradient),
           child: SideMenu(
-            controller: widget.controller,
+            controller: visualState.sideMenuController,
             hasResizer: false,
             hasResizerToggle: false,
             backgroundColor: Colors.transparent,
@@ -105,8 +103,13 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: _currentIndex == 0,
-                    onTap: () => setState(() => _currentIndex = 0),
+                    isSelected: visualState.isTaped[0],
+                    onTap: () {
+                      setState(() {
+                        visualState.setTapedOption(0);
+                      });
+                      context.pushReplacement('/home');
+                    },
                   ),
                   SideMenuItemDataTile(
                     title: 'Propuesta de pago',
@@ -120,12 +123,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
                     isSelected:
-                        (!sideMenuItemDataTileGroupsOpened['Propuesta de Pago']! && (_currentIndex == 1.1 || _currentIndex == 1.2)) || ((_currentIndex == 1.1 || _currentIndex == 1.2) && !data.isOpen),
+                        (!visualState.isGroupTaped['Propuesta de Pago']! && (visualState.isTaped[1] || visualState.isTaped[2])) || ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
                     onTap: () => setState(() {
-                      sideMenuItemDataTileGroupsOpened.update('Propuesta de Pago', (value) => !value);
+                      visualState.isGroupTaped.update('Propuesta de Pago', (value) => !value);
                     }),
                   ),
-                  if (sideMenuItemDataTileGroupsOpened['Propuesta de Pago']! && data.isOpen)
+                  if (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen)
                     SideMenuItemDataTile(
                       title: 'Selección de pagos anticipados',
                       titleStyle: const TextStyle(color: Colors.black, overflow: TextOverflow.fade),
@@ -134,10 +137,10 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
                       margin: paddingHItemsGroup,
-                      isSelected: _currentIndex == 1.1,
-                      onTap: () => setState(() => _currentIndex = 1.1),
+                      isSelected: visualState.isTaped[1],
+                      onTap: () => setState(() => visualState.setTapedOption(1)),
                     ),
-                  if (sideMenuItemDataTileGroupsOpened['Propuesta de Pago']! && data.isOpen)
+                  if (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen)
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Autorización de solicitudes',
@@ -147,8 +150,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
                       margin: paddingHItemsGroup,
-                      isSelected: _currentIndex == 1.2,
-                      onTap: () => setState(() => _currentIndex = 1.2),
+                      isSelected: visualState.isTaped[2],
+                      onTap: () => setState(() => visualState.setTapedOption(2)),
                     ),
                   SideMenuItemDataTile(
                     title: 'Pagos',
@@ -162,8 +165,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: _currentIndex == 3,
-                    onTap: () => setState(() => _currentIndex = 3),
+                    isSelected: visualState.isTaped[3],
+                    onTap: () => setState(() => visualState.setTapedOption(3)),
                   ),
                   SideMenuItemDataTile(
                     title: 'Usuarios',
@@ -177,8 +180,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: _currentIndex == 4,
-                    onTap: () => setState(() => _currentIndex = 4),
+                    isSelected: visualState.isTaped[4],
+                    onTap: () => setState(() => visualState.setTapedOption(4)),
                   ),
                   SideMenuItemDataTile(
                     title: 'Clientes',
@@ -192,8 +195,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: _currentIndex == 5,
-                    onTap: () => setState(() => _currentIndex = 5),
+                    isSelected: visualState.isTaped[5],
+                    onTap: () => setState(() => visualState.setTapedOption(5)),
                   ),
                   SideMenuItemDataTile(
                     title: 'Dashboard',
@@ -207,8 +210,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: _currentIndex == 6,
-                    onTap: () => setState(() => _currentIndex = 6),
+                    isSelected: visualState.isTaped[6],
+                    onTap: () => setState(() => visualState.setTapedOption(6)),
                   ),
                   SideMenuItemDataTile(
                     title: 'Ajustes',
@@ -222,8 +225,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     highlightSelectedColor: highlightSelectedColor,
                     borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: _currentIndex == 7,
-                    onTap: () => setState(() => _currentIndex = 7),
+                    isSelected: visualState.isTaped[7],
+                    onTap: () => setState(() => visualState.setTapedOption(7)),
                   ),
                 ],
                 footer: Padding(

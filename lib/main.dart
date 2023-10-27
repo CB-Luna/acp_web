@@ -1,5 +1,6 @@
 import 'package:acp_web/helpers/scroll_behavior.dart';
 import 'package:acp_web/internationalization/internationalization.dart';
+import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -35,6 +36,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserState(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VisualStateProvider(context),
         ),
       ],
       child: const MyApp(),

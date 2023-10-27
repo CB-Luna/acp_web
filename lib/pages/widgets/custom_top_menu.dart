@@ -1,4 +1,5 @@
 import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
@@ -23,6 +24,7 @@ class CustomTopMenu extends StatefulWidget {
 class _CustomTopMenuState extends State<CustomTopMenu> {
   @override
   Widget build(BuildContext context) {
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     return SizedBox(
       height: 85,
@@ -48,7 +50,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           ),
                           splashRadius: 0.01,
                           onPressed: () {
-                            widget.sideMenuController.toggle();
+                            visualState.toogleSideMenu();
                           },
                         ),
                         IconButton(
@@ -58,16 +60,6 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           ),
                           splashRadius: 0.01,
                           onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.exit_to_app_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () async {
-                            await userState.logout();
-                          },
                         ),
                       ],
                     ),
@@ -140,12 +132,22 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                         ),
                         IconButton(
                           icon: const Icon(
+                            Icons.exit_to_app_outlined,
+                            size: 24,
+                          ),
+                          splashRadius: 0.01,
+                          onPressed: () async {
+                            await userState.logout();
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(
                             Icons.format_indent_increase_outlined,
                             size: 24,
                           ),
                           splashRadius: 0.01,
                           onPressed: () {
-                            widget.sideNotificationsController.toggle();
+                            visualState.toogleNotificationMenu();
                           },
                         ),
                       ],

@@ -1,15 +1,14 @@
+import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
+import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 
 class CustomSideNotifications extends StatefulWidget {
   const CustomSideNotifications({
     super.key,
-    required this.controller,
   });
-
-  final SideMenuController controller;
 
   @override
   State<CustomSideNotifications> createState() => _CustomSideNotificationsState();
@@ -18,13 +17,14 @@ class CustomSideNotifications extends StatefulWidget {
 class _CustomSideNotificationsState extends State<CustomSideNotifications> {
   @override
   Widget build(BuildContext context) {
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     return Row(
       children: [
         const SizedBox(width: 15),
         Container(
           decoration: BoxDecoration(gradient: AppTheme.of(context).blueGradient),
           child: SideMenu(
-            controller: widget.controller,
+            controller: visualState.sideNotificationsController,
             hasResizer: false,
             hasResizerToggle: false,
             position: SideMenuPosition.right,
