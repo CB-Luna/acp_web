@@ -1,3 +1,4 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
@@ -67,7 +68,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       spacing: 8,
                       children: [
                         Text(
-                          'Tesorero',
+                          currentUser!.rol.nombre,
                           style: AppTheme.of(context).subtitle3,
                         ),
                         Text(

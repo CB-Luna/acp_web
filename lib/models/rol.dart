@@ -13,19 +13,11 @@ class Rol {
 
   factory Rol.fromJson(String str) => Rol.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
-
   factory Rol.fromMap(Map<String, dynamic> json) => Rol(
         nombre: json["nombre"],
         rolId: json["rol_id"],
         permisos: Permisos.fromMap(json["permisos"]),
       );
-
-  Map<String, dynamic> toMap() => {
-        "nombre": nombre,
-        "rol_id": rolId,
-        "permisos": permisos.toMap(),
-      };
 
   @override
   bool operator ==(Object other) {
@@ -40,75 +32,43 @@ class Rol {
 class Permisos {
   Permisos({
     required this.home,
-    required this.homeProveedor,
-    required this.extraccionDeFacturas,
-    required this.seguimientoDeFacturas,
+    required this.seleccionPagosAnticipados,
+    required this.autorizacionSolicitudesPagoAnticipado,
     required this.pagos,
-    required this.seguimientoProveedor,
-    required this.seguimientoNC,
-    required this.solicitudDppCBC,
-    required this.solicitudDppProveedor,
-    required this.cargaNc,
-    required this.validacionNC,
-    required this.notificaciones,
-    required this.administracionDeProveedores,
-    required this.administracionDeUsuarios,
-    required this.reportes,
-    required this.perfilDeUsuario,
+    required this.registroUsuario,
+    required this.listaUsuarios,
+    required this.registroClientes,
+    required this.listaClientes,
+    required this.dashboards,
+    required this.solicitudPago,
+    required this.aprobacionPago,
   });
 
   String? home;
-  String? homeProveedor;
-  String? extraccionDeFacturas;
-  String? seguimientoDeFacturas;
+  String? seleccionPagosAnticipados;
+  String? autorizacionSolicitudesPagoAnticipado;
   String? pagos;
-  String? seguimientoProveedor;
-  String? seguimientoNC;
-  String? solicitudDppCBC;
-  String? solicitudDppProveedor;
-  String? cargaNc;
-  String? validacionNC;
-  String? notificaciones;
-  String? administracionDeProveedores;
-  String? administracionDeUsuarios;
-  String? reportes;
-  String? perfilDeUsuario;
+  String? registroUsuario;
+  String? listaUsuarios;
+  String? registroClientes;
+  String? listaClientes;
+  String? dashboards;
+  String? solicitudPago;
+  String? aprobacionPago;
 
   factory Permisos.fromJson(String str) => Permisos.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
-
   factory Permisos.fromMap(Map<String, dynamic> json) => Permisos(
         home: json['Home'],
-        homeProveedor: json['HomeProveedor'],
-        extraccionDeFacturas: json["Extraccion de Facturas"],
-        seguimientoDeFacturas: json["Seguimiento de Facturas"],
-        pagos: json["Pagos"],
-        seguimientoProveedor: json["Seguimiento Proveedor"],
-        seguimientoNC: json["Seguimiento NC"],
-        solicitudDppCBC: json['SolicitudDPPCBC'],
-        solicitudDppProveedor: json['SolicitudDPPProveedor'],
-        cargaNc: json['CargaNC'],
-        validacionNC: json["Validacion NC"],
-        notificaciones: json["Notificaciones"],
-        administracionDeProveedores: json["Administracion de Proveedores"],
-        administracionDeUsuarios: json["Administracion de Usuarios"],
-        reportes: json["Reportes"],
-        perfilDeUsuario: json["Perfil de Usuario"],
+        seleccionPagosAnticipados: json['Selección de pagos anticipados'],
+        autorizacionSolicitudesPagoAnticipado: json['Autorización de solicitudes de pago anticipado'],
+        pagos: json['Pagos'],
+        registroUsuario: json['Registro de Usuario'],
+        listaUsuarios: json['Lista de Usuarios'],
+        registroClientes: json['Registro de Clientes'],
+        listaClientes: json['Lista de Clientes'],
+        dashboards: json['Dashboards'],
+        solicitudPago: json['Solicitud de Pago'],
+        aprobacionPago: json['Aprobación de Pago'],
       );
-
-  Map<String, dynamic> toMap() => {
-        "Home": home,
-        "Extraccion de Facturas": extraccionDeFacturas,
-        "Seguimiento de Facturas": seguimientoDeFacturas,
-        "Pagos": pagos,
-        "Seguimiento Proveedor": seguimientoProveedor,
-        "Seguimiento NC": seguimientoNC,
-        "Validacion NC": validacionNC,
-        "Notificaciones": notificaciones,
-        "Administracion de Proveedores": administracionDeProveedores,
-        "Administracion de Usuarios": administracionDeUsuarios,
-        "Reportes": reportes,
-        "Perfil de Usuario": perfilDeUsuario,
-      };
 }
