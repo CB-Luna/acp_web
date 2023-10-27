@@ -52,49 +52,49 @@ class _LoginPageState extends State<LoginPage> {
           return;
         }
 
-        //Check if token exists
-        if (widget.token == null) {
-          final userIsBlocked = await userState.checkIfUserBlocked(
-            userState.emailController.text,
-          );
-          if (userIsBlocked) {
-            if (!mounted) return;
-            await showDialog(
-              context: context,
-              builder: (_) => const AccessBlockedPopup(),
-            );
-            return;
-          }
-          //Validate password
-          await supabase.auth.signInWithPassword(
-            email: userState.emailController.text,
-            password: userState.passwordController.text,
-          );
-          await supabase.auth.signOut();
-          //send access code
-          final emailSent = await userState.sendAccessCode(userId);
-          if (!emailSent) {
-            await ApiErrorHandler.callToast('Error al enviar código de acceso');
-            return;
-          }
-          //show access code popup
-          if (!mounted) return;
-          await showDialog(
-            context: context,
-            builder: (_) => AccessCodePopup(userId: userId),
-          );
-          return;
-        }
+        // //Check if token exists
+        // if (widget.token == null) {
+        //   final userIsBlocked = await userState.checkIfUserBlocked(
+        //     userState.emailController.text,
+        //   );
+        //   if (userIsBlocked) {
+        //     if (!mounted) return;
+        //     await showDialog(
+        //       context: context,
+        //       builder: (_) => const AccessBlockedPopup(),
+        //     );
+        //     return;
+        //   }
+        //   //Validate password
+        //   await supabase.auth.signInWithPassword(
+        //     email: userState.emailController.text,
+        //     password: userState.passwordController.text,
+        //   );
+        //   await supabase.auth.signOut();
+        //   //send access code
+        //   final emailSent = await userState.sendAccessCode(userId);
+        //   if (!emailSent) {
+        //     await ApiErrorHandler.callToast('Error al enviar código de acceso');
+        //     return;
+        //   }
+        //   //show access code popup
+        //   if (!mounted) return;
+        //   await showDialog(
+        //     context: context,
+        //     builder: (_) => AccessCodePopup(userId: userId),
+        //   );
+        //   return;
+        // }
 
-        //if it exists = validate, login and dont ask for access code
-        final tokenValid = await widget.token!.validate('ingreso');
-        if (!tokenValid) {
-          //mostrar mensaje de error
-          await ApiErrorHandler.callToast(
-            'Contraseña inválida',
-          );
-          return;
-        }
+        // //if it exists = validate, login and dont ask for access code
+        // final tokenValid = await widget.token!.validate('ingreso');
+        // if (!tokenValid) {
+        //   //mostrar mensaje de error
+        //   await ApiErrorHandler.callToast(
+        //     'Contraseña inválida',
+        //   );
+        //   return;
+        // }
 
         await supabase.auth.signInWithPassword(
           email: userState.emailController.text,
@@ -123,25 +123,25 @@ class _LoginPageState extends State<LoginPage> {
           return;
         }
 
-        if (currentUser!.activado == false) {
-          await ApiErrorHandler.callToast('El usuario está desactivado');
-          await supabase.auth.signOut();
-          return;
-        }
+        // if (currentUser!.activado == false) {
+        //   await ApiErrorHandler.callToast('El usuario está desactivado');
+        //   await supabase.auth.signOut();
+        //   return;
+        // }
 
-        await userState.checkIfUserChangedPasswordInLast90Days(currentUser!.id);
+        // await userState.checkIfUserChangedPasswordInLast90Days(currentUser!.id);
 
-        if (!userState.userChangedPasswordInLast90Days) {
-          if (!mounted) return;
-          context.pushReplacement('/cambio-contrasena');
-          return;
-        }
+        // if (!userState.userChangedPasswordInLast90Days) {
+        //   if (!mounted) return;
+        //   context.pushReplacement('/cambio-contrasena');
+        //   return;
+        // }
 
-        if (!currentUser!.cambioContrasena) {
-          if (!mounted) return;
-          context.pushReplacement('/cambio-contrasena');
-          return;
-        }
+        // if (!currentUser!.cambioContrasena) {
+        //   if (!mounted) return;
+        //   context.pushReplacement('/cambio-contrasena');
+        //   return;
+        // }
 
         // userState.registerLogin(currentUser!.id);
 
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 28.5),
                     Container(
                       width: 464,
-                      height: 519,
+                      height: 550,
                       padding: const EdgeInsets.all(40),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 28),
                             SizedBox(
-                              height: 40,
+                              height: 55,
                               child: TextFormField(
                                 controller: userState.emailController,
                                 onFieldSubmitted: (value) async {
@@ -249,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 28),
                             SizedBox(
-                              height: 40,
+                              height: 55,
                               child: TextFormField(
                                 controller: userState.passwordController,
                                 obscureText: !passwordVisibility,
@@ -438,15 +438,17 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
     return InputDecoration(
-      labelText: label,
       hintText: label,
       filled: true,
-      fillColor: Colors.white,
-      labelStyle: GoogleFonts.inter(
-        fontWeight: FontWeight.w400,
-        fontSize: 14,
-        color: const Color.fromARGB(204, 0, 0, 0),
+      isCollapsed: true,
+      isDense: true,
+      contentPadding: const EdgeInsets.only(
+        left: 10,
+        right: 10,
+        top: 15,
+        bottom: 15,
       ),
+      fillColor: Colors.white,
       hintStyle: GoogleFonts.inter(
         fontWeight: FontWeight.w400,
         fontSize: 14,
@@ -463,6 +465,13 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(
           color: Colors.white,
+          width: 1,
+        ),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Colors.red,
           width: 1,
         ),
       ),

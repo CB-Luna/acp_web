@@ -2,13 +2,13 @@ import 'dart:convert';
 
 class Rol {
   Rol({
-    required this.nombreRol,
-    required this.idRolPk,
+    required this.nombre,
+    required this.rolId,
     required this.permisos,
   });
 
-  String nombreRol;
-  int idRolPk;
+  String nombre;
+  int rolId;
   Permisos permisos;
 
   factory Rol.fromJson(String str) => Rol.fromMap(json.decode(str));
@@ -16,25 +16,25 @@ class Rol {
   String toJson() => json.encode(toMap());
 
   factory Rol.fromMap(Map<String, dynamic> json) => Rol(
-        nombreRol: json["nombre_rol"],
-        idRolPk: json["id_rol_pk"],
+        nombre: json["nombre"],
+        rolId: json["rol_id"],
         permisos: Permisos.fromMap(json["permisos"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "nombre_rol": nombreRol,
-        "id_rol_pk": idRolPk,
+        "nombre": nombre,
+        "rol_id": rolId,
         "permisos": permisos.toMap(),
       };
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is Rol && other.nombreRol == nombreRol && other.idRolPk == idRolPk;
+    return other is Rol && other.nombre == nombre && other.rolId == rolId;
   }
 
   @override
-  int get hashCode => Object.hash(nombreRol, idRolPk, permisos);
+  int get hashCode => Object.hash(nombre, rolId, permisos);
 }
 
 class Permisos {

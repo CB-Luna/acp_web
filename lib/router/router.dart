@@ -1,6 +1,5 @@
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/pages.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/seleccion_pagos_anticipados_page.dart';
 import 'package:acp_web/services/navigation_service.dart';
 
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ final GoRouter router = GoRouter(
       path: '/',
       name: 'root',
       builder: (BuildContext context, GoRouterState state) {
-        return const PageNotFoundPage();
+        return const SeleccionPagosAnticipadosPage();
       },
     ),
     GoRoute(

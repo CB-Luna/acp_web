@@ -2,13 +2,13 @@ import 'dart:convert';
 
 class Pais {
   Pais({
-    required this.nombrePais,
-    required this.idPaisPk,
+    required this.nombre,
+    required this.paisId,
     required this.clave,
   });
 
-  String nombrePais;
-  int idPaisPk;
+  String nombre;
+  int paisId;
   String clave;
 
   factory Pais.fromJson(String str) => Pais.fromMap(json.decode(str));
@@ -24,24 +24,24 @@ class Pais {
     }
 
     return Pais(
-      nombrePais: json["nombre_pais"],
-      idPaisPk: json["id_pais_pk"],
+      nombre: json["nombre"],
+      paisId: json["pais_id"],
       clave: json["clave"],
     );
   }
 
   Map<String, dynamic> toMap() => {
-        "nombre_pais": nombrePais,
-        "id_pais_pk": idPaisPk,
+        "nombre": nombre,
+        "pais_id": paisId,
         "clave": clave,
       };
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is Pais && other.nombrePais == nombrePais && other.idPaisPk == idPaisPk && other.clave == clave;
+    return other is Pais && other.nombre == nombre && other.paisId == paisId && other.clave == clave;
   }
 
   @override
-  int get hashCode => Object.hash(nombrePais, idPaisPk, clave);
+  int get hashCode => Object.hash(nombre, paisId, clave);
 }

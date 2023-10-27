@@ -1,6 +1,8 @@
+import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
+import 'package:provider/provider.dart';
 
 class CustomTopMenu extends StatefulWidget {
   const CustomTopMenu({
@@ -21,6 +23,7 @@ class CustomTopMenu extends StatefulWidget {
 class _CustomTopMenuState extends State<CustomTopMenu> {
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
     return SizedBox(
       height: 85,
       child: Column(
@@ -51,6 +54,14 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                         IconButton(
                           icon: const Icon(
                             Icons.star_border_outlined,
+                            size: 24,
+                          ),
+                          splashRadius: 0.01,
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.exit_to_app_outlined,
                             size: 24,
                           ),
                           splashRadius: 0.01,
@@ -131,7 +142,8 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             size: 24,
                           ),
                           splashRadius: 0.01,
-                          onPressed: () {
+                          onPressed: () async {
+                            await userState.logout();
                             widget.sideNotificationsController.toggle();
                           },
                         ),

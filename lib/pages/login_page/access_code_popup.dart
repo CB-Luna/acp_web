@@ -76,11 +76,11 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
         return;
       }
 
-      if (currentUser!.activado == false) {
-        await ApiErrorHandler.callToast('El usuario está desactivado');
-        await supabase.auth.signOut();
-        return;
-      }
+      // if (currentUser!.activado == false) {
+      //   await ApiErrorHandler.callToast('El usuario está desactivado');
+      //   await supabase.auth.signOut();
+      //   return;
+      // }
 
       await userState.checkIfUserChangedPasswordInLast90Days(currentUser!.id);
 
