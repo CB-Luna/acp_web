@@ -1,3 +1,4 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +71,9 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       if (data.isOpen) const SizedBox(width: 5),
                       if (data.isOpen)
                         Text(
-                          'Mario Alonso',
+                          currentUser!.nombreCompleto,
                           style: TextStyle(
+                            overflow: TextOverflow.fade,
                             fontSize: 14,
                             color: AppTheme.of(context).primaryBackground,
                             fontWeight: FontWeight.bold,
@@ -122,8 +124,9 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
-                    isSelected:
-                        (!visualState.isGroupTaped['Propuesta de Pago']! && (visualState.isTaped[1] || visualState.isTaped[2])) || ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
+                    isSelected: (!visualState.isGroupTaped['Propuesta de Pago']! &&
+                            (visualState.isTaped[1] || visualState.isTaped[2])) ||
+                        ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
                     onTap: () => setState(() {
                       visualState.isGroupTaped.update('Propuesta de Pago', (value) => !value);
                     }),
@@ -181,7 +184,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     borderRadius: borderRadius,
                     margin: paddingHItems,
                     isSelected: visualState.isTaped[4],
-                    onTap: () => setState(() => visualState.setTapedOption(4)),
+                    onTap: () {
+                      setState(() {
+                        visualState.setTapedOption(4);
+                      });
+                      context.pushReplacement('/usuarios');
+                    },
                   ),
                   SideMenuItemDataTile(
                     title: 'Clientes',
@@ -231,10 +239,11 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                 ],
                 footer: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Container(
+                  child: Image.asset(
+                    'assets/images/Logo.png',
                     width: 180,
                     height: 60,
-                    color: Colors.red,
+                    fit: BoxFit.cover,
                   ),
                 ),
               );

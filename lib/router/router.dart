@@ -72,39 +72,41 @@ final GoRouter router = GoRouter(
     //     return CambioContrasenaPage(token: tokenMap);
     //   },
     // ),
-    // GoRoute(
-    //   path: '/usuarios',
-    //   name: 'usuarios',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const UsuariosPage();
-    //   },
-    //   routes: [
-    //     GoRoute(
-    //       path: 'alta-usuario',
-    //       name: 'alta_usuario',
-    //       builder: (BuildContext context, GoRouterState state) {
-    //         if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
-    //           return const PageNotFoundPage();
-    //         }
-    //         return const AltaUsuarioPage();
-    //       },
-    //     ),
-    //     GoRoute(
-    //       path: 'editar-usuario',
-    //       name: 'editar_usuario',
-    //       builder: (BuildContext context, GoRouterState state) {
-    //         if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
-    //           return const PageNotFoundPage();
-    //         }
-    //         if (state.extra == null) return const UsuariosPage();
-    //         return EditarUsuarioPage(usuario: state.extra as Usuario);
-    //       },
-    //     ),
-    //   ],
-    // ),
+    GoRoute(
+      path: '/usuarios',
+      name: 'usuarios',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser!.rol.permisos.listaUsuarios == null) {
+          return const PageNotFoundPage();
+        }
+        return const UsuariosPage();
+      },
+      routes: [
+        GoRoute(
+          path: 'alta-usuario',
+          name: 'alta_usuario',
+          builder: (BuildContext context, GoRouterState state) {
+            if (currentUser!.rol.permisos.registroUsuario == null) {
+              return const PageNotFoundPage();
+            }
+            // return const AltaUsuarioPage();
+            return const PageNotFoundPage();
+          },
+        ),
+        GoRoute(
+          path: 'editar-usuario',
+          name: 'editar_usuario',
+          builder: (BuildContext context, GoRouterState state) {
+            if (currentUser!.rol.permisos.registroUsuario == null) {
+              return const PageNotFoundPage();
+            }
+            if (state.extra == null) return const UsuariosPage();
+            return const PageNotFoundPage();
+            // return EditarUsuarioPage(usuario: state.extra as Usuario);
+          },
+        ),
+      ],
+    ),
 
     GoRoute(
       path: '/seleccion_pagos_anticipados',

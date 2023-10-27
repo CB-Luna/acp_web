@@ -23,11 +23,11 @@ dependencies:
   google_fonts: ^6.1.0
   http: ^1.1.0
   image_picker: ^1.0.4
-  #model_viewer_plus: ^1.7.0
   path: ^1.8.3
   percent_indicator: ^4.2.3
   pluto_grid: ^7.0.2
   provider: ^6.0.5
+  random_password_generator: ^0.2.1
   shared_preferences: ^2.2.2
   supabase_flutter: ^1.10.23
   timelines: ^0.1.0
