@@ -65,7 +65,9 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             size: 24,
                           ),
                           splashRadius: 0.01,
-                          onPressed: () {},
+                          onPressed: () async {
+                            await userState.logout();
+                          },
                         ),
                       ],
                     ),
@@ -142,8 +144,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             size: 24,
                           ),
                           splashRadius: 0.01,
-                          onPressed: () async {
-                            await userState.logout();
+                          onPressed: () {
                             widget.sideNotificationsController.toggle();
                           },
                         ),
