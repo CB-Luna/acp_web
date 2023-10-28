@@ -33,6 +33,7 @@ dependencies:
   timelines: ^0.1.0
   url_strategy: ^0.2.0
   uuid: ^4.1.0
+  video_player: ^2.7.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -45,3 +46,4 @@ flutter:
   assets:
     - assets/images/
     - assets/3d_models/
+    - assets/videos/

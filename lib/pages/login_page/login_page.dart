@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:acp_web/pages/login_page/widgets/animated_login_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -176,6 +177,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Stack(
             children: [
+              const AnimatedLoginWidget(),
               Positioned(
                 top: 113.33,
                 right: 80,
@@ -387,29 +389,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                left: 0,
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      "images/animation.gif",
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      fit: BoxFit.fill,
-                      filterQuality: FilterQuality.high,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 178,
-                        height: 55,
-                        color: Colors.black,
                       ),
                     ),
                   ],
