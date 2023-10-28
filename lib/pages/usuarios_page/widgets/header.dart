@@ -1,6 +1,8 @@
+import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class UsuariosHeader extends StatefulWidget {
   const UsuariosHeader({super.key, required this.encabezado});
@@ -14,6 +16,8 @@ class UsuariosHeader extends StatefulWidget {
 class _UsuariosHeaderState extends State<UsuariosHeader> {
   @override
   Widget build(BuildContext context) {
+    final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -92,6 +96,75 @@ class _UsuariosHeaderState extends State<UsuariosHeader> {
                 padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.filter_alt_outlined,
+                  size: 24,
+                  color: Color(0xFF0A0859),
+                ),
+                splashRadius: 0.01,
+                onPressed: () {},
+              ),
+              const Spacer(),
+              Container(
+                width: 160,
+                height: 28,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.of(context).primaryBackground,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: const Color(0x1A1C1C1C),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.search,
+                      color: Color(0x331C1C1C),
+                      size: 24,
+                    ),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: TextFormField(
+                        controller: provider.busquedaController,
+                        autofocus: true,
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: GoogleFonts.inter(
+                            color: const Color(0x331C1C1C),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                        style: AppTheme.of(context).subtitle1.override(
+                              fontSize: 14,
+                              fontFamily: 'Gotham-Light',
+                              fontWeight: FontWeight.normal,
+                              useGoogleFonts: false,
+                            ),
+                        onChanged: (value) async {
+                          // await provider.getUsuarios();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Icons.more_horiz_outlined,
                   size: 24,
                   color: Color(0xFF0A0859),
                 ),

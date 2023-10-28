@@ -38,6 +38,9 @@ void main() async {
           create: (_) => UserState(),
         ),
         ChangeNotifierProvider(
+          create: (_) => UsuariosProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
       ],
