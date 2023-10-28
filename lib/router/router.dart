@@ -1,4 +1,5 @@
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/pages/cuentas%20por%20cobrar/cuentas_por_cobrar_page.dart';
 import 'package:acp_web/pages/pages.dart';
 import 'package:acp_web/services/navigation_service.dart';
 
@@ -116,6 +117,17 @@ final GoRouter router = GoRouter(
           return const PageNotFoundPage();
         } */
         return const SeleccionPagosAnticipadosPage();
+      },
+    ),
+
+    GoRoute(
+      path: '/cuentas_por_cobrar',
+      name: 'Cuentas Por Cobrar',
+      builder: (BuildContext context, GoRouterState state) {
+        /* if (currentUser!.rol.permisos.pagos == null) {
+          return const PageNotFoundPage();
+        } */
+        return const CuentasPorCobrarPage();
       },
     ),
 

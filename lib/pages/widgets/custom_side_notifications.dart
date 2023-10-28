@@ -22,7 +22,9 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
       children: [
         const SizedBox(width: 15),
         Container(
-          decoration: BoxDecoration(gradient: AppTheme.of(context).blueGradient),
+          decoration: const BoxDecoration(
+              //gradient: AppTheme.of(context).blueGradient),
+              color: Color(0xFF0A0859)),
           child: SideMenu(
             controller: visualState.sideNotificationsController,
             hasResizer: false,

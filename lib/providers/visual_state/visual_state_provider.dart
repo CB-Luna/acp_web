@@ -27,7 +27,7 @@ class VisualStateProvider extends ChangeNotifier {
     false, //Clientes
     false, //Dashboard
     false, //Ajustes
-    false, //
+    false, //Cuentas por Cobrar
     false, //
     false, //
     false, //

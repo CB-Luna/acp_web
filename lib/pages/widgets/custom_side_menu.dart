@@ -23,7 +23,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
 
   TextStyle dataTileTextStyle = const TextStyle(
     fontSize: 13,
-    color: Colors.black,
+    color: Colors.white,
     fontWeight: FontWeight.w200,
   );
   TextStyle dataTileSelectedTextStyle = const TextStyle(
@@ -46,7 +46,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
     return Row(
       children: [
         Container(
-          decoration: BoxDecoration(gradient: AppTheme.of(context).blueGradient),
+          decoration: const BoxDecoration(//gradient: AppTheme.of(context).blueGradient),
+          color: Color.fromRGBO(10, 8, 89, 1)),
           child: SideMenu(
             controller: visualState.sideMenuController,
             hasResizer: false,
@@ -114,6 +115,26 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     },
                   ),
                   SideMenuItemDataTile(
+                    title: 'Cuentas Por Cobrar',
+                    titleStyle: dataTileTextStyle,
+                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    icon: Icon(
+                      Icons.credit_card,
+                      size: iconSize,
+                    ),
+                    hoverColor: hoverColor,
+                    highlightSelectedColor: highlightSelectedColor,
+                    borderRadius: borderRadius,
+                    margin: paddingHItems,
+                    isSelected: visualState.isTaped[8],
+                    onTap: () {
+                      setState(() {
+                        visualState.setTapedOption(8);
+                      });
+                      context.pushReplacement('/cuentas_por_cobrar');
+                    },
+                  ),
+                  SideMenuItemDataTile(
                     title: 'Propuesta de pago',
                     titleStyle: dataTileTextStyle,
                     selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -134,7 +155,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   if (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen)
                     SideMenuItemDataTile(
                       title: 'Selección de pagos anticipados',
-                      titleStyle: const TextStyle(color: Colors.black, overflow: TextOverflow.fade),
+                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.fade),
                       selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
@@ -147,7 +168,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Autorización de solicitudes',
-                      titleStyle: const TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis),
+                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.ellipsis),
                       selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,

@@ -1,5 +1,6 @@
 import 'package:acp_web/helpers/scroll_behavior.dart';
 import 'package:acp_web/internationalization/internationalization.dart';
+import 'package:acp_web/providers/cuentas_por_cobrar/cuentas_por_cobrar_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
+        /* ChangeNotifierProvider(
+          create: (context) => CuentasPorCobrarProvider(),
+        ), */
       ],
       child: const MyApp(),
     ),
