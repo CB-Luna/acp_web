@@ -26,7 +26,8 @@ abstract class AppTheme {
     darkTheme = DarkModeTheme(mode: conf?.dark);
   }
 
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static void saveThemeMode(ThemeMode mode) =>
+      mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
   static AppTheme of(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
 
@@ -72,6 +73,7 @@ abstract class AppTheme {
   TextStyle get textoResaltado => typography.textoResaltado;
   TextStyle get encabezadoTablas => typography.encabezadoTablas;
   TextStyle get encabezadoSubTablas => typography.encabezadoSubTablas;
+  TextStyle get tituloTablas => typography.tituloTablas;
   TextStyle get contenidoTablas => typography.contenidoTablas;
   TextStyle get hintText => typography.hintText;
   TextStyle get textoError => typography.textoError;
@@ -199,6 +201,7 @@ abstract class Typography {
   TextStyle get textoSimple;
   TextStyle get encabezadoTablas;
   TextStyle get encabezadoSubTablas;
+  TextStyle get tituloTablas;
   TextStyle get contenidoTablas;
   TextStyle get hintText;
   TextStyle get textoError;
@@ -321,13 +324,26 @@ class ThemeTypography extends Typography {
       );
 
   @override
-  TextStyle get encabezadoSubTablas => TextStyle(fontSize: 35, fontFamily: 'Bicyclette-Bold', fontWeight: FontWeight.w800, color: theme.primaryColor);
+  TextStyle get encabezadoSubTablas => TextStyle(
+        fontSize: 35,
+        fontFamily: 'Bicyclette-Bold',
+        fontWeight: FontWeight.w800,
+        color: theme.primaryColor,
+      );
+
+  @override
+  TextStyle get tituloTablas => const TextStyle(
+        fontSize: 14,
+        fontFamily: 'Gotham-Regular',
+        fontWeight: FontWeight.w400,
+        color: Color(0x661C1C1C),
+      );
 
   @override
   TextStyle get contenidoTablas => TextStyle(
-        fontSize: 18,
+        fontSize: 12,
         fontFamily: 'Gotham-Light',
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
         color: theme.primaryText,
       );
 

@@ -38,25 +38,22 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
       ? PlutoGridStyleConfig(
-          //
           menuBackgroundColor: AppTheme.of(context).primaryBackground,
-          //
-          enableColumnBorderVertical: true,
-          columnTextStyle: AppTheme.of(context).contenidoTablas,
           iconColor: AppTheme.of(context).primaryColor,
-          borderColor: Colors.transparent,
-          //
+          // borderColor: Colors.transparent,
           rowHeight: 60,
           rowColor: AppTheme.of(context).primaryBackground,
+          columnTextStyle: AppTheme.of(context).tituloTablas,
           cellTextStyle: AppTheme.of(context).contenidoTablas,
+          enableColumnBorderHorizontal: true,
+          enableColumnBorderVertical: false,
           enableCellBorderVertical: false,
-          enableCellBorderHorizontal: false,
+          enableCellBorderHorizontal: true,
           checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
-          //
-          gridBackgroundColor: Colors.transparent,
+          // gridBackgroundColor: Colors.transparent,
           gridBorderColor: Colors.transparent,
-          //
+          // gridBorderColor: const Color(0x661C1C1C),
           activatedColor: AppTheme.of(context).primaryBackground,
         )
       : PlutoGridStyleConfig.dark(

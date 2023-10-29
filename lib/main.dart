@@ -1,8 +1,5 @@
-import 'package:acp_web/helpers/scroll_behavior.dart';
-import 'package:acp_web/internationalization/internationalization.dart';
-import 'package:acp_web/providers/cuentas_por_cobrar/cuentas_por_cobrar_provider.dart';
-import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,6 +11,9 @@ import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/router/router.dart';
 import 'package:acp_web/theme/theme.dart';
+import 'package:acp_web/helpers/scroll_behavior.dart';
+import 'package:acp_web/internationalization/internationalization.dart';
+import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +31,8 @@ void main() async {
 
   //obtener tema
   // AppTheme.initConfiguration(conf);
+
+  GoRouter.optionURLReflectsImperativeAPIs = true;
 
   runApp(
     MultiProvider(

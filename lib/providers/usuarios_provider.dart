@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:acp_web/functions/phone_format.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
@@ -28,25 +29,16 @@ class UsuariosProvider extends ChangeNotifier {
   TextEditingController nombreProveedorController = TextEditingController();
   TextEditingController cuentaProveedorController = TextEditingController();
 
-  String? cuentasDropValue = '';
-
   String? imageName;
   Uint8List? webImage;
   List<Pais> paises = [];
   List<Rol> roles = [];
-  // List<Sociedad> sociedades = [];
+  List<Sociedad> sociedades = [];
   List<Usuario> usuarios = [];
-  List<Usuario> usuariosTesoreros = [];
 
   Pais? paisSeleccionado = currentUser!.pais;
   Rol? rolSeleccionado;
-  // List<Sociedad> sociedadesSeleccionadas = [];
-
-  bool isProveedor = false;
-  bool isFinanzasLocal = false;
-
-  int? proveedorId;
-  String? responsableId;
+  Sociedad? sociedadSeleccionada;
 
   //EDITAR USUARIOS
   Usuario? usuarioEditado;
@@ -55,13 +47,13 @@ class UsuariosProvider extends ChangeNotifier {
   final busquedaController = TextEditingController();
   String orden = "usuario_id_secuencial";
 
-  // Future<void> updateState() async {
-  //   busquedaController.clear();
-  //   await getRoles(notify: false);
-  //   await getPaises(notify: false);
-  //   await getSociedades(notify: false);
-  //   await getUsuarios();
-  // }
+  Future<void> updateState() async {
+    busquedaController.clear();
+    await getRoles(notify: false);
+    // await getPaises(notify: false);
+    // await getSociedades(notify: false);
+    await getUsuarios();
+  }
 
   void clearControllers({bool clearEmail = true, bool notify = true}) {
     nombreController.clear();
@@ -75,84 +67,52 @@ class UsuariosProvider extends ChangeNotifier {
 
     paisSeleccionado = currentUser!.pais;
     rolSeleccionado = null;
-    // sociedadesSeleccionadas.clear();
-    isProveedor = false;
-    isFinanzasLocal = false;
+    sociedadSeleccionada = null;
 
     if (notify) notifyListeners();
   }
 
   // Future<void> setPaisSeleccionado(String pais) async {
   //   paisSeleccionado =
-  //       paises.firstWhere((element) => element.nombrePais == pais);
+  //       paises.firstWhere((element) => element.nombre == pais);
   //   sociedades = paisSeleccionado!.sociedades!;
   //   sociedadesSeleccionadas.clear();
   //   await getUsuariosTesoreria();
   //   notifyListeners();
   // }
 
-  // Future<void> setRolSeleccionado(String rol) async {
-  //   rolSeleccionado = roles.firstWhere((element) => element.nombreRol == rol);
-  //   if (rol == 'Proveedor') {
-  //     isProveedor = true;
-  //   } else {
-  //     isProveedor = false;
-  //     proveedorId = null;
-  //   }
-  //   if (rol == 'Finanzas Local') {
-  //     isFinanzasLocal = true;
-  //     await getUsuariosTesoreria();
-  //   } else {
-  //     isFinanzasLocal = false;
-  //     responsableId = null;
-  //   }
-  //   notifyListeners();
-  // }
-
-  // void setResponsable(Usuario usuario) {
-  //   responsableId = usuario.id;
-  //   notifyListeners();
-  // }
+  Future<void> setRolSeleccionado(String rol) async {
+    rolSeleccionado = roles.firstWhere((element) => element.nombre == rol);
+    notifyListeners();
+  }
 
   // void setSociedades(List<Sociedad> nuevasSociedades) {
   //   sociedadesSeleccionadas = nuevasSociedades;
   // }
 
-  // Future<void> getPaises({bool notify = true}) async {
-  //   if (paises.isNotEmpty) return;
-  //   final res = await supabase.rpc('get_paises').order(
-  //         'nombre_pais',
-  //         ascending: true,
-  //       );
+  Future<void> getPaises({bool notify = true}) async {
+    if (paises.isNotEmpty) return;
+    final res = await supabase.rpc('get_paises').order(
+          'nombre_pais',
+          ascending: true,
+        );
 
-  //   paises = (res as List<dynamic>)
-  //       .map((pais) => Pais.fromJson(jsonEncode(pais)))
-  //       .toList();
+    paises = (res as List<dynamic>).map((pais) => Pais.fromJson(jsonEncode(pais))).toList();
 
-  //   if (notify) notifyListeners();
-  // }
+    if (notify) notifyListeners();
+  }
 
-  // Future<void> getRoles({bool notify = true}) async {
-  //   if (roles.isNotEmpty) return;
-  //   final res = await supabase
-  //       .from('roles')
-  //       .select('nombre_rol, id_rol_pk, permisos')
-  //       .order(
-  //         'nombre_rol',
-  //         ascending: true,
-  //       );
+  Future<void> getRoles({bool notify = true}) async {
+    if (roles.isNotEmpty) return;
+    final res = await supabase.from('rol').select('rol_id, nombre, permisos').order(
+          'nombre',
+          ascending: true,
+        );
 
-  //   roles = (res as List<dynamic>)
-  //       .map((rol) => RolApi.fromJson(jsonEncode(rol)))
-  //       .toList();
+    roles = (res as List<dynamic>).map((rol) => Rol.fromJson(jsonEncode(rol))).toList();
 
-  //   if (!currentUser!.esAdministradorGeneral) {
-  //     roles.removeWhere(
-  //         (element) => element.nombreRol == 'Administrador General ARUX');
-  //   }
-
-  //   if (notify) notifyListeners();
-  // }
+    if (notify) notifyListeners();
+  }
 
   // Future<void> getSociedades({bool notify = true, bool refresh = false}) async {
   //   if (sociedades.isNotEmpty && !refresh) return;
@@ -169,51 +129,46 @@ class UsuariosProvider extends ChangeNotifier {
   //   if (notify) notifyListeners();
   // }
 
-  // Future<void> getUsuarios() async {
-  //   try {
-  //     final query = supabase.from('users').select();
+  Future<void> getUsuarios() async {
+    try {
+      final query = supabase.from('users').select();
 
-  //     if (!currentUser!.esAdministradorGeneral) {
-  //       query.eq('pais_fk', currentUser!.pais.idPaisPk);
-  //     }
+      final res = await query.like('nombre', '%${busquedaController.text}%').order(orden, ascending: true);
 
-  //     final res = await query
-  //         .like('nombre', '%${busquedaController.text}%')
-  //         .order(orden, ascending: true);
+      if (res == null) {
+        log('Error en getUsuarios()');
+        return;
+      }
 
-  //     if (res == null) {
-  //       log('Error en getUsuarios()');
-  //       return;
-  //     }
-  //     usuarios = (res as List<dynamic>)
-  //         .map((usuario) => Usuario.fromJson(jsonEncode(usuario)))
-  //         .toList();
+      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
 
-  //     rows.clear();
-  //     for (Usuario usuario in usuarios) {
-  //       rows.add(
-  //         PlutoRow(
-  //           cells: {
-  //             'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
-  //             'nombre':
-  //                 PlutoCell(value: "${usuario.nombre} ${usuario.apellidos}"),
-  //             'rol': PlutoCell(value: usuario.rol.nombreRol),
-  //             'email': PlutoCell(value: usuario.email),
-  //             'telefono': PlutoCell(value: usuario.telefono),
-  //             'pais': PlutoCell(value: usuario.pais.nombrePais),
-  //             'ausencia': PlutoCell(value: usuario.id),
-  //             'acciones': PlutoCell(value: usuario.id),
-  //           },
-  //         ),
-  //       );
-  //     }
-  //     if (stateManager != null) stateManager!.notifyListeners();
-  //   } catch (e) {
-  //     log('Error en getUsuarios() - $e');
-  //   }
+      rows.clear();
+      for (Usuario usuario in usuarios) {
+        rows.add(
+          PlutoRow(
+            cells: {
+              'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
+              'nombre': PlutoCell(value: usuario.nombre),
+              'apellido': PlutoCell(value: usuario.apellidos),
+              'telefono': PlutoCell(value: formatPhone(usuario.telefono)),
+              'rol': PlutoCell(value: usuario.rol.nombre),
+              'compania': PlutoCell(value: usuario.rol.nombre),
+              'email': PlutoCell(value: usuario.email),
+              'sociedad': PlutoCell(value: usuario.sociedad.nombre),
+              'pais': PlutoCell(value: usuario.pais.nombre),
+              'activo': PlutoCell(value: usuario.estatus),
+              'acciones': PlutoCell(value: usuario.id),
+            },
+          ),
+        );
+      }
+      if (stateManager != null) stateManager!.notifyListeners();
+    } catch (e) {
+      log('Error en getUsuarios() - $e');
+    }
 
-  //   notifyListeners();
-  // }
+    notifyListeners();
+  }
 
   // Future<void> getProveedor() async {
   //   final res = await supabase

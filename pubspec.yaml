@@ -45,5 +45,15 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/3d_models/
     - assets/videos/
+
+  fonts:
+    - family: Gotham
+      fonts:
+        - asset: assets/fonts/Gotham-Black.otf
+        - asset: assets/fonts/Gotham-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Gotham-Italic.ttf
+        - asset: assets/fonts/Gotham-Light.otf
+        - asset: assets/fonts/Gotham-Regular.ttf
+        - asset: assets/fonts/Gotham-Thin.otf
