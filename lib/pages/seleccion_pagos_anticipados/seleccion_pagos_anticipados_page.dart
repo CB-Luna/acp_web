@@ -10,6 +10,7 @@ import 'package:acp_web/pages/widgets/custom_scrollbar.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
+import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -1077,38 +1078,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                     ),
                   ),
                   //Footer
-                  Container(
-                    color: AppTheme.of(context).primaryBackground,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '© 2023 ACP ALTERNATICAS DE CAPITAL',
-                            style: AppTheme.of(context).subtitle3,
-                          ),
-                          Wrap(
-                            spacing: 16,
-                            children: [
-                              Text(
-                                'About',
-                                style: AppTheme.of(context).subtitle3,
-                              ),
-                              Text(
-                                'support',
-                                style: AppTheme.of(context).subtitle3,
-                              ),
-                              Text(
-                                'contact Us',
-                                style: AppTheme.of(context).subtitle3,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  )
+                  const Footer(),
                 ],
               ),
             ),

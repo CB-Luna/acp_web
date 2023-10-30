@@ -14,14 +14,14 @@ import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 
-class UsuariosPage extends StatefulWidget {
-  const UsuariosPage({super.key});
+class RegistroUsuariosPage extends StatefulWidget {
+  const RegistroUsuariosPage({super.key});
 
   @override
-  State<UsuariosPage> createState() => _UsuariosPageState();
+  State<RegistroUsuariosPage> createState() => _RegistroUsuariosPageState();
 }
 
-class _UsuariosPageState extends State<UsuariosPage> {
+class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   SideMenuController sideMenuController = SideMenuController();
@@ -296,6 +296,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                     ),
                   ),
                 ),
+                //Footer
                 const Footer(),
               ],
             ),
