@@ -14,7 +14,7 @@ class Footer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '© 2023 ACP ALTERNATICAS DE CAPITAL',
+              '© 2023 ACP ALTERNATIVAS DE CAPITAL',
               style: AppTheme.of(context).subtitle3,
             ),
             Wrap(

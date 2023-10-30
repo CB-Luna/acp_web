@@ -1,6 +1,7 @@
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,9 @@ class _UsuariosHeaderState extends State<UsuariosHeader> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await context.pushNamed('registro_usuario');
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0A0859),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),

@@ -14,7 +14,6 @@ import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +25,6 @@ class SeleccionPagosAnticipadosPage extends StatefulWidget {
 }
 
 class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipadosPage> {
-  SideMenuController sideMenuController = SideMenuController();
-  SideMenuController sideNotificationsController = SideMenuController();
-
   bool filterSelected = false;
   bool gridSelected = true;
 
@@ -863,11 +859,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
               child: Column(
                 children: [
                   //Top Menu
-                  CustomTopMenu(
-                    sideMenuController: sideMenuController,
-                    sideNotificationsController: sideNotificationsController,
-                    pantalla: 'Propuesta de Pago',
-                  ),
+                  const CustomTopMenu(pantalla: 'Propuesta de Pago'),
                   //Contenido
                   Expanded(
                     child: Padding(

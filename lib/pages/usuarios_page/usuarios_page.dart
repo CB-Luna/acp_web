@@ -2,7 +2,6 @@ import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
 // import 'package:acp_web/models/models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +22,6 @@ class UsuariosPage extends StatefulWidget {
 
 class _UsuariosPageState extends State<UsuariosPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  SideMenuController sideMenuController = SideMenuController();
-  SideMenuController sideNotificationsController = SideMenuController();
 
   final bool permisoCaptura = currentUser!.rol.permisos.listaUsuarios == 'C';
 
@@ -59,11 +55,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
             child: Column(
               children: [
                 //Top Menu
-                CustomTopMenu(
-                  sideMenuController: sideMenuController,
-                  sideNotificationsController: sideNotificationsController,
-                  pantalla: 'Usuarios',
-                ),
+                const CustomTopMenu(pantalla: 'Usuarios'),
                 //Contenido
                 Expanded(
                   child: Padding(

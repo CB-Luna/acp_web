@@ -1,21 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/flutter_side_menu.dart';
-import 'package:provider/provider.dart';
 
 class CustomTopMenu extends StatefulWidget {
   const CustomTopMenu({
     super.key,
-    required this.sideMenuController,
-    required this.sideNotificationsController,
     required this.pantalla,
   });
 
-  final SideMenuController sideMenuController;
-  final SideMenuController sideNotificationsController;
   final String pantalla;
 
   @override

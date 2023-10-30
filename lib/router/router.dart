@@ -1,6 +1,6 @@
 import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/pages/cuentas%20por%20cobrar/cuentas_por_cobrar_page.dart';
 import 'package:acp_web/pages/pages.dart';
+import 'package:acp_web/pages/registro_usuario_page/registro_usuario_page.dart';
 import 'package:acp_web/services/navigation_service.dart';
 
 import 'package:flutter/material.dart';
@@ -84,14 +84,13 @@ final GoRouter router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: 'alta-usuario',
-          name: 'alta_usuario',
+          path: 'registro-usuario',
+          name: 'registro_usuario',
           builder: (BuildContext context, GoRouterState state) {
             if (currentUser!.rol.permisos.registroUsuario == null) {
               return const PageNotFoundPage();
             }
-            // return const AltaUsuarioPage();
-            return const PageNotFoundPage();
+            return const RegistroUsuariosPage();
           },
         ),
         GoRoute(

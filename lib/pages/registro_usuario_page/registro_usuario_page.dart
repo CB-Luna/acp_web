@@ -1,18 +1,17 @@
-import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/pages/widgets/footer.dart';
-// import 'package:acp_web/models/models.dart';
+import 'package:acp_web/pages/registro_usuario_page/widgets/opciones_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/flutter_side_menu.dart';
-import 'package:pluto_grid/pluto_grid.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
-import 'package:acp_web/pages/usuarios_page/widgets/header.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
+import 'package:acp_web/pages/registro_usuario_page/widgets/header.dart';
 import 'package:acp_web/theme/theme.dart';
+import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/pages/widgets/footer.dart';
 
 class RegistroUsuariosPage extends StatefulWidget {
   const RegistroUsuariosPage({super.key});
@@ -23,9 +22,6 @@ class RegistroUsuariosPage extends StatefulWidget {
 
 class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  SideMenuController sideMenuController = SideMenuController();
-  SideMenuController sideNotificationsController = SideMenuController();
 
   final bool permisoCaptura = currentUser!.rol.permisos.listaUsuarios == 'C';
 
@@ -59,11 +55,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
             child: Column(
               children: [
                 //Top Menu
-                CustomTopMenu(
-                  sideMenuController: sideMenuController,
-                  sideNotificationsController: sideNotificationsController,
-                  pantalla: 'Usuarios',
-                ),
+                const CustomTopMenu(pantalla: 'Registro de Usuarios'),
                 //Contenido
                 Expanded(
                   child: Padding(
@@ -72,229 +64,79 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         //Encabezado
-                        const UsuariosHeader(encabezado: 'Listado de Usuarios'),
-
-                        //Tabla
-                        Flexible(
-                          child: PlutoGrid(
-                            key: UniqueKey(),
-                            configuration: PlutoGridConfiguration(
-                              localeText: const PlutoGridLocaleText.spanish(),
-                              scrollbar: plutoGridScrollbarConfig(context),
-                              style: plutoGridStyleConfig(context),
-                              columnFilter: PlutoGridColumnFilterConfig(
-                                filters: const [
-                                  ...FilterHelper.defaultFilters,
-                                ],
-                                resolveDefaultColumnFilter: (column, resolver) {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                                },
+                        const RegistroUsuariosHeader(encabezado: 'Registro de Usuarios'),
+                        //Contenido
+                        Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFD7E9FB),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Información de Usuario',
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               ),
-                            ),
-                            columns: [
-                              PlutoColumn(
-                                title: 'ID',
-                                field: 'usuario_id_secuencial',
-                                width: 57,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.number(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Nombre',
-                                field: 'nombre',
-                                width: 100,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Apellido',
-                                field: 'apellido',
-                                width: 85,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Telefono',
-                                field: 'telefono',
-                                width: 116,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Rol',
-                                field: 'rol',
-                                width: 100,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Compañía',
-                                field: 'compania',
-                                width: 100,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Contacto',
-                                field: 'email',
-                                width: 162,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Sociedad',
-                                field: 'sociedad',
-                                width: 90,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'País',
-                                field: 'pais',
-                                width: 90,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Estado',
-                                field: 'activo',
-                                width: 111,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                                renderer: (rendererContext) {
-                                  return Container(
-                                    height: 32,
-                                    padding: const EdgeInsets.all(4),
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 414,
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                                     decoration: BoxDecoration(
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(16),
-                                      color: const Color(0xFF94D0FF),
                                     ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      rendererContext.cell.value,
-                                      style: AppTheme.of(context).contenidoTablas,
-                                    ),
-                                  );
-                                },
-                              ),
-                              PlutoColumn(
-                                title: 'Acciones',
-                                field: 'acciones',
-                                width: 88,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                                renderer: (rendererContext) {
-                                  // final String id = rendererContext.cell.value;
-                                  // Usuario? usuario;
-                                  // try {
-                                  //   usuario = provider.usuarios.firstWhere((element) => element.id == id);
-                                  // } catch (e) {
-                                  //   usuario = null;
-                                  // }
-                                  if (permisoCaptura) {
-                                    return Row(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        // if (usuario!.activo)
-                                        //   AnimatedHoverButton(
-                                        //     icon: Icons.edit,
-                                        //     tooltip: 'Editar Usuario',
-                                        //     primaryColor: AppTheme.of(context).primaryColor,
-                                        //     secondaryColor: AppTheme.of(context).primaryBackground,
-                                        //     onTap: () async {
-                                        //       await provider.initEditarUsuario(
-                                        //         usuario!,
-                                        //       );
-                                        //       if (!mounted) return;
-                                        //       context.pushNamed(
-                                        //         'editar_usuario',
-                                        //         extra: usuario,
-                                        //       );
-                                        //     },
-                                        //   ),
-                                        // if (usuario.activado) const SizedBox(width: 10),
-                                        // AnimatedHoverButton(
-                                        //   icon: usuario.activado ? Icons.block : Icons.lock_open,
-                                        //   tooltip: usuario.activado ? 'Desactivar' : 'Activar',
-                                        //   primaryColor: AppTheme.of(context).primaryColor,
-                                        //   secondaryColor: AppTheme.of(context).primaryBackground,
-                                        //   onTap: () async {
-                                        //     final res = await provider.updateActivado(
-                                        //       usuario!,
-                                        //       !usuario.activado,
-                                        //     );
-                                        //     if (res != null) {
-                                        //       await ApiErrorHandler.callToast(res);
-                                        //     }
-                                        //   },
-                                        // ),
+                                        Text(
+                                          'Nombre de contacto',
+                                          style: GoogleFonts.inter(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                            color: const Color(0x661C1C1C),
+                                          ),
+                                        ),
+                                        CustomInputField(
+                                          label: 'Nombre',
+                                          controller: provider.nombreController,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'El nombre es requerido';
+                                            }
+                                            return null;
+                                          },
+                                        ),
                                       ],
-                                    );
-                                  }
-                                  return const SizedBox.shrink();
-                                },
+                                    ),
+                                  ),
+                                ],
                               ),
+                              const SizedBox(height: 16),
+                              const SizedBox(height: 16),
+                              const SizedBox(height: 16),
+                              const SizedBox(height: 16),
                             ],
-                            rows: provider.rows,
-                            createFooter: (stateManager) {
-                              stateManager.setPageSize(
-                                20,
-                                notify: false,
-                              );
-                              return PlutoPagination(stateManager);
-                            },
-                            onLoaded: (event) {
-                              provider.stateManager = event.stateManager;
-                            },
-                            onRowChecked: (event) {},
                           ),
                         ),
                       ],
                     ),
                   ),
+                ),
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: OpcionesWidget(),
                 ),
                 //Footer
                 const Footer(),
@@ -303,6 +145,79 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
           ),
           const CustomSideNotifications(),
         ],
+      ),
+    );
+  }
+}
+
+class CustomInputField extends StatefulWidget {
+  const CustomInputField({
+    super.key,
+    required this.label,
+    required this.controller,
+    required this.validator,
+  });
+
+  final String label;
+  final TextEditingController controller;
+  final String? Function(String?) validator;
+
+  @override
+  State<CustomInputField> createState() => _CustomInputFieldState();
+}
+
+class _CustomInputFieldState extends State<CustomInputField> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 55,
+      child: TextFormField(
+        controller: widget.controller,
+        validator: widget.validator,
+        decoration: InputDecoration(
+          hintText: widget.label,
+          filled: true,
+          isCollapsed: true,
+          isDense: true,
+          contentPadding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 15,
+            bottom: 15,
+          ),
+          fillColor: Colors.white,
+          hintStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+            color: const Color.fromARGB(204, 0, 0, 0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: Colors.white,
+              width: 1,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: Colors.white,
+              width: 1,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: Colors.red,
+              width: 1,
+            ),
+          ),
+        ),
+        style: GoogleFonts.inter(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          color: const Color.fromARGB(204, 0, 0, 0),
+        ),
       ),
     );
   }

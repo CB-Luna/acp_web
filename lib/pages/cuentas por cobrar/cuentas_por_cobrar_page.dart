@@ -24,9 +24,6 @@ class CuentasPorCobrarPage extends StatefulWidget {
 }
 
 class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
-  SideMenuController sideMenuController = SideMenuController();
-  SideMenuController sideNotificationsController = SideMenuController();
-
   bool filterSelected = false;
   bool gridSelected = false;
 
@@ -120,11 +117,7 @@ class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   //Top Menu
-                  CustomTopMenu(
-                    sideMenuController: sideMenuController,
-                    sideNotificationsController: sideNotificationsController,
-                    pantalla: 'Cuentas por Cobrar',
-                  ),
+                  const CustomTopMenu(pantalla: 'Cuentas por Cobrar'),
                   //Contenido
                   CustomHeaderOptions(
                     encabezado: 'Aprobación y Seguimiento de Pagos',
