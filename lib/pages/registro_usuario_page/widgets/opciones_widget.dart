@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OpcionesWidget extends StatelessWidget {
-  const OpcionesWidget({super.key});
+  const OpcionesWidget({super.key, required this.formKey});
+
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,9 @@ class OpcionesWidget extends StatelessWidget {
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () {
-              if (context.canPop()) context.pop();
+              if (!formKey.currentState!.validate()) {
+                return;
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF21418B),

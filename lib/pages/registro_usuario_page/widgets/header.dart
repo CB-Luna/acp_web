@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 
 class RegistroUsuariosHeader extends StatefulWidget {
@@ -16,8 +14,6 @@ class RegistroUsuariosHeader extends StatefulWidget {
 class _RegistroUsuariosHeaderState extends State<RegistroUsuariosHeader> {
   @override
   Widget build(BuildContext context) {
-    final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
