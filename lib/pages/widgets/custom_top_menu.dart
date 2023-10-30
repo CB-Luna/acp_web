@@ -47,7 +47,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           ),
                           splashRadius: 0.01,
                           onPressed: () {
-                            visualState.toogleSideMenu();
+                            visualState.toggleSideMenu();
                           },
                         ),
                         IconButton(
@@ -144,7 +144,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           ),
                           splashRadius: 0.01,
                           onPressed: () {
-                            visualState.toogleNotificationMenu();
+                            visualState.toggleNotificationMenu();
                           },
                         ),
                       ],

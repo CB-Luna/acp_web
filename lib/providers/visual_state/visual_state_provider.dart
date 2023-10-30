@@ -93,16 +93,22 @@ class VisualStateProvider extends ChangeNotifier {
     primaryBackgroundColorDark = darkTheme.primaryBackground;
 
     primaryColorLightController = TextEditingController(text: primaryColorLight.value.toRadixString(16).toUpperCase());
-    secondaryColorLightController = TextEditingController(text: secondaryColorLight.value.toRadixString(16).toUpperCase());
-    tertiaryColorLightController = TextEditingController(text: tertiaryColorLight.value.toRadixString(16).toUpperCase());
-    primaryTextLightController = TextEditingController(text: primaryTextColorLight.value.toRadixString(16).toUpperCase());
-    primaryBackgroundLightController = TextEditingController(text: primaryBackgroundColorLight.value.toRadixString(16).toUpperCase());
+    secondaryColorLightController =
+        TextEditingController(text: secondaryColorLight.value.toRadixString(16).toUpperCase());
+    tertiaryColorLightController =
+        TextEditingController(text: tertiaryColorLight.value.toRadixString(16).toUpperCase());
+    primaryTextLightController =
+        TextEditingController(text: primaryTextColorLight.value.toRadixString(16).toUpperCase());
+    primaryBackgroundLightController =
+        TextEditingController(text: primaryBackgroundColorLight.value.toRadixString(16).toUpperCase());
 
     primaryColorDarkController = TextEditingController(text: primaryColorDark.value.toRadixString(16).toUpperCase());
-    secondaryColorDarkController = TextEditingController(text: secondaryColorDark.value.toRadixString(16).toUpperCase());
+    secondaryColorDarkController =
+        TextEditingController(text: secondaryColorDark.value.toRadixString(16).toUpperCase());
     tertiaryColorDarkController = TextEditingController(text: tertiaryColorDark.value.toRadixString(16).toUpperCase());
     primaryTextDarkController = TextEditingController(text: primaryTextColorDark.value.toRadixString(16).toUpperCase());
-    primaryBackgroundDarkController = TextEditingController(text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
+    primaryBackgroundDarkController =
+        TextEditingController(text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
   }
 
   void setPrimaryColorLight(Color color) {
@@ -165,7 +171,7 @@ class VisualStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toogleSideMenu() {
+  void toggleSideMenu() {
     sideMenuController.toggle();
   }
 
@@ -176,7 +182,7 @@ class VisualStateProvider extends ChangeNotifier {
     isTaped[index] = true;
   }
 
-  void toogleNotificationMenu() {
+  void toggleNotificationMenu() {
     sideNotificationsController.toggle();
   }
 
