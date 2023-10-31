@@ -272,7 +272,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               style: AppTheme.of(context).subtitle3.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryColor,
+                                    color: AppTheme.of(context).tertiaryColor,
                                   ),
                             ),
                           ),
@@ -286,7 +286,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             style: AppTheme.of(context).subtitle3.override(
                                   fontFamily: 'Gotham',
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).primaryColor,
+                                  color: AppTheme.of(context).tertiaryColor,
                                 ),
                             textAlign: TextAlign.center,
                           ),
@@ -374,7 +374,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               style: AppTheme.of(context).subtitle3.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
-                                    color: AppTheme.of(context).tertiaryColor,
+                                    color: AppTheme.of(context).primaryColor,
                                   ),
                             ),
                           ),
@@ -388,7 +388,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             style: AppTheme.of(context).subtitle3.override(
                                   fontFamily: 'Gotham',
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).tertiaryColor,
+                                  color: AppTheme.of(context).primaryColor,
                                 ),
                             textAlign: TextAlign.center,
                           ),

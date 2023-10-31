@@ -44,8 +44,9 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
     return Row(
       children: [
         Container(
-          decoration: const BoxDecoration(//gradient: AppTheme.of(context).blueGradient),
-          color: Color.fromRGBO(10, 8, 89, 1)),
+          decoration: BoxDecoration(
+            color: AppTheme.of(context).primaryColor,
+          ),
           child: SideMenu(
             controller: visualState.sideMenuController,
             hasResizer: false,
@@ -197,7 +198,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     borderRadius: borderRadius,
                     margin: paddingHItems,
                     isSelected: visualState.isTaped[3],
-                    onTap: () => setState(() => visualState.setTapedOption(3)),
+                    onTap: () {
+                      setState(() {
+                        visualState.setTapedOption(3);
+                      });
+                      context.pushReplacement('/pagos');
+                    },
                   ),
                   SideMenuItemDataTile(
                     title: 'Usuarios',

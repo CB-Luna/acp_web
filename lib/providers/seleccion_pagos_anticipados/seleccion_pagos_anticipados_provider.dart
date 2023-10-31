@@ -41,7 +41,6 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     controllerFondoDispFake.text = '';
 
     ejecBloq = false;
-    gridSelected = false;
     controllerBusqueda.clear();
 
     return await getRecords();

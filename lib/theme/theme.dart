@@ -26,8 +26,7 @@ abstract class AppTheme {
     darkTheme = DarkModeTheme(mode: conf?.dark);
   }
 
-  static void saveThemeMode(ThemeMode mode) =>
-      mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
   static AppTheme of(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
 
@@ -83,11 +82,11 @@ abstract class AppTheme {
 
 class LightModeTheme extends AppTheme {
   @override
-  Color primaryColor = const Color(0XFF0090FF);
+  Color primaryColor = const Color(0XFF0A0859);
   @override
   Color secondaryColor = const Color(0XFFD7E9FB);
   @override
-  Color tertiaryColor = const Color(0xFF102047);
+  Color tertiaryColor = const Color(0XFF0090FF);
   @override
   Color alternate = const Color(0XFF091C72);
   @override

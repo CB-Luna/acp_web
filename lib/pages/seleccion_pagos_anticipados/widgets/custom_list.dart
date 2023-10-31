@@ -192,7 +192,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryColor,
+                                    color: AppTheme.of(context).tertiaryColor,
                                   ),
                             ),
                           ],
@@ -238,7 +238,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
-                                    color: AppTheme.of(context).tertiaryColor,
+                                    color: AppTheme.of(context).primaryColor,
                                   ),
                             ),
                           ],
@@ -336,7 +336,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   style: AppTheme.of(context).subtitle3.override(
                                         fontFamily: 'Gotham',
                                         useGoogleFonts: false,
-                                        color: AppTheme.of(context).primaryColor,
+                                        color: AppTheme.of(context).tertiaryColor,
                                       ),
                                 ),
                               ),
@@ -350,7 +350,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 style: AppTheme.of(context).subtitle3.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
-                                      color: AppTheme.of(context).primaryColor,
+                                      color: AppTheme.of(context).tertiaryColor,
                                     ),
                                 textAlign: TextAlign.center,
                               ),
@@ -438,7 +438,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   style: AppTheme.of(context).subtitle3.override(
                                         fontFamily: 'Gotham',
                                         useGoogleFonts: false,
-                                        color: AppTheme.of(context).tertiaryColor,
+                                        color: AppTheme.of(context).primaryColor,
                                       ),
                                 ),
                               ),
@@ -452,7 +452,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 style: AppTheme.of(context).subtitle3.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
-                                      color: AppTheme.of(context).tertiaryColor,
+                                      color: AppTheme.of(context).primaryColor,
                                     ),
                                 textAlign: TextAlign.center,
                               ),
