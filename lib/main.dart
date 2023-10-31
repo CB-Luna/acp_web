@@ -1,3 +1,4 @@
+import 'package:acp_web/providers/pagos/pagos_provider.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -55,6 +56,9 @@ void main() async {
         ), */
         ChangeNotifierProvider(
           create: (_) => SeleccionaPagosanticipadosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PagosProvider(),
         ),
       ],
       child: const MyApp(),
