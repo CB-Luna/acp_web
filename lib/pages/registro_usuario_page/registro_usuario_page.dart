@@ -1,4 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -6,13 +8,19 @@ import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/models/models.dart';
 import 'package:acp_web/pages/registro_usuario_page/widgets/opciones_widget.dart';
 import 'package:acp_web/pages/registro_usuario_page/widgets/header.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
 
 class RegistroUsuariosPage extends StatefulWidget {
-  const RegistroUsuariosPage({super.key});
+  const RegistroUsuariosPage({
+    super.key,
+    this.usuario,
+  });
+
+  final Usuario? usuario;
 
   @override
   State<RegistroUsuariosPage> createState() => _RegistroUsuariosPageState();
@@ -77,6 +85,12 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       child: CustomInputField(
                                         label: 'Nombre',
                                         controller: provider.nombreController,
+                                        keyboardType: TextInputType.name,
+                                        formatters: [
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                          )
+                                        ],
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
                                             return 'El nombre es requerido';
@@ -93,6 +107,12 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       child: CustomInputField(
                                         label: 'Apellido',
                                         controller: provider.apellidosController,
+                                        keyboardType: TextInputType.name,
+                                        formatters: [
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                          )
+                                        ],
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
                                             return 'El apellido es requerido';
@@ -112,9 +132,18 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       child: CustomInputField(
                                         label: 'Teléfono',
                                         controller: provider.telefonoController,
+                                        keyboardType: TextInputType.phone,
+                                        formatters: [
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]'),
+                                          )
+                                        ],
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'El teléfono es requerido';
+                                            return 'El teléfono es obligatorio';
+                                          }
+                                          if (value.length != 10) {
+                                            return 'El teléfono debe tener 10 dígitos';
                                           }
                                           return null;
                                         },
@@ -164,9 +193,12 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       child: CustomInputField(
                                         label: 'Email',
                                         controller: provider.correoController,
+                                        keyboardType: TextInputType.emailAddress,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'El email es requerido';
+                                            return 'El correo es obligatorio';
+                                          } else if (!EmailValidator.validate(value)) {
+                                            return 'El correo no es válido';
                                           }
                                           return null;
                                         },
@@ -215,14 +247,13 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                 InputContainer(
                                   title: 'Estatus',
                                   width: 844,
-                                  child: CustomInputField(
-                                    label: 'Estatus',
-                                    controller: TextEditingController(),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'El apellido es requerido';
-                                      }
-                                      return null;
+                                  alignment: Alignment.centerLeft,
+                                  child: Switch(
+                                    value: provider.activo,
+                                    activeColor: const Color(0xFF0A0859),
+                                    onChanged: (value) {
+                                      provider.activo = value;
+                                      setState(() {});
                                     },
                                   ),
                                 ),
@@ -258,17 +289,19 @@ class InputContainer extends StatelessWidget {
     required this.title,
     required this.child,
     this.width = 414,
+    this.alignment = Alignment.center,
   });
 
   final String title;
-  final double width;
   final Widget child;
+  final double width;
+  final Alignment alignment;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      alignment: Alignment.center,
+      alignment: alignment,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -301,11 +334,15 @@ class CustomInputField extends StatefulWidget {
     required this.label,
     required this.controller,
     required this.validator,
+    this.keyboardType = TextInputType.text,
+    this.formatters,
   });
 
   final String label;
   final TextEditingController controller;
   final String? Function(String?) validator;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? formatters;
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -320,6 +357,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
       child: TextFormField(
         controller: widget.controller,
         validator: widget.validator,
+        keyboardType: widget.keyboardType,
+        inputFormatters: widget.formatters,
         decoration: InputDecoration(
           hintText: widget.label,
           isCollapsed: true,

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:acp_web/functions/phone_format.dart';
+import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/models/models.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:path/path.dart' as p;
@@ -24,6 +26,7 @@ class UsuariosProvider extends ChangeNotifier {
   TextEditingController correoController = TextEditingController();
   TextEditingController apellidosController = TextEditingController();
   TextEditingController telefonoController = TextEditingController();
+  bool activo = true;
 
   List<Pais> paises = [];
   List<Rol> roles = [];
@@ -159,66 +162,6 @@ class UsuariosProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> getProveedor() async {
-  //   final res = await supabase
-  //       .from('proveedores')
-  //       .select('id_proveedor_pk, nombre_fiscal, cuenta_acreedor')
-  //       .eq('codigo_acreedor', proveedorController.text);
-
-  //   if (res == null) return;
-
-  //   if ((res as List<dynamic>).length != 1) {
-  //     proveedorId = null;
-  //     nombreProveedorController.text = 'No se encontró';
-  //     cuentaProveedorController.text = 'No se encontró';
-  //   } else {
-  //     final infoProveedor = res[0];
-  //     proveedorId = infoProveedor['id_proveedor_pk'];
-  //     nombreProveedorController.text = infoProveedor['nombre_fiscal'];
-  //     cuentaProveedorController.text = infoProveedor['cuenta_acreedor'] ?? '';
-  //   }
-  // }
-
-  // Future<void> getProveedorById(int id) async {
-  //   final res = await supabase
-  //       .from('proveedores')
-  //       .select('codigo_acreedor, nombre_fiscal, cuenta_contable')
-  //       .eq('id_proveedor_pk', id);
-
-  //   if (res == null) return;
-
-  //   if ((res as List<dynamic>).length != 1) {
-  //     return;
-  //   } else {
-  //     final infoProveedor = res[0];
-  //     proveedorController.text = infoProveedor['codigo_acreedor'];
-  //     nombreProveedorController.text = infoProveedor['nombre_fiscal'];
-  //     cuentaProveedorController.text = infoProveedor['cuenta_contable'] ?? '';
-  //   }
-  // }
-
-  // Future<void> getUsuariosTesoreria() async {
-  //   try {
-  //     if (paisSeleccionado == null) return;
-  //     final res = await supabase
-  //         .from('users')
-  //         .select()
-  //         .eq('rol_fk', 3)
-  //         .eq('pais->id_pais_pk', paisSeleccionado!.idPaisPk);
-
-  //     if (res == null) {
-  //       log('Error en getUsuariosTesoreria()');
-  //       return;
-  //     }
-
-  //     usuariosTesoreros = (res as List<dynamic>)
-  //         .map((usuario) => Usuario.fromJson(jsonEncode(usuario)))
-  //         .toList();
-  //   } catch (e) {
-  //     log('Error en getUsuariosTesoreria() - $e');
-  //   }
-  // }
-
   // Future<void> selectImage() async {
   //   final ImagePicker picker = ImagePicker();
 
@@ -260,131 +203,70 @@ class UsuariosProvider extends ChangeNotifier {
   //   return null;
   // }
 
-  // Future<bool> relacionarSociedades(String userId) async {
-  //   try {
-  //     for (final Sociedad sociedad in sociedadesSeleccionadas) {
-  //       await supabase.from('usuario_sociedad').insert(
-  //         {
-  //           'usuario_fk': userId,
-  //           'sociedad_fk': sociedad.idSociedadPk,
-  //         },
-  //       );
-  //     }
-  //     return true;
-  //   } catch (e) {
-  //     log('Error en relacionarSociedades() - $e');
-  //     return false;
-  //   }
-  // }
+  Future<Map<String, String>?> registrarUsuario() async {
+    try {
+      //Generar contrasena aleatoria
+      final password = generatePassword();
 
-  // Future<bool> editarSociedadesRelacionadas() async {
-  //   if (usuarioEditado == null) return false;
-  //   //Se inicializan los sociedades a agregar (todas)
-  //   final List<Sociedad> sociedadesAgregadas = [...sociedadesSeleccionadas];
-  //   //Se inicializan los sociedades a eliminar (todas)
-  //   final List<Sociedad> sociedadesEliminadas = [...usuarioEditado!.sociedades];
+      //Registrar al usuario con una contraseña temporal
+      var response = await http.post(
+        Uri.parse('$supabaseUrl/auth/v1/signup'),
+        headers: {'Content-Type': 'application/json', 'apiKey': anonKey},
+        body: json.encode(
+          {
+            "email": correoController.text,
+            "password": password,
+          },
+        ),
+      );
+      if (response.statusCode > 204) return {'Error': 'El usuario ya existe'};
 
-  //   for (var sociedad in sociedadesSeleccionadas) {
-  //     //seleccionados - usuario
-  //     //[a,b,c] - [d] => [a,b,c] - [d]
-  //     //[a,b,c] - [a,b] => [c] - []
-  //     //[a,b,c] - [a,b,d] => [c] - [d]
-  //     //[d] - [a,b] => [d] - [a,b]
-  //     if (usuarioEditado!.sociedades.contains(sociedad)) {
-  //       //Si lo contiene, se elimina de los sociedades a agregar
-  //       sociedadesAgregadas.remove(sociedad);
-  //       //Si lo contiene, se elimina de los sociedades a eliminar
-  //       sociedadesEliminadas.remove(sociedad);
-  //     }
-  //   }
+      final String? userId = jsonDecode(response.body)['user']['id'];
 
-  //   for (final Sociedad sociedad in sociedadesAgregadas) {
-  //     await supabase.from('usuario_sociedad').insert(
-  //       {
-  //         'usuario_fk': usuarioEditado!.id,
-  //         'sociedad_fk': sociedad.idSociedadPk,
-  //       },
-  //     );
-  //   }
+      if (userId == null) return {'Error': 'Error al registrar al usuario'};
 
-  //   for (final Sociedad sociedad in sociedadesEliminadas) {
-  //     await supabase
-  //         .from('usuario_sociedad')
-  //         .delete()
-  //         .eq('usuario_fk', usuarioEditado!.id)
-  //         .eq('sociedad_fk', sociedad.idSociedadPk);
-  //   }
+      final token = generateToken(userId, correoController.text);
 
-  //   usuarioEditado!.sociedades = [...sociedadesSeleccionadas];
-  //   return true;
-  // }
+      // final bool tokenSaved = await SupabaseQueries.saveToken(userId, 'token_ingreso', token);
 
-  // Future<Map<String, String>?> registrarUsuario() async {
-  //   try {
-  //     //Generar contrasena aleatoria
-  //     final password = generatePassword();
+      // if (!tokenSaved) return {'Error': 'Error al guardar token'};
 
-  //     //Registrar al usuario con una contraseña temporal
-  //     var response = await http.post(
-  //       Uri.parse('$supabaseUrl/auth/v1/signup'),
-  //       headers: {'Content-Type': 'application/json', 'apiKey': anonKey},
-  //       body: json.encode(
-  //         {
-  //           "email": correoController.text,
-  //           "password": password,
-  //         },
-  //       ),
-  //     );
-  //     if (response.statusCode > 204) return {'Error': 'El usuario ya existe'};
+      // final bool emailSent = await sendEmail(correoController.text, password, token, 'alta');
 
-  //     final String? userId = jsonDecode(response.body)['user']['id'];
+      // if (!emailSent) return {'Error': 'Error al mandar email'};
 
-  //     if (userId == null) return {'Error': 'Error al registrar al usuario'};
+      //retornar el id del usuario
+      return {'userId': userId};
+    } catch (e) {
+      log('Error en registrarUsuario() - $e');
+      return {'Error': 'Error al registrar usuario'};
+    }
+  }
 
-  //     final token = generateToken(userId, correoController.text);
-
-  //     final bool tokenSaved =
-  //         await SupabaseQueries.saveToken(userId, 'token_ingreso', token);
-
-  //     if (!tokenSaved) return {'Error': 'Error al guardar token'};
-
-  //     final bool emailSent =
-  //         await sendEmail(correoController.text, password, token, 'alta');
-
-  //     if (!emailSent) return {'Error': 'Error al mandar email'};
-
-  //     //retornar el id del usuario
-  //     return {'userId': userId};
-  //   } catch (e) {
-  //     log('Error en registrarUsuario() - $e');
-  //     return {'Error': 'Error al registrar usuario'};
-  //   }
-  // }
-
-  // Future<bool> crearPerfilDeUsuario(String userId) async {
-  //   if (rolSeleccionado == null || paisSeleccionado == null) {
-  //     return false;
-  //   }
-  //   try {
-  //     await supabase.from('perfil_usuario').insert(
-  //       {
-  //         'perfil_usuario_id': userId,
-  //         'nombre': nombreController.text,
-  //         'apellidos': apellidosController.text,
-  //         'id_proveedor_fk': proveedorId,
-  //         'cuentas': cuentasDropValue,
-  //         'telefono': telefonoController.text,
-  //         'imagen': imageName,
-  //         'rol_fk': rolSeleccionado!.idRolPk,
-  //         'pais_fk': paisSeleccionado!.idPaisPk,
-  //       },
-  //     );
-  //     return true;
-  //   } catch (e) {
-  //     log('Error en crearPerfilDeUsuario() - $e');
-  //     return false;
-  //   }
-  // }
+  Future<bool> crearPerfilDeUsuario(String userId) async {
+    if (rolSeleccionado == null || paisSeleccionado == null || sociedadSeleccionada == null) {
+      return false;
+    }
+    try {
+      await supabase.from('perfil_usuario').insert(
+        {
+          'perfil_usuario_id': userId,
+          'nombre': nombreController.text,
+          'apellidos': apellidosController.text,
+          'telefono': telefonoController.text,
+          'pais_fk': paisSeleccionado!.paisId,
+          'rol_fk': rolSeleccionado!.rolId,
+          'sociedad_fk': sociedadSeleccionada!.sociedadId,
+          'compania_fk': 1,
+          'activo': activo,
+        },
+      );
+      return true;
+    } catch (e) {
+      log('Error en crearPerfilDeUsuario() - $e');
+      return false;
+    }
+  }
 
   // Future<bool> editarPerfilDeUsuario(String userId) async {
   //   try {
@@ -429,29 +311,12 @@ class UsuariosProvider extends ChangeNotifier {
     sociedadSeleccionada = usuario.sociedad;
   }
 
-  // Future<bool> updateAusencia(Usuario usuario, bool value) async {
-  //   try {
-  //     await supabase
-  //         .from('perfil_usuario')
-  //         .update({'ausencia': value}).eq('perfil_usuario_id', usuario.id);
-
-  //     usuario.ausencia = value;
-  //     if (stateManager != null) stateManager!.notifyListeners();
-  //     return true;
-  //   } catch (e) {
-  //     log('Error en updateAusencia() - $e');
-  //     return false;
-  //   }
-  // }
-
   Future<bool> updateActivado(Usuario usuario, bool value, int rowIndex) async {
     try {
       //actualizar usuario
       await supabase.from('perfil_usuario').update({'activo': value}).eq('perfil_usuario_id', usuario.id);
       rows[rowIndex].cells['activo']?.value = usuario.estatus;
-      // rows.firstWhere((row) => row.cells['acciones']?.value == id).cells['activo']?.value = value;
       if (stateManager != null) stateManager!.notifyListeners();
-      notifyListeners();
       return true;
     } catch (e) {
       log('Error en updateActivado() - $e');
@@ -459,72 +324,71 @@ class UsuariosProvider extends ChangeNotifier {
     }
   }
 
-  // String generatePassword() {
-  //   //Generar contrasena aleatoria
-  //   final passwordGenerator = RandomPasswordGenerator();
-  //   return passwordGenerator.randomPassword(
-  //     letters: true,
-  //     uppercase: true,
-  //     numbers: true,
-  //     specialChar: true,
-  //     passwordLength: 8,
-  //   );
-  // }
+  String generatePassword() {
+    //Generar contrasena aleatoria
+    final passwordGenerator = RandomPasswordGenerator();
+    return passwordGenerator.randomPassword(
+      letters: true,
+      uppercase: true,
+      numbers: true,
+      specialChar: true,
+      passwordLength: 8,
+    );
+  }
 
-  // String generateToken(String userId, String email) {
-  //   //Generar token
-  //   final jwt = JWT(
-  //     {
-  //       'user_id': userId,
-  //       'email': email,
-  //       'created': DateTime.now().toUtc().toIso8601String(),
-  //     },
-  //     issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
-  //   );
+  String generateToken(String userId, String email) {
+    //Generar token
+    final jwt = JWT(
+      {
+        'user_id': userId,
+        'email': email,
+        'created': DateTime.now().toUtc().toIso8601String(),
+      },
+      issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    );
 
-  //   // Sign it (default with HS256 algorithm)
-  //   return jwt.sign(SecretKey('secret'));
-  // }
+    // Sign it (default with HS256 algorithm)
+    return jwt.sign(SecretKey('secret'));
+  }
 
-  // Future<bool> sendEmail(
-  //     String email, String? password, String token, String type) async {
-  //   //Mandar correo
-  //   final response = await http.post(
-  //     Uri.parse(bonitaConnectionUrl),
-  //     body: json.encode(
-  //       {
-  //         "user": "Web",
-  //         "action": "bonitaBpmCaseVariables",
-  //         'process': 'Alta_de_Usuario',
-  //         'data': {
-  //           'variables': [
-  //             {
-  //               'name': 'correo',
-  //               'value': email,
-  //             },
-  //             {
-  //               'name': 'password',
-  //               'value': password,
-  //             },
-  //             {
-  //               'name': 'token',
-  //               'value': token,
-  //             },
-  //             {
-  //               'name': 'type',
-  //               'value': type,
-  //             },
-  //           ]
-  //         },
-  //       },
-  //     ),
-  //   );
-  //   if (response.statusCode > 204) {
-  //     return false;
-  //   }
+  Future<bool> sendEmail(String email, String? password, String token, String type) async {
+    //Mandar correo
+    // final response = await http.post(
+    //   Uri.parse(bonitaConnectionUrl),
+    //   body: json.encode(
+    //     {
+    //       "user": "Web",
+    //       "action": "bonitaBpmCaseVariables",
+    //       'process': 'Alta_de_Usuario',
+    //       'data': {
+    //         'variables': [
+    //           {
+    //             'name': 'correo',
+    //             'value': email,
+    //           },
+    //           {
+    //             'name': 'password',
+    //             'value': password,
+    //           },
+    //           {
+    //             'name': 'token',
+    //             'value': token,
+    //           },
+    //           {
+    //             'name': 'type',
+    //             'value': type,
+    //           },
+    //         ]
+    //       },
+    //     },
+    //   ),
+    // );
+    // if (response.statusCode > 204) {
+    //   return false;
+    // }
 
-  //   return true;
-  // }
+    return true;
+  }
 
   // Future<bool> sendUserToken() async {
   //   final password = generatePassword();

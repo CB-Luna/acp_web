@@ -1,14 +1,30 @@
+import 'package:acp_web/pages/widgets/toasts/success_toast.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class OpcionesWidget extends StatelessWidget {
+import 'package:acp_web/providers/providers.dart';
+
+class OpcionesWidget extends StatefulWidget {
   const OpcionesWidget({super.key, required this.formKey});
 
   final GlobalKey<FormState> formKey;
 
   @override
+  State<OpcionesWidget> createState() => _OpcionesWidgetState();
+}
+
+class _OpcionesWidgetState extends State<OpcionesWidget> {
+  FToast fToast = FToast();
+
+  @override
   Widget build(BuildContext context) {
+    fToast.init(context);
+    final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 28),
       decoration: BoxDecoration(
@@ -42,10 +58,49 @@ class OpcionesWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           ElevatedButton(
-            onPressed: () {
-              if (!formKey.currentState!.validate()) {
+            onPressed: () async {
+              if (!widget.formKey.currentState!.validate()) {
                 return;
               }
+
+              //Registrar usuario
+              final Map<String, String>? result = await provider.registrarUsuario();
+
+              if (result == null) {
+                await ApiErrorHandler.callToast('Error al registrar usuario');
+                return;
+              } else {
+                if (result['Error'] != null) {
+                  await ApiErrorHandler.callToast(result['Error']!);
+                  return;
+                }
+              }
+
+              final String? userId = result['userId'];
+
+              if (userId == null) {
+                await ApiErrorHandler.callToast('Error al registrar usuario');
+                return;
+              }
+
+              //Crear perfil de usuario
+              bool res = await provider.crearPerfilDeUsuario(userId);
+
+              if (!res) {
+                await ApiErrorHandler.callToast('Error al crear perfil de usuario');
+                return;
+              }
+
+              if (!mounted) return;
+              fToast.showToast(
+                child: const SuccessToast(
+                  message: 'Usuario creado',
+                ),
+                gravity: ToastGravity.BOTTOM,
+                toastDuration: const Duration(seconds: 2),
+              );
+
+              context.pushReplacement('/usuarios');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF21418B),

@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/models.dart';
 import 'package:acp_web/pages/pages.dart';
 import 'package:acp_web/pages/registro_usuario_page/registro_usuario_page.dart';
 import 'package:acp_web/services/navigation_service.dart';
-
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -97,12 +98,10 @@ final GoRouter router = GoRouter(
           path: 'editar-usuario',
           name: 'editar_usuario',
           builder: (BuildContext context, GoRouterState state) {
-            if (currentUser!.rol.permisos.registroUsuario == null) {
-              return const PageNotFoundPage();
-            }
+            if (currentUser == null) return const PageNotFoundPage();
+            if (currentUser!.rol.permisos.registroUsuario == null) return const SeleccionPagosAnticipadosPage();
             if (state.extra == null) return const UsuariosPage();
-            return const PageNotFoundPage();
-            // return EditarUsuarioPage(usuario: state.extra as Usuario);
+            return RegistroUsuariosPage(usuario: state.extra as Usuario);
           },
         ),
       ],
