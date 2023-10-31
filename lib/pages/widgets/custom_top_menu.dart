@@ -10,9 +10,13 @@ class CustomTopMenu extends StatefulWidget {
   const CustomTopMenu({
     super.key,
     required this.pantalla,
+    this.controllerBusqueda,
+    this.onSearchChanged,
   });
 
   final String pantalla;
+  final TextEditingController? controllerBusqueda;
+  final Function(String)? onSearchChanged;
 
   @override
   State<CustomTopMenu> createState() => _CustomTopMenuState();
@@ -21,6 +25,8 @@ class CustomTopMenu extends StatefulWidget {
 class _CustomTopMenuState extends State<CustomTopMenu> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width / 1440;
+
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     return SizedBox(
@@ -86,12 +92,70 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                   spacing: 8,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
+                    Wrap(
+                      spacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          'Moneda',
+                          style: AppTheme.of(context).subtitle1.override(
+                                fontFamily: 'Gotham-Regular',
+                                useGoogleFonts: false,
+                                color: AppTheme.of(context).primaryColor,
+                              ),
+                        ),
+                        InkWell(
+                          child: Text(
+                            'USD',
+                            style: AppTheme.of(context).subtitle1.override(
+                                  fontFamily: 'Gotham-Regular',
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryColor,
+                                ),
+                          ),
+                          onTap: () {},
+                        ),
+                        InkWell(
+                          child: Text(
+                            'GTQ',
+                            style: AppTheme.of(context).subtitle1.override(
+                                  fontFamily: 'Gotham-Regular',
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).primaryColor,
+                                ),
+                          ),
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 8),
                     //SearchBar
                     Container(
-                      width: 160,
+                      width: width * 160,
                       height: 30,
-                      color: AppTheme.of(context).gris,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF4F4F4),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        child: TextField(
+                          controller: widget.controllerBusqueda,
+                          onChanged: widget.onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText: 'Busqueda',
+                            hintStyle: AppTheme.of(context).hintText,
+                            border: InputBorder.none,
+                            prefixText: '',
+                            prefixStyle: AppTheme.of(context).subtitle1,
+                            icon: const Icon(Icons.search),
+                            focusColor: AppTheme.of(context).primaryColor,
+                          ),
+                          cursorColor: AppTheme.of(context).primaryColor,
+                        ),
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     Container(
                       width: 42,
                       height: 42,

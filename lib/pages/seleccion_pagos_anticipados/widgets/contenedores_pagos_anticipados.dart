@@ -2,6 +2,7 @@ import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ContenedoresPagosAnticipados extends StatefulWidget {
@@ -223,7 +224,11 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                         ),
                         Text(
                           'GTQ ${moneyFormat(provider.fondoDisponibleRestante)}',
-                          style: AppTheme.of(context).title3,
+                          style: AppTheme.of(context).title3.override(
+                                fontFamily: 'Gotham',
+                                useGoogleFonts: false,
+                                color: provider.fondoDisponibleRestante < 0 ? Colors.red : AppTheme.of(context).primaryText,
+                              ),
                         ),
                       ],
                     ),
@@ -257,6 +262,56 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                       decoration: BoxDecoration(
                         color: AppTheme.of(context).primaryBackground,
                         borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+                        child: TextField(
+                          //enabled: monedaSeleccionada != null,
+                          controller:
+                              provider.controllerFondoDispFake.text.isEmpty || provider.controllerFondoDispFake.text == '0.00' ? provider.controllerFondoDispFake : provider.controllerFondoDisp,
+                          keyboardType: TextInputType.number, // Asegura que el teclado sea numérico.
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly, // Solo permite dígitos.
+                          ],
+                          style: AppTheme.of(context).subtitle1.override(
+                                useGoogleFonts: false,
+                                fontSize: 16,
+                                fontFamily: 'Gotham-Regular',
+                              ),
+                          decoration: InputDecoration(
+                            hintText: 'Captura Fondo',
+                            hintStyle: AppTheme.of(context).hintText,
+                            border: InputBorder.none,
+                            prefixText: '',
+                            prefixStyle: AppTheme.of(context).subtitle1,
+                          ),
+                          onChanged: (value) {
+                            if (value.isEmpty || value == '0.00') {
+                              provider.controllerFondoDisp.text = '0.00';
+                              provider.controllerFondoDispFake.text = '';
+
+                              provider.fondoDisponibleRestante = double.parse((provider.controllerFondoDisp.numberValue - provider.totalPagos).toStringAsFixed(2));
+                            } else {
+                              if (value.length == 1) {
+                                if (value == '0') {
+                                  provider.controllerFondoDisp.text = '0.00';
+                                  provider.controllerFondoDispFake.text = '';
+                                } else {
+                                  provider.controllerFondoDispFake.text = value;
+                                  provider.controllerFondoDisp.text = '0.0$value';
+                                }
+                              } else {
+                                provider.controllerFondoDisp.text = value;
+                              }
+
+                              provider.controllerFondoDisp.selection = TextSelection.collapsed(offset: provider.controllerFondoDisp.text.length);
+
+                              provider.fondoDisponibleRestante = double.parse((provider.controllerFondoDisp.numberValue - provider.totalPagos).toStringAsFixed(2));
+                            }
+
+                            setState(() {});
+                          },
+                        ),
                       ),
                     ),
                   ],

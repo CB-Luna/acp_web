@@ -77,36 +77,6 @@ class Custom_HeaderOptionsState extends State<CustomHeaderOptions> {
                 onPressed: widget.onGridSelected,
               ),
             ),
-            Wrap(
-              spacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(
-                  'Moneda',
-                  style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham-Regular',
-                        useGoogleFonts: false,
-                        color: AppTheme.of(context).primaryColor,
-                      ),
-                ),
-                Text(
-                  'USD',
-                  style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham-Regular',
-                        useGoogleFonts: false,
-                        color: AppTheme.of(context).secondaryColor,
-                      ),
-                ),
-                Text(
-                  'GTQ',
-                  style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham-Regular',
-                        useGoogleFonts: false,
-                        color: AppTheme.of(context).primaryColor,
-                      ),
-                ),
-              ],
-            ),
             IconButton(
               icon: Icon(
                 Icons.more_horiz_outlined,

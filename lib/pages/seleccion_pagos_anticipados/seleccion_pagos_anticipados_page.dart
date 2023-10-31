@@ -10,6 +10,7 @@ import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_an
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,6 @@ class SeleccionPagosAnticipadosPage extends StatefulWidget {
 
 class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipadosPage> {
   bool filterSelected = false;
-  bool gridSelected = true;
 
   bool listOpenned = false;
 
@@ -67,7 +67,13 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                   child: Column(
                     children: [
                       //Top Menu
-                      const CustomTopMenu(pantalla: 'Propuesta de Pago'),
+                      CustomTopMenu(
+                        pantalla: 'Propuesta de Pago',
+                        controllerBusqueda: provider.controllerBusqueda,
+                        onSearchChanged: (p0) async {
+                          await provider.search();
+                        },
+                      ),
                       //Contenido
                       Expanded(
                         child: Padding(
@@ -79,20 +85,20 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                               CustomHeaderOptions(
                                 encabezado: 'Selección de Pagos Anticipados',
                                 filterSelected: filterSelected,
-                                gridSelected: gridSelected,
+                                gridSelected: provider.gridSelected,
                                 onFilterSelected: () {
-                                  setState(() {
+                                  setState(() async {
                                     filterSelected = !filterSelected;
                                   });
                                 },
                                 onGridSelected: () {
                                   setState(() {
-                                    gridSelected = true;
+                                    provider.gridSelected = true;
                                   });
                                 },
                                 onListSelected: () {
                                   setState(() {
-                                    gridSelected = false;
+                                    provider.gridSelected = false;
                                   });
                                 },
                               ),
@@ -103,7 +109,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                 padding: const EdgeInsets.only(top: 16),
                                 child: SizedBox(
                                   height: height * 1024 - 415,
-                                  child: gridSelected
+                                  child: provider.gridSelected
                                       ? GridView.builder(
                                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                             maxCrossAxisExtent: 400,
@@ -117,13 +123,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                           itemBuilder: (BuildContext ctx, index) {
                                             return CustomCard(
                                               moneda: 'GTQ',
-                                              nombreCliente: provider.clientes[index].nombreFiscal!,
-                                              facturacion: provider.clientes[index].facturacion!,
-                                              beneficio: provider.clientes[index].beneficio!,
-                                              pagoAdelantado: provider.clientes[index].pagoAdelantado!,
-                                              cantidadFacturas: provider.clientes[index].rows!.length,
-                                              cantidadFacturasSeleccionadas: provider.clientes[index].facturasSeleccionadas!,
-                                              rows: provider.clientes[index].rows!,
+                                              cliente: provider.clientes[index],
                                             );
                                           },
                                         )
@@ -257,13 +257,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                                   itemBuilder: (BuildContext ctx, index) {
                                                     return CustomListCard(
                                                       moneda: 'GTQ',
-                                                      nombreCliente: provider.clientes[index].nombreFiscal!,
-                                                      facturacion: provider.clientes[index].facturacion!,
-                                                      beneficio: provider.clientes[index].beneficio!,
-                                                      pagoAdelantado: provider.clientes[index].pagoAdelantado!,
-                                                      cantidadFacturas: provider.clientes[index].rows!.length,
-                                                      cantidadFacturasSeleccionadas: provider.clientes[index].facturasSeleccionadas!,
-                                                      rows: provider.clientes[index].rows!,
+                                                      cliente: provider.clientes[index],
                                                     );
                                                   },
                                                 ),

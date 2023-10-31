@@ -1,5 +1,6 @@
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -8,26 +9,14 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 class PopUpSeleccionfacturas extends StatefulWidget {
-  PopUpSeleccionfacturas({
+  const PopUpSeleccionfacturas({
     super.key,
-    required this.nombreCliente,
     required this.moneda,
-    required this.facturacion,
-    required this.beneficio,
-    required this.pagoAdelantado,
-    required this.cantidadFacturas,
-    required this.cantidadFacturasSeleccionadas,
-    required this.rows,
+    required this.cliente,
   });
 
-  final String nombreCliente;
+  final SeleccionPagosAnticipados cliente;
   final String moneda;
-  double facturacion;
-  double beneficio;
-  double pagoAdelantado;
-  final int cantidadFacturas;
-  int cantidadFacturasSeleccionadas;
-  final List<PlutoRow> rows;
 
   @override
   State<PopUpSeleccionfacturas> createState() => PopUpSeleccionfacturasState();
@@ -38,7 +27,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
-    double porcentajeSeleccionadas = widget.cantidadFacturasSeleccionadas * 100 / widget.cantidadFacturas;
+    double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
 
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
@@ -75,7 +64,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                         SizedBox(
                           width: width * 135,
                           child: Text(
-                            widget.nombreCliente,
+                            widget.cliente.nombreFiscal!,
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: 'Gotham',
                                   useGoogleFonts: false,
@@ -100,7 +89,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               ),
                         ),
                         Text(
-                          widget.cantidadFacturasSeleccionadas.toString(),
+                          widget.cliente.facturasSeleccionadas!.toString(),
                           style: AppTheme.of(context).subtitle1.override(
                                 fontFamily: 'Gotham',
                                 useGoogleFonts: false,
@@ -119,7 +108,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               ),
                         ),
                         Text(
-                          widget.cantidadFacturas.toString(),
+                          widget.cliente.facturas!.length.toString(),
                           style: AppTheme.of(context).subtitle1.override(
                                 fontFamily: 'Gotham',
                                 useGoogleFonts: false,
@@ -141,7 +130,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               ),
                         ),
                         Text(
-                          'GTQ ${moneyFormat(widget.facturacion)}',
+                          'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
                           style: AppTheme.of(context).subtitle1.override(
                                 fontFamily: 'Gotham',
                                 useGoogleFonts: false,
@@ -164,7 +153,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               ),
                         ),
                         Text(
-                          'GTQ ${moneyFormat(widget.beneficio)}',
+                          'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
                           style: AppTheme.of(context).subtitle1.override(
                                 fontFamily: 'Gotham',
                                 useGoogleFonts: false,
@@ -187,7 +176,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               ),
                         ),
                         Text(
-                          'GTQ ${moneyFormat(widget.pagoAdelantado)}',
+                          'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
                           style: AppTheme.of(context).subtitle1.override(
                                 fontFamily: 'Gotham',
                                 useGoogleFonts: false,
@@ -436,24 +425,14 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                       },
                     ),
                   ],
-                  rows: widget.rows,
+                  rows: widget.cliente.rows!,
                   createFooter: (stateManager) {
                     stateManager.setPageSize(100, notify: false);
                     return const SizedBox();
                   },
                   onLoaded: (event) async {},
                   onRowChecked: (event) async {
-                    await provider.updateClientRows(widget.rows, widget.nombreCliente);
-                    setState(() {
-                      for (var cliente in provider.clientes) {
-                        if (cliente.nombreFiscal == widget.nombreCliente) {
-                          widget.facturacion = cliente.facturacion!;
-                          widget.beneficio = cliente.beneficio!;
-                          widget.pagoAdelantado = cliente.pagoAdelantado!;
-                          widget.cantidadFacturasSeleccionadas = cliente.facturasSeleccionadas!;
-                        }
-                      }
-                    });
+                    await provider.updateClientRows(widget.cliente.nombreFiscal!);
                   },
                 ),
               )

@@ -1,31 +1,22 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_selecci%C3%B3n_facturas.dart';
+import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:provider/provider.dart';
 
 class CustomCard extends StatefulWidget {
   const CustomCard({
     super.key,
-    required this.nombreCliente,
     required this.moneda,
-    required this.facturacion,
-    required this.beneficio,
-    required this.pagoAdelantado,
-    required this.cantidadFacturas,
-    required this.cantidadFacturasSeleccionadas,
-    required this.rows,
+    required this.cliente,
   });
 
-  final String nombreCliente;
+  final SeleccionPagosAnticipados cliente;
   final String moneda;
-  final double facturacion;
-  final double beneficio;
-  final double pagoAdelantado;
-  final int cantidadFacturas;
-  final int cantidadFacturasSeleccionadas;
-  final List<PlutoRow> rows;
 
   @override
   State<CustomCard> createState() => _CustomCardState();
@@ -34,7 +25,9 @@ class CustomCard extends StatefulWidget {
 class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
-    double porcentajeSeleccionadas = widget.cantidadFacturasSeleccionadas * 100 / widget.cantidadFacturas;
+    double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
+
+    final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
     return Container(
       alignment: Alignment.center,
@@ -67,7 +60,7 @@ class _CustomCardState extends State<CustomCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.nombreCliente,
+                        widget.cliente.nombreFiscal!,
                         overflow: TextOverflow.fade,
                         style: AppTheme.of(context).subtitle1,
                       ),
@@ -80,7 +73,7 @@ class _CustomCardState extends State<CustomCard> {
                             style: AppTheme.of(context).subtitle3,
                           ),
                           Text(
-                            '${widget.moneda} ${moneyFormat(widget.facturacion)}',
+                            '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: 'Gotham',
@@ -99,7 +92,7 @@ class _CustomCardState extends State<CustomCard> {
                             style: AppTheme.of(context).subtitle3,
                           ),
                           Text(
-                            '${widget.moneda} ${moneyFormat(widget.beneficio)}',
+                            '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: 'Gotham',
@@ -123,7 +116,7 @@ class _CustomCardState extends State<CustomCard> {
                   style: AppTheme.of(context).subtitle3,
                 ),
                 Text(
-                  '${widget.moneda} ${moneyFormat(widget.pagoAdelantado)}',
+                  '${widget.moneda} ${moneyFormat(widget.cliente.pagoAdelantado!)}',
                   style: AppTheme.of(context).subtitle1,
                 ),
               ],
@@ -141,43 +134,73 @@ class _CustomCardState extends State<CustomCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Tooltip(
-                  message: 'Editar',
-                  child: InkWell(
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(4),
-                        child: Icon(
-                          Icons.file_copy_outlined,
-                          size: 20,
+                Row(
+                  children: [
+                    Tooltip(
+                      message: 'Marcar',
+                      child: InkWell(
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Icon(
+                              widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length ? Icons.check_box : Icons.check_box_outline_blank,
+                              size: 20,
+                            ),
+                          ),
                         ),
+                        onTap: () async {
+                          //Ya están marcadas todas
+                          if (widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length) {
+                            provider.checkClient(widget.cliente.nombreFiscal!, false);
+                          } else {
+                            provider.checkClient(widget.cliente.nombreFiscal!, true);
+                          }
+                        },
                       ),
                     ),
-                    onTap: () async {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return StatefulBuilder(builder: (context, setState) {
-                              return PopUpSeleccionfacturas(
-                                moneda: 'GTQ',
-                                nombreCliente: widget.nombreCliente,
-                                facturacion: widget.facturacion,
-                                beneficio: widget.beneficio,
-                                pagoAdelantado: widget.pagoAdelantado,
-                                cantidadFacturas: widget.cantidadFacturas,
-                                cantidadFacturasSeleccionadas: widget.cantidadFacturasSeleccionadas,
-                                rows: widget.rows,
+                    const SizedBox(width: 8),
+                    Tooltip(
+                      message: 'Editar',
+                      child: InkWell(
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.file_copy_outlined,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        onTap: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  return PopUpSeleccionfacturas(
+                                    moneda: 'GTQ',
+                                    cliente: widget.cliente,
+                                  );
+                                },
                               );
-                            });
-                          });
-                    },
-                  ),
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 Row(
                   children: [
@@ -205,7 +228,7 @@ class _CustomCardState extends State<CustomCard> {
                         Row(
                           children: [
                             Text(
-                              widget.cantidadFacturasSeleccionadas.toString(),
+                              widget.cliente.facturasSeleccionadas!.toString(),
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -221,7 +244,7 @@ class _CustomCardState extends State<CustomCard> {
                               style: AppTheme.of(context).subtitle3,
                             ),
                             Text(
-                              widget.cantidadFacturas.toString(),
+                              widget.cliente.facturas!.length.toString(),
                               style: AppTheme.of(context).subtitle3,
                             ),
                           ],

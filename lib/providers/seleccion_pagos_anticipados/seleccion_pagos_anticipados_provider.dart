@@ -19,14 +19,13 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
   double fondoDisponibleRestante = 0;
   double beneficioTotal = 0;
-  final controllerFondoDisp = MoneyMaskedTextController(initialValue: 100000, decimalSeparator: '.', thousandSeparator: ',');
+  final controllerFondoDisp = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   final controllerFondoDispFake = TextEditingController();
 
   final controllerBusqueda = TextEditingController();
 
-  List<dynamic> listCarrito = [];
-
   bool ejecBloq = false;
+  bool gridSelected = false;
 
   Future<void> clearAll() async {
     clientes = [];
@@ -35,12 +34,14 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     cantidadFacturas = 0;
     cantidadFacturasSeleccionadas = 0;
     totalPagos = 0;
-    fondoDisponibleRestante = 0;
     beneficioTotal = 0;
+    fondoDisponibleRestante = 0;
+
     controllerFondoDisp.text = '0.00';
     controllerFondoDispFake.text = '';
 
     ejecBloq = false;
+    gridSelected = false;
     controllerBusqueda.clear();
 
     return await getRecords();
@@ -93,10 +94,25 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           cantidadFacturas = cantidadFacturas + cliente.facturas!.length;
         }
       }
-      await checkInList();
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
     }
+    return await calcClients();
+  }
+
+  Future<void> search() async {
+    try {
+      fondoDisponibleRestante = controllerFondoDisp.numberValue;
+      montoFacturacion = 0;
+      cantidadFacturas = 0;
+      cantidadFacturasSeleccionadas = 0;
+      totalPagos = 0;
+      beneficioTotal = 0;
+      clientes = [];
+    } catch (e) {
+      log('Error en SeleccionaPagosanticipadosProvider - search() - $e');
+    }
+    return getRecords();
   }
 
   Future<void> seleccionAutomatica() async {
@@ -106,7 +122,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      double valorMayor = 0;
+      double beneficioMayor = 0;
       int idFactura = 0;
       bool exit = false;
 
@@ -115,19 +131,19 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       while (exit != true) {
         for (var cliente in clientes) {
           for (var row in cliente.rows!) {
-            double calculo = (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
             if (row.checked == false) {
-              if (valorMayor < calculo && calculo < fondoDisponibleRestante) {
-                valorMayor = calculo;
+              if (beneficioMayor < row.cells["beneficio_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
+                beneficioMayor = row.cells["beneficio_cant_field"]!.value;
                 idFactura = row.cells["id_factura_field"]!.value;
               }
 
               if (vuelta == 1 && row.cells["id_factura_field"]!.value == idFactura) {
                 row.setChecked(true);
-                updateClientRows(cliente.rows!, cliente.nombreFiscal!);
+                updateClientRows(cliente.nombreFiscal!);
 
-                valorMayor = 0;
+                beneficioMayor = 0;
                 idFactura = 0;
+                vuelta = 0;
               }
             }
           }
@@ -140,13 +156,13 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - seleccionAutomatica() - $e');
       ejecBloq = false;
-      notifyListeners();
+      return notifyListeners();
     }
     ejecBloq = false;
-    notifyListeners();
+    return notifyListeners();
   }
 
-  Future<void> updateClientRows(List<PlutoRow> rows, String nombrecliente) async {
+  Future<void> updateClientRows(String nombrecliente) async {
     try {
       for (var cliente in clientes) {
         if (cliente.nombreFiscal == nombrecliente) {
@@ -154,7 +170,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           cliente.facturacion = 0;
           cliente.beneficio = 0;
           cliente.pagoAdelantado = 0;
-          for (var row in rows) {
+          for (var row in cliente.rows!) {
             if (row.checked == true) {
               cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
               cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
@@ -169,10 +185,51 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       log('Error en SeleccionaPagosanticipadosProvider - updateClientRows() - $e');
     }
 
-    return await checkInList();
+    return await calcClients();
   }
 
-  Future<void> checkInList() async {
+  Future<void> checkClient(String nombrecliente, bool check) async {
+    try {
+      for (var cliente in clientes) {
+        if (cliente.nombreFiscal == nombrecliente) {
+          cliente.facturasSeleccionadas = 0;
+          cliente.facturacion = 0;
+          cliente.beneficio = 0;
+          cliente.pagoAdelantado = 0;
+          if (check) {
+            for (var row in cliente.rows!) {
+              row.setChecked(true);
+              cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
+              cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
+              cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
+              cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
+            }
+          } else {
+            for (var row in cliente.rows!) {
+              row.setChecked(false);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      log('Error en SeleccionaPagosanticipadosProvider - updateClientRows() - $e');
+    }
+
+    return await calcClients();
+  }
+
+  Future<void> uncheckAll() async {
+    try {
+      /* for (var element in rows) {
+        element.setChecked(false);
+      } */
+    } catch (e) {
+      log('Error en SeleccionaPagosanticipadosProvider - uncheckAll() - $e');
+    }
+    return await calcClients();
+  }
+
+  Future<void> calcClients() async {
     montoFacturacion = 0;
     cantidadFacturasSeleccionadas = 0;
     totalPagos = 0;
@@ -192,17 +249,6 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     }
 
     return notifyListeners();
-  }
-
-  Future<void> uncheckAll() async {
-    try {
-      /* for (var element in rows) {
-        element.setChecked(false);
-      } */
-    } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - uncheckAll() - $e');
-    }
-    return await checkInList();
   }
 
   Future<bool> updateRecords() async {

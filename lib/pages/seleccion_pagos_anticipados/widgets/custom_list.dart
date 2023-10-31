@@ -1,5 +1,6 @@
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -9,24 +10,12 @@ import 'package:provider/provider.dart';
 class CustomListCard extends StatefulWidget {
   const CustomListCard({
     super.key,
-    required this.nombreCliente,
     required this.moneda,
-    required this.facturacion,
-    required this.beneficio,
-    required this.pagoAdelantado,
-    required this.cantidadFacturas,
-    required this.cantidadFacturasSeleccionadas,
-    required this.rows,
+    required this.cliente,
   });
 
-  final String nombreCliente;
+  final SeleccionPagosAnticipados cliente;
   final String moneda;
-  final double facturacion;
-  final double beneficio;
-  final double pagoAdelantado;
-  final int cantidadFacturas;
-  final int cantidadFacturasSeleccionadas;
-  final List<PlutoRow> rows;
 
   @override
   State<CustomListCard> createState() => _CustomListCardState();
@@ -34,7 +23,7 @@ class CustomListCard extends StatefulWidget {
 
 class _CustomListCardState extends State<CustomListCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late List<PlutoGridStateManager> listStateManager;
+  late PlutoGridStateManager stateManager;
 
   @override
   void initState() {
@@ -54,7 +43,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
-    double porcentajeSeleccionadas = widget.cantidadFacturasSeleccionadas * 100 / widget.cantidadFacturas;
+    double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
 
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
@@ -92,6 +81,35 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         width: MediaQuery.of(context).size.width / 1440 * 160,
                         child: Row(
                           children: [
+                            Tooltip(
+                              message: 'Marcar',
+                              child: InkWell(
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black12,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Icon(
+                                      widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length ? Icons.check_box : Icons.check_box_outline_blank,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  //Ya están marcadas todas
+                                  if (widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length) {
+                                    provider.checkClient(widget.cliente.nombreFiscal!, false);
+                                  } else {
+                                    provider.checkClient(widget.cliente.nombreFiscal!, true);
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 8),
                             Container(
                               width: 18,
                               height: 18,
@@ -104,7 +122,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             SizedBox(
                               width: width * 135,
                               child: Text(
-                                widget.nombreCliente,
+                                widget.cliente.nombreFiscal!,
                                 style: AppTheme.of(context).subtitle1.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
@@ -129,7 +147,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   ),
                             ), */
                             Text(
-                              widget.cantidadFacturasSeleccionadas.toString(),
+                              widget.cliente.facturasSeleccionadas!.toString(),
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -148,7 +166,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   ),
                             ),
                             Text(
-                              widget.cantidadFacturas.toString(),
+                              widget.cliente.facturas!.length.toString(),
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -170,7 +188,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   ),
                             ), */
                             Text(
-                              'GTQ ${moneyFormat(widget.facturacion)}',
+                              'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -193,7 +211,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   ),
                             ), */
                             Text(
-                              'GTQ ${moneyFormat(widget.beneficio)}',
+                              'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -216,7 +234,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   ),
                             ), */
                             Text(
-                              'GTQ ${moneyFormat(widget.pagoAdelantado)}',
+                              'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -471,16 +489,16 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                           },
                         ),
                       ],
-                      rows: widget.rows,
+                      rows: widget.cliente.rows!,
                       createFooter: (stateManager) {
                         stateManager.setPageSize(100, notify: false);
                         return SizedBox();
                       },
                       onLoaded: (event) async {
-                        listStateManager.add(event.stateManager);
+                        stateManager = event.stateManager;
                       },
                       onRowChecked: (event) async {
-                        await provider.updateClientRows(widget.rows, widget.nombreCliente);
+                        await provider.updateClientRows(widget.cliente.nombreFiscal!);
                       },
                     ),
                   ),
