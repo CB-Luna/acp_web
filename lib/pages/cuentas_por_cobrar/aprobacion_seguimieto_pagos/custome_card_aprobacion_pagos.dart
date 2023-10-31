@@ -4,8 +4,8 @@ import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class CustomeListCard extends StatefulWidget {
-  const CustomeListCard({
+class CustomeCardAprobacionPagos extends StatefulWidget {
+  const CustomeCardAprobacionPagos({
     super.key,
     required this.fechaEjecucion,
     required this.descripcion,
@@ -23,10 +23,10 @@ class CustomeListCard extends StatefulWidget {
   final double comision;
 
   @override
-  State<CustomeListCard> createState() => _CustomeListCardState();
+  State<CustomeCardAprobacionPagos> createState() => _CustomeCardAprobacionPagosState();
 }
 
-class _CustomeListCardState extends State<CustomeListCard> with SingleTickerProviderStateMixin {
+class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late List<PlutoGridStateManager> listStateManager;
 
@@ -47,7 +47,7 @@ class _CustomeListCardState extends State<CustomeListCard> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
-    double height = MediaQuery.of(context).size.height / 1024;
+    //double height = MediaQuery.of(context).size.height / 1024;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: ExpansionPanelList(
@@ -184,15 +184,92 @@ class _CustomeListCardState extends State<CustomeListCard> with SingleTickerProv
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      content: Container(
+                                        width: 750,
+                                        height: 750,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(21),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                const Spacer(),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(20),
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.note_alt, color: AppTheme.of(context).primaryColor),
+                                                    tooltip: 'Firmar Documento',
+                                                    color: AppTheme.of(context).primaryColor,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(20),
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryColor),
+                                                    tooltip: 'Descargar Archivo',
+                                                    color: AppTheme.of(context).primaryColor,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(20),
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.print, color: AppTheme.of(context).primaryColor),
+                                                    tooltip: 'Imprimir',
+                                                    color: AppTheme.of(context).primaryColor,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(20),
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.close, color: AppTheme.of(context).primaryColor),
+                                                    tooltip: 'Salir',
+                                                    color: AppTheme.of(context).primaryColor,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(
+                                                child: Container(
+                                              color: Colors.blue,
+                                            ))
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                               icon: const Icon(Icons.note_alt),
                               color: AppTheme.of(context).primaryColor,
                             ),
-                           /*  IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.remove_red_eye),
-                              color: AppTheme.of(context).primaryColor,
-                            ), */
+                            //popup
                             IconButton(
                               onPressed: () {},
                               icon: const Icon(Icons.file_download_outlined),

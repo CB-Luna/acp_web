@@ -48,7 +48,10 @@ void main() async {
           create: (context) => VisualStateProvider(context),
         ),
         /* ChangeNotifierProvider(
-          create: (context) => CuentasPorCobrarProvider(),
+          create: (context) => AprobacionSeguimientoPagosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SolicitudPagosProvider(),
         ), */
         ChangeNotifierProvider(
           create: (_) => SeleccionaPagosanticipadosProvider(),
