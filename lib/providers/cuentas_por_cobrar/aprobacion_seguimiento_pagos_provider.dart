@@ -1,13 +1,10 @@
 import 'dart:developer';
-//import 'dart:typed_data';
 
-/* import 'package:file_picker/_internal/file_picker_web.dart';
-import 'package:file_picker/file_picker.dart'; */
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
+class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
 
@@ -15,23 +12,17 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
   final controllerFondoDisp = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   final controllerFondoDispFake = TextEditingController();
+  late List<PlutoGridStateManager> listStateManager;
 
   List<dynamic> listCarrito = [];
 
   bool ejecBloq = false;
+  bool listOpenned = true;
 
   Future<void> clearAll() async {
-    //pdfController = null;
-    rows = [];
-    listCarrito = [];
-
-    controllerFondoDisp.text = '0.00';
-    controllerFondoDispFake.text = '';
-
-    ejecBloq = false;
-    controllerBusqueda.clear();
-
-    await getRecords();
+    listStateManager;
+    listOpenned = true;
+    return notifyListeners();
   }
 
   Future<void> getRecords() async {
@@ -68,28 +59,4 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     }
     await checkInList();
   }
-
-  /* bool popupVisorPdfVisible = true;
-  FilePickerResult? docProveedor;
-  //PdfController? pdfController;
-
-  void verPdf(bool visible) {
-    popupVisorPdfVisible = visible;
-    notifyListeners();
-  }
-
-  Uint8List? imageBytes;
-  Future<void> pickDoc() async {
-    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
-    //get and load pdf
-    if (picker != null) {
-      docProveedor = picker;
-      imageBytes = picker.files.single.bytes;
-    } else {
-      imageBytes = null;
-    }
-
-    notifyListeners();
-    return;
-  } */
 }

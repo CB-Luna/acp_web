@@ -1,7 +1,3 @@
-import 'package:acp_web/pages/cuentas%20por%20cobrar/customcard.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/contenedores_pagos_anticipados.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_card.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_list.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_scrollbar.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
@@ -12,18 +8,19 @@ import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
-class CuentasPorCobrarPage extends StatefulWidget {
-  const CuentasPorCobrarPage({super.key});
+import 'custome_card_aprobacion_pagos.dart';
+
+class AprobacionSeguimientoPagosPage extends StatefulWidget {
+  const AprobacionSeguimientoPagosPage({super.key});
 
   @override
-  State<CuentasPorCobrarPage> createState() => _CuentasPorCobrarPageState();
+  State<AprobacionSeguimientoPagosPage> createState() => _AprobacionSeguimientoPagosPageState();
 }
 
-class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
+class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPagosPage> {
   bool filterSelected = false;
   bool gridSelected = false;
 
@@ -288,7 +285,7 @@ class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
                                 decoration: BoxDecoration(
                                     color: Colors.black.withOpacity(.10),
                                     borderRadius: const BorderRadius.all(
-                                      Radius.circular(30),
+                                      Radius.circular(16),
                                     )),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
@@ -313,7 +310,7 @@ class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
                                         itemCount: listadoEjemplo1.length,
                                         scrollDirection: Axis.vertical,
                                         itemBuilder: (BuildContext ctx, index) {
-                                          return CustomeListCard(
+                                          return CustomeCardAprobacionPagos(
                                             moneda: 'GTQ',
                                             fechaEjecucion: listadoEjemplo1[index]['fechaEjecucion'],
                                             descripcion: listadoEjemplo1[index]['Descripcion'],
@@ -334,7 +331,7 @@ class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
                                 decoration: BoxDecoration(
                                     color: Colors.black.withOpacity(.1),
                                     borderRadius: const BorderRadius.all(
-                                      Radius.circular(30),
+                                      Radius.circular(16),
                                     )),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
@@ -359,7 +356,7 @@ class _CuentasPorCobrarPageState extends State<CuentasPorCobrarPage> {
                                         itemCount: listadoEjemplo2.length,
                                         scrollDirection: Axis.vertical,
                                         itemBuilder: (BuildContext ctx, index) {
-                                          return CustomeListCard(
+                                          return CustomeCardAprobacionPagos(
                                             moneda: 'GTQ',
                                             fechaEjecucion: listadoEjemplo2[index]['fechaEjecucion'],
                                             descripcion: listadoEjemplo2[index]['Descripcion'],

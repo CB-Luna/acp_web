@@ -120,13 +120,23 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
-      path: '/cuentas_por_cobrar',
-      name: 'Cuentas Por Cobrar',
+      path: '/aprobacion_seguimiento_pagos',
+      name: 'Aprobación y Seguimiento de Pagos',
       builder: (BuildContext context, GoRouterState state) {
         /* if (currentUser!.rol.permisos.pagos == null) {
           return const PageNotFoundPage();
         } */
-        return const CuentasPorCobrarPage();
+        return const AprobacionSeguimientoPagosPage();
+      },
+    ),
+    GoRoute(
+      path: '/solicitud_pagos',
+      name: 'Solicitud de Pagos',
+      builder: (BuildContext context, GoRouterState state) {
+        /* if (currentUser!.rol.permisos.pagos == null) {
+          return const PageNotFoundPage();
+        } */
+        return const SolicitudPagosPage();
       },
     ),
 

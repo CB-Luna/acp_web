@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class CuentasPorCobrarProvider extends ChangeNotifier {
+class SolicitudPagosProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
 
