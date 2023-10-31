@@ -118,6 +118,16 @@ final GoRouter router = GoRouter(
         return const SeleccionPagosAnticipadosPage();
       },
     ),
+    GoRoute(
+      path: '/autorizacion_solicitudes',
+      name: 'Autorización de Solicitudes',
+      builder: (BuildContext context, GoRouterState state) {
+        /* if (currentUser!.rol.permisos.pagos == null) {
+          return const PageNotFoundPage();
+        } */
+        return const SeleccionPagosAnticipadosPage();
+      },
+    ),
 
     GoRoute(
       path: '/cuentas_por_cobrar',

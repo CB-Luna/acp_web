@@ -85,7 +85,7 @@ class LightModeTheme extends AppTheme {
   @override
   Color primaryColor = const Color(0XFF0090FF);
   @override
-  Color secondaryColor = const Color(0X300090FF);
+  Color secondaryColor = const Color(0XFFD7E9FB);
   @override
   Color tertiaryColor = const Color(0xFF102047);
   @override

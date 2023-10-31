@@ -1,8 +1,10 @@
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:provider/provider.dart';
 
 class CustomListCard extends StatefulWidget {
   const CustomListCard({
@@ -14,6 +16,7 @@ class CustomListCard extends StatefulWidget {
     required this.pagoAdelantado,
     required this.cantidadFacturas,
     required this.cantidadFacturasSeleccionadas,
+    required this.rows,
   });
 
   final String nombreCliente;
@@ -23,6 +26,7 @@ class CustomListCard extends StatefulWidget {
   final double pagoAdelantado;
   final int cantidadFacturas;
   final int cantidadFacturasSeleccionadas;
+  final List<PlutoRow> rows;
 
   @override
   State<CustomListCard> createState() => _CustomListCardState();
@@ -51,6 +55,8 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
     double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
     double porcentajeSeleccionadas = widget.cantidadFacturasSeleccionadas * 100 / widget.cantidadFacturas;
+
+    final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -127,9 +133,9 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
-                                    color: porcentajeSeleccionadas < 50
+                                    color: porcentajeSeleccionadas == 0
                                         ? Colors.red
-                                        : porcentajeSeleccionadas < 75
+                                        : porcentajeSeleccionadas != 100
                                             ? Colors.amber
                                             : Colors.green,
                                   ),
@@ -248,24 +254,23 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                       ),
                       columns: [
                         PlutoColumn(
-                          title: 'ID Partida',
+                          title: '',
                           titleTextAlign: PlutoColumnTextAlign.center,
                           textAlign: PlutoColumnTextAlign.center,
-                          field: 'id_partida',
+                          field: 'id_factura_field',
                           type: PlutoColumnType.text(),
-                          width: 0,
-                          hide: true,
+                          width: 55,
+                          enableRowChecked: true,
                           enableColumnDrag: false,
                           enableEditingMode: false,
+                          enableSetColumnsMenuItem: false,
+                          enableFilterMenuItem: false,
+                          enableContextMenu: false,
+                          enableHideColumnMenuItem: false,
+                          enableDropToResize: false,
+                          enableSorting: false,
                           renderer: (rendererContext) {
-                            return Text(
-                              rendererContext.cell.value.toString(),
-                              style: AppTheme.of(context).contenidoTablas.override(
-                                    fontFamily: 'Gotham-Light',
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryColor,
-                                  ),
-                            );
+                            return const SizedBox.shrink();
                           },
                         ),
                         PlutoColumn(
@@ -287,18 +292,13 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ],
                           ),
                           renderer: (rendererContext) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.of(context).primaryColor,
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                              child: Text(
+                                rendererContext.cell.value,
+                                style: AppTheme.of(context).subtitle3,
+                                textAlign: TextAlign.center,
                               ),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                  child: Text(
-                                    '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                    style: AppTheme.of(context).contenidoTablas,
-                                    textAlign: TextAlign.center,
-                                  )),
                             );
                           },
                         ),
@@ -324,6 +324,20 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               ),
                             ],
                           ),
+                          renderer: (rendererContext) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                              child: Text(
+                                '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
+                                style: AppTheme.of(context).subtitle3.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).primaryColor,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          },
                         ),
                         PlutoColumn(
                           title: '%Beneficio',
@@ -344,23 +358,13 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ],
                           ),
                           renderer: (rendererContext) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0XFF262626),
-                              ),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                  child: Text(
-                                    '${moneyFormat(rendererContext.cell.value)} %',
-                                    style: AppTheme.of(context).contenidoTablas.override(
-                                          useGoogleFonts: false,
-                                          fontFamily: 'Gotham-Light',
-                                          color: Colors.white,
-                                        ),
-                                    textAlign: TextAlign.center,
-                                  )),
-                            );
+                            return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                child: Text(
+                                  '${moneyFormat(rendererContext.cell.value)} %',
+                                  style: AppTheme.of(context).subtitle3,
+                                  textAlign: TextAlign.center,
+                                ));
                           },
                         ),
                         PlutoColumn(
@@ -386,22 +390,16 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ],
                           ),
                           renderer: (rendererContext) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.of(context).tertiaryColor,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                child: Text(
-                                  '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                  style: AppTheme.of(context).contenidoTablas.override(
-                                        useGoogleFonts: false,
-                                        fontFamily: 'Gotham-Light',
-                                        color: Colors.white,
-                                      ),
-                                  textAlign: TextAlign.center,
-                                ),
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                              child: Text(
+                                '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
+                                style: AppTheme.of(context).subtitle3.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                      color: Colors.green,
+                                    ),
+                                textAlign: TextAlign.center,
                               ),
                             );
                           },
@@ -429,18 +427,17 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ],
                           ),
                           renderer: (rendererContext) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.of(context).secondaryColor,
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                              child: Text(
+                                '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
+                                style: AppTheme.of(context).subtitle3.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).tertiaryColor,
+                                    ),
+                                textAlign: TextAlign.center,
                               ),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                  child: Text(
-                                    '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                    style: AppTheme.of(context).contenidoTablas,
-                                    textAlign: TextAlign.center,
-                                  )),
                             );
                           },
                         ),
@@ -463,23 +460,18 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ],
                           ),
                           renderer: (rendererContext) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.of(context).secondaryColor,
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                              child: Text(
+                                rendererContext.cell.value.toString(),
+                                style: AppTheme.of(context).subtitle3,
+                                textAlign: TextAlign.center,
                               ),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                  child: Text(
-                                    '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                    style: AppTheme.of(context).contenidoTablas,
-                                    textAlign: TextAlign.center,
-                                  )),
                             );
                           },
                         ),
                       ],
-                      rows: [],
+                      rows: widget.rows,
                       createFooter: (stateManager) {
                         stateManager.setPageSize(100, notify: false);
                         return SizedBox();
@@ -488,7 +480,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         listStateManager.add(event.stateManager);
                       },
                       onRowChecked: (event) async {
-                        //await provider.addCarrito();
+                        await provider.updateClientRows(widget.rows, widget.nombreCliente);
                       },
                     ),
                   ),

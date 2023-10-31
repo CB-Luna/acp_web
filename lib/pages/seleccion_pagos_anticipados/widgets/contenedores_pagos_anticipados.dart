@@ -1,6 +1,8 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContenedoresPagosAnticipados extends StatefulWidget {
   const ContenedoresPagosAnticipados({super.key});
@@ -13,6 +15,8 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
+
+    final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,7 +70,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(1213513.00)}',
+                          'GTQ ${moneyFormat(provider.montoFacturacion)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -81,7 +85,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          '47 de 95',
+                          '${provider.cantidadFacturasSeleccionadas} de ${provider.cantidadFacturas}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -96,7 +100,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(1921.00)}',
+                          'GTQ ${moneyFormat(provider.totalPagos)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -141,33 +145,64 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                     Wrap(
                       spacing: 16,
                       children: [
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Icon(
-                              Icons.energy_savings_leaf_outlined,
-                              size: 20,
+                        Tooltip(
+                          message: 'Actualización de Cuentas',
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(4),
+                              child: Icon(
+                                Icons.sync,
+                                size: 20,
+                              ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(8),
+                        Tooltip(
+                          message: 'Selección Automatica',
+                          child: InkWell(
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Icon(
+                                  Icons.flash_auto_outlined,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                            onTap: () async {
+                              await provider.seleccionAutomatica();
+                            },
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Icon(
-                              Icons.play_arrow_outlined,
-                              size: 20,
+                        ),
+                        Tooltip(
+                          message: 'Ejecutar',
+                          child: InkWell(
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Icon(
+                                  Icons.play_arrow_outlined,
+                                  size: 20,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -187,7 +222,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(10000.00)}',
+                          'GTQ ${moneyFormat(provider.fondoDisponibleRestante)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -202,7 +237,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(135000.00)}',
+                          'GTQ ${moneyFormat(provider.beneficioTotal)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],

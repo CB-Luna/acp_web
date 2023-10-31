@@ -16,8 +16,6 @@ class CustomSideMenu extends StatefulWidget {
 }
 
 class _CustomSideMenuState extends State<CustomSideMenu> {
-  //double _currentIndex = 0;
-
   EdgeInsetsDirectional paddingHItems = const EdgeInsetsDirectional.only(start: 15, end: 15);
   EdgeInsetsDirectional paddingHItemsGroup = const EdgeInsetsDirectional.only(start: 30, end: 15);
 
@@ -54,7 +52,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
             hasResizerToggle: false,
             backgroundColor: Colors.transparent,
             mode: SideMenuMode.auto,
-            maxWidth: 210,
+            maxWidth: 250,
             minWidth: 100,
             builder: (data) {
               return SideMenuData(
@@ -145,9 +143,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
-                    isSelected: (!visualState.isGroupTaped['Propuesta de Pago']! &&
-                            (visualState.isTaped[1] || visualState.isTaped[2])) ||
-                        ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
+                    isSelected:
+                        (!visualState.isGroupTaped['Propuesta de Pago']! && (visualState.isTaped[1] || visualState.isTaped[2])) || ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
                     onTap: () => setState(() {
                       visualState.isGroupTaped.update('Propuesta de Pago', (value) => !value);
                     }),
@@ -162,7 +159,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       borderRadius: borderRadius,
                       margin: paddingHItemsGroup,
                       isSelected: visualState.isTaped[1],
-                      onTap: () => setState(() => visualState.setTapedOption(1)),
+                      onTap: () {
+                        setState(() {
+                          visualState.setTapedOption(1);
+                        });
+                        context.pushReplacement('/seleccion_pagos_anticipados');
+                      },
                     ),
                   if (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen)
                     SideMenuItemDataTile(
@@ -175,7 +177,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       borderRadius: borderRadius,
                       margin: paddingHItemsGroup,
                       isSelected: visualState.isTaped[2],
-                      onTap: () => setState(() => visualState.setTapedOption(2)),
+                      onTap: () {
+                        setState(() {
+                          visualState.setTapedOption(1);
+                        });
+                        context.pushReplacement('/autorizacion_solicitudes');
+                      },
                     ),
                   SideMenuItemDataTile(
                     title: 'Pagos',

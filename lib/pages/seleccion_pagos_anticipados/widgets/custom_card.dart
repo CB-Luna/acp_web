@@ -1,7 +1,9 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_selecci%C3%B3n_facturas.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 
 class CustomCard extends StatefulWidget {
   const CustomCard({
@@ -13,6 +15,7 @@ class CustomCard extends StatefulWidget {
     required this.pagoAdelantado,
     required this.cantidadFacturas,
     required this.cantidadFacturasSeleccionadas,
+    required this.rows,
   });
 
   final String nombreCliente;
@@ -22,6 +25,7 @@ class CustomCard extends StatefulWidget {
   final double pagoAdelantado;
   final int cantidadFacturas;
   final int cantidadFacturasSeleccionadas;
+  final List<PlutoRow> rows;
 
   @override
   State<CustomCard> createState() => _CustomCardState();
@@ -128,28 +132,51 @@ class _CustomCardState extends State<CustomCard> {
               lineHeight: 4,
               percent: porcentajeSeleccionadas / 100,
               backgroundColor: AppTheme.of(context).gris,
-              progressColor: porcentajeSeleccionadas < 50
+              progressColor: porcentajeSeleccionadas == 0
                   ? Colors.red
-                  : porcentajeSeleccionadas < 75
+                  : porcentajeSeleccionadas != 100
                       ? Colors.amber
                       : Colors.green,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(4),
-                    child: Icon(
-                      Icons.file_copy_outlined,
-                      size: 20,
+                Tooltip(
+                  message: 'Editar',
+                  child: InkWell(
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.file_copy_outlined,
+                          size: 20,
+                        ),
+                      ),
                     ),
+                    onTap: () async {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(builder: (context, setState) {
+                              return PopUpSeleccionfacturas(
+                                moneda: 'GTQ',
+                                nombreCliente: widget.nombreCliente,
+                                facturacion: widget.facturacion,
+                                beneficio: widget.beneficio,
+                                pagoAdelantado: widget.pagoAdelantado,
+                                cantidadFacturas: widget.cantidadFacturas,
+                                cantidadFacturasSeleccionadas: widget.cantidadFacturasSeleccionadas,
+                                rows: widget.rows,
+                              );
+                            });
+                          });
+                    },
                   ),
                 ),
                 Row(
@@ -167,9 +194,9 @@ class _CustomCardState extends State<CustomCard> {
                             height: 6,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: porcentajeSeleccionadas < 50
+                              color: porcentajeSeleccionadas == 0
                                   ? Colors.red
-                                  : porcentajeSeleccionadas < 75
+                                  : porcentajeSeleccionadas != 100
                                       ? Colors.amber
                                       : Colors.green,
                             ),
@@ -182,9 +209,9 @@ class _CustomCardState extends State<CustomCard> {
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
-                                    color: porcentajeSeleccionadas < 50
+                                    color: porcentajeSeleccionadas == 0
                                         ? Colors.red
-                                        : porcentajeSeleccionadas < 75
+                                        : porcentajeSeleccionadas != 100
                                             ? Colors.amber
                                             : Colors.green,
                                   ),

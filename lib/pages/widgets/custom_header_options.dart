@@ -39,34 +39,43 @@ class Custom_HeaderOptionsState extends State<CustomHeaderOptions> {
           spacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            IconButton(
-              icon: Icon(
-                Icons.filter_alt_outlined,
-                size: 24,
-                color: widget.filterSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+            Tooltip(
+              message: 'Filtro',
+              child: IconButton(
+                icon: Icon(
+                  Icons.filter_alt_outlined,
+                  size: 24,
+                  color: widget.filterSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                ),
+                splashRadius: 0.01,
+                onPressed: widget.onFilterSelected,
               ),
-              splashRadius: 0.01,
-              onPressed: widget.onFilterSelected,
             ),
-            IconButton(
-              icon: Icon(
-                Icons.format_list_bulleted_outlined,
-                size: 24,
-                color: !widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+            Tooltip(
+              message: 'Lista',
+              child: IconButton(
+                icon: Icon(
+                  Icons.format_list_bulleted_outlined,
+                  size: 24,
+                  color: !widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                ),
+                isSelected: !widget.gridSelected,
+                splashRadius: 0.01,
+                onPressed: widget.onListSelected,
               ),
-              isSelected: !widget.gridSelected,
-              splashRadius: 0.01,
-              onPressed: widget.onListSelected,
             ),
-            IconButton(
-              icon: Icon(
-                Icons.grid_on_outlined,
-                size: 24,
-                color: widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+            Tooltip(
+              message: 'Mosaico',
+              child: IconButton(
+                icon: Icon(
+                  Icons.grid_on_outlined,
+                  size: 24,
+                  color: widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                ),
+                isSelected: widget.gridSelected,
+                splashRadius: 0.01,
+                onPressed: widget.onGridSelected,
               ),
-              isSelected: widget.gridSelected,
-              splashRadius: 0.01,
-              onPressed: widget.onGridSelected,
             ),
             Wrap(
               spacing: 8,

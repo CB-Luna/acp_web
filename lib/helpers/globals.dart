@@ -38,36 +38,51 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
       ? PlutoGridStyleConfig(
-          menuBackgroundColor: AppTheme.of(context).primaryBackground,
-          iconColor: AppTheme.of(context).primaryColor,
-          // borderColor: Colors.transparent,
+          menuBackgroundColor: AppTheme.of(context).secondaryColor,
+          gridPopupBorderRadius: BorderRadius.circular(16),
+          //
+          enableColumnBorderVertical: false,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          iconColor: AppTheme.of(context).tertiaryColor,
+          borderColor: Colors.transparent,
+          //
           rowHeight: 60,
-          rowColor: AppTheme.of(context).primaryBackground,
-          columnTextStyle: AppTheme.of(context).tituloTablas,
+          rowColor: Colors.transparent,
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           enableColumnBorderHorizontal: true,
-          enableColumnBorderVertical: false,
           enableCellBorderVertical: false,
-          enableCellBorderHorizontal: true,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
+          enableCellBorderHorizontal: false,
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
-          // gridBackgroundColor: Colors.transparent,
+          gridBackgroundColor: Colors.transparent,
           gridBorderColor: Colors.transparent,
-          // gridBorderColor: const Color(0x661C1C1C),
+          gridBorderRadius: BorderRadius.circular(16),
+          //
           activatedColor: AppTheme.of(context).primaryBackground,
+          activatedBorderColor: AppTheme.of(context).tertiaryColor,
         )
       : PlutoGridStyleConfig.dark(
-          rowHeight: 60,
-          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          menuBackgroundColor: AppTheme.of(context).secondaryColor,
+          gridPopupBorderRadius: BorderRadius.circular(16),
+          //
+          enableColumnBorderVertical: false,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
-          enableCellBorderVertical: false,
+          iconColor: AppTheme.of(context).tertiaryColor,
           borderColor: Colors.transparent,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
+          //
+          rowHeight: 60,
+          rowColor: Colors.transparent,
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          enableColumnBorderHorizontal: true,
+          enableCellBorderVertical: false,
+          enableCellBorderHorizontal: false,
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
-          iconColor: AppTheme.of(context).primaryColor,
           gridBackgroundColor: Colors.transparent,
-          rowColor: AppTheme.of(context).primaryBackground,
-          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: Colors.transparent,
+          gridBorderRadius: BorderRadius.circular(16),
+          //
           activatedColor: AppTheme.of(context).primaryBackground,
+          activatedBorderColor: AppTheme.of(context).tertiaryColor,
         );
 }
