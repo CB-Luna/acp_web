@@ -7,7 +7,6 @@ import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/pages/registro_usuario_page/widgets/opciones_widget.dart';
-import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/pages/registro_usuario_page/widgets/header.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
@@ -24,23 +23,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
   final formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      UsuariosProvider provider = Provider.of<UsuariosProvider>(
-        context,
-        listen: false,
-      );
-      await provider.updateState();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
-    visualState.setTapedOption(4);
-
     final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
 
     return Scaffold(
@@ -91,28 +74,32 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                   children: [
                                     InputContainer(
                                       title: 'Nombre de contacto',
-                                      label: 'Nombre',
-                                      controller: provider.nombreController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'El nombre es requerido';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomInputField(
+                                        label: 'Nombre',
+                                        controller: provider.nombreController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'El nombre es requerido';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 16,
                                     ),
                                     InputContainer(
                                       title: 'Apellido',
-                                      label: 'Apellido',
-                                      controller: provider.apellidosController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'El apellido es requerido';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomInputField(
+                                        label: 'Apellido',
+                                        controller: provider.apellidosController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'El apellido es requerido';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -122,28 +109,33 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                   children: [
                                     InputContainer(
                                       title: 'Teléfono de Contacto',
-                                      label: 'Teléfono',
-                                      controller: provider.telefonoController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'El teléfono es requerido';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomInputField(
+                                        label: 'Teléfono',
+                                        controller: provider.telefonoController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'El teléfono es requerido';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 16,
                                     ),
                                     InputContainer(
                                       title: 'Rol',
-                                      label: 'Rol',
-                                      controller: TextEditingController(),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'El rol es requerido';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomDropDown(
+                                        label: 'Rol',
+                                        items: provider.roles.map((rol) => rol.nombre).toList(),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'El rol es requerido';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: provider.setRolSeleccionado,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -153,28 +145,32 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                   children: [
                                     InputContainer(
                                       title: 'Compañía',
-                                      label: 'Compañía',
-                                      controller: provider.nombreController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'La compañía es requerida';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomInputField(
+                                        label: 'Compañía',
+                                        controller: TextEditingController(),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'La compañía es requerida';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 16,
                                     ),
                                     InputContainer(
                                       title: 'Contacto',
-                                      label: 'Email',
-                                      controller: provider.apellidosController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'El email es requerido';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomInputField(
+                                        label: 'Email',
+                                        controller: provider.correoController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'El email es requerido';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -184,43 +180,51 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                   children: [
                                     InputContainer(
                                       title: 'País',
-                                      label: 'País',
-                                      controller: provider.nombreController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'El país es requerido';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomDropDown(
+                                        label: 'País',
+                                        items: provider.paises.map((pais) => pais.nombre).toList(),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'El país es requerido';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: provider.setPaisSeleccionado,
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 16,
                                     ),
                                     InputContainer(
                                       title: 'Sociedad',
-                                      label: 'Sociedad',
-                                      controller: provider.apellidosController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'La sociedad es requerida';
-                                        }
-                                        return null;
-                                      },
+                                      child: CustomDropDown(
+                                        label: 'Sociedad',
+                                        items: provider.sociedades.map((sociedad) => sociedad.nombre).toList(),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'La sociedad es requerida';
+                                          }
+                                          return null;
+                                        },
+                                        onChanged: provider.setSociedad,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 16),
                                 InputContainer(
                                   title: 'Estatus',
-                                  label: 'Estatus',
                                   width: 844,
-                                  controller: provider.apellidosController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'El apellido es requerido';
-                                    }
-                                    return null;
-                                  },
+                                  child: CustomInputField(
+                                    label: 'Estatus',
+                                    controller: TextEditingController(),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'El apellido es requerido';
+                                      }
+                                      return null;
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -252,17 +256,13 @@ class InputContainer extends StatelessWidget {
   const InputContainer({
     super.key,
     required this.title,
-    required this.label,
-    required this.controller,
-    required this.validator,
+    required this.child,
     this.width = 414,
   });
 
   final String title;
-  final String label;
-  final TextEditingController controller;
-  final String? Function(String?) validator;
   final double width;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -288,11 +288,7 @@ class InputContainer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          CustomInputField(
-            label: label,
-            controller: controller,
-            validator: validator,
-          ),
+          child,
         ],
       ),
     );
@@ -354,6 +350,84 @@ class _CustomInputFieldState extends State<CustomInputField> {
           fontWeight: FontWeight.w400,
           fontSize: 14,
           color: const Color.fromARGB(204, 0, 0, 0),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomDropDown extends StatefulWidget {
+  const CustomDropDown({
+    super.key,
+    required this.label,
+    required this.items,
+    required this.validator,
+    required this.onChanged,
+  });
+
+  final String label;
+  final List<String> items;
+  final String? Function(String?) validator;
+  final void Function(String) onChanged;
+
+  @override
+  State<CustomDropDown> createState() => _CustomDropDownState();
+}
+
+class _CustomDropDownState extends State<CustomDropDown> {
+  String? selectedValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 45,
+      alignment: Alignment.center,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButtonFormField(
+          isExpanded: true,
+          hint: Text(
+            'Seleccionar ${widget.label}',
+            style: GoogleFonts.inter(
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: const Color.fromARGB(204, 0, 0, 0),
+            ),
+          ),
+          icon: const Icon(
+            Icons.unfold_more_rounded,
+            size: 20,
+            color: Color(0x661C1C1C),
+          ),
+          validator: widget.validator,
+          items: widget.items
+              .map(
+                (String item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: const Color.fromARGB(204, 0, 0, 0),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+          value: selectedValue,
+          onChanged: (String? value) {
+            if (value == null) return;
+            selectedValue = value;
+            widget.onChanged(value);
+          },
+          padding: EdgeInsets.zero,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+            isCollapsed: true,
+            isDense: true,
+          ),
         ),
       ),
     );

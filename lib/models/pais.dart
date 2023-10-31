@@ -1,15 +1,19 @@
 import 'dart:convert';
 
+import 'package:acp_web/models/sociedad.dart';
+
 class Pais {
   Pais({
     required this.nombre,
     required this.paisId,
     required this.clave,
+    required this.sociedades,
   });
 
   String nombre;
   int paisId;
   String clave;
+  List<Sociedad> sociedades;
 
   factory Pais.fromJson(String str) => Pais.fromMap(json.decode(str));
 
@@ -23,10 +27,18 @@ class Pais {
       }
     }
 
+    final List<Sociedad> tempSociedades = [];
+    if (json['sociedades'] != null) {
+      for (var sociedad in json['sociedades']) {
+        tempSociedades.add(Sociedad.fromMap(sociedad));
+      }
+    }
+
     return Pais(
       nombre: json["nombre"],
       paisId: json["pais_id"],
       clave: json["clave"],
+      sociedades: tempSociedades,
     );
   }
 

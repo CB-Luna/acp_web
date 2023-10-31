@@ -24,19 +24,13 @@ class UsuariosProvider extends ChangeNotifier {
   TextEditingController correoController = TextEditingController();
   TextEditingController apellidosController = TextEditingController();
   TextEditingController telefonoController = TextEditingController();
-  TextEditingController extController = TextEditingController();
-  TextEditingController proveedorController = TextEditingController();
-  TextEditingController nombreProveedorController = TextEditingController();
-  TextEditingController cuentaProveedorController = TextEditingController();
 
-  String? imageName;
-  Uint8List? webImage;
   List<Pais> paises = [];
   List<Rol> roles = [];
   List<Sociedad> sociedades = [];
   List<Usuario> usuarios = [];
 
-  Pais? paisSeleccionado = currentUser!.pais;
+  Pais? paisSeleccionado;
   Rol? rolSeleccionado;
   Sociedad? sociedadSeleccionada;
 
@@ -50,7 +44,7 @@ class UsuariosProvider extends ChangeNotifier {
   Future<void> updateState() async {
     busquedaController.clear();
     await getRoles(notify: false);
-    // await getPaises(notify: false);
+    await getPaises(notify: false);
     // await getSociedades(notify: false);
     await getUsuarios();
   }
@@ -60,40 +54,35 @@ class UsuariosProvider extends ChangeNotifier {
     if (clearEmail) correoController.clear();
     apellidosController.clear();
     telefonoController.clear();
-    extController.clear();
-    proveedorController.clear();
-    nombreProveedorController.clear();
-    cuentaProveedorController.clear();
 
-    paisSeleccionado = currentUser!.pais;
+    paisSeleccionado = null;
     rolSeleccionado = null;
     sociedadSeleccionada = null;
 
     if (notify) notifyListeners();
   }
 
-  // Future<void> setPaisSeleccionado(String pais) async {
-  //   paisSeleccionado =
-  //       paises.firstWhere((element) => element.nombre == pais);
-  //   sociedades = paisSeleccionado!.sociedades!;
-  //   sociedadesSeleccionadas.clear();
-  //   await getUsuariosTesoreria();
-  //   notifyListeners();
-  // }
+  void setPaisSeleccionado(String pais) async {
+    paisSeleccionado = paises.firstWhere((element) => element.nombre == pais);
+    sociedades = paisSeleccionado!.sociedades;
+    sociedadSeleccionada = null;
+    notifyListeners();
+  }
 
-  Future<void> setRolSeleccionado(String rol) async {
+  void setRolSeleccionado(String rol) async {
     rolSeleccionado = roles.firstWhere((element) => element.nombre == rol);
     notifyListeners();
   }
 
-  // void setSociedades(List<Sociedad> nuevasSociedades) {
-  //   sociedadesSeleccionadas = nuevasSociedades;
-  // }
+  void setSociedad(String sociedad) {
+    sociedadSeleccionada = sociedades.firstWhere((element) => element.nombre == sociedad);
+    notifyListeners();
+  }
 
   Future<void> getPaises({bool notify = true}) async {
     if (paises.isNotEmpty) return;
     final res = await supabase.rpc('get_paises').order(
-          'nombre_pais',
+          'nombre',
           ascending: true,
         );
 
@@ -615,10 +604,6 @@ class UsuariosProvider extends ChangeNotifier {
     correoController.dispose();
     apellidosController.dispose();
     telefonoController.dispose();
-    extController.dispose();
-    proveedorController.dispose();
-    nombreProveedorController.dispose();
-    cuentaProveedorController.dispose();
     super.dispose();
   }
 }

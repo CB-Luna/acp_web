@@ -52,12 +52,12 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor:
+              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
-          gridBorderColor: Colors.transparent,
+          gridBorderColor: const Color(0x661C1C1C),
           gridBorderRadius: BorderRadius.circular(16),
-          //
           activatedColor: AppTheme.of(context).primaryBackground,
           activatedBorderColor: AppTheme.of(context).tertiaryColor,
         )
@@ -76,7 +76,8 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor:
+              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: Colors.transparent,
