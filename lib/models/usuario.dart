@@ -35,7 +35,7 @@ class Usuario {
 
   String get nombreCompleto => '$nombre $apellidos';
 
-  String get estatus => activo ? 'Activo' : 'Desactivado';
+  String get estatus => activo ? 'Activo' : 'Inactivo';
 
   factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));
 

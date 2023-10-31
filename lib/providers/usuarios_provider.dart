@@ -418,36 +418,16 @@ class UsuariosProvider extends ChangeNotifier {
   //   sociedades = paisSeleccionado!.sociedades!;
   // }
 
-  // Future<void> initEditarUsuario(Usuario usuario) async {
-  //   usuarioEditado = usuario;
-  //   nombreController.text = usuario.nombre;
-  //   apellidosController.text = usuario.apellidos;
-  //   correoController.text = usuario.email;
-  //   telefonoController.text = usuario.telefono;
-  //   extController.text = usuario.ext ?? '';
-  //   paisSeleccionado = usuario.pais;
-  //   buscarPais();
-  //   rolSeleccionado = usuario.rol;
-  //   imageName = usuario.imagen;
-  //   sociedadesSeleccionadas = usuario.sociedades;
-  //   webImage = null;
-  //   if (usuario.rol.nombreRol == 'Proveedor') {
-  //     isProveedor = true;
-  //     proveedorId = usuario.idProveedorFk;
-  //     await getProveedorById(proveedorId!);
-  //   } else {
-  //     isProveedor = false;
-  //     proveedorId = null;
-  //   }
-  //   if (usuario.rol.nombreRol == 'Finanzas Local') {
-  //     isFinanzasLocal = true;
-  //     responsableId = usuario.responsableFk;
-  //     await getUsuariosTesoreria();
-  //   } else {
-  //     isFinanzasLocal = false;
-  //     responsableId = null;
-  //   }
-  // }
+  Future<void> initEditarUsuario(Usuario usuario) async {
+    usuarioEditado = usuario;
+    nombreController.text = usuario.nombre;
+    apellidosController.text = usuario.apellidos;
+    correoController.text = usuario.email;
+    telefonoController.text = usuario.telefono;
+    paisSeleccionado = usuario.pais;
+    rolSeleccionado = usuario.rol;
+    sociedadSeleccionada = usuario.sociedad;
+  }
 
   // Future<bool> updateAusencia(Usuario usuario, bool value) async {
   //   try {
@@ -464,40 +444,20 @@ class UsuariosProvider extends ChangeNotifier {
   //   }
   // }
 
-  // Future<String?> updateActivado(Usuario usuario, bool value) async {
-  //   try {
-  //     //revisar que no sea el unico usuario con ese rol
-  //     if (value == false) {
-  //       final res1 = await supabase.rpc('contar_rol', params: {
-  //         'id_rol': usuario.rol.idRolPk,
-  //         'sociedades': currentUser!.sociedades
-  //             .map((sociedad) => sociedad.idSociedadPk)
-  //             .toList(),
-  //       });
-
-  //       if (res1 == null) {
-  //         log('Error en updateActivado() - ${res1.error}');
-  //         return 'Error al actualizar usuario';
-  //       }
-
-  //       if (res1['esUnico']) {
-  //         return 'El usuario es el único con ese rol en el sistema';
-  //       }
-  //     }
-
-  //     //actualizar usuario
-  //     await supabase
-  //         .from('perfil_usuario')
-  //         .update({'activado': value}).eq('perfil_usuario_id', usuario.id);
-
-  //     usuario.activado = value;
-  //     if (stateManager != null) stateManager!.notifyListeners();
-  //     return null;
-  //   } catch (e) {
-  //     log('Error en updateActivado() - $e');
-  //     return 'Error al actualizar usuario';
-  //   }
-  // }
+  Future<bool> updateActivado(Usuario usuario, bool value, int rowIndex) async {
+    try {
+      //actualizar usuario
+      await supabase.from('perfil_usuario').update({'activo': value}).eq('perfil_usuario_id', usuario.id);
+      rows[rowIndex].cells['activo']?.value = usuario.estatus;
+      // rows.firstWhere((row) => row.cells['acciones']?.value == id).cells['activo']?.value = value;
+      if (stateManager != null) stateManager!.notifyListeners();
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log('Error en updateActivado() - $e');
+      return false;
+    }
+  }
 
   // String generatePassword() {
   //   //Generar contrasena aleatoria
