@@ -6,6 +6,7 @@ import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:path/path.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
@@ -25,7 +26,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   final controllerBusqueda = TextEditingController();
 
   bool ejecBloq = false;
-  bool gridSelected = false;
+  bool gridSelected = true;
 
   Future<void> clearAll() async {
     clientes = [];
@@ -40,7 +41,6 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     controllerFondoDisp.text = '0.00';
     controllerFondoDispFake.text = '';
 
-    ejecBloq = false;
     controllerBusqueda.clear();
 
     return await getRecords();
@@ -82,8 +82,11 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
                   'importe_field': PlutoCell(value: factura.importe),
                   'beneficio_porc_field': PlutoCell(value: factura.porcDpp),
                   'beneficio_cant_field': PlutoCell(value: factura.cantDpp),
-                  'pago_anticipado_field': PlutoCell(value: factura.importe! - factura.cantDpp!), //TODO: Analizar Spec
-                  'dias_pago_field': PlutoCell(value: 12), //TODO: Analizar Spec
+                  'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
+                  'dias_pago_field': PlutoCell(value: factura.diasPago),
+                  'dias_adicionales_field': PlutoCell(value: 0),
+                  'fecha_pago_field': PlutoCell(value: factura.fechaPago),
+                  'estatus_id_field': PlutoCell(value: factura.estatusId),
                 },
               ),
             );
@@ -115,7 +118,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   }
 
   Future<void> seleccionAutomatica() async {
-    await getRecords();
+    await uncheckAll();
 
     ejecBloq = true;
     notifyListeners();
@@ -170,6 +173,26 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           cliente.beneficio = 0;
           cliente.pagoAdelantado = 0;
           for (var row in cliente.rows!) {
+            if (row.cells["dias_adicionales_field"]!.value != 0) {
+              DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
+              DateTime now = DateTime.now();
+              DateTime fpa = DateTime(now.year, now.month, now.day);
+              int dac = row.cells["dias_adicionales_field"]!.value;
+              double tasaAnual = 10 / 100; // TODO: Obtener Tasa Anual del mantenimiento de Clientes : cliente.tasaAnual;
+
+              double x = tasaAnual / 360;
+              int y = fnp.difference(fpa).inDays + 1 + dac;
+              double z = x * y;
+
+              double porcComision = double.parse((z).toStringAsFixed(6));
+              double cantComision = porcComision * row.cells["importe_field"]!.value;
+              double pagoanticipado = row.cells["importe_field"]!.value - cantComision;
+
+              row.cells["beneficio_porc_field"]!.value = porcComision;
+              row.cells["beneficio_cant_field"]!.value = cantComision;
+              row.cells["pago_anticipado_field"]!.value = pagoanticipado;
+            }
+
             if (row.checked == true) {
               cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
               cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
@@ -219,9 +242,12 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
   Future<void> uncheckAll() async {
     try {
-      /* for (var element in rows) {
-        element.setChecked(false);
-      } */
+      for (var cliente in clientes) {
+        for (var row in cliente.rows!) {
+          row.setChecked(false);
+        }
+        await updateClientRows(cliente.nombreFiscal!);
+      }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - uncheckAll() - $e');
     }
@@ -251,12 +277,52 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   }
 
   Future<bool> updateRecords() async {
+    ejecBloq = true;
+    notifyListeners();
     try {
+      for (var cliente in clientes) {
+        for (var row in cliente.rows!) {
+          if (row.checked == true) {
+            await supabase.from('bitacora_estatus_facturas').insert(
+              {
+                'factura_id': row.cells['id_factura_field']!.value,
+                'prev_estatus_id': row.cells['estatus_id_field']!.value,
+                'post_estatus_id': 2,
+                'pantalla': 'Selección de Pagos Anticipados',
+                'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
+                'rol_id': currentUser!.rol.rolId,
+                'usuario_id': currentUser!.id,
+              },
+            );
+
+            await supabase.rpc(
+              'update_factura_estatus',
+              params: {
+                'factura_id': row.cells['id_factura_field']!.value,
+                'estatus_id': 2,
+              },
+            );
+
+            if (row.cells["dias_adicionales_field"]!.value != 0) {
+              await supabase.from('facturas').update(
+                {
+                  'porc_dpp': row.cells["beneficio_porc_field"]!.value * 100,
+                  'cant_dpp': row.cells["beneficio_cant_field"]!.value,
+                  'pago_anticipado': row.cells["pago_anticipado_field"]!.value,
+                  'dias_pago_adicionales': row.cells["dias_adicionales_field"]!.value,
+                },
+              ).eq('factura_id', row.cells["id_factura_field"]!.value);
+            }
+          }
+        }
+      }
       await clearAll();
-      return true;
     } catch (e) {
       log('Error en UpdatePartidasSolicitadas() - $e');
+      ejecBloq = false;
+      notifyListeners();
       return false;
     }
+    return true;
   }
 }

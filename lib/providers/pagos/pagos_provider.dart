@@ -64,7 +64,6 @@ class PagosProvider extends ChangeNotifier {
               ),
             );
           }
-
           cliente.rows = rows;
         }
       }

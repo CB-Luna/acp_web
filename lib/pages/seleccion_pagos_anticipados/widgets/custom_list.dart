@@ -1,4 +1,5 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/functions/money_format_3_decimals.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
@@ -82,7 +83,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         child: Row(
                           children: [
                             Tooltip(
-                              message: 'Marcar',
+                              message: 'Seleccionar',
                               child: InkWell(
                                 child: Container(
                                   width: 30,
@@ -379,7 +380,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             return Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                 child: Text(
-                                  '${moneyFormat(rendererContext.cell.value)} %',
+                                  '${moneyFormat3Decimals(rendererContext.cell.value * 100)} %',
                                   style: AppTheme.of(context).subtitle3,
                                   textAlign: TextAlign.center,
                                 ));
@@ -488,6 +489,35 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             );
                           },
                         ),
+                        PlutoColumn(
+                          title: 'Días Adicionales para Comisión',
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          field: 'dias_adicionales_field',
+                          type: PlutoColumnType.number(),
+                          enableEditingMode: true,
+                          titleSpan: TextSpan(
+                            children: [
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Text(
+                                  'Días Adicionales para Comisión',
+                                  style: AppTheme.of(context).subtitle3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          renderer: (rendererContext) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                              child: Text(
+                                rendererContext.cell.value.toString(),
+                                style: AppTheme.of(context).subtitle3,
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          },
+                        ),
                       ],
                       rows: widget.cliente.rows!,
                       createFooter: (stateManager) {
@@ -498,6 +528,9 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         stateManager = event.stateManager;
                       },
                       onRowChecked: (event) async {
+                        await provider.updateClientRows(widget.cliente.nombreFiscal!);
+                      },
+                      onChanged: (event) async {
                         await provider.updateClientRows(widget.cliente.nombreFiscal!);
                       },
                     ),

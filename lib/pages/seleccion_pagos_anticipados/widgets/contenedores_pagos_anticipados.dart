@@ -1,4 +1,5 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_ejecucion.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -205,6 +206,38 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                                 ),
                               ),
                             ),
+                            onTap: () async {
+                              if (provider.ejecBloq) {
+                                const SnackBar(
+                                  content: Text('Proceso ejecutandose.'),
+                                );
+                              } else {
+                                if (provider.fondoDisponibleRestante < 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('El fondo disponible restante no puede ser menor a 0.'),
+                                    ),
+                                  );
+                                } else if (provider.cantidadFacturasSeleccionadas == 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Debe de seleccionar por lo menos una cuenta para realizar este proceso.'),
+                                    ),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return const PopUpEjecucion();
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+                              }
+                            },
                           ),
                         ),
                       ],

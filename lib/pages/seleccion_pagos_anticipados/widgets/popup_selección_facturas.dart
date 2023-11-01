@@ -1,4 +1,5 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/functions/money_format_3_decimals.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
@@ -55,10 +56,14 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                         Container(
                           width: 18,
                           height: 18,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.red,
+                            border: Border.all(
+                              color: AppTheme.of(context).primaryColor,
+                              width: 1,
+                            ),
                           ),
+                          child: /* widget.cliente.logoUrl != null ? */ Image.network(widget.cliente.logoUrl!) /* :  */,
                         ),
                         const SizedBox(width: 5),
                         SizedBox(
@@ -315,7 +320,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                         return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                             child: Text(
-                              '${moneyFormat(rendererContext.cell.value)} %',
+                              '${moneyFormat3Decimals(rendererContext.cell.value * 100)} %',
                               style: AppTheme.of(context).subtitle3,
                               textAlign: TextAlign.center,
                             ));
@@ -424,6 +429,35 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                         );
                       },
                     ),
+                    PlutoColumn(
+                      title: 'Días Adicionales para Comisión',
+                      titleTextAlign: PlutoColumnTextAlign.center,
+                      textAlign: PlutoColumnTextAlign.center,
+                      field: 'dias_adicionales_field',
+                      type: PlutoColumnType.number(),
+                      enableEditingMode: true,
+                      titleSpan: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Text(
+                              'Días Adicionales para Comisión',
+                              style: AppTheme.of(context).subtitle3,
+                            ),
+                          ),
+                        ],
+                      ),
+                      renderer: (rendererContext) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Text(
+                            rendererContext.cell.value.toString(),
+                            style: AppTheme.of(context).subtitle3,
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                   rows: widget.cliente.rows!,
                   createFooter: (stateManager) {
@@ -432,6 +466,9 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                   },
                   onLoaded: (event) async {},
                   onRowChecked: (event) async {
+                    await provider.updateClientRows(widget.cliente.nombreFiscal!);
+                  },
+                  onChanged: (event) async {
                     await provider.updateClientRows(widget.cliente.nombreFiscal!);
                   },
                 ),

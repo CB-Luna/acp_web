@@ -137,7 +137,7 @@ class _CustomCardState extends State<CustomCard> {
                 Row(
                   children: [
                     Tooltip(
-                      message: 'Marcar',
+                      message: 'Seleccionar',
                       child: InkWell(
                         child: Container(
                           width: 30,
