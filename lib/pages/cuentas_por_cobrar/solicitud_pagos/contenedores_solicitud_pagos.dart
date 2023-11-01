@@ -1,6 +1,10 @@
+import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/popup_solicitud_pagos.dart';
+import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContenedoresSolicitudPagos extends StatefulWidget {
   const ContenedoresSolicitudPagos({super.key});
@@ -14,7 +18,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
-
+    final SolicitudPagosProvider provider = Provider.of<SolicitudPagosProvider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -63,11 +67,11 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Monto de Facturación',
+                          'Facturación',
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(1213513.00)}',
+                          'GTQ ${moneyFormat(provider.montoFacturacion)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -78,11 +82,11 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'CxP',
+                          'CxC',
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          '47 de 95',
+                          '${provider.cantidadFacturasSeleccionadas} de ${provider.listadoEjemplo1.length}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -93,11 +97,11 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total de pagos',
+                          'Comisión',
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(1921.00)}',
+                          'GTQ ${moneyFormat(provider.totalPagos)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -121,7 +125,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
         ),
         Container(
           width: width * 432,
-          height: 200,
+          height: height * 180,
           constraints: const BoxConstraints(minWidth: 400),
           decoration: BoxDecoration(
             color: const Color(0xFFE3F5FF),
@@ -139,25 +143,10 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                       'Facturas Seleccionadas',
                       style: AppTheme.of(context).subtitle1,
                     ),
-                    Wrap(
-                      spacing: 16,
-                      children: [
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Icon(
-                              Icons.energy_savings_leaf_outlined,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                        /* Container(
+                    Tooltip(
+                      message: 'Solicitar Pago Anticipado',
+                      child: InkWell(
+                        child: Container(
                           width: 30,
                           height: 30,
                           decoration: BoxDecoration(
@@ -171,226 +160,22 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                               size: 20,
                             ),
                           ),
-                        ), */
-                        //popup
-                        IconButton(
-                          onPressed: () async {
-                            await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  content: Container(
-                                    width: width * 600,
-                                    height: height * 520,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFD7E9FB),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(35),
-                                      ),
-                                      border: Border.all(
-                                        color: const Color(0xFFD1D1D1),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        //titulo
-                                        Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Text(
-                                            'Por favor revisa la selección de facturas antes de continuar',
-                                            textAlign: TextAlign.center,
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
-                                                  useGoogleFonts: false,
-                                                  fontSize: 30,
-                                                  color: AppTheme.of(context).tertiaryColor,
-                                                ),
-                                          ),
-                                        ),
-                                        //Informacion
-                                        Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Expanded(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'Total de Facturas:',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'Moneda:',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'Comisión:',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'Pago Anticipado:',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const Spacer(),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        '5',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'GTQ',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'GTQ ${moneyFormat(1520)}',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                      child: Text(
-                                                        'GTQ ${moneyFormat(1520)}',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
-                                                              useGoogleFonts: false,
-                                                              fontSize: 20,
-                                                              color: AppTheme.of(context).tertiaryColor,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        //Botones
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                elevation: 8,
-                                                shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
-                                                backgroundColor: AppTheme.of(context).tertiaryColor,
-                                              ),
-                                              child: SizedBox(
-                                                width: width * 250,
-                                                height: height * 60,
-                                                child: Center(
-                                                  child: Text(
-                                                    'Cancelar',
-                                                    style: AppTheme.of(context).bodyText1.override(
-                                                          fontFamily: 'Gotham',
-                                                          useGoogleFonts: false,
-                                                          fontSize: 20,
-                                                          color: AppTheme.of(context).primaryBackground,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                elevation: 8,
-                                                shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
-                                                backgroundColor: AppTheme.of(context).primaryColor,
-                                              ),
-                                              child: SizedBox(
-                                                width: width * 250,
-                                                height: height * 60,
-                                                child: Center(
-                                                  child: Text(
-                                                    'Aceptar',
-                                                    style: AppTheme.of(context).bodyText1.override(
-                                                          fontFamily: 'Gotham',
-                                                          useGoogleFonts: false,
-                                                          fontSize: 20,
-                                                          color: AppTheme.of(context).primaryBackground,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          icon: const Icon(Icons.note_alt),
-                          color: AppTheme.of(context).primaryColor,
                         ),
-                      ],
+                        onTap: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const PopupSolicitudPagos(
+                                moneda: 'GTQ',
+                                cantidadFacturas: 50,
+                                cantidadFacturasSeleccionadas: 5,
+                                comision: 1817,
+                                pagoanticipado: 4845244,
+                              );
+                            },
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -402,11 +187,11 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Fondo Disponible Restante',
+                          'Pago Anticipado',
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(10000.00)}',
+                          'GTQ ${moneyFormat(provider.pagoAnticipado)}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
@@ -417,34 +202,17 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Beneficio Total',
+                          'Fecha Pago Anticipado',
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(135000.00)}',
+                          dateFormat(provider.fecha),
                           style: AppTheme.of(context).title3,
                         ),
                       ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'Fondo disponible:',
-                      style: AppTheme.of(context).subtitle1,
-                    ),
-                    Container(
-                      width: 185,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: AppTheme.of(context).primaryBackground,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           ),

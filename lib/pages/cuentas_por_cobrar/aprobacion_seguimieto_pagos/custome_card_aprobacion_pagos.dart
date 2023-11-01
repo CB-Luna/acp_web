@@ -70,8 +70,8 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                   color: opened == true
                       ? AppTheme.of(context).secondaryColor
                       : AppTheme.themeMode == ThemeMode.light
-                          ? Colors.white
-                          : Colors.grey,
+                          ? const Color(0xFFF7F9FB)
+                          : const Color(0xFFD9D9D9)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -119,7 +119,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                       ),
                       //anticipo
                       SizedBox(
-                        width: width * 160,
+                        width: width * 135,
                         child: Row(
                           children: [
                             Text(
@@ -135,7 +135,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                       ),
                       //comision
                       SizedBox(
-                        width: width * 126,
+                        width: width * 130,
                         child: Row(
                           children: [
                             Text(
@@ -150,36 +150,29 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                         ),
                       ),
                       //Estatus
-                      SizedBox(
-                        width: width * 135,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: widget.estatus == 'Aprobado'
-                                    ? const Color(0xFF0070C0)
-                                    : widget.estatus == 'Anexo Pendiente'
-                                        ? const Color(0xFFFFC000)
-                                        : widget.estatus == 'Pagada'
-                                            ? const Color(0xFF00B001)
-                                            : const Color(0xFFFF0000),
-                              ),
-                              width: width * 135,
-                              child: Text(
-                                widget.estatus,
-                                textAlign: TextAlign.center,
-                                style: AppTheme.of(context).subtitle1.override(fontFamily: 'Gotham', useGoogleFonts: false, color: Colors.white),
-                                overflow: TextOverflow.fade,
-                              ),
-                            ),
-                          ],
+                      Container(
+                        width: width * 126,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: widget.estatus == 'Aprobado'
+                              ? const Color(0xFF0070C0)
+                              : widget.estatus == 'Anexo Pendiente'
+                                  ? const Color(0xFFFFC000)
+                                  : widget.estatus == 'Pagada'
+                                      ? const Color(0xFF00B001)
+                                      : const Color(0xFFFF0000),
+                        ),
+                        child: Text(
+                          widget.estatus,
+                          textAlign: TextAlign.center,
+                          style: AppTheme.of(context).subtitle1.override(fontFamily: 'Gotham', useGoogleFonts: false, color: Colors.white),
+                          overflow: TextOverflow.fade,
                         ),
                       ),
                       //Acciones
                       SizedBox(
-                        width: width * 135,
+                        width: width * 100,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -211,8 +204,8 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                                 Padding(
                                                   padding: const EdgeInsets.all(20),
                                                   child: IconButton(
-                                                    icon: Icon(Icons.note_alt, color: AppTheme.of(context).primaryColor),
-                                                    tooltip: 'Firmar Documento',
+                                                    icon: Icon(Icons.history_edu, color: AppTheme.of(context).primaryColor),
+                                                    tooltip: 'Firmar Anexo',
                                                     color: AppTheme.of(context).primaryColor,
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -223,7 +216,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                                   padding: const EdgeInsets.all(20),
                                                   child: IconButton(
                                                     icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryColor),
-                                                    tooltip: 'Descargar Archivo',
+                                                    tooltip: 'Descargar Anexo',
                                                     color: AppTheme.of(context).primaryColor,
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -266,7 +259,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                   },
                                 );
                               },
-                              icon: const Icon(Icons.note_alt),
+                              icon: const Icon(Icons.picture_as_pdf),
                               color: AppTheme.of(context).primaryColor,
                             ),
                             //popup

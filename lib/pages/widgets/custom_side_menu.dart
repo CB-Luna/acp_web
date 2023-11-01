@@ -84,7 +84,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                 ),
                 items: [
                   SideMenuItemDataTitle(
-                    title: 'Tesorero',
+                    title: currentUser!.rol.nombre,
                     textAlign: data.isOpen ? TextAlign.start : TextAlign.center,
                     titleStyle: TextStyle(
                       fontSize: data.isOpen ? 14 : 10,
@@ -114,25 +114,57 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     },
                   ),
                   SideMenuItemDataTile(
-                    title: 'Cuentas Por Cobrar',
+                    title: 'Cuentas por Cobrar',
                     titleStyle: dataTileTextStyle,
                     selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
                     icon: Icon(
-                      Icons.credit_card,
+                      Icons.local_atm,
                       size: iconSize,
                     ),
-                    hoverColor: hoverColor,
+                    hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
-                    borderRadius: borderRadius,
                     margin: paddingHItems,
-                    isSelected: visualState.isTaped[8],
-                    onTap: () {
-                      setState(() {
-                        visualState.setTapedOption(8);
-                      });
-                      context.pushReplacement('/cuentas_por_cobrar');
-                    },
+                    isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! && (visualState.isTaped[8] || visualState.isTaped[9])) ||
+                        ((visualState.isTaped[8] || visualState.isTaped[9]) && !data.isOpen),
+                    onTap: () => setState(() {
+                      visualState.isGroupTaped.update('Cuentas por Cobrar', (value) => !value);
+                    }),
                   ),
+                  if (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen)
+                    SideMenuItemDataTile(
+                      title: 'Solicitud de Pagos',
+                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.fade),
+                      selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      hoverColor: hoverColor,
+                      highlightSelectedColor: highlightSelectedColor,
+                      borderRadius: borderRadius,
+                      margin: paddingHItemsGroup,
+                      isSelected: visualState.isTaped[8],
+                      onTap: () {
+                        setState(() {
+                          visualState.setTapedOption(8);
+                        });
+                        context.pushReplacement('/solicitud_pagos');
+                      },
+                    ),
+                  if (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen)
+                    SideMenuItemDataTile(
+                      //title: 'Autorización de solicitudes de pago anticipado',
+                      title: 'Aprobación y Seguimiento de Pagos',
+                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.ellipsis),
+                      selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      hoverColor: hoverColor,
+                      highlightSelectedColor: highlightSelectedColor,
+                      borderRadius: borderRadius,
+                      margin: paddingHItemsGroup,
+                      isSelected: visualState.isTaped[9],
+                      onTap: () {
+                        setState(() {
+                          visualState.setTapedOption(9);
+                        });
+                        context.pushReplacement('/aprobacion_seguimiento_pagos');
+                      },
+                    ),
                   SideMenuItemDataTile(
                     title: 'Propuesta de pago',
                     titleStyle: dataTileTextStyle,

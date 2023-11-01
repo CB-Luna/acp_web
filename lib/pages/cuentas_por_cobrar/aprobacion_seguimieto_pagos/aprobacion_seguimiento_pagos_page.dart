@@ -34,7 +34,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
     double height = MediaQuery.of(context).size.height / 1024;
 
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
-    visualState.setTapedOption(8);
+    visualState.setTapedOption(9);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     //String? monedaSeleccionada = currentUser!.monedaSeleccionada;

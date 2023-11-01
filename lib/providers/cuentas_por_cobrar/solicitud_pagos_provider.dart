@@ -7,6 +7,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 class SolicitudPagosProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
+  bool ischeck=false;
 
   final controllerBusqueda = TextEditingController();
 
@@ -16,10 +17,61 @@ class SolicitudPagosProvider extends ChangeNotifier {
 
   List<dynamic> listCarrito = [];
 
+  double montoFacturacion = 0;
+  int cantidadFacturas = 0;
+  int cantidadFacturasSeleccionadas = 0;
+  double totalPagos = 0;
+  double pagoAnticipado=0;
+  DateTime fecha = DateTime.now();
+
   bool ejecBloq = false;
   bool listOpenned = true;
 
+  List<Map<String, dynamic>> listadoEjemplo1 = [
+      {
+        "factura": "F-2123123",
+        "importe": 1213513.00,
+        "comision": 135000.00,
+        "diaspago": '40',
+        "pagoAdelantado": 1078513.00,
+        "Estatus": 'Aprobado',
+      },
+      {
+        "factura": "F-2123123",
+        "importe": 1213513.00,
+        "comision": 135000.00,
+        "diaspago": '40',
+        "pagoAdelantado": 1078513.00,
+        "Estatus": 'Aprobado',
+      },
+      {
+        "factura": "F-2123123",
+        "importe": 1213513.00,
+        "comision": 135000.00,
+        "diaspago": '40',
+        "pagoAdelantado": 1078513.00,
+        "Estatus": 'Aprobado',
+      },
+      {
+        "factura": "F-2123123",
+        "importe": 1213513.00,
+        "comision": 135000.00,
+        "diaspago": '40',
+        "pagoAdelantado": 1078513.00,
+        "Estatus": 'Aprobado',
+      },
+      {
+        "factura": "F-2123123",
+        "importe": 1213513.00,
+        "comision": 135000.00,
+        "diaspago": '40',
+        "pagoAdelantado": 1078513.00,
+        "Estatus": 'Aprobado',
+      },
+    ];
+
   Future<void> clearAll() async {
+    montoFacturacion = 0;
     listStateManager;
     listOpenned = true;
     return notifyListeners();

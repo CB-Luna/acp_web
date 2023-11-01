@@ -5,6 +5,7 @@ import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
+import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 //import 'package:acp_web/providers/cuentas_por_cobrar/cuentas_por_cobrar_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
@@ -34,56 +35,13 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
     double height = MediaQuery.of(context).size.height / 1024;
 
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
+    final SolicitudPagosProvider provider = Provider.of<SolicitudPagosProvider>(context);
     visualState.setTapedOption(8);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
     //final CuentasPorCobrarProvider provider = Provider.of<CuentasPorCobrarProvider>(context);
-
-    List<Map<String, dynamic>> listadoEjemplo1 = [
-      {
-        "factura": "F-2123123",
-        "importe": 1213513.00,
-        "comision": 135000.00,
-        "diaspago": '40',
-        "pagoAdelantado": 1078513.00,
-        "Estatus": 'Aprobado',
-      },
-      {
-        "factura": "F-2123123",
-        "importe": 1213513.00,
-        "comision": 135000.00,
-        "diaspago": '40',
-        "pagoAdelantado": 1078513.00,
-        "Estatus": 'Aprobado',
-      },
-      {
-        "factura": "F-2123123",
-        "importe": 1213513.00,
-        "comision": 135000.00,
-        "diaspago": '40',
-        "pagoAdelantado": 1078513.00,
-        "Estatus": 'Aprobado',
-      },
-      {
-        "factura": "F-2123123",
-        "importe": 1213513.00,
-        "comision": 135000.00,
-        "diaspago": '40',
-        "pagoAdelantado": 1078513.00,
-        "Estatus": 'Aprobado',
-      },
-      {
-        "factura": "F-2123123",
-        "importe": 1213513.00,
-        "comision": 135000.00,
-        "diaspago": '40',
-        "pagoAdelantado": 1078513.00,
-        "Estatus": 'Aprobado',
-      },
-    ];
-
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
       body: SizedBox(
@@ -221,7 +179,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                     color: AppTheme.of(context).primaryBackground,
                                   ),
                                   Text(
-                                    'Pago Adelantado',
+                                    'Pago Anticipado',
                                     style: AppTheme.of(context).subtitle1.override(
                                           fontFamily: 'Gotham',
                                           useGoogleFonts: false,
@@ -248,17 +206,18 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                               padding: const EdgeInsets.all(8.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: listadoEjemplo1.length,
+                                itemCount: provider.listadoEjemplo1.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext ctx, index) {
                                   return CustomeCardSolicitudPagos(
                                     moneda: 'GTQ',
-                                    factura: listadoEjemplo1[index]['factura'],
-                                    importe: listadoEjemplo1[index]['importe'],
-                                    comision: listadoEjemplo1[index]['comision'],
-                                    diaspago: listadoEjemplo1[index]['diaspago'],
-                                    pagoAdelantado: listadoEjemplo1[index]['pagoAdelantado'],
-                                    estatus: listadoEjemplo1[index]['Estatus'],
+                                    factura: provider.listadoEjemplo1[index]['factura'],
+                                    importe: provider.listadoEjemplo1[index]['importe'],
+                                    comision: provider.listadoEjemplo1[index]['comision'],
+                                    diaspago: provider.listadoEjemplo1[index]['diaspago'],
+                                    pagoAdelantado: provider.listadoEjemplo1[index]['pagoAdelantado'],
+                                    estatus: provider.listadoEjemplo1[index]['Estatus'],
+                                    //ischeck: provider.ischeck,
                                   );
                                 },
                               ),
