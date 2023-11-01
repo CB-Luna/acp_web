@@ -100,20 +100,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                 enableEditingMode: false,
                               ),
                               PlutoColumn(
-                                title: 'Nombre',
-                                field: 'nombre',
-                                width: 100,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Apellido',
-                                field: 'apellido',
-                                width: 85,
+                                title: 'Usuario',
+                                field: 'usuario',
+                                width: 150,
                                 enableContextMenu: false,
                                 enableDropToResize: false,
                                 titleTextAlign: PlutoColumnTextAlign.center,
@@ -168,17 +157,6 @@ class _UsuariosPageState extends State<UsuariosPage> {
                               PlutoColumn(
                                 title: 'Sociedad',
                                 field: 'sociedad',
-                                width: 90,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'País',
-                                field: 'pais',
                                 width: 90,
                                 enableContextMenu: false,
                                 enableDropToResize: false,
@@ -262,11 +240,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           ),
                                           splashRadius: 0.01,
                                           onPressed: () async {
-                                            await provider.initEditarUsuario(
-                                              usuario!,
-                                            );
+                                            provider.initEditarUsuario(usuario!);
                                             if (!mounted) return;
-                                            context.pushNamed(
+                                            await context.pushNamed(
                                               'editar_usuario',
                                               extra: usuario,
                                             );

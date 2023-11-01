@@ -7,13 +7,14 @@ class Usuario {
     required this.id,
     required this.idSecuencial,
     required this.nombre,
-    required this.apellidos,
+    required this.apellidoPaterno,
+    this.apellidoMaterno,
     required this.telefono,
     required this.rol,
     required this.compania,
     required this.email,
-    required this.sociedad,
-    required this.pais,
+    this.cliente,
+    this.imagen,
     required this.activo,
     required this.cambioContrasena,
     this.fechaIngreso,
@@ -22,18 +23,19 @@ class Usuario {
   String id;
   int idSecuencial;
   String nombre;
-  String apellidos;
+  String apellidoPaterno;
+  String? apellidoMaterno;
   String telefono;
   Rol rol;
-  Compania compania;
+  String compania;
   String email;
-  Sociedad sociedad;
-  Pais pais;
+  Cliente? cliente;
+  String? imagen;
   bool activo;
   bool cambioContrasena;
   DateTime? fechaIngreso;
 
-  String get nombreCompleto => '$nombre $apellidos';
+  String get nombreCompleto => '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
 
   String get estatus => activo ? 'Activo' : 'Inactivo';
 
@@ -44,13 +46,14 @@ class Usuario {
       id: json["id"],
       idSecuencial: json["usuario_id_secuencial"],
       nombre: json["nombre"],
-      apellidos: json["apellidos"],
+      apellidoPaterno: json["apellido_paterno"],
+      apellidoMaterno: json["apellido_materno"],
       telefono: json['telefono'],
       rol: Rol.fromJson(jsonEncode(json['rol'])),
-      compania: Compania.fromMap(json['compania']),
+      compania: json['compania'],
       email: json["email"],
-      sociedad: Sociedad.fromMap(json['sociedad']),
-      pais: Pais.fromMap(json['pais']),
+      cliente: json['cliente_fk'] != null ? Cliente.fromMap(json['cliente']) : null,
+      imagen: json['imagen'],
       activo: json['activo'],
       cambioContrasena: json['cambio_contrasena'] ?? true,
       fechaIngreso: json['fecha_ingreso'] != null ? DateTime.parse(json["fecha_ingreso"]).toLocal() : null,
@@ -63,13 +66,14 @@ class Usuario {
     String? id,
     int? idSecuencial,
     String? nombre,
-    String? apellidos,
+    String? apellidoPaterno,
+    String? apellidoMaterno,
     String? telefono,
     Rol? rol,
-    Compania? compania,
+    String? compania,
     String? email,
-    Sociedad? sociedad,
-    Pais? pais,
+    Cliente? cliente,
+    String? imagen,
     bool? activo,
     bool? cambioContrasena,
     DateTime? fechaIngreso,
@@ -78,13 +82,14 @@ class Usuario {
       id: id ?? this.id,
       idSecuencial: idSecuencial ?? this.idSecuencial,
       nombre: nombre ?? this.nombre,
-      apellidos: apellidos ?? this.apellidos,
+      apellidoPaterno: apellidoPaterno ?? this.apellidoPaterno,
+      apellidoMaterno: apellidoMaterno ?? this.apellidoMaterno,
       telefono: telefono ?? this.telefono,
       rol: rol ?? this.rol,
       compania: compania ?? this.compania,
       email: email ?? this.email,
-      sociedad: sociedad ?? this.sociedad,
-      pais: pais ?? this.pais,
+      cliente: cliente ?? this.cliente,
+      imagen: imagen ?? this.imagen,
       activo: activo ?? this.activo,
       cambioContrasena: cambioContrasena ?? this.cambioContrasena,
       fechaIngreso: fechaIngreso ?? this.fechaIngreso,

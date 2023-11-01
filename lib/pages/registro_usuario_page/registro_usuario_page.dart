@@ -103,10 +103,10 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       width: 16,
                                     ),
                                     InputContainer(
-                                      title: 'Apellido',
+                                      title: 'Apellido Paterno',
                                       child: CustomInputField(
-                                        label: 'Apellido',
-                                        controller: provider.apellidosController,
+                                        label: 'Apellido Paterno',
+                                        controller: provider.apellidoPaternoController,
                                         keyboardType: TextInputType.name,
                                         formatters: [
                                           FilteringTextInputFormatter.allow(
@@ -156,6 +156,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       title: 'Rol',
                                       child: CustomDropDown(
                                         label: 'Rol',
+                                        value: provider.rolSeleccionado?.nombre,
                                         items: provider.roles.map((rol) => rol.nombre).toList(),
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
@@ -206,57 +207,59 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InputContainer(
-                                      title: 'País',
-                                      child: CustomDropDown(
-                                        label: 'País',
-                                        items: provider.paises.map((pais) => pais.nombre).toList(),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'El país es requerido';
-                                          }
-                                          return null;
-                                        },
-                                        onChanged: provider.setPaisSeleccionado,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    InputContainer(
-                                      title: 'Sociedad',
-                                      child: CustomDropDown(
-                                        label: 'Sociedad',
-                                        items: provider.sociedades.map((sociedad) => sociedad.nombre).toList(),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'La sociedad es requerida';
-                                          }
-                                          return null;
-                                        },
-                                        onChanged: provider.setSociedad,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                InputContainer(
-                                  title: 'Estatus',
-                                  width: 844,
-                                  alignment: Alignment.centerLeft,
-                                  child: Switch(
-                                    value: provider.activo,
-                                    activeColor: const Color(0xFF0A0859),
-                                    onChanged: (value) {
-                                      provider.activo = value;
-                                      setState(() {});
-                                    },
-                                  ),
-                                ),
+                                // const SizedBox(height: 16),
+                                // Row(
+                                //   mainAxisSize: MainAxisSize.min,
+                                //   children: [
+                                //     InputContainer(
+                                //       title: 'País',
+                                //       child: CustomDropDown(
+                                //         label: 'País',
+                                //         value: provider.paisSeleccionado?.nombre,
+                                //         items: provider.paises.map((pais) => pais.nombre).toList(),
+                                //         validator: (value) {
+                                //           if (value == null || value.isEmpty) {
+                                //             return 'El país es requerido';
+                                //           }
+                                //           return null;
+                                //         },
+                                //         onChanged: provider.setPaisSeleccionado,
+                                //       ),
+                                //     ),
+                                //     const SizedBox(
+                                //       width: 16,
+                                //     ),
+                                //     InputContainer(
+                                //       title: 'Sociedad',
+                                //       child: CustomDropDown(
+                                //         label: 'Sociedad',
+                                //         value: provider.sociedadSeleccionada?.nombre,
+                                //         items: provider.sociedades.map((sociedad) => sociedad.nombre).toList(),
+                                //         validator: (value) {
+                                //           if (value == null || value.isEmpty) {
+                                //             return 'La sociedad es requerida';
+                                //           }
+                                //           return null;
+                                //         },
+                                //         onChanged: provider.setSociedad,
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                // const SizedBox(height: 16),
+                                // InputContainer(
+                                //   title: 'Estatus',
+                                //   width: 844,
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Switch(
+                                //     value: provider.activo,
+                                //     activeColor: const Color(0xFF0A0859),
+                                //     onChanged: (value) {
+                                //       provider.activo = value;
+                                //       setState(() {});
+                                //     },
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -399,12 +402,14 @@ class CustomDropDown extends StatefulWidget {
   const CustomDropDown({
     super.key,
     required this.label,
+    required this.value,
     required this.items,
     required this.validator,
     required this.onChanged,
   });
 
   final String label;
+  final String? value;
   final List<String> items;
   final String? Function(String?) validator;
   final void Function(String) onChanged;
@@ -415,6 +420,12 @@ class CustomDropDown extends StatefulWidget {
 
 class _CustomDropDownState extends State<CustomDropDown> {
   String? selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = widget.value;
+  }
 
   @override
   Widget build(BuildContext context) {

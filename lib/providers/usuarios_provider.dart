@@ -24,21 +24,21 @@ class UsuariosProvider extends ChangeNotifier {
   //ALTA USUARIO
   TextEditingController nombreController = TextEditingController();
   TextEditingController correoController = TextEditingController();
-  TextEditingController apellidosController = TextEditingController();
+  TextEditingController apellidoPaternoController = TextEditingController();
+  TextEditingController apellidoMaternoController = TextEditingController();
   TextEditingController telefonoController = TextEditingController();
+  Rol? rolSeleccionado;
+  TextEditingController codigoClienteController = TextEditingController();
   bool activo = true;
 
-  List<Pais> paises = [];
   List<Rol> roles = [];
   List<Sociedad> sociedades = [];
   List<Usuario> usuarios = [];
 
-  Pais? paisSeleccionado;
-  Rol? rolSeleccionado;
-  Sociedad? sociedadSeleccionada;
+  String? nombreImagen;
+  Uint8List? webImage;
 
-  //EDITAR USUARIOS
-  Usuario? usuarioEditado;
+  int? clienteId;
 
   //PANTALLA USUARIOS
   final busquedaController = TextEditingController();
@@ -47,7 +47,6 @@ class UsuariosProvider extends ChangeNotifier {
   Future<void> updateState() async {
     busquedaController.clear();
     await getRoles(notify: false);
-    await getPaises(notify: false);
     // await getSociedades(notify: false);
     await getUsuarios();
   }
@@ -55,43 +54,18 @@ class UsuariosProvider extends ChangeNotifier {
   void clearControllers({bool clearEmail = true, bool notify = true}) {
     nombreController.clear();
     if (clearEmail) correoController.clear();
-    apellidosController.clear();
+    apellidoPaternoController.clear();
+    apellidoMaternoController.clear();
     telefonoController.clear();
-
-    paisSeleccionado = null;
     rolSeleccionado = null;
-    sociedadSeleccionada = null;
+    codigoClienteController.clear();
 
     if (notify) notifyListeners();
-  }
-
-  void setPaisSeleccionado(String pais) async {
-    paisSeleccionado = paises.firstWhere((element) => element.nombre == pais);
-    sociedades = paisSeleccionado!.sociedades;
-    sociedadSeleccionada = null;
-    notifyListeners();
   }
 
   void setRolSeleccionado(String rol) async {
     rolSeleccionado = roles.firstWhere((element) => element.nombre == rol);
     notifyListeners();
-  }
-
-  void setSociedad(String sociedad) {
-    sociedadSeleccionada = sociedades.firstWhere((element) => element.nombre == sociedad);
-    notifyListeners();
-  }
-
-  Future<void> getPaises({bool notify = true}) async {
-    if (paises.isNotEmpty) return;
-    final res = await supabase.rpc('get_paises').order(
-          'nombre',
-          ascending: true,
-        );
-
-    paises = (res as List<dynamic>).map((pais) => Pais.fromJson(jsonEncode(pais))).toList();
-
-    if (notify) notifyListeners();
   }
 
   Future<void> getRoles({bool notify = true}) async {
@@ -121,6 +95,26 @@ class UsuariosProvider extends ChangeNotifier {
   //   if (notify) notifyListeners();
   // }
 
+  Future<void> getCliente() async {
+    final res = await supabase
+        .from('clientes')
+        .select('id_proveedor_pk, nombre_fiscal, cuenta_acreedor')
+        .eq('codigo_acreedor', codigoClienteController.text);
+
+    if (res == null) return;
+
+    if ((res as List).length != 1) {
+      clienteId = null;
+      // nombreProveedorController.text = 'No se encontró';
+      // cuentaProveedorController.text = 'No se encontró';
+    } else {
+      // final infoCliente = res[0];
+      clienteId = res[0]['cliente_id'];
+      // nombreProveedorController.text = infoProveedor['nombre_fiscal'];
+      // cuentaProveedorController.text = infoProveedor['cuenta_acreedor'] ?? '';
+    }
+  }
+
   Future<void> getUsuarios() async {
     try {
       final query = supabase.from('users').select();
@@ -140,14 +134,12 @@ class UsuariosProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
-              'nombre': PlutoCell(value: usuario.nombre),
-              'apellido': PlutoCell(value: usuario.apellidos),
+              'usuario': PlutoCell(value: usuario.nombreCompleto),
               'telefono': PlutoCell(value: formatPhone(usuario.telefono)),
               'rol': PlutoCell(value: usuario.rol.nombre),
-              'compania': PlutoCell(value: usuario.rol.nombre),
+              'compania': PlutoCell(value: usuario.compania),
               'email': PlutoCell(value: usuario.email),
-              'sociedad': PlutoCell(value: usuario.sociedad.nombre),
-              'pais': PlutoCell(value: usuario.pais.nombre),
+              'sociedad': PlutoCell(value: usuario.cliente?.sociedad ?? '-'),
               'activo': PlutoCell(value: usuario.estatus),
               'acciones': PlutoCell(value: usuario.id),
             },
@@ -162,46 +154,46 @@ class UsuariosProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> selectImage() async {
-  //   final ImagePicker picker = ImagePicker();
+  Future<void> selectImage() async {
+    final ImagePicker picker = ImagePicker();
 
-  //   final XFile? pickedImage = await picker.pickImage(
-  //     source: ImageSource.gallery,
-  //   );
+    final XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
 
-  //   if (pickedImage == null) return;
+    if (pickedImage == null) return;
 
-  //   final String fileExtension = p.extension(pickedImage.name);
-  //   const uuid = Uuid();
-  //   final String fileName = uuid.v1();
-  //   imageName = 'avatar-$fileName$fileExtension';
+    final String fileExtension = p.extension(pickedImage.name);
+    const uuid = Uuid();
+    final String fileName = uuid.v1();
+    nombreImagen = 'avatar-$fileName$fileExtension';
 
-  //   webImage = await pickedImage.readAsBytes();
+    webImage = await pickedImage.readAsBytes();
 
-  //   notifyListeners();
-  // }
+    notifyListeners();
+  }
 
-  // void clearImage() {
-  //   webImage = null;
-  //   imageName = null;
-  //   notifyListeners();
-  // }
+  void clearImage() {
+    webImage = null;
+    nombreImagen = null;
+    notifyListeners();
+  }
 
-  // Future<String?> uploadImage() async {
-  //   if (webImage != null && imageName != null) {
-  //     await supabase.storage.from('avatars').uploadBinary(
-  //           imageName!,
-  //           webImage!,
-  //           fileOptions: const FileOptions(
-  //             cacheControl: '3600',
-  //             upsert: false,
-  //           ),
-  //         );
+  Future<String?> uploadImage() async {
+    if (webImage != null && nombreImagen != null) {
+      await supabase.storage.from('avatars').uploadBinary(
+            nombreImagen!,
+            webImage!,
+            fileOptions: const FileOptions(
+              cacheControl: '3600',
+              upsert: false,
+            ),
+          );
 
-  //     return imageName;
-  //   }
-  //   return null;
-  // }
+      return nombreImagen;
+    }
+    return null;
+  }
 
   Future<Map<String, String>?> registrarUsuario() async {
     try {
@@ -244,7 +236,7 @@ class UsuariosProvider extends ChangeNotifier {
   }
 
   Future<bool> crearPerfilDeUsuario(String userId) async {
-    if (rolSeleccionado == null || paisSeleccionado == null || sociedadSeleccionada == null) {
+    if (rolSeleccionado == null) {
       return false;
     }
     try {
@@ -252,12 +244,13 @@ class UsuariosProvider extends ChangeNotifier {
         {
           'perfil_usuario_id': userId,
           'nombre': nombreController.text,
-          'apellidos': apellidosController.text,
+          'apellido_paterno': apellidoPaternoController.text,
+          'apellido_materno': apellidoMaternoController.text,
           'telefono': telefonoController.text,
-          'pais_fk': paisSeleccionado!.paisId,
           'rol_fk': rolSeleccionado!.rolId,
-          'sociedad_fk': sociedadSeleccionada!.sociedadId,
-          'compania_fk': 1,
+          'compania': 'ACP',
+          'cliente_fk': clienteId,
+          'imagen': nombreImagen,
           'activo': activo,
         },
       );
@@ -291,24 +284,14 @@ class UsuariosProvider extends ChangeNotifier {
   //   }
   // }
 
-  // void buscarPais() {
-  //   final tempPais =
-  //       paises.firstWhere((element) => element == paisSeleccionado);
-  //   paisSeleccionado = tempPais;
-  //   if (paisSeleccionado == null) return;
-  //   if (paisSeleccionado!.sociedades == null) return;
-  //   sociedades = paisSeleccionado!.sociedades!;
-  // }
-
-  Future<void> initEditarUsuario(Usuario usuario) async {
-    usuarioEditado = usuario;
+  void initEditarUsuario(Usuario usuario) {
     nombreController.text = usuario.nombre;
-    apellidosController.text = usuario.apellidos;
+    apellidoPaternoController.text = usuario.apellidoPaterno;
+    apellidoMaternoController.text = usuario.apellidoMaterno ?? '';
     correoController.text = usuario.email;
     telefonoController.text = usuario.telefono;
-    paisSeleccionado = usuario.pais;
     rolSeleccionado = usuario.rol;
-    sociedadSeleccionada = usuario.sociedad;
+    activo = usuario.activo;
   }
 
   Future<bool> updateActivado(Usuario usuario, bool value, int rowIndex) async {
@@ -426,8 +409,10 @@ class UsuariosProvider extends ChangeNotifier {
     busquedaController.dispose();
     nombreController.dispose();
     correoController.dispose();
-    apellidosController.dispose();
+    apellidoPaternoController.dispose();
+    apellidoMaternoController.dispose();
     telefonoController.dispose();
+    codigoClienteController.dispose();
     super.dispose();
   }
 }
