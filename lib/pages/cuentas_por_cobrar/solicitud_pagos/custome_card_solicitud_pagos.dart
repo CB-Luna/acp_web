@@ -7,11 +7,10 @@ import 'package:provider/provider.dart';
 
 class CustomeCardSolicitudPagos extends StatefulWidget {
   const CustomeCardSolicitudPagos(
-      {super.key, required this.factura, required this.diaspago, required this.estatus, required this.moneda, required this.importe, required this.comision, required this.pagoAdelantado});
+      {super.key, required this.factura, required this.diaspago, required this.moneda, required this.importe, required this.comision, required this.pagoAdelantado});
 
   final String factura;
   final String diaspago;
-  final String estatus;
   final String moneda;
   final double importe;
   final double comision;

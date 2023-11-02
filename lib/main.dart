@@ -19,6 +19,8 @@ import 'package:acp_web/helpers/scroll_behavior.dart';
 import 'package:acp_web/internationalization/internationalization.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 
+import 'providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -50,9 +52,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
-        /*  ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => AprobacionSeguimientoPagosProvider(),
-        ), */
+        ),
         ChangeNotifierProvider(
           create: (context) => SolicitudPagosProvider(),
         ),

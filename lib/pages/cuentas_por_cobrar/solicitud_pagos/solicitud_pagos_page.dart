@@ -28,6 +28,18 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
   bool listOpenned = true;
 
   late List<PlutoGridStateManager> listStateManager;
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final SolicitudPagosProvider provider = Provider.of<SolicitudPagosProvider>(
+        context,
+        listen: false,
+      );
+      await provider.solicitudPagos();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +66,13 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   //Top Menu
-                  const CustomTopMenu(pantalla: 'Cuentas por Cobrar'),
+                  CustomTopMenu(
+                    pantalla: 'Cuentas por Cobrar',
+                    controllerBusqueda: provider.controllerBusqueda,
+                    onSearchChanged: (p0) async {
+                          await provider.search();
+                        },
+                  ),
                   //Contenido
                   CustomHeaderOptions(
                     encabezado: 'Solicitud de Pagos',
@@ -202,26 +220,26 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                         scrollDirection: Axis.vertical,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: provider.listadoEjemplo1.length,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (BuildContext ctx, index) {
-                                  return CustomeCardSolicitudPagos(
-                                    moneda: 'GTQ',
-                                    factura: provider.listadoEjemplo1[index]['factura'],
-                                    importe: provider.listadoEjemplo1[index]['importe'],
-                                    comision: provider.listadoEjemplo1[index]['comision'],
-                                    diaspago: provider.listadoEjemplo1[index]['diaspago'],
-                                    pagoAdelantado: provider.listadoEjemplo1[index]['pagoAdelantado'],
-                                    estatus: provider.listadoEjemplo1[index]['Estatus'],
-                                    //ischeck: provider.ischeck,
-                                  );
-                                },
-                              ),
-                            ),
+                            provider.facturas.isEmpty
+                                ? const CircularProgressIndicator()
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: provider.facturas.length,
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder: (BuildContext ctx, index) {
+                                        return CustomeCardSolicitudPagos(
+                                          moneda: 'GTQ',
+                                          factura: provider.facturas[index].factuaId.toString(),
+                                          importe: provider.facturas[index].importe,
+                                          comision: provider.facturas[index].comision,
+                                          diaspago: provider.facturas[index].diasPago.toString(),
+                                          pagoAdelantado: provider.facturas[index].pagoAnticipado,
+                                        );
+                                      },
+                                    ),
+                                  ),
                           ],
                         ),
                       ),

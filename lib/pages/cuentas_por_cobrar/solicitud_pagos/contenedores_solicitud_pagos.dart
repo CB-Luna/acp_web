@@ -86,7 +86,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                           style: AppTheme.of(context).subtitle2,
                         ),
                         Text(
-                          '${provider.cantidadFacturasSeleccionadas} de ${provider.listadoEjemplo1.length}',
+                          '${provider.cantidadFacturasSeleccionadas} de ${provider.facturas.length}',
                           style: AppTheme.of(context).title3,
                         ),
                       ],
