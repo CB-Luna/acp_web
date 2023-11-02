@@ -1,3 +1,4 @@
+import 'package:acp_web/models/models.dart';
 import 'package:acp_web/pages/widgets/toasts/success_toast.dart';
 import 'package:acp_web/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,13 @@ import 'package:provider/provider.dart';
 import 'package:acp_web/providers/providers.dart';
 
 class OpcionesWidget extends StatefulWidget {
-  const OpcionesWidget({super.key, required this.formKey});
+  const OpcionesWidget({
+    super.key,
+    required this.formKey,
+    this.usuario,
+  });
+
+  final Usuario? usuario;
 
   final GlobalKey<FormState> formKey;
 
@@ -60,6 +67,30 @@ class _OpcionesWidgetState extends State<OpcionesWidget> {
           ElevatedButton(
             onPressed: () async {
               if (!widget.formKey.currentState!.validate()) {
+                return;
+              }
+
+              await provider.validarImagen(widget.usuario?.imagen);
+
+              if (widget.usuario != null) {
+                //Editar usuario
+                bool res = await provider.editarPerfilDeUsuario(widget.usuario!.id);
+
+                if (!res) {
+                  await ApiErrorHandler.callToast('Error al editar perfil de usuario');
+                  return;
+                }
+
+                if (!mounted) return;
+                fToast.showToast(
+                  child: const SuccessToast(
+                    message: 'Usuario editado',
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                  toastDuration: const Duration(seconds: 2),
+                );
+
+                context.pushReplacement('/usuarios');
                 return;
               }
 

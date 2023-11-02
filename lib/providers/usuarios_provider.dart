@@ -7,6 +7,7 @@ import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/models/models.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:path/path.dart' as p;
 import 'package:random_password_generator/random_password_generator.dart';
@@ -61,6 +62,9 @@ class UsuariosProvider extends ChangeNotifier {
     codigoClienteController.clear();
     sociedadClienteController.clear();
 
+    nombreImagen = null;
+    webImage = null;
+
     if (notify) notifyListeners();
   }
 
@@ -82,6 +86,11 @@ class UsuariosProvider extends ChangeNotifier {
   }
 
   Future<void> getCliente() async {
+    if (cliente != null) {
+      codigoClienteController.text = cliente!.codigoAcreedor;
+      sociedadClienteController.text = cliente!.sociedad;
+      return;
+    }
     try {
       final res = await supabase.from('clientes').select().eq('codigo_acreedor', codigoClienteController.text);
 
@@ -114,11 +123,16 @@ class UsuariosProvider extends ChangeNotifier {
 
       rows.clear();
       for (Usuario usuario in usuarios) {
+        String? imageUrl;
+        if (usuario.imagen != null) {
+          imageUrl = supabase.storage.from('avatars').getPublicUrl(usuario.imagen!);
+        }
+        Map<String, String?> infoUsuario = {'nombre': usuario.nombreCompleto, 'imagen': imageUrl};
         rows.add(
           PlutoRow(
             cells: {
               'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
-              'usuario': PlutoCell(value: usuario.nombreCompleto),
+              'usuario': PlutoCell(value: infoUsuario),
               'telefono': PlutoCell(value: formatPhone(usuario.telefono)),
               'rol': PlutoCell(value: usuario.rol.nombre),
               'compania': PlutoCell(value: usuario.compania),
@@ -177,6 +191,34 @@ class UsuariosProvider extends ChangeNotifier {
       return nombreImagen;
     }
     return null;
+  }
+
+  Future<void> validarImagen(String? imagen) async {
+    if (imagen == null) {
+      if (webImage != null) {
+        //usuario no tiene imagen y se agrego => se sube imagen
+        final res = await uploadImage();
+        if (res == null) {
+          ApiErrorHandler.callToast('Error al subir imagen');
+        }
+      }
+      //usuario no tiene imagen y no se agrego => no hace nada
+    } else {
+      //usuario tiene imagen y se borro => se borra en bd
+      if (webImage == null && nombreImagen == null) {
+        await supabase.storage.from('avatars').remove([imagen]);
+      }
+      //usuario tiene imagen y no se modifico => no se hace nada
+
+      //usuario tiene imagen y se cambio => se borra en bd y se sube la nueva
+      if (webImage != null && nombreImagen != imagen) {
+        await supabase.storage.from('avatars').remove([imagen]);
+        final res2 = await uploadImage();
+        if (res2 == null) {
+          ApiErrorHandler.callToast('Error al subir imagen');
+        }
+      }
+    }
   }
 
   Future<Map<String, String>?> registrarUsuario() async {
@@ -245,30 +287,29 @@ class UsuariosProvider extends ChangeNotifier {
     }
   }
 
-  // Future<bool> editarPerfilDeUsuario(String userId) async {
-  //   try {
-  //     await supabase.from('perfil_usuario').update(
-  //       {
-  //         'nombre': nombreController.text,
-  //         'apellidos': apellidosController.text,
-  //         'id_proveedor_fk': proveedorId,
-  //         'responsable_fk': responsableId,
-  //         'cuentas': cuentasDropValue,
-  //         'telefono': telefonoController.text,
-  //         'ext': extController.text,
-  //         'imagen': imageName,
-  //         'rol_fk': rolSeleccionado!.idRolPk,
-  //         'pais_fk': paisSeleccionado!.idPaisPk,
-  //       },
-  //     ).eq('perfil_usuario_id', userId);
-  //     return true;
-  //   } catch (e) {
-  //     log('Error en editarPerfilUsuario() - $e');
-  //     return false;
-  //   }
-  // }
+  Future<bool> editarPerfilDeUsuario(String userId) async {
+    try {
+      await supabase.from('perfil_usuario').update(
+        {
+          'nombre': nombreController.text,
+          'apellido_paterno': apellidoPaternoController.text,
+          'apellido_materno': apellidoMaternoController.text,
+          'telefono': telefonoController.text,
+          'rol_fk': rolSeleccionado!.rolId,
+          'compania': 'ACP',
+          'cliente_fk': cliente?.clienteId,
+          'imagen': nombreImagen,
+          'activo': activo,
+        },
+      ).eq('perfil_usuario_id', userId);
+      return true;
+    } catch (e) {
+      log('Error en editarPerfilUsuario() - $e');
+      return false;
+    }
+  }
 
-  void initEditarUsuario(Usuario usuario) {
+  Future<void> initEditarUsuario(Usuario usuario) async {
     nombreController.text = usuario.nombre;
     apellidoPaternoController.text = usuario.apellidoPaterno;
     apellidoMaternoController.text = usuario.apellidoMaterno ?? '';
@@ -276,6 +317,12 @@ class UsuariosProvider extends ChangeNotifier {
     telefonoController.text = usuario.telefono;
     rolSeleccionado = usuario.rol;
     activo = usuario.activo;
+    nombreImagen = usuario.imagen;
+    webImage = null;
+    cliente = usuario.cliente;
+    if (cliente != null) {
+      await getCliente();
+    }
   }
 
   Future<bool> updateActivado(Usuario usuario, bool value, int rowIndex) async {

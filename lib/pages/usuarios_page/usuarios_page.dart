@@ -1,6 +1,7 @@
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
+import 'package:acp_web/pages/widgets/get_image_widget.dart';
 import 'package:acp_web/services/api_error_handler.dart';
 // import 'package:acp_web/models/models.dart';
 import 'package:flutter/material.dart';
@@ -102,13 +103,42 @@ class _UsuariosPageState extends State<UsuariosPage> {
                               PlutoColumn(
                                 title: 'Usuario',
                                 field: 'usuario',
-                                width: 150,
+                                width: 200,
                                 enableContextMenu: false,
                                 enableDropToResize: false,
                                 titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
                                 type: PlutoColumnType.text(),
                                 enableEditingMode: false,
+                                renderer: (rendererContext) {
+                                  final infoUsuario = rendererContext.cell.value as Map<String, String?>;
+                                  return Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 24,
+                                        height: 24,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        child: getUserImage(
+                                          height: 24,
+                                          infoUsuario['imagen'],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          infoUsuario['nombre'] ?? '',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppTheme.of(context).contenidoTablas,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                               PlutoColumn(
                                 title: 'Telefono',
@@ -240,7 +270,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           ),
                                           splashRadius: 0.01,
                                           onPressed: () async {
-                                            provider.initEditarUsuario(usuario!);
+                                            await provider.initEditarUsuario(usuario!);
                                             if (!mounted) return;
                                             await context.pushNamed(
                                               'editar_usuario',

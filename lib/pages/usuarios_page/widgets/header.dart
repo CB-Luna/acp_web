@@ -32,6 +32,7 @@ class _UsuariosHeaderState extends State<UsuariosHeader> {
             const Spacer(),
             ElevatedButton(
               onPressed: () async {
+                provider.clearControllers(notify: false);
                 await context.pushNamed('registro_usuario');
               },
               style: ElevatedButton.styleFrom(

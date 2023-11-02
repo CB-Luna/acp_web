@@ -1,3 +1,4 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,16 @@ class RegistroUsuariosPage extends StatefulWidget {
 class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
+
+  String? imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.usuario?.imagen != null) {
+      imageUrl = supabase.storage.from('avatars').getPublicUrl(widget.usuario!.imagen!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +109,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                           ),
                                           child: getUserImage(
                                             height: 152,
-                                            provider.webImage,
+                                            provider.webImage ?? imageUrl,
                                           ),
                                         ),
                                       ),
@@ -114,6 +125,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                           ),
                                           splashRadius: 0.01,
                                           onPressed: () {
+                                            imageUrl = null;
                                             provider.clearImage();
                                           },
                                         ),
@@ -147,7 +159,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                         width: 16,
                                       ),
                                       InputContainer(
-                                        title: 'Contacto',
+                                        title: 'Correo Electrónico',
                                         child: CustomInputField(
                                           label: 'Email',
                                           controller: provider.correoController,
@@ -241,7 +253,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                         width: 16,
                                       ),
                                       InputContainer(
-                                        title: 'Rol',
+                                        title: 'Rol de Usuario',
                                         child: CustomDropDown(
                                           label: 'Rol',
                                           value: provider.rolSeleccionado?.nombre,
@@ -313,20 +325,6 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       ],
                                     ),
                                   ]
-                                  // const SizedBox(height: 16),
-                                  // InputContainer(
-                                  //   title: 'Estatus',
-                                  //   width: 844,
-                                  //   alignment: Alignment.centerLeft,
-                                  //   child: Switch(
-                                  //     value: provider.activo,
-                                  //     activeColor: const Color(0xFF0A0859),
-                                  //     onChanged: (value) {
-                                  //       provider.activo = value;
-                                  //       setState(() {});
-                                  //     },
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -340,6 +338,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                   alignment: Alignment.centerRight,
                   child: OpcionesWidget(
                     formKey: formKey,
+                    usuario: widget.usuario,
                   ),
                 ),
                 //Footer
