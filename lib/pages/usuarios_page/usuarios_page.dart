@@ -1,5 +1,6 @@
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
+import 'package:acp_web/pages/usuarios_page/widgets/confirmacion_popup.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/pages/widgets/get_image_widget.dart';
 import 'package:acp_web/services/api_error_handler.dart';
@@ -141,6 +142,17 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                 },
                               ),
                               PlutoColumn(
+                                title: 'Correo electrónico',
+                                field: 'email',
+                                width: 162,
+                                enableContextMenu: false,
+                                enableDropToResize: false,
+                                titleTextAlign: PlutoColumnTextAlign.center,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                              ),
+                              PlutoColumn(
                                 title: 'Telefono',
                                 field: 'telefono',
                                 width: 116,
@@ -166,17 +178,6 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                 title: 'Compañía',
                                 field: 'compania',
                                 width: 100,
-                                enableContextMenu: false,
-                                enableDropToResize: false,
-                                titleTextAlign: PlutoColumnTextAlign.center,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                              ),
-                              PlutoColumn(
-                                title: 'Contacto',
-                                field: 'email',
-                                width: 162,
                                 enableContextMenu: false,
                                 enableDropToResize: false,
                                 titleTextAlign: PlutoColumnTextAlign.center,
@@ -226,7 +227,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                               PlutoColumn(
                                 title: 'Acciones',
                                 field: 'acciones',
-                                width: 120,
+                                width: 160,
                                 enableContextMenu: false,
                                 enableDropToResize: false,
                                 titleTextAlign: PlutoColumnTextAlign.center,
@@ -276,6 +277,30 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                               'editar_usuario',
                                               extra: usuario,
                                             );
+                                          },
+                                        ),
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          icon: const Icon(
+                                            Icons.delete_outline_outlined,
+                                            size: 24,
+                                            color: Color(0xFF0090FF),
+                                          ),
+                                          splashRadius: 0.01,
+                                          onPressed: () async {
+                                            final popupResult = await showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return const ConfirmacionPopup();
+                                              },
+                                            );
+                                            if (popupResult == null || popupResult is! bool) return;
+                                            if (popupResult == false) return;
+                                            final res = await provider.borrarUsuario(usuario!.id);
+                                            if (!res) {
+                                              ApiErrorHandler.callToast('Error al borrar usuario');
+                                              return;
+                                            }
                                           },
                                         ),
                                       ],

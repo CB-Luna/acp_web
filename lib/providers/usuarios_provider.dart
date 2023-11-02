@@ -121,34 +121,39 @@ class UsuariosProvider extends ChangeNotifier {
 
       usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
 
-      rows.clear();
-      for (Usuario usuario in usuarios) {
-        String? imageUrl;
-        if (usuario.imagen != null) {
-          imageUrl = supabase.storage.from('avatars').getPublicUrl(usuario.imagen!);
-        }
-        Map<String, String?> infoUsuario = {'nombre': usuario.nombreCompleto, 'imagen': imageUrl};
-        rows.add(
-          PlutoRow(
-            cells: {
-              'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
-              'usuario': PlutoCell(value: infoUsuario),
-              'telefono': PlutoCell(value: formatPhone(usuario.telefono)),
-              'rol': PlutoCell(value: usuario.rol.nombre),
-              'compania': PlutoCell(value: usuario.compania),
-              'email': PlutoCell(value: usuario.email),
-              'sociedad': PlutoCell(value: usuario.cliente?.sociedad ?? '-'),
-              'activo': PlutoCell(value: usuario.estatus),
-              'acciones': PlutoCell(value: usuario.id),
-            },
-          ),
-        );
-      }
-      if (stateManager != null) stateManager!.notifyListeners();
+      llenarPlutoGrid(usuarios);
     } catch (e) {
       log('Error en getUsuarios() - $e');
     }
 
+    notifyListeners();
+  }
+
+  void llenarPlutoGrid(List<Usuario> usuarios) {
+    rows.clear();
+    for (Usuario usuario in usuarios) {
+      String? imageUrl;
+      if (usuario.imagen != null) {
+        imageUrl = supabase.storage.from('avatars').getPublicUrl(usuario.imagen!);
+      }
+      Map<String, String?> infoUsuario = {'nombre': usuario.nombreCompleto, 'imagen': imageUrl};
+      rows.add(
+        PlutoRow(
+          cells: {
+            'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
+            'usuario': PlutoCell(value: infoUsuario),
+            'telefono': PlutoCell(value: formatPhone(usuario.telefono)),
+            'rol': PlutoCell(value: usuario.rol.nombre),
+            'compania': PlutoCell(value: usuario.compania),
+            'email': PlutoCell(value: usuario.email),
+            'sociedad': PlutoCell(value: usuario.cliente?.sociedad ?? '-'),
+            'activo': PlutoCell(value: usuario.estatus),
+            'acciones': PlutoCell(value: usuario.id),
+          },
+        ),
+      );
+    }
+    if (stateManager != null) stateManager!.notifyListeners();
     notifyListeners();
   }
 
@@ -434,6 +439,20 @@ class UsuariosProvider extends ChangeNotifier {
 
   //   return true;
   // }
+
+  Future<bool> borrarUsuario(String userId) async {
+    try {
+      final res = await supabase.rpc('borrar_usuario_id', params: {
+        'user_id': userId,
+      });
+      usuarios.removeWhere((user) => user.id == userId);
+      llenarPlutoGrid(usuarios);
+      return res;
+    } catch (e) {
+      log('Error en borrarUsuario() - $e');
+      return false;
+    }
+  }
 
   @override
   void dispose() {

@@ -1,4 +1,5 @@
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/pages/widgets/get_image_widget.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,16 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
 
   double iconSize = 20;
 
+  String? userImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    if (currentUser?.imagen != null) {
+      userImageUrl = supabase.storage.from('avatars').getPublicUrl(currentUser!.imagen!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
@@ -66,7 +77,15 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       Container(
                         width: 24,
                         height: 24,
-                        color: Colors.red,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: getUserImage(
+                          height: 24,
+                          userImageUrl,
+                        ),
                       ),
                       if (data.isOpen) const SizedBox(width: 5),
                       if (data.isOpen)
@@ -83,16 +102,16 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   ),
                 ),
                 items: [
-                  SideMenuItemDataTitle(
-                    title: currentUser!.rol.nombre,
-                    textAlign: data.isOpen ? TextAlign.start : TextAlign.center,
-                    titleStyle: TextStyle(
-                      fontSize: data.isOpen ? 14 : 10,
-                      color: AppTheme.of(context).primaryBackground,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    padding: paddingHItems,
-                  ),
+                  // SideMenuItemDataTitle(
+                  //   title: currentUser!.rol.nombre,
+                  //   textAlign: data.isOpen ? TextAlign.start : TextAlign.center,
+                  //   titleStyle: TextStyle(
+                  //     fontSize: data.isOpen ? 14 : 10,
+                  //     color: AppTheme.of(context).primaryBackground,
+                  //     fontWeight: FontWeight.w300,
+                  //   ),
+                  //   padding: paddingHItems,
+                  // ),
                   SideMenuItemDataTile(
                     title: 'Home',
                     titleStyle: dataTileTextStyle,
@@ -124,7 +143,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
-                    isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! && (visualState.isTaped[8] || visualState.isTaped[9])) ||
+                    isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! &&
+                            (visualState.isTaped[8] || visualState.isTaped[9])) ||
                         ((visualState.isTaped[8] || visualState.isTaped[9]) && !data.isOpen),
                     onTap: () => setState(() {
                       visualState.isGroupTaped.update('Cuentas por Cobrar', (value) => !value);
@@ -176,8 +196,9 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
-                    isSelected:
-                        (!visualState.isGroupTaped['Propuesta de Pago']! && (visualState.isTaped[1] || visualState.isTaped[2])) || ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
+                    isSelected: (!visualState.isGroupTaped['Propuesta de Pago']! &&
+                            (visualState.isTaped[1] || visualState.isTaped[2])) ||
+                        ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
                     onTap: () => setState(() {
                       visualState.isGroupTaped.update('Propuesta de Pago', (value) => !value);
                     }),

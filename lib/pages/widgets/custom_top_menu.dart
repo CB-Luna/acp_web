@@ -156,14 +156,6 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                    ),
                     Wrap(
                       spacing: 8,
                       children: [
