@@ -1,5 +1,5 @@
 import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
-import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
+import 'package:acp_web/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

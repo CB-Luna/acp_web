@@ -1,6 +1,6 @@
 import 'package:acp_web/functions/money_format.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_ejecucion.dart';
-import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
+import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/popup_ejecucion.dart';
+import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

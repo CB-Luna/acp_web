@@ -1,7 +1,8 @@
 import 'package:acp_web/functions/money_format.dart';
-import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_selecci%C3%B3n_facturas.dart';
-import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
+import 'package:acp_web/models/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_model.dart';
+import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/popup_seleccion_facturas.dart';
+import 'package:acp_web/pages/widgets/custom_image_container.dart';
+import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -14,7 +15,7 @@ class CustomCard extends StatefulWidget {
     required this.cliente,
   });
 
-  final SeleccionPagosAnticipados cliente;
+  final AutorizacionSolicitudesPagoanticipado cliente;
   final String moneda;
 
   @override
@@ -44,14 +45,7 @@ class _CustomCardState extends State<CustomCard> {
           children: [
             Row(
               children: [
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                ),
+                ImageContainer(imageUrl: widget.cliente.logoUrl, size: 42),
                 const SizedBox(width: 20),
                 Expanded(
                   child: Column(

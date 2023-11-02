@@ -2,16 +2,17 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
-import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
+import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_model.dart';
+
 class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
 
-  List<SeleccionPagosAnticipados> clientes = [];
+  List<AutorizacionSolicitudesPagoanticipado> clientes = [];
   double montoFacturacion = 0;
   int cantidadFacturas = 0;
   int cantidadFacturasSeleccionadas = 0;
@@ -63,7 +64,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         },
       ).select();
 
-      clientes = (response as List<dynamic>).map((cliente) => SeleccionPagosAnticipados.fromJson(jsonEncode(cliente))).toList();
+      clientes = (response as List<dynamic>).map((cliente) => AutorizacionSolicitudesPagoanticipado.fromJson(jsonEncode(cliente))).toList();
 
       for (var cliente in clientes) {
         cliente.facturas!.sort((a, b) => b.cantDpp!.compareTo(a.cantDpp!)); //TODO: Realizar ordenamiento mediante el query

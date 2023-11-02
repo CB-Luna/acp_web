@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:acp_web/models/global/factura_model.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class SeleccionPagosAnticipados {
+class AutorizacionSolicitudesPagoanticipado {
   int? clienteId;
   String? nombreFiscal;
   String? sociedad;
@@ -18,7 +18,7 @@ class SeleccionPagosAnticipados {
   double? pagoAdelantado = 0;
   bool opened = false;
 
-  SeleccionPagosAnticipados({
+  AutorizacionSolicitudesPagoanticipado({
     this.clienteId,
     this.nombreFiscal,
     this.sociedad,
@@ -28,11 +28,11 @@ class SeleccionPagosAnticipados {
     this.facturas,
   });
 
-  factory SeleccionPagosAnticipados.fromJson(String str) => SeleccionPagosAnticipados.fromMap(json.decode(str));
+  factory AutorizacionSolicitudesPagoanticipado.fromJson(String str) => AutorizacionSolicitudesPagoanticipado.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory SeleccionPagosAnticipados.fromMap(Map<String, dynamic> json) => SeleccionPagosAnticipados(
+  factory AutorizacionSolicitudesPagoanticipado.fromMap(Map<String, dynamic> json) => AutorizacionSolicitudesPagoanticipado(
         clienteId: json["cliente_id"],
         nombreFiscal: json["nombre_fiscal"],
         sociedad: json["sociedad"],

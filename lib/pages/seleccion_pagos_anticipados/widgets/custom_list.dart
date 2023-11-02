@@ -2,11 +2,13 @@ import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/functions/money_format_3_decimals.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
-import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
+import 'package:acp_web/pages/widgets/custom_image_container.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
+
+import 'package:acp_web/providers/providers.dart';
 
 class CustomListCard extends StatefulWidget {
   const CustomListCard({
@@ -38,8 +40,6 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
     super.dispose();
   }
 
-  bool opened = false;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
@@ -63,10 +63,10 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                   borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(6),
                     topRight: const Radius.circular(6),
-                    bottomRight: opened ? Radius.zero : const Radius.circular(6),
-                    bottomLeft: opened ? Radius.zero : const Radius.circular(6),
+                    bottomRight: widget.cliente.opened ? Radius.zero : const Radius.circular(6),
+                    bottomLeft: widget.cliente.opened ? Radius.zero : const Radius.circular(6),
                   ),
-                  color: opened == true
+                  color: widget.cliente.opened == true
                       ? AppTheme.of(context).secondaryColor
                       : AppTheme.themeMode == ThemeMode.light
                           ? AppTheme.of(context).secondaryText
@@ -111,14 +111,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               ),
                             ),
                             const SizedBox(width: 8),
-                            Container(
-                              width: 18,
-                              height: 18,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red,
-                              ),
-                            ),
+                            ImageContainer(imageUrl: widget.cliente.logoUrl, size: 20),
                             const SizedBox(width: 5),
                             SizedBox(
                               width: width * 135,
@@ -538,12 +531,12 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                 ],
               ),
             ),
-            isExpanded: opened,
+            isExpanded: widget.cliente.opened,
           ),
         ],
         expansionCallback: (panelIndex, isExpanded) {
           setState(() {
-            opened = !isExpanded;
+            widget.cliente.opened = !isExpanded;
           });
         },
       ),

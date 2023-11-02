@@ -1,10 +1,11 @@
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_ejecucion.dart';
-import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'package:acp_web/providers/providers.dart';
 
 class ContenedoresPagosAnticipados extends StatefulWidget {
   const ContenedoresPagosAnticipados({super.key});
