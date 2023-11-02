@@ -9,6 +9,7 @@ import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/models/models.dart';
+import 'package:acp_web/pages/widgets/get_image_widget.dart';
 import 'package:acp_web/pages/registro_usuario_page/widgets/opciones_widget.dart';
 import 'package:acp_web/pages/registro_usuario_page/widgets/header.dart';
 import 'package:acp_web/theme/theme.dart';
@@ -42,229 +43,296 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
           const CustomSideMenu(),
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 //Top Menu
                 const CustomTopMenu(pantalla: 'Registro de Usuarios'),
                 //Contenido
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        //Encabezado
-                        const RegistroUsuariosHeader(encabezado: 'Registro de Usuarios'),
-                        //Contenido
-                        Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD7E9FB),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Form(
-                            key: formKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Información de Usuario',
-                                    style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
+                  child: SingleChildScrollView(
+                    clipBehavior: Clip.none,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //Encabezado
+                          const RegistroUsuariosHeader(encabezado: 'Registro de Usuarios'),
+                          //Contenido
+                          Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD7E9FB),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Información de Usuario',
+                                      style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InputContainer(
-                                      title: 'Nombre de contacto',
-                                      child: CustomInputField(
-                                        label: 'Nombre',
-                                        controller: provider.nombreController,
-                                        keyboardType: TextInputType.name,
-                                        formatters: [
-                                          FilteringTextInputFormatter.allow(
-                                            RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
-                                          )
-                                        ],
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'El nombre es requerido';
-                                          }
-                                          return null;
+                                  const SizedBox(height: 16),
+                                  Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          await provider.selectImage();
                                         },
+                                        child: Container(
+                                          width: 160,
+                                          height: 160,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: getUserImage(
+                                            height: 152,
+                                            provider.webImage,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    InputContainer(
-                                      title: 'Apellido Paterno',
-                                      child: CustomInputField(
-                                        label: 'Apellido Paterno',
-                                        controller: provider.apellidoPaternoController,
-                                        keyboardType: TextInputType.name,
-                                        formatters: [
-                                          FilteringTextInputFormatter.allow(
-                                            RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
-                                          )
-                                        ],
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'El apellido es requerido';
-                                          }
-                                          return null;
-                                        },
+                                      Positioned(
+                                        right: -16,
+                                        bottom: 0,
+                                        child: IconButton(
+                                          padding: EdgeInsets.zero,
+                                          icon: const Icon(
+                                            Icons.delete_outline_outlined,
+                                            size: 28,
+                                            color: Color(0xFF0A0859),
+                                          ),
+                                          splashRadius: 0.01,
+                                          onPressed: () {
+                                            provider.clearImage();
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InputContainer(
-                                      title: 'Teléfono de Contacto',
-                                      child: CustomInputField(
-                                        label: 'Teléfono',
-                                        controller: provider.telefonoController,
-                                        keyboardType: TextInputType.phone,
-                                        formatters: [
-                                          FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]'),
-                                          )
-                                        ],
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'El teléfono es obligatorio';
-                                          }
-                                          if (value.length != 10) {
-                                            return 'El teléfono debe tener 10 dígitos';
-                                          }
-                                          return null;
-                                        },
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InputContainer(
+                                        title: 'Nombre de contacto',
+                                        child: CustomInputField(
+                                          label: 'Nombre',
+                                          controller: provider.nombreController,
+                                          keyboardType: TextInputType.name,
+                                          formatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                            )
+                                          ],
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'El nombre es requerido';
+                                            }
+                                            return null;
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    InputContainer(
-                                      title: 'Rol',
-                                      child: CustomDropDown(
-                                        label: 'Rol',
-                                        value: provider.rolSeleccionado?.nombre,
-                                        items: provider.roles.map((rol) => rol.nombre).toList(),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'El rol es requerido';
-                                          }
-                                          return null;
-                                        },
-                                        onChanged: provider.setRolSeleccionado,
+                                      const SizedBox(
+                                        width: 16,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InputContainer(
-                                      title: 'Compañía',
-                                      child: CustomInputField(
-                                        label: 'Compañía',
-                                        controller: TextEditingController(),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'La compañía es requerida';
-                                          }
-                                          return null;
-                                        },
+                                      InputContainer(
+                                        title: 'Contacto',
+                                        child: CustomInputField(
+                                          label: 'Email',
+                                          controller: provider.correoController,
+                                          keyboardType: TextInputType.emailAddress,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'El correo es obligatorio';
+                                            } else if (!EmailValidator.validate(value)) {
+                                              return 'El correo no es válido';
+                                            }
+                                            return null;
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 16,
-                                    ),
-                                    InputContainer(
-                                      title: 'Contacto',
-                                      child: CustomInputField(
-                                        label: 'Email',
-                                        controller: provider.correoController,
-                                        keyboardType: TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'El correo es obligatorio';
-                                          } else if (!EmailValidator.validate(value)) {
-                                            return 'El correo no es válido';
-                                          }
-                                          return null;
-                                        },
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InputContainer(
+                                        title: 'Apellido Paterno',
+                                        child: CustomInputField(
+                                          label: 'Apellido Paterno',
+                                          controller: provider.apellidoPaternoController,
+                                          keyboardType: TextInputType.name,
+                                          formatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                            )
+                                          ],
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'El apellido es requerido';
+                                            }
+                                            return null;
+                                          },
+                                        ),
                                       ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      InputContainer(
+                                        title: 'Apellido Materno',
+                                        child: CustomInputField(
+                                          label: 'Apellido Materno',
+                                          controller: provider.apellidoMaternoController,
+                                          keyboardType: TextInputType.name,
+                                          formatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                            )
+                                          ],
+                                          // validator: (value) {
+                                          //   if (value == null || value.isEmpty) {
+                                          //     return 'El apellido es requerido';
+                                          //   }
+                                          //   return null;
+                                          // },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InputContainer(
+                                        title: 'Teléfono de Contacto',
+                                        child: CustomInputField(
+                                          label: 'Teléfono',
+                                          controller: provider.telefonoController,
+                                          keyboardType: TextInputType.phone,
+                                          formatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]'),
+                                            )
+                                          ],
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'El teléfono es obligatorio';
+                                            }
+                                            if (value.length != 10) {
+                                              return 'El teléfono debe tener 10 dígitos';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      InputContainer(
+                                        title: 'Rol',
+                                        child: CustomDropDown(
+                                          label: 'Rol',
+                                          value: provider.rolSeleccionado?.nombre,
+                                          items: provider.roles.map((rol) => rol.nombre).toList(),
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'El rol es requerido';
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: provider.setRolSeleccionado,
+                                        ),
+                                      ),
+                                      // InputContainer(
+                                      //   title: 'Compañía',
+                                      //   child: CustomInputField(
+                                      //     label: 'Compañía',
+                                      //     controller: TextEditingController(),
+                                      //     validator: (value) {
+                                      //       if (value == null || value.isEmpty) {
+                                      //         return 'La compañía es requerida';
+                                      //       }
+                                      //       return null;
+                                      //     },
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                  if (provider.rolSeleccionado?.nombre == 'Cliente') ...[
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        InputContainer(
+                                          title: 'Código de cliente',
+                                          child: CustomInputField(
+                                            label: 'Código',
+                                            controller: provider.codigoClienteController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'El código es obligatorio';
+                                              }
+                                              return null;
+                                            },
+                                            onChanged: (value) async {
+                                              await provider.getCliente();
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        InputContainer(
+                                          title: 'Sociedad',
+                                          child: CustomInputField(
+                                            label: 'Sociedad',
+                                            controller: provider.sociedadClienteController,
+                                            keyboardType: TextInputType.text,
+                                            readOnly: true,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                // const SizedBox(height: 16),
-                                // Row(
-                                //   mainAxisSize: MainAxisSize.min,
-                                //   children: [
-                                //     InputContainer(
-                                //       title: 'País',
-                                //       child: CustomDropDown(
-                                //         label: 'País',
-                                //         value: provider.paisSeleccionado?.nombre,
-                                //         items: provider.paises.map((pais) => pais.nombre).toList(),
-                                //         validator: (value) {
-                                //           if (value == null || value.isEmpty) {
-                                //             return 'El país es requerido';
-                                //           }
-                                //           return null;
-                                //         },
-                                //         onChanged: provider.setPaisSeleccionado,
-                                //       ),
-                                //     ),
-                                //     const SizedBox(
-                                //       width: 16,
-                                //     ),
-                                //     InputContainer(
-                                //       title: 'Sociedad',
-                                //       child: CustomDropDown(
-                                //         label: 'Sociedad',
-                                //         value: provider.sociedadSeleccionada?.nombre,
-                                //         items: provider.sociedades.map((sociedad) => sociedad.nombre).toList(),
-                                //         validator: (value) {
-                                //           if (value == null || value.isEmpty) {
-                                //             return 'La sociedad es requerida';
-                                //           }
-                                //           return null;
-                                //         },
-                                //         onChanged: provider.setSociedad,
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                                // const SizedBox(height: 16),
-                                // InputContainer(
-                                //   title: 'Estatus',
-                                //   width: 844,
-                                //   alignment: Alignment.centerLeft,
-                                //   child: Switch(
-                                //     value: provider.activo,
-                                //     activeColor: const Color(0xFF0A0859),
-                                //     onChanged: (value) {
-                                //       provider.activo = value;
-                                //       setState(() {});
-                                //     },
-                                //   ),
-                                // ),
-                              ],
+                                  ]
+                                  // const SizedBox(height: 16),
+                                  // InputContainer(
+                                  //   title: 'Estatus',
+                                  //   width: 844,
+                                  //   alignment: Alignment.centerLeft,
+                                  //   child: Switch(
+                                  //     value: provider.activo,
+                                  //     activeColor: const Color(0xFF0A0859),
+                                  //     onChanged: (value) {
+                                  //       provider.activo = value;
+                                  //       setState(() {});
+                                  //     },
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -336,16 +404,20 @@ class CustomInputField extends StatefulWidget {
     super.key,
     required this.label,
     required this.controller,
-    required this.validator,
+    this.validator,
     this.keyboardType = TextInputType.text,
     this.formatters,
+    this.onChanged,
+    this.readOnly = false,
   });
 
   final String label;
   final TextEditingController controller;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? formatters;
+  final void Function(String)? onChanged;
+  final bool readOnly;
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -362,6 +434,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
         validator: widget.validator,
         keyboardType: widget.keyboardType,
         inputFormatters: widget.formatters,
+        readOnly: widget.readOnly,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           hintText: widget.label,
           isCollapsed: true,

@@ -38,7 +38,8 @@ class UsuariosProvider extends ChangeNotifier {
   String? nombreImagen;
   Uint8List? webImage;
 
-  int? clienteId;
+  Cliente? cliente;
+  TextEditingController sociedadClienteController = TextEditingController();
 
   //PANTALLA USUARIOS
   final busquedaController = TextEditingController();
@@ -47,7 +48,6 @@ class UsuariosProvider extends ChangeNotifier {
   Future<void> updateState() async {
     busquedaController.clear();
     await getRoles(notify: false);
-    // await getSociedades(notify: false);
     await getUsuarios();
   }
 
@@ -59,6 +59,7 @@ class UsuariosProvider extends ChangeNotifier {
     telefonoController.clear();
     rolSeleccionado = null;
     codigoClienteController.clear();
+    sociedadClienteController.clear();
 
     if (notify) notifyListeners();
   }
@@ -80,38 +81,21 @@ class UsuariosProvider extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  // Future<void> getSociedades({bool notify = true, bool refresh = false}) async {
-  //   if (sociedades.isNotEmpty && !refresh) return;
-  //   final res = await supabase
-  //       .from('sociedades')
-  //       .select()
-  //       .eq('pais_fk', currentUser!.pais.idPaisPk)
-  //       .order('sociedad');
-
-  //   sociedades = (res as List<dynamic>)
-  //       .map((sociedad) => Sociedad.fromJson(jsonEncode(sociedad)))
-  //       .toList();
-
-  //   if (notify) notifyListeners();
-  // }
-
   Future<void> getCliente() async {
-    final res = await supabase
-        .from('clientes')
-        .select('id_proveedor_pk, nombre_fiscal, cuenta_acreedor')
-        .eq('codigo_acreedor', codigoClienteController.text);
+    try {
+      final res = await supabase.from('clientes').select().eq('codigo_acreedor', codigoClienteController.text);
 
-    if (res == null) return;
+      if (res == null) return;
 
-    if ((res as List).length != 1) {
-      clienteId = null;
-      // nombreProveedorController.text = 'No se encontró';
-      // cuentaProveedorController.text = 'No se encontró';
-    } else {
-      // final infoCliente = res[0];
-      clienteId = res[0]['cliente_id'];
-      // nombreProveedorController.text = infoProveedor['nombre_fiscal'];
-      // cuentaProveedorController.text = infoProveedor['cuenta_acreedor'] ?? '';
+      if ((res as List).length != 1) {
+        cliente = null;
+        sociedadClienteController.text = 'No se encontró';
+      } else {
+        cliente = Cliente.fromMap(res[0]);
+        sociedadClienteController.text = cliente?.sociedad ?? '';
+      }
+    } catch (e) {
+      log('Error en getCliente() - $e');
     }
   }
 
@@ -249,7 +233,7 @@ class UsuariosProvider extends ChangeNotifier {
           'telefono': telefonoController.text,
           'rol_fk': rolSeleccionado!.rolId,
           'compania': 'ACP',
-          'cliente_fk': clienteId,
+          'cliente_fk': cliente?.clienteId,
           'imagen': nombreImagen,
           'activo': activo,
         },
@@ -413,6 +397,7 @@ class UsuariosProvider extends ChangeNotifier {
     apellidoMaternoController.dispose();
     telefonoController.dispose();
     codigoClienteController.dispose();
+    sociedadClienteController.dispose();
     super.dispose();
   }
 }
