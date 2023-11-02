@@ -1,26 +1,27 @@
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/contenedores_pagos_anticipados.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_card.dart';
-import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_list.dart';
+import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/contenedores_pagos_anticipados.dart';
+import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/custom_card.dart';
+import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/custom_list.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
-import 'package:acp_web/pages/widgets/footer.dart';
-import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
+import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
-class SeleccionPagosAnticipadosPage extends StatefulWidget {
-  const SeleccionPagosAnticipadosPage({super.key});
+import '../widgets/footer.dart';
+
+class AutorizacionSolicitudesPagoAnticipadoPage extends StatefulWidget {
+  const AutorizacionSolicitudesPagoAnticipadoPage({super.key});
 
   @override
-  State<SeleccionPagosAnticipadosPage> createState() => _SeleccionPagosAnticipadosPageState();
+  State<AutorizacionSolicitudesPagoAnticipadoPage> createState() => _AutorizacionSolicitudesPagoAnticipadoPageState();
 }
 
-class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipadosPage> {
+class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<AutorizacionSolicitudesPagoAnticipadoPage> {
   bool filterSelected = false;
 
   bool listOpenned = false;
@@ -32,7 +33,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(
+      final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(
         context,
         listen: false,
       );
@@ -45,12 +46,12 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
     double height = MediaQuery.of(context).size.height / 1024;
 
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
-    visualState.setTapedOption(1);
+    visualState.setTapedOption(2);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
-    final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
+    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
@@ -81,7 +82,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                             children: [
                               //Encabezado
                               CustomHeaderOptions(
-                                encabezado: 'Selección de Pagos Anticipados',
+                                encabezado: 'Autorización de Solicitudes de Pago Anticipado',
                                 filterSelected: filterSelected,
                                 gridSelected: provider.gridSelected,
                                 onFilterSelected: () {

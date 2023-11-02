@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
+class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
 
   List<SeleccionPagosAnticipados> clientes = [];
@@ -96,7 +96,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - getRecords() - $e');
     }
     return await calcClients();
   }
@@ -111,7 +111,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       beneficioTotal = 0;
       clientes = [];
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - search() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - search() - $e');
     }
     return getRecords();
   }
@@ -155,7 +155,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - seleccionAutomatica() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - seleccionAutomatica() - $e');
       ejecBloq = false;
       return notifyListeners();
     }
@@ -203,7 +203,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - updateClientRows() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - updateClientRows() - $e');
     }
 
     return await calcClients();
@@ -233,7 +233,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - updateClientRows() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - updateClientRows() - $e');
     }
 
     return await calcClients();
@@ -248,7 +248,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         await updateClientRows(cliente.nombreFiscal!);
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - uncheckAll() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - uncheckAll() - $e');
     }
     return await calcClients();
   }
@@ -269,7 +269,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         fondoDisponibleRestante = controllerFondoDisp.numberValue - totalPagos;
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - checkInList() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - checkInList() - $e');
     }
 
     return notifyListeners();
@@ -279,7 +279,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     ejecBloq = true;
     notifyListeners();
     try {
-      for (var cliente in clientes) {
+      /* for (var cliente in clientes) {
         for (var row in cliente.rows!) {
           if (row.checked == true) {
             await supabase.from('bitacora_estatus_facturas').insert(
@@ -314,7 +314,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
             }
           }
         }
-      }
+      } */
       await clearAll();
     } catch (e) {
       log('Error en UpdatePartidasSolicitadas() - $e');

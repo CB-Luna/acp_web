@@ -1,5 +1,5 @@
 import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
-import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
+import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
     //double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
 
-    final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
+    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
 
     //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 

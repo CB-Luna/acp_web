@@ -1,3 +1,4 @@
+import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 import 'package:acp_web/providers/pagos/pagos_provider.dart';
 import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
@@ -49,7 +50,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
-       /*  ChangeNotifierProvider(
+        /*  ChangeNotifierProvider(
           create: (context) => AprobacionSeguimientoPagosProvider(),
         ), */
         ChangeNotifierProvider(
@@ -57,6 +58,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => SeleccionaPagosanticipadosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AutorizacionAolicitudesPagoAnticipadoProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => PagosProvider(),

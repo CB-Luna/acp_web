@@ -1,3 +1,4 @@
+import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_page.dart';
 import 'package:acp_web/pages/pagos/pagos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -85,6 +86,7 @@ final GoRouter router = GoRouter(
         return const UsuariosPage();
       },
       routes: [
+        //Usuarios
         GoRoute(
           path: 'registro-usuario',
           name: 'registro_usuario',
@@ -108,6 +110,7 @@ final GoRouter router = GoRouter(
       ],
     ),
 
+    //Propuesta de Pago
     GoRoute(
       path: '/seleccion_pagos_anticipados',
       name: 'Selección Pagos Anticipados',
@@ -125,9 +128,11 @@ final GoRouter router = GoRouter(
         /* if (currentUser!.rol.permisos.pagos == null) {
           return const PageNotFoundPage();
         } */
-        return const SeleccionPagosAnticipadosPage();
+        return const AutorizacionSolicitudesPagoAnticipadoPage();
       },
     ),
+
+    //Pagos
     GoRoute(
       path: '/pagos',
       name: 'Pagos',
@@ -139,6 +144,7 @@ final GoRouter router = GoRouter(
       },
     ),
 
+    //Cuentas por cobrar
     GoRoute(
       path: '/aprobacion_seguimiento_pagos',
       name: 'Aprobación y Seguimiento de Pagos',
@@ -159,105 +165,5 @@ final GoRouter router = GoRouter(
         return const SolicitudPagosPage();
       },
     ),
-
-    // GoRoute(
-    //   path: '/pagos',
-    //   name: 'pagos',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.pagos == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const Pagos();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/solicitudes-dpp',
-    //   name: 'solicitudes_dpp',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.solicitudDppProveedor == null) {
-    //       const PageNotFoundPage();
-    //     }
-    //     return const SolicitudesDpp();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/solicitud-dpp',
-    //   name: 'solicitud_dpp',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.solicitudDppCBC == null) {
-    //       const PageNotFoundPage();
-    //     }
-    //     return const SolicitudDPP();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/tablero',
-    //   name: 'tablero',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.reportes == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const Tablero();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/dashboard-inicio',
-    //   name: 'dashboard_inicio',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.reportes == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const DashboardInicio();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/reporte-seguimiento-tablero',
-    //   name: 'reporte_seguimiento_tablero',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.reportes == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const ReporteSeguimientoFacturasTablero();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/monitoreo',
-    //   name: 'monitoreo',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.reportes == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const Monitoreo();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/monitoreo-usuarios',
-    //   name: 'monitoreo_usuarios',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.rol.permisos.reportes == null) {
-    //       return const PageNotFoundPage();
-    //     }
-    //     return const MonitoreoUsuariosPage();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/consulta',
-    //   name: 'consulta',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser!.esOnboarding ||
-    //         currentUser!.esAdmin ||
-    //         currentUser!.esFinanzas) {
-    //       return const OnboardingCosulta();
-    //     }
-    //     return const PageNotFoundPage();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: '/configuracion',
-    //   name: 'configuracion',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const ConfiguracionPage();
-    //   },
-    // ),
   ],
 );

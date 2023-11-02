@@ -1,7 +1,7 @@
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_selecci%C3%B3n_facturas.dart';
-import 'package:acp_web/providers/seleccion_pagos_anticipados/seleccion_pagos_anticipados_provider.dart';
+import 'package:acp_web/providers/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -26,7 +26,7 @@ class _CustomCardState extends State<CustomCard> {
   Widget build(BuildContext context) {
     double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
 
-    final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
+    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
 
     return Container(
       alignment: Alignment.center,
