@@ -51,6 +51,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                     fontFamily: AppTheme.of(context).title3Family,
                                     fontSize: data.isOpen ? 14 : 10,
                                     color: AppTheme.of(context).primaryBackground,
+                                    useGoogleFonts: false,
                                   ),
                               overflow: TextOverflow.fade,
                             ),
@@ -90,6 +91,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                               style: AppTheme.of(context).title3.override(
                                                     fontFamily: AppTheme.of(context).title3Family,
                                                     color: AppTheme.of(context).primaryBackground,
+                                                    useGoogleFonts: false,
                                                   ),
                                               overflow: TextOverflow.fade,
                                             ),
@@ -98,6 +100,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                               style: AppTheme.of(context).bodyText2.override(
                                                     fontFamily: AppTheme.of(context).bodyText2Family,
                                                     color: AppTheme.of(context).primaryBackground,
+                                                    useGoogleFonts: false,
                                                   ),
                                               overflow: TextOverflow.fade,
                                             ),
@@ -149,6 +152,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                         fontFamily: AppTheme.of(context).title3Family,
                                         fontSize: 14,
                                         color: AppTheme.of(context).primaryBackground,
+                                        useGoogleFonts: false,
                                       ),
                                   overflow: TextOverflow.fade,
                                 ),
@@ -180,6 +184,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                                 style: AppTheme.of(context).title3.override(
                                                       fontFamily: AppTheme.of(context).title3Family,
                                                       color: AppTheme.of(context).primaryBackground,
+                                                      useGoogleFonts: false,
                                                     ),
                                                 overflow: TextOverflow.fade,
                                               ),
@@ -188,6 +193,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                                 style: AppTheme.of(context).bodyText2.override(
                                                       fontFamily: AppTheme.of(context).bodyText2Family,
                                                       color: AppTheme.of(context).primaryBackground,
+                                                      useGoogleFonts: false,
                                                     ),
                                                 overflow: TextOverflow.fade,
                                               ),

@@ -154,7 +154,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                             Text(
                                                               'Cliente',
                                                               style: AppTheme.of(context).subtitle1.override(
-                                                                    fontFamily: 'Gotham',
+                                                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,
                                                                     color: AppTheme.of(context).primaryBackground,
                                                                   ),
@@ -174,7 +174,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                             Text(
                                                               'Num. Facturas',
                                                               style: AppTheme.of(context).subtitle1.override(
-                                                                    fontFamily: 'Gotham',
+                                                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,
                                                                     color: AppTheme.of(context).primaryBackground,
                                                                   ),
@@ -193,7 +193,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                             Text(
                                                               'Facturación',
                                                               style: AppTheme.of(context).subtitle1.override(
-                                                                    fontFamily: 'Gotham',
+                                                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,
                                                                     color: AppTheme.of(context).primaryBackground,
                                                                   ),
@@ -212,7 +212,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                             Text(
                                                               'Beneficio',
                                                               style: AppTheme.of(context).subtitle1.override(
-                                                                    fontFamily: 'Gotham',
+                                                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,
                                                                     color: AppTheme.of(context).primaryBackground,
                                                                   ),
@@ -231,7 +231,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                             Text(
                                                               'Pago Adelantado',
                                                               style: AppTheme.of(context).subtitle1.override(
-                                                                    fontFamily: 'Gotham',
+                                                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,
                                                                     color: AppTheme.of(context).primaryBackground,
                                                                   ),

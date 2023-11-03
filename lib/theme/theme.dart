@@ -238,6 +238,7 @@ class ThemeTypography extends Typography {
   TextStyle get title1 => TextStyle(
         fontSize: 30,
         fontFamily: 'Gotham-Bold',
+        fontWeight: FontWeight.bold,
         color: theme.primaryText,
       );
   @override
@@ -246,6 +247,7 @@ class ThemeTypography extends Typography {
   TextStyle get title2 => TextStyle(
         fontSize: 18,
         fontFamily: 'Gotham-Bold',
+        fontWeight: FontWeight.bold,
         color: theme.primaryText,
       );
   @override
@@ -254,6 +256,7 @@ class ThemeTypography extends Typography {
   TextStyle get title3 => TextStyle(
         fontSize: 14,
         fontFamily: 'Gotham-Bold',
+        fontWeight: FontWeight.bold,
         color: theme.primaryText,
       );
 
@@ -263,6 +266,7 @@ class ThemeTypography extends Typography {
   TextStyle get subtitle1 => TextStyle(
         fontSize: 12,
         fontFamily: 'Gotham-Bold',
+        fontWeight: FontWeight.bold,
         color: theme.primaryText,
       );
   @override

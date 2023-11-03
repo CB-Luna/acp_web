@@ -20,8 +20,19 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
   EdgeInsetsDirectional paddingHItems = const EdgeInsetsDirectional.only(start: 15, end: 15);
   EdgeInsetsDirectional paddingHItemsGroup = const EdgeInsetsDirectional.only(start: 30, end: 15);
 
-  TextStyle dataTileTextStyle = const TextStyle(fontFamily: 'Gotham-Book', fontSize: 14, color: Colors.white, overflow: TextOverflow.fade);
-  TextStyle dataTileSelectedTextStyle = const TextStyle(fontFamily: 'Gotham-Bold', fontSize: 14, color: Colors.white, overflow: TextOverflow.fade);
+  TextStyle dataTileTextStyle = const TextStyle(
+    fontFamily: 'Gotham-Book',
+    fontSize: 14,
+    color: Colors.white,
+    overflow: TextOverflow.fade,
+  );
+  TextStyle dataTileSelectedTextStyle = const TextStyle(
+    fontFamily: 'Gotham-Bold',
+    fontWeight: FontWeight.bold,
+    fontSize: 14,
+    color: Colors.white,
+    overflow: TextOverflow.fade,
+  );
 
   Color hoverColor = const Color(0x50C6C6C6);
   Color highlightSelectedColor = const Color(0x50C6C6C6);
