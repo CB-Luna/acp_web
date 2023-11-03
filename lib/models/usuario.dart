@@ -29,7 +29,7 @@ class Usuario {
   Rol rol;
   String compania;
   String email;
-  Cliente? cliente;
+  ClienteUsuario? cliente;
   String? imagen;
   bool activo;
   bool cambioContrasena;
@@ -52,7 +52,7 @@ class Usuario {
       rol: Rol.fromJson(jsonEncode(json['rol'])),
       compania: json['compania'],
       email: json["email"],
-      cliente: json['cliente_fk'] != null ? Cliente.fromMap(json['cliente']) : null,
+      cliente: json['cliente_fk'] != null ? ClienteUsuario.fromMap(json['cliente']) : null,
       imagen: json['imagen'],
       activo: json['activo'],
       cambioContrasena: json['cambio_contrasena'] ?? true,
@@ -72,7 +72,7 @@ class Usuario {
     Rol? rol,
     String? compania,
     String? email,
-    Cliente? cliente,
+    ClienteUsuario? cliente,
     String? imagen,
     bool? activo,
     bool? cambioContrasena,
@@ -95,4 +95,43 @@ class Usuario {
       fechaIngreso: fechaIngreso ?? this.fechaIngreso,
     );
   }
+}
+
+class ClienteUsuario {
+  ClienteUsuario({
+    required this.clienteId,
+    required this.codigoCliente,
+    required this.sociedad,
+  });
+
+  int clienteId;
+  String codigoCliente;
+  String sociedad;
+
+  factory ClienteUsuario.fromJson(String str) => ClienteUsuario.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory ClienteUsuario.fromMap(Map<String, dynamic> json) {
+    return ClienteUsuario(
+      clienteId: json["cliente_id"],
+      codigoCliente: json["codigo_cliente"],
+      sociedad: json['sociedad'],
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+        "cliente_id": clienteId,
+        "codigo_acreedor": codigoCliente,
+        'sociedad': sociedad,
+      };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ClienteUsuario && other.clienteId == clienteId && other.codigoCliente == codigoCliente;
+  }
+
+  @override
+  int get hashCode => Object.hash(clienteId, codigoCliente);
 }

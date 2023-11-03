@@ -43,6 +43,9 @@ void main() async {
           create: (_) => UserState(),
         ),
         ChangeNotifierProvider(
+          create: (_) => ClientesProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => UsuariosProvider(),
         ),
         ChangeNotifierProvider(

@@ -1,5 +1,6 @@
-export 'package:acp_web/providers/usuarios_provider.dart';
 export 'package:acp_web/providers/user_provider.dart';
+export 'package:acp_web/providers/clientes_provider.dart';
+export 'package:acp_web/providers/usuarios_provider.dart';
 
 export 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 
