@@ -36,9 +36,18 @@ abstract class AppTheme {
   abstract Color alternate;
   abstract Color primaryBackground;
   abstract Color secondaryBackground;
+  abstract Color tertiaryBackground;
+  abstract Color purpleBackground;
+  abstract Color blueBackground;
   abstract Color primaryText;
   abstract Color secondaryText;
+  abstract Color tertiaryText;
   abstract Color gris;
+  abstract Color green;
+  abstract Color green2;
+  abstract Color yellow;
+  abstract Color red;
+  abstract Color purple;
   Gradient blueGradient = const LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment(4, 0.8),
@@ -60,22 +69,10 @@ abstract class AppTheme {
   TextStyle get subtitle1 => typography.subtitle1;
   String get subtitle2Family => typography.subtitle2Family;
   TextStyle get subtitle2 => typography.subtitle2;
-  String get subtitle3Family => typography.subtitle3Family;
-  TextStyle get subtitle3 => typography.subtitle3;
   String get bodyText1Family => typography.bodyText1Family;
   TextStyle get bodyText1 => typography.bodyText1;
   String get bodyText2Family => typography.bodyText2Family;
   TextStyle get bodyText2 => typography.bodyText2;
-
-  TextStyle get tituloPagina => typography.tituloPagina;
-  TextStyle get textoSimple => typography.textoSimple;
-  TextStyle get textoResaltado => typography.textoResaltado;
-  TextStyle get encabezadoTablas => typography.encabezadoTablas;
-  TextStyle get encabezadoSubTablas => typography.encabezadoSubTablas;
-  TextStyle get tituloTablas => typography.tituloTablas;
-  TextStyle get contenidoTablas => typography.contenidoTablas;
-  TextStyle get hintText => typography.hintText;
-  TextStyle get textoError => typography.textoError;
 
   Typography get typography => ThemeTypography(this);
 }
@@ -84,21 +81,39 @@ class LightModeTheme extends AppTheme {
   @override
   Color primaryColor = const Color(0XFF0A0859);
   @override
-  Color secondaryColor = const Color(0XFFD7E9FB);
+  Color secondaryColor = const Color(0XFF0090FF);
   @override
-  Color tertiaryColor = const Color(0XFF0090FF);
+  Color tertiaryColor = const Color(0XFF0070C0);
   @override
-  Color alternate = const Color(0XFF091C72);
+  Color alternate = const Color(0XFFB3DEFF);
   @override
   Color primaryBackground = const Color(0xFFFFFFFF);
   @override
-  Color secondaryBackground = const Color(0XFFF7F6F6);
+  Color secondaryBackground = const Color(0XFFD7E9FB);
   @override
-  Color primaryText = const Color(0xFF000000);
+  Color tertiaryBackground = const Color(0XFFF7F9FB);
   @override
-  Color secondaryText = const Color(0XFFE6E5E6);
+  Color purpleBackground = const Color(0XFFE5ECF6);
   @override
-  Color gris = Colors.grey.shade500;
+  Color blueBackground = const Color(0XFFE3F5FF);
+  @override
+  Color primaryText = const Color(0xFF060606);
+  @override
+  Color secondaryText = const Color(0XFF828282);
+  @override
+  Color tertiaryText = const Color(0XFFFDFDFD);
+  @override
+  Color gris = const Color(0XFFE5E5E5);
+  @override
+  Color green = const Color(0XFF00C950);
+  @override
+  Color green2 = const Color(0XFFBAEDBD);
+  @override
+  Color yellow = const Color(0XFFFFC000);
+  @override
+  Color red = const Color(0XFFFF0000);
+  @override
+  Color purple = const Color(0XFF773AA5);
 
   LightModeTheme({Mode? mode}) {
     if (mode != null) {
@@ -113,23 +128,41 @@ class LightModeTheme extends AppTheme {
 
 class DarkModeTheme extends AppTheme {
   @override
-  Color primaryColor = const Color(0XFF00C774);
+  Color primaryColor = const Color(0XFF0A0859);
   @override
-  Color secondaryColor = const Color(0XFF5FD39E);
+  Color secondaryColor = const Color(0XFF0090FF);
   @override
-  Color tertiaryColor = const Color(0xFF102047);
+  Color tertiaryColor = const Color(0XFF0070C0);
   @override
-  Color alternate = const Color(0XFF173938);
+  Color alternate = const Color(0XFFB3DEFF);
   @override
-  Color primaryBackground = const Color(0xFF000000);
+  Color primaryBackground = const Color(0xFFFFFFFF);
   @override
-  Color secondaryBackground = const Color(0XFFF7F6F6);
+  Color secondaryBackground = const Color(0XFFD7E9FB);
   @override
-  Color primaryText = const Color(0xFFFFFFFF);
+  Color tertiaryBackground = const Color(0XFFF7F9FB);
   @override
-  Color secondaryText = const Color(0XFFE6E5E6);
+  Color purpleBackground = const Color(0XFFE5ECF6);
   @override
-  Color gris = const Color(0XFF262626);
+  Color blueBackground = const Color(0XFFE3F5FF);
+  @override
+  Color primaryText = const Color(0xFF060606);
+  @override
+  Color secondaryText = const Color(0XFF828282);
+  @override
+  Color tertiaryText = const Color(0XFFFDFDFD);
+  @override
+  Color gris = const Color(0XFFE5E5E5);
+  @override
+  Color green = const Color(0XFF00C950);
+  @override
+  Color green2 = const Color(0XFFBAEDBD);
+  @override
+  Color yellow = const Color(0XFFFFC000);
+  @override
+  Color red = const Color(0XFFFF0000);
+  @override
+  Color purple = const Color(0XFF773AA5);
 
   DarkModeTheme({Mode? mode}) {
     if (mode != null) {
@@ -188,22 +221,10 @@ abstract class Typography {
   TextStyle get subtitle1;
   String get subtitle2Family;
   TextStyle get subtitle2;
-  String get subtitle3Family;
-  TextStyle get subtitle3;
   String get bodyText1Family;
   TextStyle get bodyText1;
   String get bodyText2Family;
   TextStyle get bodyText2;
-
-  TextStyle get tituloPagina;
-  TextStyle get textoResaltado;
-  TextStyle get textoSimple;
-  TextStyle get encabezadoTablas;
-  TextStyle get encabezadoSubTablas;
-  TextStyle get tituloTablas;
-  TextStyle get contenidoTablas;
-  TextStyle get hintText;
-  TextStyle get textoError;
 }
 
 class ThemeTypography extends Typography {
@@ -212,144 +233,61 @@ class ThemeTypography extends Typography {
   final AppTheme theme;
 
   @override
-  String get title1Family => 'Bicyclette';
+  String get title1Family => 'Gotham';
   @override
   TextStyle get title1 => TextStyle(
-        fontSize: 35,
-        fontFamily: 'Bicyclette-Light',
-        fontWeight: FontWeight.bold,
-        color: theme.primaryColor,
+        fontSize: 30,
+        fontFamily: 'Gotham-Bold',
+        color: theme.primaryText,
       );
   @override
   String get title2Family => 'Gotham';
   @override
   TextStyle get title2 => TextStyle(
-        fontFamily: 'Gotham-Regular',
+        fontSize: 18,
+        fontFamily: 'Gotham-Bold',
         color: theme.primaryText,
-        fontSize: 25,
       );
   @override
   String get title3Family => 'Gotham';
   @override
   TextStyle get title3 => TextStyle(
-        fontSize: 18,
-        fontFamily: 'Gotham',
-        fontWeight: FontWeight.bold,
+        fontSize: 14,
+        fontFamily: 'Gotham-Bold',
         color: theme.primaryText,
       );
+
   @override
   String get subtitle1Family => 'Gotham';
   @override
   TextStyle get subtitle1 => TextStyle(
-        fontFamily: 'Gotham-Regular',
+        fontSize: 12,
+        fontFamily: 'Gotham-Bold',
         color: theme.primaryText,
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
       );
-
   @override
   String get subtitle2Family => 'Gotham';
   @override
   TextStyle get subtitle2 => TextStyle(
-        fontFamily: 'Gotham-Light',
+        fontSize: 20,
+        fontFamily: 'Gotham-Book',
         color: theme.primaryText,
-        fontSize: 14,
-        fontWeight: FontWeight.w200,
       );
-  @override
-  String get subtitle3Family => 'Gotham';
-  @override
-  TextStyle get subtitle3 => TextStyle(
-        fontFamily: 'Gotham-Light',
-        color: theme.gris,
-        fontSize: 14,
-        fontWeight: FontWeight.w200,
-      );
+
   @override
   String get bodyText1Family => 'Gotham';
   @override
   TextStyle get bodyText1 => TextStyle(
-        fontFamily: 'Gotham-Regular',
-        color: theme.primaryText,
-        fontWeight: FontWeight.w600,
         fontSize: 14,
+        fontFamily: 'Gotham-Book',
+        color: theme.primaryText,
       );
   @override
   String get bodyText2Family => 'Gotham';
   @override
   TextStyle get bodyText2 => TextStyle(
-        fontFamily: 'Gotham-Light',
-        color: theme.primaryText,
-        fontWeight: FontWeight.w300,
-        fontSize: 18,
-      );
-
-  @override
-  TextStyle get tituloPagina => TextStyle(
-        fontSize: 35,
-        fontFamily: 'Gotham-Bold',
-        fontWeight: FontWeight.bold,
-        color: theme.primaryColor,
-      );
-
-  @override
-  TextStyle get textoResaltado => TextStyle(
-        fontSize: 18,
-        fontFamily: 'Gotham-Regular',
-        fontWeight: FontWeight.w600,
-        color: theme.primaryColor,
-      );
-
-  @override
-  TextStyle get textoSimple => TextStyle(
-        fontSize: 13,
-        fontFamily: 'Gotham-Light',
-        color: theme.primaryColor,
-      );
-
-  @override
-  TextStyle get hintText => const TextStyle(
-        fontSize: 13,
-        fontFamily: 'Gotham-Light',
-        color: Colors.grey,
-      );
-
-  @override
-  TextStyle get encabezadoTablas => TextStyle(
-        fontSize: 22,
-        fontFamily: 'Bicyclette-Bold',
-        fontWeight: FontWeight.w600,
-        color: theme.primaryText,
-      );
-
-  @override
-  TextStyle get encabezadoSubTablas => TextStyle(
-        fontSize: 35,
-        fontFamily: 'Bicyclette-Bold',
-        fontWeight: FontWeight.w800,
-        color: theme.primaryColor,
-      );
-
-  @override
-  TextStyle get tituloTablas => const TextStyle(
-        fontSize: 14,
-        fontFamily: 'Gotham-Regular',
-        fontWeight: FontWeight.w400,
-        color: Color(0x661C1C1C),
-      );
-
-  @override
-  TextStyle get contenidoTablas => TextStyle(
         fontSize: 12,
-        fontFamily: 'Gotham-Light',
-        fontWeight: FontWeight.w400,
+        fontFamily: 'Gotham-Book',
         color: theme.primaryText,
-      );
-
-  @override
-  TextStyle get textoError => const TextStyle(
-        fontSize: 13,
-        fontFamily: 'Gotham-Light',
-        color: Colors.red,
       );
 }
