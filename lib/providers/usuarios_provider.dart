@@ -39,7 +39,7 @@ class UsuariosProvider extends ChangeNotifier {
   String? nombreImagen;
   Uint8List? webImage;
 
-  Cliente? cliente;
+  ClienteUsuario? cliente;
   TextEditingController sociedadClienteController = TextEditingController();
 
   //PANTALLA USUARIOS
@@ -87,12 +87,12 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<void> getCliente() async {
     if (cliente != null) {
-      codigoClienteController.text = cliente!.codigoAcreedor;
+      codigoClienteController.text = cliente!.codigoCliente;
       sociedadClienteController.text = cliente!.sociedad;
       return;
     }
     try {
-      final res = await supabase.from('clientes').select().eq('codigo_acreedor', codigoClienteController.text);
+      final res = await supabase.from('cliente').select().eq('codigo_cliente', codigoClienteController.text);
 
       if (res == null) return;
 
@@ -100,7 +100,7 @@ class UsuariosProvider extends ChangeNotifier {
         cliente = null;
         sociedadClienteController.text = 'No se encontró';
       } else {
-        cliente = Cliente.fromMap(res[0]);
+        cliente = ClienteUsuario.fromMap(res[0]);
         sociedadClienteController.text = cliente?.sociedad ?? '';
       }
     } catch (e) {
@@ -125,8 +125,6 @@ class UsuariosProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en getUsuarios() - $e');
     }
-
-    notifyListeners();
   }
 
   void llenarPlutoGrid(List<Usuario> usuarios) {
