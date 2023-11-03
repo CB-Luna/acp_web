@@ -305,216 +305,216 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                     children: [
                       Expanded(
                         child: PlutoGrid(
-                      key: UniqueKey(),
-                      configuration: PlutoGridConfiguration(
-                        localeText: const PlutoGridLocaleText.spanish(),
-                        scrollbar: plutoGridScrollbarConfig(context),
-                        style: plutoGridStyleConfig(context),
+                          key: UniqueKey(),
+                          configuration: PlutoGridConfiguration(
+                            localeText: const PlutoGridLocaleText.spanish(),
+                            scrollbar: plutoGridScrollbarConfig(context),
+                            style: plutoGridStyleConfig(context),
+                          ),
+                          columns: [
+                            PlutoColumn(
+                              title: '',
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              field: 'id_factura_field',
+                              type: PlutoColumnType.text(),
+                              width: 55,
+                              enableRowChecked: true,
+                              enableColumnDrag: false,
+                              enableEditingMode: false,
+                              enableSetColumnsMenuItem: false,
+                              enableFilterMenuItem: false,
+                              enableContextMenu: false,
+                              enableHideColumnMenuItem: false,
+                              enableDropToResize: false,
+                              enableSorting: false,
+                              renderer: (rendererContext) {
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'Cuenta',
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              field: 'cuenta_field',
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              titleSpan: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      'Cuenta',
+                                      style: AppTheme.of(context).bodyText2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              renderer: (rendererContext) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  child: Text(
+                                    rendererContext.cell.value,
+                                    style: AppTheme.of(context).bodyText2,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'Importe',
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              field: 'importe_field',
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              titleSpan: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      'Importe',
+                                      style: AppTheme.of(context).bodyText2.override(
+                                            fontFamily: 'Gotham',
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context).tertiaryColor,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              renderer: (rendererContext) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  child: Text(
+                                    ' ${moneyFormat(rendererContext.cell.value)}',
+                                    style: AppTheme.of(context).bodyText2.override(
+                                          fontFamily: 'Gotham',
+                                          useGoogleFonts: false,
+                                          color: AppTheme.of(context).tertiaryColor,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'Beneficio',
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              field: 'beneficio_cant_field',
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              titleSpan: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      'Beneficio',
+                                      style: AppTheme.of(context).bodyText2.override(
+                                            fontFamily: 'Gotham',
+                                            useGoogleFonts: false,
+                                            color: Colors.green,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              renderer: (rendererContext) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  child: Text(
+                                    ' ${moneyFormat(rendererContext.cell.value)}',
+                                    style: AppTheme.of(context).bodyText2.override(
+                                          fontFamily: 'Gotham',
+                                          useGoogleFonts: false,
+                                          color: Colors.green,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'Pago Anticipado',
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              field: 'pago_anticipado_field',
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              titleSpan: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      'Pago Anticipado',
+                                      style: AppTheme.of(context).bodyText2.override(
+                                            fontFamily: 'Gotham',
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context).primaryColor,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              renderer: (rendererContext) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  child: Text(
+                                    ' ${moneyFormat(rendererContext.cell.value)}',
+                                    style: AppTheme.of(context).bodyText2.override(
+                                          fontFamily: 'Gotham',
+                                          useGoogleFonts: false,
+                                          color: AppTheme.of(context).primaryColor,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'Días para Pago',
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              field: 'dias_pago_field',
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              titleSpan: TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Text(
+                                      'Días para Pago',
+                                      style: AppTheme.of(context).bodyText2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              renderer: (rendererContext) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  child: Text(
+                                    rendererContext.cell.value.toString(),
+                                    style: AppTheme.of(context).bodyText2,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                          rows: provider.rows,
+                          createFooter: (stateManager) {
+                            stateManager.setPageSize(100, notify: false);
+                            return SizedBox();
+                          },
+                          onLoaded: (event) async {
+                            stateManager = event.stateManager;
+                          },
+                          onRowChecked: (event) async {
+                            // await provider.updateClientRows(widget.cliente.nombreFiscal!);
+                          },
+                        ),
                       ),
-                      columns: [
-                        PlutoColumn(
-                          title: '',
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          field: 'id_factura_field',
-                          type: PlutoColumnType.text(),
-                          width: 55,
-                          enableRowChecked: true,
-                          enableColumnDrag: false,
-                          enableEditingMode: false,
-                          enableSetColumnsMenuItem: false,
-                          enableFilterMenuItem: false,
-                          enableContextMenu: false,
-                          enableHideColumnMenuItem: false,
-                          enableDropToResize: false,
-                          enableSorting: false,
-                          renderer: (rendererContext) {
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                        PlutoColumn(
-                          title: 'Cuenta',
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          field: 'cuenta_field',
-                          type: PlutoColumnType.text(),
-                          enableEditingMode: false,
-                          titleSpan: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Text(
-                                  'Cuenta',
-                                  style: AppTheme.of(context).subtitle3,
-                                ),
-                              ),
-                            ],
-                          ),
-                          renderer: (rendererContext) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              child: Text(
-                                rendererContext.cell.value,
-                                style: AppTheme.of(context).subtitle3,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          },
-                        ),
-                        PlutoColumn(
-                          title: 'Importe',
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          field: 'importe_field',
-                          type: PlutoColumnType.text(),
-                          enableEditingMode: false,
-                          titleSpan: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Text(
-                                  'Importe',
-                                  style: AppTheme.of(context).subtitle3.override(
-                                        fontFamily: 'Gotham',
-                                        useGoogleFonts: false,
-                                        color: AppTheme.of(context).tertiaryColor,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          renderer: (rendererContext) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              child: Text(
-                                ' ${moneyFormat(rendererContext.cell.value)}',
-                                style: AppTheme.of(context).subtitle3.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                      color: AppTheme.of(context).tertiaryColor,
-                                    ),
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          },
-                        ),
-                        PlutoColumn(
-                          title: 'Beneficio',
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          field: 'beneficio_cant_field',
-                          type: PlutoColumnType.text(),
-                          enableEditingMode: false,
-                          titleSpan: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Text(
-                                  'Beneficio',
-                                  style: AppTheme.of(context).subtitle3.override(
-                                        fontFamily: 'Gotham',
-                                        useGoogleFonts: false,
-                                        color: Colors.green,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          renderer: (rendererContext) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              child: Text(
-                                ' ${moneyFormat(rendererContext.cell.value)}',
-                                style: AppTheme.of(context).subtitle3.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                      color: Colors.green,
-                                    ),
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          },
-                        ),
-                        PlutoColumn(
-                          title: 'Pago Anticipado',
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          field: 'pago_anticipado_field',
-                          type: PlutoColumnType.text(),
-                          enableEditingMode: false,
-                          titleSpan: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Text(
-                                  'Pago Anticipado',
-                                  style: AppTheme.of(context).subtitle3.override(
-                                        fontFamily: 'Gotham',
-                                        useGoogleFonts: false,
-                                        color: AppTheme.of(context).primaryColor,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          renderer: (rendererContext) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              child: Text(
-                                ' ${moneyFormat(rendererContext.cell.value)}',
-                                style: AppTheme.of(context).subtitle3.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                      color: AppTheme.of(context).primaryColor,
-                                    ),
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          },
-                        ),
-                        PlutoColumn(
-                          title: 'Días para Pago',
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          field: 'dias_pago_field',
-                          type: PlutoColumnType.text(),
-                          enableEditingMode: false,
-                          titleSpan: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.middle,
-                                child: Text(
-                                  'Días para Pago',
-                                  style: AppTheme.of(context).subtitle3,
-                                ),
-                              ),
-                            ],
-                          ),
-                          renderer: (rendererContext) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              child: Text(
-                                rendererContext.cell.value.toString(),
-                                style: AppTheme.of(context).subtitle3,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                      rows: provider.rows,
-                      createFooter: (stateManager) {
-                        stateManager.setPageSize(100, notify: false);
-                        return SizedBox();
-                      },
-                      onLoaded: (event) async {
-                        stateManager = event.stateManager;
-                      },
-                      onRowChecked: (event) async {
-                       // await provider.updateClientRows(widget.cliente.nombreFiscal!);
-                      },
-                    ),
-                  ),
                     ],
                   ),
                 ),

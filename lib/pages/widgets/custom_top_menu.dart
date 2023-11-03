@@ -71,11 +71,11 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       children: [
                         Text(
                           currentUser!.rol.nombre,
-                          style: AppTheme.of(context).subtitle3,
+                          style: AppTheme.of(context).bodyText2,
                         ),
                         Text(
                           '/',
-                          style: AppTheme.of(context).subtitle3,
+                          style: AppTheme.of(context).bodyText2,
                         ),
                         Text(
                           widget.pantalla,
@@ -144,7 +144,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           onChanged: widget.onSearchChanged,
                           decoration: InputDecoration(
                             hintText: 'Busqueda',
-                            hintStyle: AppTheme.of(context).hintText,
+                            hintStyle: AppTheme.of(context).bodyText2,
                             border: InputBorder.none,
                             prefixText: '',
                             prefixStyle: AppTheme.of(context).subtitle1,

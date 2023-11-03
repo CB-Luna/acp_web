@@ -33,7 +33,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
         //constraints: BoxConstraints(maxHeight: height * 265),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: AppTheme.of(context).gris,
+          color: AppTheme.of(context).gray,
         ),
         child: Padding(
           padding: const EdgeInsets.all(10),

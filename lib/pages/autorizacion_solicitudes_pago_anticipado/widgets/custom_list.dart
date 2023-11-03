@@ -299,7 +299,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   'Cuenta',
-                                  style: AppTheme.of(context).subtitle3,
+                                  style: AppTheme.of(context).bodyText2,
                                 ),
                               ),
                             ],
@@ -309,7 +309,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               child: Text(
                                 rendererContext.cell.value,
-                                style: AppTheme.of(context).subtitle3,
+                                style: AppTheme.of(context).bodyText2,
                                 textAlign: TextAlign.center,
                               ),
                             );
@@ -328,7 +328,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   'Importe',
-                                  style: AppTheme.of(context).subtitle3.override(
+                                  style: AppTheme.of(context).bodyText2.override(
                                         fontFamily: 'Gotham',
                                         useGoogleFonts: false,
                                         color: AppTheme.of(context).tertiaryColor,
@@ -342,7 +342,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               child: Text(
                                 '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                style: AppTheme.of(context).subtitle3.override(
+                                style: AppTheme.of(context).bodyText2.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
                                       color: AppTheme.of(context).tertiaryColor,
@@ -365,7 +365,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   '%Beneficio',
-                                  style: AppTheme.of(context).subtitle3,
+                                  style: AppTheme.of(context).bodyText2,
                                 ),
                               ),
                             ],
@@ -375,7 +375,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                 child: Text(
                                   '${moneyFormat3Decimals(rendererContext.cell.value * 100)} %',
-                                  style: AppTheme.of(context).subtitle3,
+                                  style: AppTheme.of(context).bodyText2,
                                   textAlign: TextAlign.center,
                                 ));
                           },
@@ -393,7 +393,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   'Beneficio',
-                                  style: AppTheme.of(context).subtitle3.override(
+                                  style: AppTheme.of(context).bodyText2.override(
                                         fontFamily: 'Gotham',
                                         useGoogleFonts: false,
                                         color: Colors.green,
@@ -407,7 +407,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               child: Text(
                                 '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                style: AppTheme.of(context).subtitle3.override(
+                                style: AppTheme.of(context).bodyText2.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
                                       color: Colors.green,
@@ -430,7 +430,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   'Pago Anticipado',
-                                  style: AppTheme.of(context).subtitle3.override(
+                                  style: AppTheme.of(context).bodyText2.override(
                                         fontFamily: 'Gotham',
                                         useGoogleFonts: false,
                                         color: AppTheme.of(context).primaryColor,
@@ -444,7 +444,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               child: Text(
                                 '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
-                                style: AppTheme.of(context).subtitle3.override(
+                                style: AppTheme.of(context).bodyText2.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
                                       color: AppTheme.of(context).primaryColor,
@@ -467,7 +467,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   'Días para Pago',
-                                  style: AppTheme.of(context).subtitle3,
+                                  style: AppTheme.of(context).bodyText2,
                                 ),
                               ),
                             ],
@@ -477,7 +477,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               child: Text(
                                 rendererContext.cell.value.toString(),
-                                style: AppTheme.of(context).subtitle3,
+                                style: AppTheme.of(context).bodyText2,
                                 textAlign: TextAlign.center,
                               ),
                             );
@@ -496,7 +496,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 alignment: PlaceholderAlignment.middle,
                                 child: Text(
                                   'Días Adicionales para Comisión',
-                                  style: AppTheme.of(context).subtitle3,
+                                  style: AppTheme.of(context).bodyText2,
                                 ),
                               ),
                             ],
@@ -506,7 +506,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                               child: Text(
                                 rendererContext.cell.value.toString(),
-                                style: AppTheme.of(context).subtitle3,
+                                style: AppTheme.of(context).bodyText2,
                                 textAlign: TextAlign.center,
                               ),
                             );

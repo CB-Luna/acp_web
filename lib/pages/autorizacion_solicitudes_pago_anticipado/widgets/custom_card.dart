@@ -63,7 +63,7 @@ class _CustomCardState extends State<CustomCard> {
                           Text(
                             'Facturación',
                             overflow: TextOverflow.fade,
-                            style: AppTheme.of(context).subtitle3,
+                            style: AppTheme.of(context).bodyText2,
                           ),
                           Text(
                             '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
@@ -71,7 +71,7 @@ class _CustomCardState extends State<CustomCard> {
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: 'Gotham',
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).gris,
+                                  color: AppTheme.of(context).gray,
                                 ),
                           ),
                         ],
@@ -82,7 +82,7 @@ class _CustomCardState extends State<CustomCard> {
                           Text(
                             'Beneficio',
                             overflow: TextOverflow.fade,
-                            style: AppTheme.of(context).subtitle3,
+                            style: AppTheme.of(context).bodyText2,
                           ),
                           Text(
                             '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
@@ -90,7 +90,7 @@ class _CustomCardState extends State<CustomCard> {
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: 'Gotham',
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).gris,
+                                  color: AppTheme.of(context).gray,
                                 ),
                           ),
                         ],
@@ -106,7 +106,7 @@ class _CustomCardState extends State<CustomCard> {
               children: [
                 Text(
                   'Pago Adelantado',
-                  style: AppTheme.of(context).subtitle3,
+                  style: AppTheme.of(context).bodyText2,
                 ),
                 Text(
                   '${widget.moneda} ${moneyFormat(widget.cliente.pagoAdelantado!)}',
@@ -117,7 +117,7 @@ class _CustomCardState extends State<CustomCard> {
             LinearPercentIndicator(
               lineHeight: 4,
               percent: porcentajeSeleccionadas / 100,
-              backgroundColor: AppTheme.of(context).gris,
+              backgroundColor: AppTheme.of(context).gray,
               progressColor: porcentajeSeleccionadas == 0
                   ? Colors.red
                   : porcentajeSeleccionadas != 100
@@ -199,7 +199,7 @@ class _CustomCardState extends State<CustomCard> {
                   children: [
                     Text(
                       'Seleccionadas',
-                      style: AppTheme.of(context).subtitle3,
+                      style: AppTheme.of(context).bodyText2,
                     ),
                     Row(
                       children: [
@@ -234,11 +234,11 @@ class _CustomCardState extends State<CustomCard> {
                             ),
                             Text(
                               '/',
-                              style: AppTheme.of(context).subtitle3,
+                              style: AppTheme.of(context).bodyText2,
                             ),
                             Text(
                               widget.cliente.facturas!.length.toString(),
-                              style: AppTheme.of(context).subtitle3,
+                              style: AppTheme.of(context).bodyText2,
                             ),
                           ],
                         )

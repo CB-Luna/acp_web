@@ -76,7 +76,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gris, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gris, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +196,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gris, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,

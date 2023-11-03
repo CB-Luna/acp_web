@@ -15,22 +15,22 @@ class Footer extends StatelessWidget {
           children: [
             Text(
               '© 2023 ACP ALTERNATIVAS DE CAPITAL',
-              style: AppTheme.of(context).subtitle3,
+              style: AppTheme.of(context).bodyText2,
             ),
             Wrap(
               spacing: 16,
               children: [
                 Text(
                   'About',
-                  style: AppTheme.of(context).subtitle3,
+                  style: AppTheme.of(context).bodyText2,
                 ),
                 Text(
                   'Support',
-                  style: AppTheme.of(context).subtitle3,
+                  style: AppTheme.of(context).bodyText2,
                 ),
                 Text(
                   'Contact Us',
-                  style: AppTheme.of(context).subtitle3,
+                  style: AppTheme.of(context).bodyText2,
                 ),
               ],
             )

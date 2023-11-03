@@ -37,7 +37,7 @@ class ImageContainer extends StatelessWidget {
               ),
               child: Center(
                 child: Icon(
-                  Icons.image_not_supported_outlined,
+                  Icons.image_outlined,
                   size: size - 10,
                 ),
               ),

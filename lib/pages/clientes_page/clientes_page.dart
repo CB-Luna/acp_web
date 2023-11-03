@@ -132,7 +132,7 @@ class _ClientesPageState extends State<ClientesPage> {
                                         child: Text(
                                           cliente.nombreFiscal,
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppTheme.of(context).contenidoTablas,
+                                          style: AppTheme.of(context).bodyText2,
                                         ),
                                       ),
                                     ],
@@ -199,14 +199,12 @@ class _ClientesPageState extends State<ClientesPage> {
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
-                                      color: rendererContext.cell.value == 'Activo'
-                                          ? const Color(0xFF94D0FF)
-                                          : Colors.grey[300],
+                                      color: rendererContext.cell.value == 'Activo' ? const Color(0xFF94D0FF) : Colors.grey[300],
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
                                       rendererContext.cell.value,
-                                      style: AppTheme.of(context).contenidoTablas,
+                                      style: AppTheme.of(context).bodyText2,
                                     ),
                                   );
                                 },
@@ -237,8 +235,7 @@ class _ClientesPageState extends State<ClientesPage> {
                                               rendererContext.rowIdx,
                                             );
                                             if (!res) {
-                                              await ApiErrorHandler.callToast(
-                                                  'Error al ${value ? "" : "des"}activar cliente');
+                                              await ApiErrorHandler.callToast('Error al ${value ? "" : "des"}activar cliente');
                                             }
                                           },
                                         ),

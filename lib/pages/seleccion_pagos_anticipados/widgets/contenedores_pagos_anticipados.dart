@@ -78,7 +78,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gris, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gris, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +266,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gris, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +314,11 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                               ),
                           decoration: InputDecoration(
                             hintText: 'Captura Fondo',
-                            hintStyle: AppTheme.of(context).hintText,
+                            hintStyle: AppTheme.of(context).bodyText2.override(
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).gray,
+                                ),
                             border: InputBorder.none,
                             prefixText: '',
                             prefixStyle: AppTheme.of(context).subtitle1,

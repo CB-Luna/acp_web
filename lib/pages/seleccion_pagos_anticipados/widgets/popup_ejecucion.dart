@@ -75,9 +75,9 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   children: [
                     Text(
                       '¿Estás seguro de que deseas confirmar la selección?',
-                      style: AppTheme.of(context).textoResaltado.override(
+                      style: AppTheme.of(context).subtitle2.override(
                             useGoogleFonts: false,
-                            fontFamily: 'Gotham-Regular',
+                            fontFamily: AppTheme.of(context).subtitle2Family,
                             fontWeight: FontWeight.w400,
                             color: AppTheme.of(context).primaryText,
                           ),

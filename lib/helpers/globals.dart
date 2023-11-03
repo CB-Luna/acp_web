@@ -42,18 +42,17 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           gridPopupBorderRadius: BorderRadius.circular(16),
           //
           enableColumnBorderVertical: false,
-          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).bodyText2,
           iconColor: AppTheme.of(context).tertiaryColor,
           borderColor: Colors.transparent,
           //
           rowHeight: 60,
           rowColor: Colors.transparent,
-          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          cellTextStyle: AppTheme.of(context).bodyText2,
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor:
-              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: const Color(0x661C1C1C),
@@ -66,18 +65,17 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           gridPopupBorderRadius: BorderRadius.circular(16),
           //
           enableColumnBorderVertical: false,
-          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).bodyText2,
           iconColor: AppTheme.of(context).tertiaryColor,
           borderColor: Colors.transparent,
           //
           rowHeight: 60,
           rowColor: Colors.transparent,
-          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          cellTextStyle: AppTheme.of(context).bodyText2,
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor:
-              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: Colors.transparent,
