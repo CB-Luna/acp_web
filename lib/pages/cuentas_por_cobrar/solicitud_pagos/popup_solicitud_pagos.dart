@@ -51,7 +51,7 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                 'Por favor revisa la selección de facturas antes de continuar',
                 textAlign: TextAlign.center,
                 style: AppTheme.of(context).subtitle1.override(
-                      fontFamily: 'Gotham',
+                      fontFamily: AppTheme.of(context).subtitle1Family,
                       useGoogleFonts: false,
                       fontSize: 30,
                       color: AppTheme.of(context).primaryText,
@@ -73,48 +73,28 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             'Total de Facturas:',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
-                                  useGoogleFonts: false,
-                                  fontSize: 20,
-                                  color: AppTheme.of(context).primaryText,
-                                ),
+                            style: AppTheme.of(context).bodyText2,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             'Moneda:',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
-                                  useGoogleFonts: false,
-                                  fontSize: 20,
-                                  color: AppTheme.of(context).primaryText,
-                                ),
+                            style: AppTheme.of(context).bodyText2,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             'Comisión:',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
-                                  useGoogleFonts: false,
-                                  fontSize: 20,
-                                  color: AppTheme.of(context).primaryText,
-                                ),
+                            style: AppTheme.of(context).bodyText2,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             'Pago Anticipado:',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
-                                  useGoogleFonts: false,
-                                  fontSize: 20,
-                                  color: AppTheme.of(context).primaryText,
-                                ),
+                            style: AppTheme.of(context).bodyText2,
                           ),
                         ),
                       ],
@@ -127,31 +107,25 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             '${widget.cantidadFacturasSeleccionadas}',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
-                                  useGoogleFonts: false,
-                                  fontSize: 20,
-                                  color: AppTheme.of(context).primaryText,
-                                ),
+                            style: AppTheme.of(context).bodyText2,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             widget.moneda,
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
-                                  useGoogleFonts: false,
-                                  fontSize: 20,
-                                  color: AppTheme.of(context).primaryText,
-                                ),
+                            style: AppTheme.of(context).bodyText2,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             'GTQ ${moneyFormat(widget.comision)}',
-                            style: AppTheme.of(context).bodyText2.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, fontSize: 20, color: Colors.green),
+                            style: AppTheme.of(context).bodyText2.override(
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).green,
+                                ),
                           ),
                         ),
                         Padding(
@@ -159,9 +133,8 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                           child: Text(
                             'GTQ ${moneyFormat(widget.pagoanticipado)}',
                             style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: 'Gotham-Regular',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
-                                  fontSize: 20,
                                   color: AppTheme.of(context).primaryColor,
                                 ),
                           ),
@@ -192,9 +165,8 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                       child: Text(
                         'Cancelar',
                         style: AppTheme.of(context).bodyText1.override(
-                              fontFamily: 'Gotham',
+                              fontFamily: AppTheme.of(context).bodyText2Family,
                               useGoogleFonts: false,
-                              fontSize: 20,
                               color: AppTheme.of(context).primaryBackground,
                             ),
                       ),
@@ -217,9 +189,8 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                       child: Text(
                         'Aceptar',
                         style: AppTheme.of(context).bodyText1.override(
-                              fontFamily: 'Gotham',
+                              fontFamily: AppTheme.of(context).bodyText2Family,
                               useGoogleFonts: false,
-                              fontSize: 20,
                               color: AppTheme.of(context).primaryBackground,
                             ),
                       ),

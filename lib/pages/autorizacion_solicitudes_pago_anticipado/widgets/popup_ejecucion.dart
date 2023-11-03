@@ -44,13 +44,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   ),
                   Text(
                     'Ejecución',
-                    style: AppTheme.of(context).title3.override(
-                          fontFamily: 'Gotham-Bold',
-                          color: AppTheme.of(context).primaryColor,
-                          fontSize: 35,
-                          useGoogleFonts: false,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: AppTheme.of(context).title3,
                   ),
                   SizedBox(
                     width: 60,
@@ -74,12 +68,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   children: [
                     Text(
                       '¿Estás seguro de que deseas confirmar la selección?',
-                      style: AppTheme.of(context).subtitle2.override(
-                            useGoogleFonts: false,
-                            fontFamily: 'Gotham-Regular',
-                            fontWeight: FontWeight.w400,
-                            color: AppTheme.of(context).primaryText,
-                          ),
+                      style: AppTheme.of(context).subtitle2,
                     ),
                     /* RichText(
                       textAlign: TextAlign.center,

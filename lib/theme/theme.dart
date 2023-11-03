@@ -233,7 +233,7 @@ class ThemeTypography extends Typography {
   final AppTheme theme;
 
   @override
-  String get title1Family => 'Gotham-Bold';
+  String get title1Family => 'Gotham';
   @override
   TextStyle get title1 => TextStyle(
         fontSize: 30,
@@ -241,7 +241,7 @@ class ThemeTypography extends Typography {
         color: theme.primaryText,
       );
   @override
-  String get title2Family => 'Gotham-Bold';
+  String get title2Family => 'Gotham';
   @override
   TextStyle get title2 => TextStyle(
         fontSize: 18,
@@ -249,7 +249,7 @@ class ThemeTypography extends Typography {
         color: theme.primaryText,
       );
   @override
-  String get title3Family => 'Gotham-Bold';
+  String get title3Family => 'Gotham';
   @override
   TextStyle get title3 => TextStyle(
         fontSize: 14,
@@ -258,7 +258,7 @@ class ThemeTypography extends Typography {
       );
 
   @override
-  String get subtitle1Family => 'Gotham-Bold';
+  String get subtitle1Family => 'Gotham';
   @override
   TextStyle get subtitle1 => TextStyle(
         fontSize: 12,
@@ -266,7 +266,7 @@ class ThemeTypography extends Typography {
         color: theme.primaryText,
       );
   @override
-  String get subtitle2Family => 'Gotham-Book';
+  String get subtitle2Family => 'Gotham';
   @override
   TextStyle get subtitle2 => TextStyle(
         fontSize: 20,
@@ -275,7 +275,7 @@ class ThemeTypography extends Typography {
       );
 
   @override
-  String get bodyText1Family => 'Gotham-Book';
+  String get bodyText1Family => 'Gotham';
   @override
   TextStyle get bodyText1 => TextStyle(
         fontSize: 14,
@@ -283,7 +283,7 @@ class ThemeTypography extends Typography {
         color: theme.primaryText,
       );
   @override
-  String get bodyText2Family => 'GotGotham-Bookham';
+  String get bodyText2Family => 'Gotham';
   @override
   TextStyle get bodyText2 => TextStyle(
         fontSize: 12,

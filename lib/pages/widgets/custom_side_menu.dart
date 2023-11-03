@@ -20,16 +20,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
   EdgeInsetsDirectional paddingHItems = const EdgeInsetsDirectional.only(start: 15, end: 15);
   EdgeInsetsDirectional paddingHItemsGroup = const EdgeInsetsDirectional.only(start: 30, end: 15);
 
-  TextStyle dataTileTextStyle = const TextStyle(
-    fontSize: 13,
-    color: Colors.white,
-    fontWeight: FontWeight.w200,
-  );
-  TextStyle dataTileSelectedTextStyle = const TextStyle(
-    fontSize: 13,
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-  );
+  TextStyle dataTileTextStyle = const TextStyle(fontFamily: 'Gotham-Book', fontSize: 14, color: Colors.white, overflow: TextOverflow.fade);
+  TextStyle dataTileSelectedTextStyle = const TextStyle(fontFamily: 'Gotham-Bold', fontSize: 14, color: Colors.white, overflow: TextOverflow.fade);
 
   Color hoverColor = const Color(0x50C6C6C6);
   Color highlightSelectedColor = const Color(0x50C6C6C6);
@@ -91,12 +83,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       if (data.isOpen)
                         Text(
                           currentUser!.nombreCompleto,
-                          style: TextStyle(
-                            overflow: TextOverflow.fade,
-                            fontSize: 14,
-                            color: AppTheme.of(context).primaryBackground,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: AppTheme.of(context).title3.override(
+                                fontFamily: AppTheme.of(context).title3Family,
+                                color: AppTheme.of(context).primaryBackground,
+                                useGoogleFonts: false,
+                              ),
+                          overflow: TextOverflow.fade,
                         ),
                     ],
                   ),
@@ -115,7 +107,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Home',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.home_outlined,
                       size: iconSize,
@@ -135,7 +127,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Cuentas por Cobrar',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.local_atm,
                       size: iconSize,
@@ -143,8 +135,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
-                    isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! &&
-                            (visualState.isTaped[8] || visualState.isTaped[9])) ||
+                    isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! && (visualState.isTaped[8] || visualState.isTaped[9])) ||
                         ((visualState.isTaped[8] || visualState.isTaped[9]) && !data.isOpen),
                     onTap: () => setState(() {
                       visualState.isGroupTaped.update('Cuentas por Cobrar', (value) => !value);
@@ -153,8 +144,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   if (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen)
                     SideMenuItemDataTile(
                       title: 'Solicitud de Pagos',
-                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.fade),
-                      selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
@@ -171,8 +162,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Aprobación y Seguimiento de Pagos',
-                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.ellipsis),
-                      selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
@@ -188,7 +179,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Propuesta de pago',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.file_copy_outlined,
                       size: iconSize,
@@ -196,9 +187,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     hoverColor: Colors.transparent,
                     highlightSelectedColor: highlightSelectedColor,
                     margin: paddingHItems,
-                    isSelected: (!visualState.isGroupTaped['Propuesta de Pago']! &&
-                            (visualState.isTaped[1] || visualState.isTaped[2])) ||
-                        ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
+                    isSelected:
+                        (!visualState.isGroupTaped['Propuesta de Pago']! && (visualState.isTaped[1] || visualState.isTaped[2])) || ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
                     onTap: () => setState(() {
                       visualState.isGroupTaped.update('Propuesta de Pago', (value) => !value);
                     }),
@@ -206,8 +196,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   if (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen)
                     SideMenuItemDataTile(
                       title: 'Selección de pagos anticipados',
-                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.fade),
-                      selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
@@ -224,8 +214,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Autorización de solicitudes',
-                      titleStyle: const TextStyle(color: Colors.white, overflow: TextOverflow.ellipsis),
-                      selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
@@ -241,7 +231,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Pagos',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.attach_money_rounded,
                       size: iconSize,
@@ -261,7 +251,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Usuarios',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.person_outline,
                       size: iconSize,
@@ -281,7 +271,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Clientes',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.group_outlined,
                       size: iconSize,
@@ -301,7 +291,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Dashboard',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.pie_chart_outline,
                       size: iconSize,
@@ -316,7 +306,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   SideMenuItemDataTile(
                     title: 'Ajustes',
                     titleStyle: dataTileTextStyle,
-                    selectedTitleStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    selectedTitleStyle: dataTileSelectedTextStyle,
                     icon: Icon(
                       Icons.settings_outlined,
                       size: iconSize,

@@ -70,8 +70,8 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                     pantalla: 'Cuentas por Cobrar',
                     controllerBusqueda: provider.controllerBusqueda,
                     onSearchChanged: (p0) async {
-                          await provider.search();
-                        },
+                      await provider.search();
+                    },
                   ),
                   //Contenido
                   CustomHeaderOptions(
@@ -121,7 +121,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                   Text(
                                     'Factura',
                                     style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).subtitle1Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).primaryBackground,
                                         ),
@@ -141,7 +141,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                   Text(
                                     'Importe',
                                     style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).subtitle1Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).primaryBackground,
                                         ),
@@ -160,7 +160,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                   Text(
                                     'Comisión',
                                     style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).subtitle1Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).primaryBackground,
                                         ),
@@ -179,7 +179,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                   Text(
                                     'Días para Pago',
                                     style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).subtitle1Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).primaryBackground,
                                         ),
@@ -199,7 +199,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                   Text(
                                     'Pago Anticipado',
                                     style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).subtitle1Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).primaryBackground,
                                         ),

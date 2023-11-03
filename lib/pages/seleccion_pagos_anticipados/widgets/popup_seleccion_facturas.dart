@@ -62,7 +62,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           Text(
                             'Cliente',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryBackground,
                                 ),
@@ -82,7 +82,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           Text(
                             'Num. Facturas',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryBackground,
                                 ),
@@ -101,7 +101,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           Text(
                             'Facturación',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryBackground,
                                 ),
@@ -120,7 +120,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           Text(
                             'Beneficio',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryBackground,
                                 ),
@@ -139,7 +139,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           Text(
                             'Pago Adelantado',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryBackground,
                                 ),
@@ -233,7 +233,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                               child: Text(
                                 'Importe',
                                 style: AppTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Gotham',
+                                      fontFamily: AppTheme.of(context).bodyText2Family,
                                       useGoogleFonts: false,
                                       color: AppTheme.of(context).tertiaryColor,
                                     ),

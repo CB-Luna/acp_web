@@ -100,10 +100,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                               width: width * 135,
                               child: Text(
                                 widget.fechaEjecucion,
-                                style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                    ),
+                                style: AppTheme.of(context).subtitle1,
                                 overflow: TextOverflow.fade,
                               ),
                             ),
@@ -119,10 +116,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                               width: width * 135,
                               child: Text(
                                 widget.descripcion,
-                                style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                    ),
+                                style: AppTheme.of(context).subtitle1,
                                 overflow: TextOverflow.fade,
                               ),
                             ),
@@ -137,7 +131,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                             Text(
                               'GTQ ${moneyFormat(widget.anticipo)}',
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryColor,
                                   ),
@@ -153,7 +147,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                             Text(
                               'GTQ ${moneyFormat(widget.comision)}',
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).tertiaryColor,
                                   ),
@@ -178,7 +172,11 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                         child: Text(
                           widget.estatus,
                           textAlign: TextAlign.center,
-                          style: AppTheme.of(context).subtitle1.override(fontFamily: 'Gotham', useGoogleFonts: false, color: Colors.white),
+                          style: AppTheme.of(context).subtitle1.override(
+                                fontFamily: AppTheme.of(context).subtitle1Family,
+                                useGoogleFonts: false,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
                           overflow: TextOverflow.fade,
                         ),
                       ),
@@ -375,7 +373,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                     child: Text(
                                       'Importe',
                                       style: AppTheme.of(context).bodyText2.override(
-                                            fontFamily: 'Gotham',
+                                            fontFamily: AppTheme.of(context).bodyText2Family,
                                             useGoogleFonts: false,
                                             color: AppTheme.of(context).tertiaryColor,
                                           ),
@@ -389,7 +387,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                   child: Text(
                                     ' ${moneyFormat(rendererContext.cell.value)}',
                                     style: AppTheme.of(context).bodyText2.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).bodyText2Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).tertiaryColor,
                                         ),
@@ -412,7 +410,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                     child: Text(
                                       'Beneficio',
                                       style: AppTheme.of(context).bodyText2.override(
-                                            fontFamily: 'Gotham',
+                                            fontFamily: AppTheme.of(context).bodyText2Family,
                                             useGoogleFonts: false,
                                             color: Colors.green,
                                           ),
@@ -426,7 +424,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                   child: Text(
                                     ' ${moneyFormat(rendererContext.cell.value)}',
                                     style: AppTheme.of(context).bodyText2.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).bodyText2Family,
                                           useGoogleFonts: false,
                                           color: Colors.green,
                                         ),
@@ -449,7 +447,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                     child: Text(
                                       'Pago Anticipado',
                                       style: AppTheme.of(context).bodyText2.override(
-                                            fontFamily: 'Gotham',
+                                            fontFamily: AppTheme.of(context).bodyText2Family,
                                             useGoogleFonts: false,
                                             color: AppTheme.of(context).primaryColor,
                                           ),
@@ -463,7 +461,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                   child: Text(
                                     ' ${moneyFormat(rendererContext.cell.value)}',
                                     style: AppTheme.of(context).bodyText2.override(
-                                          fontFamily: 'Gotham',
+                                          fontFamily: AppTheme.of(context).bodyText2Family,
                                           useGoogleFonts: false,
                                           color: AppTheme.of(context).primaryColor,
                                         ),

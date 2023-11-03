@@ -36,11 +36,7 @@ class _ContenedorMesState extends State<ContenedorMes> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${widget.mes} ${widget.year}',
-                  style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham',
-                        fontSize: 18,
-                        useGoogleFonts: false,
-                      ),
+                  style: AppTheme.of(context).subtitle1,
                   overflow: TextOverflow.fade,
                 ),
               );

@@ -47,11 +47,12 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                           children: [
                             Text(
                               'Notificaciones',
-                              style: TextStyle(
-                                fontSize: data.isOpen ? 14 : 10,
-                                color: AppTheme.of(context).primaryBackground,
-                                fontWeight: FontWeight.w300,
-                              ),
+                              style: AppTheme.of(context).title3.override(
+                                    fontFamily: AppTheme.of(context).title3Family,
+                                    fontSize: data.isOpen ? 14 : 10,
+                                    color: AppTheme.of(context).primaryBackground,
+                                  ),
+                              overflow: TextOverflow.fade,
                             ),
                           ],
                         ),
@@ -86,19 +87,19 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                           children: [
                                             Text(
                                               'En espera de validación',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: AppTheme.of(context).primaryBackground,
-                                                overflow: TextOverflow.fade,
-                                              ),
+                                              style: AppTheme.of(context).title3.override(
+                                                    fontFamily: AppTheme.of(context).title3Family,
+                                                    color: AppTheme.of(context).primaryBackground,
+                                                  ),
+                                              overflow: TextOverflow.fade,
                                             ),
                                             Text(
                                               'Justo ahora',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: AppTheme.of(context).primaryBackground,
-                                                fontWeight: FontWeight.w300,
-                                              ),
+                                              style: AppTheme.of(context).bodyText2.override(
+                                                    fontFamily: AppTheme.of(context).bodyText2Family,
+                                                    color: AppTheme.of(context).primaryBackground,
+                                                  ),
+                                              overflow: TextOverflow.fade,
                                             ),
                                           ],
                                         ),
@@ -144,11 +145,12 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                               children: [
                                 Text(
                                   'Actividades',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: AppTheme.of(context).primaryBackground,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                                  style: AppTheme.of(context).title3.override(
+                                        fontFamily: AppTheme.of(context).title3Family,
+                                        fontSize: 14,
+                                        color: AppTheme.of(context).primaryBackground,
+                                      ),
+                                  overflow: TextOverflow.fade,
                                 ),
                               ],
                             ),
@@ -175,19 +177,19 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                             children: [
                                               Text(
                                                 'Tienes un error que necestia atención inmediata',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: AppTheme.of(context).primaryBackground,
-                                                  overflow: TextOverflow.fade,
-                                                ),
+                                                style: AppTheme.of(context).title3.override(
+                                                      fontFamily: AppTheme.of(context).title3Family,
+                                                      color: AppTheme.of(context).primaryBackground,
+                                                    ),
+                                                overflow: TextOverflow.fade,
                                               ),
                                               Text(
                                                 'Justo ahora',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: AppTheme.of(context).primaryBackground,
-                                                  fontWeight: FontWeight.w300,
-                                                ),
+                                                style: AppTheme.of(context).bodyText2.override(
+                                                      fontFamily: AppTheme.of(context).bodyText2Family,
+                                                      color: AppTheme.of(context).primaryBackground,
+                                                    ),
+                                                overflow: TextOverflow.fade,
                                               ),
                                             ],
                                           ),
@@ -227,9 +229,8 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                 Text(
                                   'Actividades',
                                   style: TextStyle(
-                                    fontSize: data.isOpen ? 14 : 10,
+                                    fontSize: 10,
                                     color: AppTheme.of(context).primaryBackground,
-                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
                               ],

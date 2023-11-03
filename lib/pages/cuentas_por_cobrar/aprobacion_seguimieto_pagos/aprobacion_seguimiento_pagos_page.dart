@@ -149,7 +149,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           Text(
                                             'Fecha Ejecución',
                                             style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -169,7 +169,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           Text(
                                             'Descripción',
                                             style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -188,7 +188,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           Text(
                                             'Anticipo',
                                             style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -207,7 +207,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           Text(
                                             'Comisión',
                                             style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -226,7 +226,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           Text(
                                             'Estatus',
                                             style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -245,7 +245,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           Text(
                                             'Acciones',
                                             style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: 'Gotham',
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),

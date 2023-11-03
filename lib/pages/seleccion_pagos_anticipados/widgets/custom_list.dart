@@ -118,7 +118,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               child: Text(
                                 widget.cliente.nombreFiscal!,
                                 style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
+                                      fontFamily: AppTheme.of(context).subtitle1Family,
                                       useGoogleFonts: false,
                                     ),
                                 overflow: TextOverflow.fade,
@@ -143,7 +143,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             Text(
                               widget.cliente.facturasSeleccionadas!.toString(),
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: porcentajeSeleccionadas == 0
                                         ? Colors.red
@@ -154,17 +154,11 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ),
                             Text(
                               '/',
-                              style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
-                                    useGoogleFonts: false,
-                                  ),
+                              style: AppTheme.of(context).subtitle1,
                             ),
                             Text(
                               widget.cliente.facturas!.length.toString(),
-                              style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
-                                    useGoogleFonts: false,
-                                  ),
+                              style: AppTheme.of(context).subtitle1,
                             ),
                           ],
                         ),
@@ -184,7 +178,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             Text(
                               'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).tertiaryColor,
                                   ),
@@ -207,9 +201,9 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             Text(
                               'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
-                                    color: Colors.green,
+                                    color: AppTheme.of(context).green,
                                   ),
                             ),
                           ],
@@ -230,7 +224,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             Text(
                               'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryColor,
                                   ),
@@ -328,7 +322,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 child: Text(
                                   'Importe',
                                   style: AppTheme.of(context).bodyText2.override(
-                                        fontFamily: 'Gotham',
+                                        fontFamily: AppTheme.of(context).bodyText2Family,
                                         useGoogleFonts: false,
                                         color: AppTheme.of(context).tertiaryColor,
                                       ),
@@ -342,7 +336,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               child: Text(
                                 '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
                                 style: AppTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Gotham',
+                                      fontFamily: AppTheme.of(context).bodyText2Family,
                                       useGoogleFonts: false,
                                       color: AppTheme.of(context).tertiaryColor,
                                     ),
@@ -393,9 +387,9 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 child: Text(
                                   'Beneficio',
                                   style: AppTheme.of(context).bodyText2.override(
-                                        fontFamily: 'Gotham',
+                                        fontFamily: AppTheme.of(context).bodyText2Family,
                                         useGoogleFonts: false,
-                                        color: Colors.green,
+                                        color: AppTheme.of(context).green,
                                       ),
                                 ),
                               ),
@@ -407,9 +401,9 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               child: Text(
                                 '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
                                 style: AppTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Gotham',
+                                      fontFamily: AppTheme.of(context).bodyText2Family,
                                       useGoogleFonts: false,
-                                      color: Colors.green,
+                                      color: AppTheme.of(context).green,
                                     ),
                                 textAlign: TextAlign.center,
                               ),
@@ -430,7 +424,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 child: Text(
                                   'Pago Anticipado',
                                   style: AppTheme.of(context).bodyText2.override(
-                                        fontFamily: 'Gotham',
+                                        fontFamily: AppTheme.of(context).bodyText2Family,
                                         useGoogleFonts: false,
                                         color: AppTheme.of(context).primaryColor,
                                       ),
@@ -444,7 +438,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               child: Text(
                                 '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
                                 style: AppTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Gotham',
+                                      fontFamily: AppTheme.of(context).bodyText2Family,
                                       useGoogleFonts: false,
                                       color: AppTheme.of(context).primaryColor,
                                     ),

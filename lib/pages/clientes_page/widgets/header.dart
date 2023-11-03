@@ -150,12 +150,7 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                             ),
                           ),
                         ),
-                        style: AppTheme.of(context).subtitle1.override(
-                              fontSize: 14,
-                              fontFamily: 'Gotham-Light',
-                              fontWeight: FontWeight.normal,
-                              useGoogleFonts: false,
-                            ),
+                        style: AppTheme.of(context).subtitle1,
                         onChanged: (value) async {
                           // await provider.getUsuarios();
                         },

@@ -69,7 +69,7 @@ class _CustomCardState extends State<CustomCard> {
                             '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).gray,
                                 ),
@@ -88,7 +88,7 @@ class _CustomCardState extends State<CustomCard> {
                             '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
+                                  fontFamily: AppTheme.of(context).subtitle1Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).gray,
                                 ),
@@ -223,7 +223,7 @@ class _CustomCardState extends State<CustomCard> {
                             Text(
                               widget.cliente.facturasSeleccionadas!.toString(),
                               style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
+                                    fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: porcentajeSeleccionadas == 0
                                         ? Colors.red

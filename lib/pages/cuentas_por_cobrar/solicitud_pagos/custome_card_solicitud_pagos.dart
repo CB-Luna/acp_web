@@ -6,8 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 class CustomeCardSolicitudPagos extends StatefulWidget {
-  const CustomeCardSolicitudPagos(
-      {super.key, required this.factura, required this.diaspago, required this.moneda, required this.importe, required this.comision, required this.pagoAdelantado});
+  const CustomeCardSolicitudPagos({super.key, required this.factura, required this.diaspago, required this.moneda, required this.importe, required this.comision, required this.pagoAdelantado});
 
   final String factura;
   final String diaspago;
@@ -107,7 +106,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                 child: Text(
                   widget.factura,
                   style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham',
+                        fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
                       ),
                   textAlign: TextAlign.center,
@@ -121,7 +120,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                   'GTQ ${moneyFormat(widget.importe)}',
                   textAlign: TextAlign.center,
                   style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham',
+                        fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
                         color: AppTheme.of(context).tertiaryColor,
                       ),
@@ -134,7 +133,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                   'GTQ ${moneyFormat(widget.comision)}',
                   textAlign: TextAlign.center,
                   style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham',
+                        fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
                         color: Colors.green,
                       ),
@@ -145,10 +144,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                 width: MediaQuery.of(context).size.width / 1440 * 160,
                 child: Text(
                   widget.diaspago,
-                  style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham',
-                        useGoogleFonts: false,
-                      ),
+                  style: AppTheme.of(context).subtitle1,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.fade,
                 ),
@@ -159,7 +155,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                 child: Text(
                   'GTQ ${moneyFormat(widget.pagoAdelantado)}',
                   style: AppTheme.of(context).subtitle1.override(
-                        fontFamily: 'Gotham',
+                        fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
                         color: AppTheme.of(context).primaryColor,
                       ),

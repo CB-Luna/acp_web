@@ -99,7 +99,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                         Text(
                           'Moneda',
                           style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham-Regular',
+                                fontFamily: AppTheme.of(context).bodyText2Family,
                                 useGoogleFonts: false,
                                 color: AppTheme.of(context).primaryColor,
                               ),
@@ -108,7 +108,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           child: Text(
                             'USD',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham-Regular',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).secondaryColor,
                                 ),
@@ -119,7 +119,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           child: Text(
                             'GTQ',
                             style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham-Regular',
+                                  fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryColor,
                                 ),

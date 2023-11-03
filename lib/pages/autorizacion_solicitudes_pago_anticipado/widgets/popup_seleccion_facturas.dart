@@ -70,10 +70,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           width: width * 135,
                           child: Text(
                             widget.cliente.nombreFiscal!,
-                            style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: 'Gotham',
-                                  useGoogleFonts: false,
-                                ),
+                            style: AppTheme.of(context).subtitle1,
                             overflow: TextOverflow.fade,
                           ),
                         ),
@@ -88,15 +85,12 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                       children: [
                         Text(
                           'Facturas Seleccionadas:',
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
-                                useGoogleFonts: false,
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                         ),
                         Text(
                           widget.cliente.facturasSeleccionadas!.toString(),
                           style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
+                                fontFamily: AppTheme.of(context).subtitle1Family,
                                 useGoogleFonts: false,
                                 color: porcentajeSeleccionadas == 0
                                     ? Colors.red
@@ -107,17 +101,11 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                         ),
                         Text(
                           '/',
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
-                                useGoogleFonts: false,
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                         ),
                         Text(
                           widget.cliente.facturas!.length.toString(),
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
-                                useGoogleFonts: false,
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                         ),
                       ],
                     ),
@@ -129,15 +117,12 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                       children: [
                         Text(
                           'Facturación:',
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
-                                useGoogleFonts: false,
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
                           style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
+                                fontFamily: AppTheme.of(context).subtitle1Family,
                                 useGoogleFonts: false,
                                 color: AppTheme.of(context).primaryColor,
                               ),
@@ -152,15 +137,12 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                       children: [
                         Text(
                           'Beneficio:',
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
-                                useGoogleFonts: false,
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
                           style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
+                                fontFamily: AppTheme.of(context).subtitle1Family,
                                 useGoogleFonts: false,
                                 color: Colors.green,
                               ),
@@ -175,15 +157,12 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                       children: [
                         Text(
                           'Pago Adelantado:',
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
-                                useGoogleFonts: false,
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
                           style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: 'Gotham',
+                                fontFamily: AppTheme.of(context).subtitle1Family,
                                 useGoogleFonts: false,
                                 color: AppTheme.of(context).tertiaryColor,
                               ),

@@ -154,7 +154,7 @@ class _PagosPageState extends State<PagosPage> {
                                                       Text(
                                                         'ID',
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -176,7 +176,7 @@ class _PagosPageState extends State<PagosPage> {
                                                       Text(
                                                         'Cliente',
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -199,7 +199,7 @@ class _PagosPageState extends State<PagosPage> {
                                                         'Cuentas Anticipadas',
                                                         textAlign: TextAlign.center,
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -222,7 +222,7 @@ class _PagosPageState extends State<PagosPage> {
                                                         'Fecha Propuesta',
                                                         textAlign: TextAlign.center,
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -244,7 +244,7 @@ class _PagosPageState extends State<PagosPage> {
                                                       Text(
                                                         'Anticipo',
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -266,7 +266,7 @@ class _PagosPageState extends State<PagosPage> {
                                                       Text(
                                                         'Comision',
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -289,7 +289,7 @@ class _PagosPageState extends State<PagosPage> {
                                                         'Fecha Pago',
                                                         textAlign: TextAlign.center,
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -311,7 +311,7 @@ class _PagosPageState extends State<PagosPage> {
                                                       Text(
                                                         'Estatus',
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -332,7 +332,7 @@ class _PagosPageState extends State<PagosPage> {
                                                       Text(
                                                         'Acciones',
                                                         style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: 'Gotham',
+                                                              fontFamily: AppTheme.of(context).subtitle1Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),

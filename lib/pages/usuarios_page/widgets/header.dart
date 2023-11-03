@@ -151,9 +151,7 @@ class _UsuariosHeaderState extends State<UsuariosHeader> {
                           ),
                         ),
                         style: AppTheme.of(context).subtitle1.override(
-                              fontSize: 14,
-                              fontFamily: 'Gotham-Light',
-                              fontWeight: FontWeight.normal,
+                              fontFamily: AppTheme.of(context).bodyText2Family,
                               useGoogleFonts: false,
                             ),
                         onChanged: (value) async {

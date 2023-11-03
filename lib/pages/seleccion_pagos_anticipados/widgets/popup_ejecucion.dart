@@ -46,11 +46,9 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   Text(
                     'Ejecución',
                     style: AppTheme.of(context).title3.override(
-                          fontFamily: 'Gotham-Bold',
+                          fontFamily: AppTheme.of(context).title3Family,
                           color: AppTheme.of(context).primaryColor,
-                          fontSize: 35,
                           useGoogleFonts: false,
-                          fontWeight: FontWeight.bold,
                         ),
                   ),
                   SizedBox(
@@ -78,7 +76,6 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                       style: AppTheme.of(context).subtitle2.override(
                             useGoogleFonts: false,
                             fontFamily: AppTheme.of(context).subtitle2Family,
-                            fontWeight: FontWeight.w400,
                             color: AppTheme.of(context).primaryText,
                           ),
                     ),

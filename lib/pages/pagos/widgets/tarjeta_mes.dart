@@ -103,10 +103,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                             children: [
                                               Text(
                                                 widget.pagos.clientes![index].nombreFiscal!,
-                                                style: AppTheme.of(context).subtitle1.override(
-                                                      fontFamily: 'Gotham',
-                                                      useGoogleFonts: false,
-                                                    ),
+                                                style: AppTheme.of(context).subtitle1,
                                                 overflow: TextOverflow.fade,
                                               ),
                                             ],

@@ -258,7 +258,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                         Text(
                           'GTQ ${moneyFormat(provider.fondoDisponibleRestante)}',
                           style: AppTheme.of(context).title3.override(
-                                fontFamily: 'Gotham',
+                                fontFamily: AppTheme.of(context).title3Family,
                                 useGoogleFonts: false,
                                 color: provider.fondoDisponibleRestante < 0 ? Colors.red : AppTheme.of(context).primaryText,
                               ),
@@ -306,11 +306,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly, // Solo permite dígitos.
                           ],
-                          style: AppTheme.of(context).subtitle1.override(
-                                useGoogleFonts: false,
-                                fontSize: 16,
-                                fontFamily: 'Gotham-Regular',
-                              ),
+                          style: AppTheme.of(context).subtitle1,
                           decoration: InputDecoration(
                             hintText: 'Captura Fondo',
                             hintStyle: AppTheme.of(context).bodyText2.override(
