@@ -35,7 +35,7 @@ class Cliente {
   String? estatus;
   double? anticipo;
   double? comision;
-  String? contacto;
+  //String? contacto;
   List<Factura>? facturas;
   dynamic logoUrl;
   String? sociedad;
@@ -43,7 +43,7 @@ class Cliente {
   int? estatusId;
   DateTime? fechaPago;
   String? nombreFiscal;
-  String? codigoAcreedor;
+  String? codigoCliente;
   DateTime? fechaPropuesta;
   int? cuentasAnticipadas;
 
@@ -51,7 +51,7 @@ class Cliente {
     this.estatus,
     this.anticipo,
     this.comision,
-    this.contacto,
+    //this.contacto,
     this.facturas,
     this.logoUrl,
     this.sociedad,
@@ -59,7 +59,7 @@ class Cliente {
     this.estatusId,
     this.fechaPago,
     this.nombreFiscal,
-    this.codigoAcreedor,
+    this.codigoCliente,
     this.fechaPropuesta,
     this.cuentasAnticipadas,
   });
@@ -72,7 +72,7 @@ class Cliente {
         estatus: json["estatus"],
         anticipo: json["anticipo"]?.toDouble(),
         comision: json["comision"]?.toDouble(),
-        contacto: json["contacto"],
+        //contacto: json["contacto"],
         facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
         logoUrl: json["logo_url"],
         sociedad: json["sociedad"],
@@ -80,7 +80,7 @@ class Cliente {
         estatusId: json["estatus_id"],
         fechaPago: json["fecha_pago"] == null ? null : DateTime.parse(json["fecha_pago"]),
         nombreFiscal: json["nombre_fiscal"],
-        codigoAcreedor: json["codigo_acreedor"],
+        codigoCliente: json["codigo_cliente"],
         fechaPropuesta: json["fecha_propuesta"] == null ? null : DateTime.parse(json["fecha_propuesta"]),
         cuentasAnticipadas: json["cuentas_anticipadas"],
       );
@@ -89,7 +89,7 @@ class Cliente {
         "estatus": estatus,
         "anticipo": anticipo,
         "comision": comision,
-        "contacto": contacto,
+        //"contacto": contacto,
         "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
         "logo_url": logoUrl,
         "sociedad": sociedad,
@@ -97,7 +97,7 @@ class Cliente {
         "estatus_id": estatusId,
         "fecha_pago": fechaPago?.toIso8601String(),
         "nombre_fiscal": nombreFiscal,
-        "codigo_acreedor": codigoAcreedor,
+        "codigo_cliente": codigoCliente,
         "fecha_propuesta": "${fechaPropuesta!.year.toString().padLeft(4, '0')}-${fechaPropuesta!.month.toString().padLeft(2, '0')}-${fechaPropuesta!.day.toString().padLeft(2, '0')}",
         "cuentas_anticipadas": cuentasAnticipadas,
       };
