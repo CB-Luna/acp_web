@@ -19,7 +19,7 @@ class ImageContainer extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
-          color: AppTheme.of(context).primaryColor,
+          color: AppTheme.of(context).secondaryColor,
         ),
         shape: BoxShape.circle,
       ),

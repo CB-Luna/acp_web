@@ -148,13 +148,13 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.badge_outlined,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'ID',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -170,13 +170,13 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.person,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Cliente',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -192,14 +192,14 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.task,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Cuentas Anticipadas',
                                                         textAlign: TextAlign.center,
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -215,14 +215,14 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.event_outlined,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Fecha Propuesta',
                                                         textAlign: TextAlign.center,
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -238,13 +238,13 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.payments_outlined,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Anticipo',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -260,13 +260,13 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.savings_outlined,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Comision',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -282,14 +282,14 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.calendar_month_outlined,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Fecha Pago',
                                                         textAlign: TextAlign.center,
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -305,13 +305,13 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.star_outline_sharp,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Estatus',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -326,13 +326,13 @@ class _PagosPageState extends State<PagosPage> {
                                                     children: [
                                                       Icon(
                                                         Icons.border_color_outlined,
-                                                        size: 20,
+                                                        size: 25,
                                                         color: AppTheme.of(context).primaryBackground,
                                                       ),
                                                       Text(
                                                         'Acciones',
-                                                        style: AppTheme.of(context).subtitle1.override(
-                                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
                                                               useGoogleFonts: false,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),

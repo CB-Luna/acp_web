@@ -55,7 +55,7 @@ class _CustomCardState extends State<CustomCard> {
                       Text(
                         widget.cliente.nombreFiscal!,
                         overflow: TextOverflow.fade,
-                        style: AppTheme.of(context).subtitle1,
+                        style: AppTheme.of(context).title3,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +63,11 @@ class _CustomCardState extends State<CustomCard> {
                           Text(
                             'Facturación',
                             overflow: TextOverflow.fade,
-                            style: AppTheme.of(context).bodyText2,
+                            style: AppTheme.of(context).bodyText1.override(
+                                  fontFamily: AppTheme.of(context).bodyText1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                ),
                           ),
                           Text(
                             '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
@@ -71,7 +75,7 @@ class _CustomCardState extends State<CustomCard> {
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: AppTheme.of(context).subtitle1Family,
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).gray,
+                                  color: AppTheme.of(context).secondaryText,
                                 ),
                           ),
                         ],
@@ -82,7 +86,11 @@ class _CustomCardState extends State<CustomCard> {
                           Text(
                             'Beneficio',
                             overflow: TextOverflow.fade,
-                            style: AppTheme.of(context).bodyText2,
+                            style: AppTheme.of(context).bodyText1.override(
+                                  fontFamily: AppTheme.of(context).bodyText1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                ),
                           ),
                           Text(
                             '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
@@ -90,7 +98,7 @@ class _CustomCardState extends State<CustomCard> {
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: AppTheme.of(context).subtitle1Family,
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).gray,
+                                  color: AppTheme.of(context).secondaryText,
                                 ),
                           ),
                         ],
@@ -100,13 +108,19 @@ class _CustomCardState extends State<CustomCard> {
                 ),
               ],
             ),
-            const Divider(),
+            Divider(
+              color: AppTheme.of(context).secondaryText,
+            ),
             Wrap(
               spacing: 16,
               children: [
                 Text(
                   'Pago Adelantado',
-                  style: AppTheme.of(context).bodyText2,
+                  style: AppTheme.of(context).bodyText1.override(
+                        fontFamily: AppTheme.of(context).bodyText1Family,
+                        useGoogleFonts: false,
+                        color: AppTheme.of(context).secondaryText,
+                      ),
                 ),
                 Text(
                   '${widget.moneda} ${moneyFormat(widget.cliente.pagoAdelantado!)}',
@@ -117,12 +131,12 @@ class _CustomCardState extends State<CustomCard> {
             LinearPercentIndicator(
               lineHeight: 4,
               percent: porcentajeSeleccionadas / 100,
-              backgroundColor: AppTheme.of(context).gray,
+              backgroundColor: AppTheme.of(context).secondaryText,
               progressColor: porcentajeSeleccionadas == 0
-                  ? Colors.red
+                  ? AppTheme.of(context).red
                   : porcentajeSeleccionadas != 100
-                      ? Colors.amber
-                      : Colors.green,
+                      ? AppTheme.of(context).yellow
+                      : AppTheme.of(context).green,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,7 +213,11 @@ class _CustomCardState extends State<CustomCard> {
                   children: [
                     Text(
                       'Seleccionadas',
-                      style: AppTheme.of(context).bodyText2,
+                      style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: AppTheme.of(context).bodyText1Family,
+                            useGoogleFonts: false,
+                            color: AppTheme.of(context).secondaryText,
+                          ),
                     ),
                     Row(
                       children: [
@@ -211,10 +229,10 @@ class _CustomCardState extends State<CustomCard> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: porcentajeSeleccionadas == 0
-                                  ? Colors.red
+                                  ? AppTheme.of(context).red
                                   : porcentajeSeleccionadas != 100
-                                      ? Colors.amber
-                                      : Colors.green,
+                                      ? AppTheme.of(context).yellow
+                                      : AppTheme.of(context).green,
                             ),
                           ),
                         ),
@@ -226,10 +244,10 @@ class _CustomCardState extends State<CustomCard> {
                                     fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
                                     color: porcentajeSeleccionadas == 0
-                                        ? Colors.red
+                                        ? AppTheme.of(context).red
                                         : porcentajeSeleccionadas != 100
-                                            ? Colors.amber
-                                            : Colors.green,
+                                            ? AppTheme.of(context).yellow
+                                            : AppTheme.of(context).green,
                                   ),
                             ),
                             Text(

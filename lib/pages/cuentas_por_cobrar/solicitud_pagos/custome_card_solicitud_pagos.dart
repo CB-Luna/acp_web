@@ -135,7 +135,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
-                        color: Colors.green,
+                        color: AppTheme.of(context).green,
                       ),
                 ),
               ),

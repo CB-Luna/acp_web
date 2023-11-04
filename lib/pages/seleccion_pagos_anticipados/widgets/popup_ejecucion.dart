@@ -31,7 +31,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
         height: 180,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: AppTheme.of(context).secondaryColor,
+          color: AppTheme.of(context).secondaryBackground,
         ),
         child: Padding(
           padding: const EdgeInsetsDirectional.all(24),
@@ -45,11 +45,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   ),
                   Text(
                     'Ejecución',
-                    style: AppTheme.of(context).title3.override(
-                          fontFamily: AppTheme.of(context).title3Family,
-                          color: AppTheme.of(context).primaryColor,
-                          useGoogleFonts: false,
-                        ),
+                    style: AppTheme.of(context).title1,
                   ),
                   SizedBox(
                     width: 60,
@@ -73,11 +69,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   children: [
                     Text(
                       '¿Estás seguro de que deseas confirmar la selección?',
-                      style: AppTheme.of(context).subtitle2.override(
-                            useGoogleFonts: false,
-                            fontFamily: AppTheme.of(context).subtitle2Family,
-                            color: AppTheme.of(context).primaryText,
-                          ),
+                      style: AppTheme.of(context).subtitle2,
                     ),
                     /* RichText(
                       textAlign: TextAlign.center,

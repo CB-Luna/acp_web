@@ -116,6 +116,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     width: width * 61,
                                     child: Text(
                                       widget.pagos.clientes![index].cuentasAnticipadas.toString(),
+                                      style: AppTheme.of(context).subtitle1,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -123,6 +124,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     width: width * 70,
                                     child: Text(
                                       dayMothFormat(widget.pagos.clientes![index].fechaPropuesta!),
+                                      style: AppTheme.of(context).subtitle1,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -130,6 +132,11 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     width: width * 130,
                                     child: Text(
                                       '$monedaSeleccionada ${moneyFormat(widget.pagos.clientes![index].anticipo!)}',
+                                      style: AppTheme.of(context).subtitle1.override(
+                                            fontFamily: AppTheme.of(context).subtitle1Family,
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context).secondaryColor,
+                                          ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -137,6 +144,11 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     width: width * 108,
                                     child: Text(
                                       '$monedaSeleccionada ${moneyFormat(widget.pagos.clientes![index].comision!)}',
+                                      style: AppTheme.of(context).subtitle1.override(
+                                            fontFamily: AppTheme.of(context).subtitle1Family,
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context).purple,
+                                          ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -144,6 +156,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     width: width * 90,
                                     child: Text(
                                       dayMothFormat(widget.pagos.clientes![index].fechaPago!),
+                                      style: AppTheme.of(context).subtitle1,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -152,11 +165,17 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     height: 20,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
-                                      color: Colors.amber,
+                                      color: AppTheme.of(context).yellow,
                                     ),
-                                    child: Text(
-                                      widget.pagos.clientes![index].estatus!,
-                                      textAlign: TextAlign.center,
+                                    child: Center(
+                                      child: Text(
+                                        widget.pagos.clientes![index].estatus!,
+                                        style: AppTheme.of(context).subtitle1.override(
+                                              fontFamily: AppTheme.of(context).subtitle1Family,
+                                              useGoogleFonts: false,
+                                              color: AppTheme.of(context).tertiaryText,
+                                            ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(

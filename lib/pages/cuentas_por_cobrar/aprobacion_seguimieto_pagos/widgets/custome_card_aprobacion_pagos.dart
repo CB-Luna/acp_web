@@ -412,7 +412,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                       style: AppTheme.of(context).bodyText2.override(
                                             fontFamily: AppTheme.of(context).bodyText2Family,
                                             useGoogleFonts: false,
-                                            color: Colors.green,
+                                            color: AppTheme.of(context).green,
                                           ),
                                     ),
                                   ),
@@ -426,7 +426,7 @@ class _CustomeCardAprobacionPagosState extends State<CustomeCardAprobacionPagos>
                                     style: AppTheme.of(context).bodyText2.override(
                                           fontFamily: AppTheme.of(context).bodyText2Family,
                                           useGoogleFonts: false,
-                                          color: Colors.green,
+                                          color: AppTheme.of(context).green,
                                         ),
                                     textAlign: TextAlign.center,
                                   ),

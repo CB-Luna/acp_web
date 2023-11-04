@@ -30,7 +30,7 @@ class _CustomHoverIconState extends State<CustomHoverIcon> {
         onHover: (_) {
           setState(() {
             if (widget.isRed) {
-              iconColor = Colors.red;
+              iconColor = AppTheme.of(context).red;
             } else {
               iconColor = AppTheme.of(context).primaryColor;
             }

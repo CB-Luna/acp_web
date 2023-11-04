@@ -41,7 +41,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                   children: [
                     Text(
                       'Ganancias',
-                      style: AppTheme.of(context).subtitle1,
+                      style: AppTheme.of(context).title3,
                     ),
                     Container(
                       width: 30,
@@ -69,41 +69,41 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                       children: [
                         Text(
                           'Monto de Facturación',
-                          style: AppTheme.of(context).subtitle2,
+                          style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(provider.montoFacturacion)}',
-                          style: AppTheme.of(context).title3,
+                          style: AppTheme.of(context).title2,
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'CxP',
-                          style: AppTheme.of(context).subtitle2,
+                          style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
                           '${provider.cantidadFacturasSeleccionadas} de ${provider.cantidadFacturas}',
-                          style: AppTheme.of(context).title3,
+                          style: AppTheme.of(context).title2,
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Total de pagos',
-                          style: AppTheme.of(context).subtitle2,
+                          style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(provider.totalPagos)}',
-                          style: AppTheme.of(context).title3,
+                          style: AppTheme.of(context).title2,
                         ),
                       ],
                     ),
@@ -113,7 +113,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                   children: [
                     Text(
                       'Ganancias calculadas de los ultimos 30 dias',
-                      style: AppTheme.of(context).subtitle1,
+                      style: AppTheme.of(context).bodyText2,
                     ),
                     Container(
                       height: 30,
@@ -142,7 +142,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                   children: [
                     Text(
                       'Facturas Seleccionadas',
-                      style: AppTheme.of(context).subtitle1,
+                      style: AppTheme.of(context).title3,
                     ),
                     Wrap(
                       spacing: 16,
@@ -253,30 +253,30 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                       children: [
                         Text(
                           'Fondo Disponible Restante',
-                          style: AppTheme.of(context).subtitle2,
+                          style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(provider.fondoDisponibleRestante)}',
-                          style: AppTheme.of(context).title3.override(
-                                fontFamily: AppTheme.of(context).title3Family,
+                          style: AppTheme.of(context).title2.override(
+                                fontFamily: AppTheme.of(context).title2Family,
                                 useGoogleFonts: false,
-                                color: provider.fondoDisponibleRestante < 0 ? Colors.red : AppTheme.of(context).primaryText,
+                                color: provider.fondoDisponibleRestante < 0 ? AppTheme.of(context).red : AppTheme.of(context).primaryText,
                               ),
                         ),
                       ],
                     ),
-                    Container(color: AppTheme.of(context).gray, width: 1, height: 55),
+                    Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Beneficio Total',
-                          style: AppTheme.of(context).subtitle2,
+                          style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
                           'GTQ ${moneyFormat(provider.beneficioTotal)}',
-                          style: AppTheme.of(context).title3,
+                          style: AppTheme.of(context).title2,
                         ),
                       ],
                     ),
@@ -306,13 +306,16 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly, // Solo permite dígitos.
                           ],
-                          style: AppTheme.of(context).subtitle1,
+                          style: AppTheme.of(context).subtitle1.override(
+                                fontFamily: AppTheme.of(context).subtitle1Family,
+                                useGoogleFonts: false,
+                              ),
                           decoration: InputDecoration(
                             hintText: 'Captura Fondo',
                             hintStyle: AppTheme.of(context).bodyText2.override(
                                   fontFamily: AppTheme.of(context).bodyText2Family,
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).gray,
+                                  color: AppTheme.of(context).secondaryText,
                                 ),
                             border: InputBorder.none,
                             prefixText: '',

@@ -30,7 +30,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
         height: 180,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: AppTheme.of(context).secondaryColor,
+          color: AppTheme.of(context).secondaryBackground,
         ),
         child: Padding(
           padding: const EdgeInsetsDirectional.all(24),
@@ -44,7 +44,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                   ),
                   Text(
                     'Ejecución',
-                    style: AppTheme.of(context).title3,
+                    style: AppTheme.of(context).title1,
                   ),
                   SizedBox(
                     width: 60,

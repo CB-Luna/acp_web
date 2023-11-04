@@ -1,3 +1,4 @@
+import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,23 +47,17 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                     Wrap(
                       spacing: 8,
                       children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.format_indent_decrease_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () {
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.format_indent_decrease_outlined,
+                          onTap: () {
                             visualState.toggleSideMenu();
                           },
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.star_border_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () {},
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.star_border_outlined,
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -71,15 +66,23 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       children: [
                         Text(
                           currentUser!.rol.nombre,
-                          style: AppTheme.of(context).bodyText2,
+                          style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: AppTheme.of(context).bodyText1Family,
+                                useGoogleFonts: false,
+                                color: AppTheme.of(context).secondaryText,
+                              ),
                         ),
                         Text(
                           '/',
-                          style: AppTheme.of(context).bodyText2,
+                          style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: AppTheme.of(context).bodyText1Family,
+                                useGoogleFonts: false,
+                                color: AppTheme.of(context).secondaryText,
+                              ),
                         ),
                         Text(
                           widget.pantalla,
-                          style: AppTheme.of(context).subtitle2,
+                          style: AppTheme.of(context).bodyText1,
                         ),
                       ],
                     )
@@ -98,8 +101,8 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       children: [
                         Text(
                           'Moneda',
-                          style: AppTheme.of(context).subtitle1.override(
-                                fontFamily: AppTheme.of(context).bodyText2Family,
+                          style: AppTheme.of(context).title3.override(
+                                fontFamily: AppTheme.of(context).title3Family,
                                 useGoogleFonts: false,
                                 color: AppTheme.of(context).primaryColor,
                               ),
@@ -107,10 +110,10 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                         InkWell(
                           child: Text(
                             'USD',
-                            style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: AppTheme.of(context).bodyText2Family,
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).secondaryColor,
+                                  color: AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () {},
@@ -118,8 +121,8 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                         InkWell(
                           child: Text(
                             'GTQ',
-                            style: AppTheme.of(context).subtitle1.override(
-                                  fontFamily: AppTheme.of(context).bodyText2Family,
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).primaryColor,
                                 ),
@@ -134,7 +137,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       width: width * 160,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF4F4F4),
+                        color: AppTheme.of(context).gray,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Padding(
@@ -144,7 +147,11 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                           onChanged: widget.onSearchChanged,
                           decoration: InputDecoration(
                             hintText: 'Busqueda',
-                            hintStyle: AppTheme.of(context).bodyText2,
+                            hintStyle: AppTheme.of(context).bodyText1.override(
+                                  fontFamily: AppTheme.of(context).bodyText1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                ),
                             border: InputBorder.none,
                             prefixText: '',
                             prefixStyle: AppTheme.of(context).subtitle1,
@@ -159,47 +166,32 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                     Wrap(
                       spacing: 8,
                       children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.wb_sunny_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () {},
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.wb_sunny_outlined,
+                          onTap: () {},
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.history_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () {},
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.history_outlined,
+                          onTap: () {},
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.notifications_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () {},
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.notifications_outlined,
+                          onTap: () {},
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.exit_to_app_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () async {
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.exit_to_app_outlined,
+                          onTap: () async {
                             await userState.logout();
                           },
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.format_indent_increase_outlined,
-                            size: 24,
-                          ),
-                          splashRadius: 0.01,
-                          onPressed: () {
+                        CustomHoverIcon(
+                          size: 24,
+                          icon: Icons.format_indent_increase_outlined,
+                          onTap: () {
                             visualState.toggleNotificationMenu();
                           },
                         ),

@@ -33,7 +33,7 @@ class Custom_HeaderOptionsState extends State<CustomHeaderOptions> {
       children: [
         Text(
           widget.encabezado,
-          style: AppTheme.of(context).subtitle1,
+          style: AppTheme.of(context).title3,
         ),
         Wrap(
           spacing: 10,

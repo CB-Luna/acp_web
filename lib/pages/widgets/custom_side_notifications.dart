@@ -169,9 +169,9 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                                   children: [
                                     Row(
                                       children: [
-                                        const DotIndicator(
+                                        DotIndicator(
                                           size: 24,
-                                          color: Colors.red,
+                                          color: AppTheme.of(context).red,
                                         ),
                                         const SizedBox(width: 10),
                                         SizedBox(

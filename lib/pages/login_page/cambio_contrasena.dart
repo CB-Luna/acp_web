@@ -208,9 +208,7 @@ class _CambioContrasenaPageState extends State<CambioContrasenaPage> {
                                           ),
                                           focusNode: FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            nuevaContrasenaVisibility
-                                                ? Icons.visibility_outlined
-                                                : Icons.visibility_off_outlined,
+                                            nuevaContrasenaVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                                             color: AppTheme.of(context).secondaryColor,
                                             size: 22,
                                           ),
@@ -282,9 +280,7 @@ class _CambioContrasenaPageState extends State<CambioContrasenaPage> {
                                           ),
                                           focusNode: FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            confNuevaContrasenaVisibility
-                                                ? Icons.visibility_outlined
-                                                : Icons.visibility_off_outlined,
+                                            confNuevaContrasenaVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                                             color: AppTheme.of(context).secondaryColor,
                                             size: 22,
                                           ),
