@@ -80,32 +80,36 @@ final GoRouter router = GoRouter(
       path: '/clientes',
       name: 'clientes',
       builder: (BuildContext context, GoRouterState state) {
-        if (currentUser!.rol.permisos.listaUsuarios == null) {
+        if (currentUser!.rol.permisos.listaClientes == null) {
           return const PageNotFoundPage();
         }
         return const ClientesPage();
       },
       routes: [
-        // GoRoute(
-        //   path: 'registro-cliente',
-        //   name: 'registro_cliente',
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     if (currentUser!.rol.permisos.registroUsuario == null) {
-        //       return const PageNotFoundPage();
-        //     }
-        //     return const RegistroUsuariosPage();
-        //   },
-        // ),
-        // GoRoute(
-        //   path: 'editar-cliente',
-        //   name: 'editar_cliente',
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     if (currentUser == null) return const PageNotFoundPage();
-        //     if (currentUser!.rol.permisos.registroUsuario == null) return const SeleccionPagosAnticipadosPage();
-        //     if (state.extra == null) return const UsuariosPage();
-        //     return RegistroUsuariosPage(usuario: state.extra as Usuario);
-        //   },
-        // ),
+        GoRoute(
+          path: 'registro-cliente',
+          name: 'registro_cliente',
+          builder: (BuildContext context, GoRouterState state) {
+            if (currentUser == null) return const PageNotFoundPage();
+            if (currentUser!.rol.permisos.registroClientes == null) return const PageNotFoundPage();
+            if (state.extra == null) return const ClientesPage();
+            return RegistroClientePage(
+              cliente: state.extra as Cliente,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'editar-cliente',
+          name: 'editar_cliente',
+          builder: (BuildContext context, GoRouterState state) {
+            if (currentUser == null) return const PageNotFoundPage();
+            if (currentUser!.rol.permisos.registroClientes == null) return const PageNotFoundPage();
+            if (state.extra == null) return const ClientesPage();
+            return RegistroClientePage(
+              cliente: state.extra as Cliente,
+            );
+          },
+        ),
       ],
     ),
     GoRoute(

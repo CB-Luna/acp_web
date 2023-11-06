@@ -1,3 +1,4 @@
+import 'package:acp_web/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,7 +6,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:acp_web/helpers/supabase/queries.dart';
-import 'package:acp_web/models/usuario.dart';
 import 'package:acp_web/theme/theme.dart';
 
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
@@ -52,7 +52,8 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor:
+              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: const Color(0x661C1C1C),
@@ -75,7 +76,8 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor:
+              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: Colors.transparent,

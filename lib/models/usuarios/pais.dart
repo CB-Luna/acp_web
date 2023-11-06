@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:acp_web/models/sociedad.dart';
+import 'package:acp_web/models/usuarios/sociedad.dart';
 
 class Pais {
   Pais({

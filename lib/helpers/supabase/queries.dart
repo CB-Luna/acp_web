@@ -4,8 +4,7 @@ import 'dart:developer';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/models/configuration.dart';
-import 'package:acp_web/models/usuario.dart';
+import 'package:acp_web/models/models.dart';
 
 class SupabaseQueries {
   static Future<Usuario?> getCurrentUserData() async {

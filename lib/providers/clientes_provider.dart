@@ -22,8 +22,7 @@ class ClientesProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
 
   //ALTA USUARIO
-  TextEditingController nombreController = TextEditingController();
-  TextEditingController correoController = TextEditingController();
+  TextEditingController codigoClienteController = TextEditingController();
 
   bool activo = true;
 
@@ -44,8 +43,7 @@ class ClientesProvider extends ChangeNotifier {
   }
 
   void clearControllers({bool clearEmail = true, bool notify = true}) {
-    nombreController.clear();
-    if (clearEmail) correoController.clear();
+    codigoClienteController.clear();
 
     nombreImagen = null;
     webImage = null;
@@ -92,6 +90,29 @@ class ClientesProvider extends ChangeNotifier {
     }
     if (stateManager != null) stateManager!.notifyListeners();
     notifyListeners();
+  }
+
+  Future<Cliente?> getCliente() async {
+    try {
+      // TODO: revisar si ya existe cliente en tabla cliente
+      final res = await supabase.from('cliente_sap_b2b').select().eq(
+            'codigo_cliente',
+            codigoClienteController.text,
+          ) as List;
+
+      if (res.isEmpty) {
+        return null;
+      }
+
+      print(res.first);
+
+      final cliente = Cliente.fromMap(res.first);
+
+      return cliente;
+    } catch (e) {
+      log('Error en getCliente() - $e');
+      return null;
+    }
   }
 
   Future<void> selectImage() async {
@@ -292,8 +313,7 @@ class ClientesProvider extends ChangeNotifier {
   @override
   void dispose() {
     busquedaController.dispose();
-    nombreController.dispose();
-    correoController.dispose();
+    codigoClienteController.dispose();
     super.dispose();
   }
 }

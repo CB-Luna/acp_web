@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:acp_web/models/token.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+
+import 'package:acp_web/models/models.dart';
 
 Token? parseToken(String token) {
   try {

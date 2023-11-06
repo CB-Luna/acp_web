@@ -8,8 +8,8 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 import 'package:acp_web/functions/check_password.dart';
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/models.dart';
 import 'package:acp_web/helpers/supabase/queries.dart';
-import 'package:acp_web/models/token.dart';
 import 'package:acp_web/pages/widgets/custom_button.dart';
 import 'package:acp_web/pages/widgets/toasts/change_password_toast.dart';
 import 'package:acp_web/pages/widgets/toasts/success_toast.dart';
@@ -208,7 +208,9 @@ class _CambioContrasenaPageState extends State<CambioContrasenaPage> {
                                           ),
                                           focusNode: FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            nuevaContrasenaVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                            nuevaContrasenaVisibility
+                                                ? Icons.visibility_outlined
+                                                : Icons.visibility_off_outlined,
                                             color: AppTheme.of(context).secondaryColor,
                                             size: 22,
                                           ),
@@ -280,7 +282,9 @@ class _CambioContrasenaPageState extends State<CambioContrasenaPage> {
                                           ),
                                           focusNode: FocusNode(skipTraversal: true),
                                           child: Icon(
-                                            confNuevaContrasenaVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                            confNuevaContrasenaVisibility
+                                                ? Icons.visibility_outlined
+                                                : Icons.visibility_off_outlined,
                                             color: AppTheme.of(context).secondaryColor,
                                             size: 22,
                                           ),
