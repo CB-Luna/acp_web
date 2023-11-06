@@ -1,3 +1,4 @@
+export 'package:acp_web/models/clientes/cliente_sap.dart';
 export 'package:acp_web/models/clientes/cliente.dart';
 export 'package:acp_web/models/usuarios/compania.dart';
 export 'package:acp_web/models/usuarios/sociedad.dart';

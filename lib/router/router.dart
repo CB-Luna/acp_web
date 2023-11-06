@@ -93,9 +93,20 @@ final GoRouter router = GoRouter(
             if (currentUser == null) return const PageNotFoundPage();
             if (currentUser!.rol.permisos.registroClientes == null) return const PageNotFoundPage();
             if (state.extra == null) return const ClientesPage();
-            return RegistroClientePage(
-              cliente: state.extra as Cliente,
-            );
+            // final tempCliente = ClienteSap(
+            //   clienteSapId: 1,
+            //   codigoCliente: '656829',
+            //   nombreFiscal: 'Ejem - Q2 Holdings, Inc.',
+            //   identificadorFiscal: '5108758087226679',
+            //   sociedad: 'G001',
+            //   direccion: '1 Mitchell Hill',
+            //   fechaExtraccion: DateTime.now(),
+            //   condicionPago: 165,
+            //   numeroCuenta: '',
+            //   tasaAnual: 12,
+            // );
+            return RegistroClientePage(cliente: state.extra as ClienteSap);
+            // return RegistroClientePage(cliente: tempCliente);
           },
         ),
         GoRoute(
@@ -105,9 +116,7 @@ final GoRouter router = GoRouter(
             if (currentUser == null) return const PageNotFoundPage();
             if (currentUser!.rol.permisos.registroClientes == null) return const PageNotFoundPage();
             if (state.extra == null) return const ClientesPage();
-            return RegistroClientePage(
-              cliente: state.extra as Cliente,
-            );
+            return RegistroClientePage(cliente: state.extra as Cliente);
           },
         ),
       ],

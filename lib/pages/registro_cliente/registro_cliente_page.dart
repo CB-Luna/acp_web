@@ -1,12 +1,10 @@
-import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/pages/registro_cliente/widgets/header.dart';
-import 'package:acp_web/pages/registro_cliente/widgets/opciones_widget.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'package:acp_web/pages/registro_cliente/widgets/header.dart';
+import 'package:acp_web/pages/registro_cliente/widgets/opciones_widget.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
@@ -22,7 +20,7 @@ class RegistroClientePage extends StatefulWidget {
     required this.cliente,
   });
 
-  final Cliente cliente;
+  final dynamic cliente;
 
   @override
   State<RegistroClientePage> createState() => _RegistroClientePageState();
@@ -30,21 +28,22 @@ class RegistroClientePage extends StatefulWidget {
 
 class _RegistroClientePageState extends State<RegistroClientePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
 
   String? imageUrl;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if (widget.usuario?.imagen != null) {
-  //     imageUrl = supabase.storage.from('avatars').getPublicUrl(widget.usuario!.imagen!);
-  //   }
-  // }
+  @override
+  void initState() {
+    super.initState();
+    if (widget.cliente is Cliente) {
+      imageUrl = widget.cliente.imagen;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final ClientesProvider provider = Provider.of<ClientesProvider>(context);
+
+    final bool editado = widget.cliente is Cliente;
 
     return Scaffold(
       key: scaffoldKey,
@@ -76,64 +75,111 @@ class _RegistroClientePageState extends State<RegistroClientePage> {
                               color: const Color(0xFFD7E9FB),
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Información de Usuario',
-                                      style: GoogleFonts.inter(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                      ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Datos Generales',
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
-                                  Stack(
-                                    clipBehavior: Clip.none,
+                                ),
+                                const SizedBox(height: 16),
+                                Container(
+                                  width: double.infinity,
+                                  height: 195,
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
                                     children: [
                                       InkWell(
                                         onTap: () async {
                                           await provider.selectImage();
                                         },
                                         child: Container(
-                                          width: 160,
-                                          height: 160,
+                                          width: 175,
+                                          height: 175,
                                           clipBehavior: Clip.antiAlias,
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
+                                          decoration: BoxDecoration(
                                             color: Colors.white,
+                                            borderRadius: BorderRadius.circular(14),
                                           ),
                                           child: getUserImage(
-                                            height: 152,
+                                            height: 145,
                                             provider.webImage ?? imageUrl,
                                           ),
                                         ),
                                       ),
-                                      Positioned(
-                                        right: -16,
-                                        bottom: 0,
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const Icon(
-                                            Icons.delete_outline_outlined,
-                                            size: 28,
-                                            color: Color(0xFF0A0859),
-                                          ),
-                                          splashRadius: 0.01,
-                                          onPressed: () {
-                                            imageUrl = null;
-                                            provider.clearImage();
-                                          },
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            InputContainer(
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Código de cliente',
+                                                      data: widget.cliente.codigoCliente,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Sociedad',
+                                                      data: widget.cliente.sociedad,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Dirección',
+                                                      data: widget.cliente.direccion,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16),
+                                            InputContainer(
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Identificación Fiscal',
+                                                      data: widget.cliente.identificadorFiscal,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Cuenta',
+                                                      data: widget.cliente.tipoCuenta ?? '',
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Condición Pago',
+                                                      data: widget.cliente.condicionPago.toString(),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ClienteDataWidget(
+                                                      title: 'Banco',
+                                                      data: widget.cliente.bancoIndustrial ?? '',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
+                                      )
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -144,7 +190,6 @@ class _RegistroClientePageState extends State<RegistroClientePage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: OpcionesWidget(
-                    formKey: formKey,
                     cliente: widget.cliente,
                   ),
                 ),
@@ -160,16 +205,54 @@ class _RegistroClientePageState extends State<RegistroClientePage> {
   }
 }
 
-class InputContainer extends StatelessWidget {
-  const InputContainer({
+class ClienteDataWidget extends StatelessWidget {
+  const ClienteDataWidget({
     super.key,
     required this.title,
-    required this.child,
-    this.width = 414,
-    this.alignment = Alignment.center,
+    required this.data,
   });
 
   final String title;
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTheme.of(context).subtitle1.override(
+                fontFamily: 'Gotham-Bold',
+                useGoogleFonts: false,
+                color: const Color(0x661C1C1C),
+              ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          data,
+          style: AppTheme.of(context).subtitle1.override(
+                fontFamily: 'Gotham-Regular',
+                useGoogleFonts: false,
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+        ),
+      ],
+    );
+  }
+}
+
+class InputContainer extends StatelessWidget {
+  const InputContainer({
+    super.key,
+    required this.child,
+    this.width = double.infinity,
+    this.alignment = Alignment.center,
+  });
+
   final Widget child;
   final double width;
   final Alignment alignment;
@@ -184,23 +267,7 @@ class InputContainer extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: const Color(0x661C1C1C),
-            ),
-          ),
-          const SizedBox(height: 5),
-          child,
-        ],
-      ),
+      child: child,
     );
   }
 }

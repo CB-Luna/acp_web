@@ -1,3 +1,4 @@
+import 'package:acp_web/models/models.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/services/api_error_handler.dart';
 import 'package:acp_web/theme/theme.dart';
@@ -109,14 +110,13 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                 final cliente = await provider.getCliente();
 
                 if (cliente == null) {
-                  await ApiErrorHandler.callToast('No se encontró un cliente con este código');
                   return;
                 }
 
                 provider.clearControllers(notify: false);
 
                 if (!mounted) return;
-                await context.pushNamed('registro_cliente');
+                await context.pushNamed('registro_cliente', extra: cliente);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0A0859),

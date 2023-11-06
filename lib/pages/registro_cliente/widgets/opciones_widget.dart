@@ -12,13 +12,10 @@ import 'package:acp_web/providers/providers.dart';
 class OpcionesWidget extends StatefulWidget {
   const OpcionesWidget({
     super.key,
-    required this.formKey,
     required this.cliente,
   });
 
-  final Cliente cliente;
-
-  final GlobalKey<FormState> formKey;
+  final dynamic cliente;
 
   @override
   State<OpcionesWidget> createState() => _OpcionesWidgetState();
@@ -66,10 +63,6 @@ class _OpcionesWidgetState extends State<OpcionesWidget> {
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () async {
-              if (!widget.formKey.currentState!.validate()) {
-                return;
-              }
-
               // await provider.validarImagen(widget.usuario?.imagen);
 
               // if (widget.usuario != null) {

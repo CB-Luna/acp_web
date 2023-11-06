@@ -92,21 +92,29 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Cliente?> getCliente() async {
+  Future<ClienteSap?> getCliente() async {
     try {
-      // TODO: revisar si ya existe cliente en tabla cliente
-      final res = await supabase.from('cliente_sap_b2b').select().eq(
+      var res = await supabase.from('cliente').select('cliente_id').eq(
+            'codigo_cliente',
+            codigoClienteController.text,
+          ) as List;
+
+      if (res.isNotEmpty) {
+        await ApiErrorHandler.callToast('Ya existe un cliente con este código');
+        return null;
+      }
+
+      res = await supabase.from('cliente_sap_b2b').select().eq(
             'codigo_cliente',
             codigoClienteController.text,
           ) as List;
 
       if (res.isEmpty) {
+        await ApiErrorHandler.callToast('No se encontró un cliente con este código');
         return null;
       }
 
-      print(res.first);
-
-      final cliente = Cliente.fromMap(res.first);
+      final cliente = ClienteSap.fromMap(res.first);
 
       return cliente;
     } catch (e) {

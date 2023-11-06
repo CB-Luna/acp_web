@@ -1,4 +1,3 @@
-import 'package:acp_web/pages/clientes_page/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/pages/clientes_page/widgets/header.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/helpers/globals.dart';
@@ -199,7 +199,9 @@ class _ClientesPageState extends State<ClientesPage> {
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
-                                      color: rendererContext.cell.value == 'Activo' ? const Color(0xFF94D0FF) : Colors.grey[300],
+                                      color: rendererContext.cell.value == 'Activo'
+                                          ? const Color(0xFF94D0FF)
+                                          : Colors.grey[300],
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
@@ -235,7 +237,8 @@ class _ClientesPageState extends State<ClientesPage> {
                                               rendererContext.rowIdx,
                                             );
                                             if (!res) {
-                                              await ApiErrorHandler.callToast('Error al ${value ? "" : "des"}activar cliente');
+                                              await ApiErrorHandler.callToast(
+                                                  'Error al ${value ? "" : "des"}activar cliente');
                                             }
                                           },
                                         ),
@@ -250,10 +253,10 @@ class _ClientesPageState extends State<ClientesPage> {
                                           onPressed: () async {
                                             // await provider.initEditarUsuario(usuario!);
                                             // if (!mounted) return;
-                                            // await context.pushNamed(
-                                            //   'editar_usuario',
-                                            //   extra: usuario,
-                                            // );
+                                            await context.pushNamed(
+                                              'editar_cliente',
+                                              extra: cliente,
+                                            );
                                           },
                                         ),
                                       ],
