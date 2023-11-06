@@ -92,7 +92,7 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ClienteSap?> getCliente() async {
+  Future<Cliente?> getCliente() async {
     try {
       var res = await supabase.from('cliente').select('cliente_id').eq(
             'codigo_cliente',
@@ -114,7 +114,7 @@ class ClientesProvider extends ChangeNotifier {
         return null;
       }
 
-      final cliente = ClienteSap.fromMap(res.first);
+      final cliente = Cliente.fromClienteSap(res.first);
 
       return cliente;
     } catch (e) {

@@ -15,7 +15,7 @@ class OpcionesWidget extends StatefulWidget {
     required this.cliente,
   });
 
-  final dynamic cliente;
+  final Cliente cliente;
 
   @override
   State<OpcionesWidget> createState() => _OpcionesWidgetState();

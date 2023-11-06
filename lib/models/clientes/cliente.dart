@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:acp_web/models/clientes/contacto.dart';
+
 class Cliente {
   Cliente({
     required this.clienteId,
@@ -19,6 +21,7 @@ class Cliente {
     this.formula,
     this.acuerdoComercial,
     required this.activo,
+    required this.contactos,
   });
 
   int clienteId;
@@ -38,6 +41,7 @@ class Cliente {
   String? formula;
   String? acuerdoComercial;
   bool activo;
+  List<Contacto> contactos;
 
   String get estatus => activo ? 'Activo' : 'Inactivo';
 
@@ -45,23 +49,45 @@ class Cliente {
 
   factory Cliente.fromMap(Map<String, dynamic> json) {
     return Cliente(
-        clienteId: json["cliente_id"],
-        codigoCliente: json["codigo_cliente"],
-        nombreFiscal: json['nombre_fiscal'],
-        identificadorFiscal: json['identificador_fiscal'],
-        direccion: json['direccion'],
-        imagen: json['logo_url'],
-        fechaRegistro: DateTime.parse(json['fecha_registro']),
-        condicionPago: json['condicion_pago'],
-        numeroCuenta: json['numero_cuenta'],
-        bancoIndustrial: json['banco_industrial'],
-        tipoCuenta: json['tipo_cuenta'],
-        moneda: json['moneda'],
-        tasaAnual: json['tasa_anual'],
-        formula: json['formula'],
-        acuerdoComercial: json['acuerdo_comercial'],
-        sociedad: json['sociedad'],
-        activo: json['activo']);
+      clienteId: json["cliente_id"],
+      codigoCliente: json["codigo_cliente"],
+      nombreFiscal: json['nombre_fiscal'],
+      identificadorFiscal: json['identificador_fiscal'],
+      direccion: json['direccion'],
+      imagen: json['logo_url'],
+      fechaRegistro: DateTime.parse(json['fecha_registro']),
+      condicionPago: json['condicion_pago'],
+      numeroCuenta: json['numero_cuenta'],
+      bancoIndustrial: json['banco_industrial'],
+      tipoCuenta: json['tipo_cuenta'],
+      moneda: json['moneda'],
+      tasaAnual: json['tasa_anual'],
+      formula: json['formula'],
+      acuerdoComercial: json['acuerdo_comercial'],
+      sociedad: json['sociedad'],
+      activo: json['activo'],
+      contactos: json['contactos'] != null ? [] : [],
+    );
+  }
+
+  factory Cliente.fromClienteSap(Map<String, dynamic> json) {
+    return Cliente(
+      clienteId: json['cliente_sap_id'],
+      codigoCliente: json["codigo_cliente"],
+      nombreFiscal: json['nombre_fiscal'],
+      identificadorFiscal: json['identificador_fiscal'],
+      direccion: json['direccion'],
+      fechaRegistro: DateTime.now(),
+      condicionPago: json['condicion_pago'],
+      numeroCuenta: json['numero_cuenta'],
+      bancoIndustrial: json['banco_industrial'],
+      tipoCuenta: json['tipo_cuenta'],
+      moneda: json['moneda'],
+      tasaAnual: json['tasa_anual'],
+      sociedad: json['sociedad'],
+      activo: true,
+      contactos: [],
+    );
   }
 
   @override
