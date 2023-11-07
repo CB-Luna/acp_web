@@ -1,19 +1,14 @@
-import 'package:acp_web/models/models.dart';
-import 'package:acp_web/pages/registro_cliente/widgets/input_container.dart';
-import 'package:acp_web/pages/widgets/get_image_widget.dart';
-import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class DatosGeneralesWidget extends StatefulWidget {
-  const DatosGeneralesWidget({
-    super.key,
-    required this.cliente,
-  });
+import 'package:acp_web/pages/registro_cliente/widgets/input_container.dart';
+import 'package:acp_web/pages/widgets/get_image_widget.dart';
+import 'package:acp_web/providers/providers.dart';
 
-  final Cliente cliente;
+class DatosGeneralesWidget extends StatefulWidget {
+  const DatosGeneralesWidget({super.key});
 
   @override
   State<DatosGeneralesWidget> createState() => _DatosGeneralesWidgetState();
@@ -21,12 +16,6 @@ class DatosGeneralesWidget extends StatefulWidget {
 
 class _DatosGeneralesWidgetState extends State<DatosGeneralesWidget> {
   String? imageUrl;
-
-  @override
-  void initState() {
-    super.initState();
-    imageUrl = widget.cliente.imagen;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,19 +75,19 @@ class _DatosGeneralesWidgetState extends State<DatosGeneralesWidget> {
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Código de cliente',
-                                data: widget.cliente.codigoCliente,
+                                data: provider.cliente!.codigoCliente,
                               ),
                             ),
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Sociedad',
-                                data: widget.cliente.sociedad,
+                                data: provider.cliente!.sociedad,
                               ),
                             ),
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Dirección',
-                                data: widget.cliente.direccion,
+                                data: provider.cliente!.direccion,
                               ),
                             ),
                           ],
@@ -111,25 +100,25 @@ class _DatosGeneralesWidgetState extends State<DatosGeneralesWidget> {
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Identificación Fiscal',
-                                data: widget.cliente.identificadorFiscal,
+                                data: provider.cliente!.identificadorFiscal,
                               ),
                             ),
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Cuenta',
-                                data: widget.cliente.tipoCuenta ?? '',
+                                data: provider.cliente!.tipoCuenta ?? '',
                               ),
                             ),
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Condición Pago',
-                                data: widget.cliente.condicionPago.toString(),
+                                data: provider.cliente!.condicionPago.toString(),
                               ),
                             ),
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Banco',
-                                data: widget.cliente.bancoIndustrial ?? '',
+                                data: provider.cliente!.bancoIndustrial ?? '',
                               ),
                             ),
                           ],

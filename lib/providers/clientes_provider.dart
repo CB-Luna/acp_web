@@ -9,11 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:http/http.dart' as http;
 
-import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/models/models.dart';
 import 'package:acp_web/services/api_error_handler.dart';
 
@@ -21,7 +18,6 @@ class ClientesProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
 
-  //ALTA USUARIO
   TextEditingController codigoClienteController = TextEditingController();
 
   bool activo = true;
@@ -33,7 +29,7 @@ class ClientesProvider extends ChangeNotifier {
 
   Cliente? cliente;
 
-  //PANTALLA USUARIOS
+  //PANTALLA CLIENTES
   final busquedaController = TextEditingController();
   String orden = "cliente_id";
 
@@ -92,7 +88,7 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Cliente?> getCliente() async {
+  Future<bool> getCliente() async {
     try {
       var res = await supabase.from('cliente').select('cliente_id').eq(
             'codigo_cliente',
@@ -101,7 +97,7 @@ class ClientesProvider extends ChangeNotifier {
 
       if (res.isNotEmpty) {
         await ApiErrorHandler.callToast('Ya existe un cliente con este código');
-        return null;
+        return false;
       }
 
       res = await supabase.from('cliente_sap_b2b').select().eq(
@@ -111,15 +107,15 @@ class ClientesProvider extends ChangeNotifier {
 
       if (res.isEmpty) {
         await ApiErrorHandler.callToast('No se encontró un cliente con este código');
-        return null;
+        return false;
       }
 
-      final cliente = Cliente.fromClienteSap(res.first);
+      cliente = Cliente.fromClienteSap(res.first);
 
-      return cliente;
+      return true;
     } catch (e) {
       log('Error en getCliente() - $e');
-      return null;
+      return false;
     }
   }
 
@@ -190,6 +186,23 @@ class ClientesProvider extends ChangeNotifier {
         }
       }
     }
+  }
+
+  void agregarContacto() {
+    final contactoVacio = Contacto(
+      nombre: '',
+      correo: '',
+      puesto: '',
+      telefono: '',
+      clienteFk: cliente!.clienteId,
+    );
+    cliente!.contactos.add(contactoVacio);
+    notifyListeners();
+  }
+
+  void eliminarContacto(int index) {
+    cliente!.contactos.removeAt(index);
+    notifyListeners();
   }
 
   // Future<Map<String, String>?> registrarUsuario() async {

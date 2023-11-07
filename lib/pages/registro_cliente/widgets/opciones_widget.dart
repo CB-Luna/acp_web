@@ -10,12 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:acp_web/providers/providers.dart';
 
 class OpcionesWidget extends StatefulWidget {
-  const OpcionesWidget({
-    super.key,
-    required this.cliente,
-  });
-
-  final Cliente cliente;
+  const OpcionesWidget({super.key});
 
   @override
   State<OpcionesWidget> createState() => _OpcionesWidgetState();

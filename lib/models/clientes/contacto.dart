@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Contacto {
   Contacto({
-    required this.contactoId,
+    this.contactoId,
     required this.nombre,
     required this.correo,
     required this.puesto,
@@ -10,7 +10,7 @@ class Contacto {
     required this.clienteFk,
   });
 
-  int contactoId;
+  int? contactoId;
   String nombre;
   String correo;
   String puesto;

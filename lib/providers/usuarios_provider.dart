@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:acp_web/functions/phone_format.dart';
 import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/models/models.dart';
 import 'package:acp_web/services/api_error_handler.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
@@ -246,7 +245,7 @@ class UsuariosProvider extends ChangeNotifier {
 
       if (userId == null) return {'Error': 'Error al registrar al usuario'};
 
-      final token = generateToken(userId, correoController.text);
+      // final token = generateToken(userId, correoController.text);
 
       // final bool tokenSaved = await SupabaseQueries.saveToken(userId, 'token_ingreso', token);
 

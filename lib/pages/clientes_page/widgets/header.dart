@@ -1,11 +1,10 @@
-import 'package:acp_web/models/models.dart';
-import 'package:acp_web/providers/providers.dart';
-import 'package:acp_web/services/api_error_handler.dart';
-import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/theme/theme.dart';
 
 class ClientesHeader extends StatefulWidget {
   const ClientesHeader({super.key, required this.encabezado});
@@ -107,16 +106,16 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                 warningVisible = false;
                 setState(() {});
 
-                final cliente = await provider.getCliente();
+                final res = await provider.getCliente();
 
-                if (cliente == null) {
+                if (!res) {
                   return;
                 }
 
                 provider.clearControllers(notify: false);
 
                 if (!mounted) return;
-                await context.pushNamed('registro_cliente', extra: cliente);
+                await context.pushNamed('registro_cliente', extra: true);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0A0859),
