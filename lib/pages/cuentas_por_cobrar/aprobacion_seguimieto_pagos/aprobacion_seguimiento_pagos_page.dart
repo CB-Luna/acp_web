@@ -1,11 +1,10 @@
-import 'package:acp_web/pages/cuentas_por_cobrar/aprobacion_seguimieto_pagos/widgets/contedor_mes.dart';
+import 'package:acp_web/pages/cuentas_por_cobrar/aprobacion_seguimieto_pagos/widgets/cuadro_gris.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
-//import 'package:acp_web/providers/cuentas_por_cobrar/cuentas_por_cobrar_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -46,43 +45,9 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
 
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(9);
-
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
-
     final AprobacionSeguimientoPagosProvider provider = Provider.of<AprobacionSeguimientoPagosProvider>(context);
-
-    List<Map<String, dynamic>> listadoEjemplo1 = [
-      {
-        "fechaEjecucion": "Sep 24",
-        "Descripcion": 'Propuesta de pago anticipado',
-        "anticipo": 581.44,
-        "comision": 895904.57,
-        "Estatus": 'Aprobado',
-      },
-      {
-        "fechaEjecucion": "Sep 23",
-        "Descripcion": 'Propuesta de pago anticipado',
-        "anticipo": 581.44,
-        "comision": 895904.57,
-        "Estatus": 'Anexo Pendiente',
-      },
-      {
-        "fechaEjecucion": "Sep 22",
-        "Descripcion": 'Propuesta de pago anticipado',
-        "anticipo": 581.44,
-        "comision": 895904.57,
-        "Estatus": 'Pagada',
-      },
-      {
-        "fechaEjecucion": "Sep 21",
-        "Descripcion": 'Propuesta de pago anticipado',
-        "anticipo": 581.44,
-        "comision": 895904.57,
-        "Estatus": 'Cancelada',
-      },
-    ];
-
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
       body: SizedBox(
@@ -131,10 +96,10 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                               height: height * 79,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
-                                color: const Color(0xFF0A0859),
+                                color: AppTheme.of(context).primaryColor,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 24),
+                                padding: const EdgeInsets.symmetric(horizontal: 35),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -148,8 +113,8 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           ),
                                           Text(
                                             'Fecha Ejecución',
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -168,8 +133,8 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           ),
                                           Text(
                                             'Descripción',
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -187,8 +152,8 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           ),
                                           Text(
                                             'Anticipo',
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -206,8 +171,8 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           ),
                                           Text(
                                             'Comisión',
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -225,8 +190,8 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           ),
                                           Text(
                                             'Estatus',
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -244,8 +209,8 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                           ),
                                           Text(
                                             'Acciones',
-                                            style: AppTheme.of(context).subtitle1.override(
-                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
                                                   useGoogleFonts: false,
                                                   color: AppTheme.of(context).primaryBackground,
                                                 ),
@@ -261,18 +226,18 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                           ),
                           //Lista
                           SizedBox(
+                            width: double.infinity,
                             height: height * 1024 - 300,
-                            child: provider.clientes.isEmpty
-                                ? const CircularProgressIndicator()
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: 2,
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (BuildContext ctx, index) {
-                                      return ContenedorMes(
-                                          list: listadoEjemplo1, mes: provider.clientes[index].fechaSeleccion.month.toString(), year: provider.clientes[index].fechaSeleccion.year.toString());
-                                    },
-                                  ),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: provider.clientes.length,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (BuildContext ctx, index) {
+                                return CuadroGris(
+                                  clase: provider.clientes[index],
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
