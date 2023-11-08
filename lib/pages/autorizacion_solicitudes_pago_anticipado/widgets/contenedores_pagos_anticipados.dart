@@ -189,7 +189,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           ),
                         ),
                         Tooltip(
-                          message: 'Ejecutar',
+                          message: 'Autorizar Pago',
                           child: InkWell(
                             child: Container(
                               width: 30,
