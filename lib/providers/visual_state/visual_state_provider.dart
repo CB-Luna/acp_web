@@ -15,8 +15,8 @@ import 'package:path/path.dart' as p;
 class VisualStateProvider extends ChangeNotifier {
   //OPCIONES MENU:
   Map<String, bool> isGroupTaped = {
-    'Propuesta de Pago': false,
-    'Cuentas por Cobrar': false,
+    'Propuesta de Pago': true,
+    'Cuentas por Cobrar': true,
   };
   List<bool> isTaped = [
     false, //Home
@@ -94,22 +94,16 @@ class VisualStateProvider extends ChangeNotifier {
     primaryBackgroundColorDark = darkTheme.primaryBackground;
 
     primaryColorLightController = TextEditingController(text: primaryColorLight.value.toRadixString(16).toUpperCase());
-    secondaryColorLightController =
-        TextEditingController(text: secondaryColorLight.value.toRadixString(16).toUpperCase());
-    tertiaryColorLightController =
-        TextEditingController(text: tertiaryColorLight.value.toRadixString(16).toUpperCase());
-    primaryTextLightController =
-        TextEditingController(text: primaryTextColorLight.value.toRadixString(16).toUpperCase());
-    primaryBackgroundLightController =
-        TextEditingController(text: primaryBackgroundColorLight.value.toRadixString(16).toUpperCase());
+    secondaryColorLightController = TextEditingController(text: secondaryColorLight.value.toRadixString(16).toUpperCase());
+    tertiaryColorLightController = TextEditingController(text: tertiaryColorLight.value.toRadixString(16).toUpperCase());
+    primaryTextLightController = TextEditingController(text: primaryTextColorLight.value.toRadixString(16).toUpperCase());
+    primaryBackgroundLightController = TextEditingController(text: primaryBackgroundColorLight.value.toRadixString(16).toUpperCase());
 
     primaryColorDarkController = TextEditingController(text: primaryColorDark.value.toRadixString(16).toUpperCase());
-    secondaryColorDarkController =
-        TextEditingController(text: secondaryColorDark.value.toRadixString(16).toUpperCase());
+    secondaryColorDarkController = TextEditingController(text: secondaryColorDark.value.toRadixString(16).toUpperCase());
     tertiaryColorDarkController = TextEditingController(text: tertiaryColorDark.value.toRadixString(16).toUpperCase());
     primaryTextDarkController = TextEditingController(text: primaryTextColorDark.value.toRadixString(16).toUpperCase());
-    primaryBackgroundDarkController =
-        TextEditingController(text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
+    primaryBackgroundDarkController = TextEditingController(text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
   }
 
   void setPrimaryColorLight(Color color) {
