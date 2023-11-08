@@ -147,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
         // userState.registerLogin(currentUser!.id);
 
         if (!mounted) return;
+
         context.pushReplacement('/');
       } catch (e) {
         if (e is sf.AuthException) {

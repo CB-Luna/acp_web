@@ -1,5 +1,3 @@
-import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_page.dart';
-import 'package:acp_web/pages/pagos/pagos_page.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -38,6 +36,16 @@ final GoRouter router = GoRouter(
       path: '/',
       name: 'root',
       builder: (BuildContext context, GoRouterState state) {
+        if (currentUser!.esCliente) {
+          return const SolicitudPagosPage();
+        } else if (currentUser!.esAnalista || currentUser!.esTesorero) {
+          return const PagosPage();
+        } else if (currentUser!.esRegistroCentralizado) {
+          return const UsuariosPage();
+        }
+        if (currentUser!.rol.permisos.seleccionPagosAnticipados == null) {
+          return const PageNotFoundPage();
+        }
         return const SeleccionPagosAnticipadosPage();
       },
     ),

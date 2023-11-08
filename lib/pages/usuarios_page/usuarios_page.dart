@@ -212,7 +212,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
-                                      color: rendererContext.cell.value == 'Activo' ? const Color(0xFF94D0FF) : Colors.grey[300],
+                                      color: rendererContext.cell.value == 'Activo'
+                                          ? const Color(0xFF94D0FF)
+                                          : Colors.grey[300],
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
@@ -255,16 +257,20 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                               rendererContext.rowIdx,
                                             );
                                             if (!res) {
-                                              await ApiErrorHandler.callToast('Error al ${value ? "" : "des"}activar usuario');
+                                              await ApiErrorHandler.callToast(
+                                                  'Error al ${value ? "" : "des"}activar usuario');
                                             }
                                           },
                                         ),
                                         IconButton(
                                           padding: EdgeInsets.zero,
-                                          icon: const Icon(
-                                            FontAwesomeIcons.penToSquare,
-                                            size: 24,
-                                            color: Color(0xFF0090FF),
+                                          icon: Transform.translate(
+                                            offset: const Offset(0, -2.5),
+                                            child: const Icon(
+                                              FontAwesomeIcons.penToSquare,
+                                              size: 24,
+                                              color: Color(0xFF0090FF),
+                                            ),
                                           ),
                                           splashRadius: 0.01,
                                           onPressed: () async {

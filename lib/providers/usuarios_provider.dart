@@ -226,7 +226,7 @@ class UsuariosProvider extends ChangeNotifier {
   Future<Map<String, String>?> registrarUsuario() async {
     try {
       //Generar contrasena aleatoria
-      final password = generatePassword();
+      // final password = generatePassword();
 
       //Registrar al usuario con una contraseña temporal
       var response = await http.post(
@@ -235,7 +235,7 @@ class UsuariosProvider extends ChangeNotifier {
         body: json.encode(
           {
             "email": correoController.text,
-            "password": password,
+            "password": 'default',
           },
         ),
       );
@@ -267,6 +267,8 @@ class UsuariosProvider extends ChangeNotifier {
     if (rolSeleccionado == null) {
       return false;
     }
+
+    //TODO: validar que cliente no esta asignado a usuario
     try {
       await supabase.from('perfil_usuario').insert(
         {

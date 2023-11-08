@@ -39,6 +39,14 @@ class Usuario {
 
   String get estatus => activo ? 'Activo' : 'Inactivo';
 
+  bool get esCliente => rol.nombre == 'Cliente';
+
+  bool get esTesorero => rol.nombre == 'Tesorería';
+
+  bool get esRegistroCentralizado => rol.nombre == 'Registro Centralizado';
+
+  bool get esAnalista => rol.nombre == 'Analista Contable';
+
   factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));
 
   factory Usuario.fromMap(Map<String, dynamic> json) {

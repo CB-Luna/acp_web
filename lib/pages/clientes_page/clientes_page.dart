@@ -253,6 +253,7 @@ class _ClientesPageState extends State<ClientesPage> {
                                           onPressed: () async {
                                             // await provider.initEditarUsuario(usuario!);
                                             // if (!mounted) return;
+                                            provider.cliente = cliente;
                                             await context.pushNamed(
                                               'editar_cliente',
                                               extra: cliente,

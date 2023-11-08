@@ -158,6 +158,7 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
               label: 'Puesto',
               controller: TextEditingController(text: contacto.puesto),
               onChanged: (value) => contacto.puesto = value,
+              bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
               readOnly: readOnly,
             ),
           ),
@@ -167,6 +168,7 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
               label: 'Nombre',
               controller: TextEditingController(text: contacto.nombre),
               onChanged: (value) => contacto.nombre = value,
+              bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
               readOnly: readOnly,
             ),
           ),
@@ -176,6 +178,7 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
               label: 'Correo',
               controller: TextEditingController(text: contacto.correo),
               onChanged: (value) => contacto.correo = value,
+              bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
               readOnly: readOnly,
             ),
           ),
@@ -185,6 +188,7 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
               label: 'Teléfono',
               controller: TextEditingController(text: contacto.telefono),
               onChanged: (value) => contacto.telefono = value,
+              bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
               readOnly: readOnly,
             ),
           ),
@@ -243,6 +247,7 @@ class CustomInputField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.formatters,
     this.onChanged,
+    this.bgColor = const Color(0x4D0090FF),
     this.readOnly = false,
   });
 
@@ -252,6 +257,7 @@ class CustomInputField extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? formatters;
   final void Function(String)? onChanged;
+  final Color bgColor;
   final bool readOnly;
 
   @override
@@ -282,7 +288,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
             top: 15,
             bottom: 10,
           ),
-          fillColor: const Color(0x4D0090FF),
           hintStyle: AppTheme.of(context).subtitle1.override(
                 fontFamily: 'Gotham-Bold',
                 useGoogleFonts: false,
