@@ -225,6 +225,25 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
                                                             Icon(
+                                                              Icons.calendar_today_outlined,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                            Text(
+                                                              'Fecha solicitud',
+                                                              style: AppTheme.of(context).subtitle1.override(
+                                                                    fontFamily: AppTheme.of(context).subtitle1Family,
+                                                                    useGoogleFonts: false,
+                                                                    color: AppTheme.of(context).primaryBackground,
+                                                                  ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Icon(
                                                               Icons.shopping_bag,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
@@ -246,20 +265,18 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                               ),
                                             ),
                                             //Contenido
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: height * 505,
-                                                child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: provider.clientes.length,
-                                                  scrollDirection: Axis.vertical,
-                                                  itemBuilder: (BuildContext ctx, index) {
-                                                    return CustomListCard(
-                                                      moneda: 'GTQ',
-                                                      cliente: provider.clientes[index],
-                                                    );
-                                                  },
-                                                ),
+                                            SizedBox(
+                                              height: height * 505,
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: provider.clientes.length,
+                                                scrollDirection: Axis.vertical,
+                                                itemBuilder: (BuildContext ctx, index) {
+                                                  return CustomListCard(
+                                                    moneda: 'GTQ',
+                                                    cliente: provider.clientes[index],
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ],

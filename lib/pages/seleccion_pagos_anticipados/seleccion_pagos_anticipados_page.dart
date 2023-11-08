@@ -1,3 +1,4 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/contenedores_pagos_anticipados.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_card.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/custom_list.dart';
@@ -49,7 +50,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
     visualState.setTapedOption(1);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
-    //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
+    String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
@@ -246,20 +247,18 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                               ),
                                             ),
                                             //Contenido
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: height * 505,
-                                                child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: provider.clientes.length,
-                                                  scrollDirection: Axis.vertical,
-                                                  itemBuilder: (BuildContext ctx, index) {
-                                                    return CustomListCard(
-                                                      moneda: 'GTQ',
-                                                      cliente: provider.clientes[index],
-                                                    );
-                                                  },
-                                                ),
+                                            SizedBox(
+                                              height: height * 505,
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: provider.clientes.length,
+                                                scrollDirection: Axis.vertical,
+                                                itemBuilder: (BuildContext ctx, index) {
+                                                  return CustomListCard(
+                                                    moneda: 'GTQ',
+                                                    cliente: provider.clientes[index],
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ],

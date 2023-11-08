@@ -39,8 +39,6 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
     super.dispose();
   }
 
-  bool opened = false;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
@@ -51,207 +49,199 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: ExpansionPanelList(
-        expandedHeaderPadding: EdgeInsets.zero,
-        elevation: 0,
-        children: [
-          ExpansionPanel(
-            canTapOnHeader: true,
-            headerBuilder: (context, expanded) {
-              return Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(6),
-                    topRight: const Radius.circular(6),
-                    bottomRight: widget.cliente.opened ? Radius.zero : const Radius.circular(6),
-                    bottomLeft: widget.cliente.opened ? Radius.zero : const Radius.circular(6),
-                  ),
-                  color: widget.cliente.opened == true
-                      ? AppTheme.of(context).secondaryBackground
-                      : AppTheme.themeMode == ThemeMode.light
-                          ? AppTheme.of(context).gray
-                          : AppTheme.of(context).gray,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //Cliente
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1440 * 160,
-                        child: Row(
-                          children: [
-                            Tooltip(
-                              message: 'Seleccionar',
-                              child: InkWell(
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black12,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Icon(
-                                      widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length ? Icons.check_box : Icons.check_box_outline_blank,
-                                      size: 20,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          color: widget.cliente.isExpanded ? AppTheme.of(context).secondaryBackground : AppTheme.of(context).gray,
+        ),
+        child: ExpansionPanelList(
+          expandedHeaderPadding: EdgeInsets.zero,
+          elevation: 0,
+          children: [
+            ExpansionPanel(
+              canTapOnHeader: true,
+              backgroundColor: Colors.transparent,
+              headerBuilder: (context, expanded) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //Cliente
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1440 * 160,
+                          child: Row(
+                            children: [
+                              Tooltip(
+                                message: 'Seleccionar',
+                                child: InkWell(
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4),
+                                      child: Icon(
+                                        widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length ? Icons.check_box : Icons.check_box_outline_blank,
+                                        size: 20,
+                                      ),
                                     ),
                                   ),
+                                  onTap: () async {
+                                    //Ya están marcadas todas
+                                    if (widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length) {
+                                      provider.checkClient(widget.cliente.nombreFiscal!, false);
+                                    } else {
+                                      provider.checkClient(widget.cliente.nombreFiscal!, true);
+                                    }
+                                  },
                                 ),
-                                onTap: () async {
-                                  //Ya están marcadas todas
-                                  if (widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length) {
-                                    provider.checkClient(widget.cliente.nombreFiscal!, false);
-                                  } else {
-                                    provider.checkClient(widget.cliente.nombreFiscal!, true);
-                                  }
-                                },
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            ImageContainer(imageUrl: widget.cliente.logoUrl, size: 20),
-                            const SizedBox(width: 5),
-                            SizedBox(
-                              width: width * 135,
-                              child: Text(
-                                widget.cliente.nombreFiscal!,
+                              const SizedBox(width: 8),
+                              ImageContainer(imageUrl: widget.cliente.logoUrl, size: 20),
+                              const SizedBox(width: 5),
+                              SizedBox(
+                                width: width * 135,
+                                child: Text(
+                                  widget.cliente.nombreFiscal!,
+                                  style: AppTheme.of(context).title3.override(
+                                        fontFamily: AppTheme.of(context).title3Family,
+                                        useGoogleFonts: false,
+                                      ),
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //Num. Facturas
+                        SizedBox(
+                          width: width * 190,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              /* Text(
+                                'Facturas Seleccionadas:',
+                                style: AppTheme.of(context).subtitle1.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                    ),
+                              ), */
+                              Text(
+                                widget.cliente.facturasSeleccionadas!.toString(),
                                 style: AppTheme.of(context).title3.override(
                                       fontFamily: AppTheme.of(context).title3Family,
                                       useGoogleFonts: false,
+                                      color: porcentajeSeleccionadas == 0
+                                          ? AppTheme.of(context).red
+                                          : porcentajeSeleccionadas != 100
+                                              ? AppTheme.of(context).yellow
+                                              : AppTheme.of(context).green,
                                     ),
-                                overflow: TextOverflow.fade,
                               ),
-                            ),
-                          ],
+                              Text(
+                                '/',
+                                style: AppTheme.of(context).title3,
+                              ),
+                              Text(
+                                widget.cliente.facturas!.length.toString(),
+                                style: AppTheme.of(context).title3,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      //Num. Facturas
-                      SizedBox(
-                        width: width * 190,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            /* Text(
-                              'Facturas Seleccionadas:',
-                              style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
-                                    useGoogleFonts: false,
-                                  ),
-                            ), */
-                            Text(
-                              widget.cliente.facturasSeleccionadas!.toString(),
-                              style: AppTheme.of(context).title3.override(
-                                    fontFamily: AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: porcentajeSeleccionadas == 0
-                                        ? AppTheme.of(context).red
-                                        : porcentajeSeleccionadas != 100
-                                            ? AppTheme.of(context).yellow
-                                            : AppTheme.of(context).green,
-                                  ),
-                            ),
-                            Text(
-                              '/',
-                              style: AppTheme.of(context).title3,
-                            ),
-                            Text(
-                              widget.cliente.facturas!.length.toString(),
-                              style: AppTheme.of(context).title3,
-                            ),
-                          ],
+                        //Facturación
+                        SizedBox(
+                          width: width * 160,
+                          child: Row(
+                            children: [
+                              /* Text(
+                                'Facturación:',
+                                style: AppTheme.of(context).subtitle1.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                    ),
+                              ), */
+                              Text(
+                                'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
+                                style: AppTheme.of(context).title3.override(
+                                      fontFamily: AppTheme.of(context).title3Family,
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).tertiaryColor,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      //Facturación
-                      SizedBox(
-                        width: width * 160,
-                        child: Row(
-                          children: [
-                            /* Text(
-                              'Facturación:',
-                              style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
-                                    useGoogleFonts: false,
-                                  ),
-                            ), */
-                            Text(
-                              'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
-                              style: AppTheme.of(context).title3.override(
-                                    fontFamily: AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).tertiaryColor,
-                                  ),
-                            ),
-                          ],
+                        //Beneficio
+                        SizedBox(
+                          width: width * 126,
+                          child: Row(
+                            children: [
+                              /*  Text(
+                                'Beneficio:',
+                                style: AppTheme.of(context).subtitle1.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                    ),
+                              ), */
+                              Text(
+                                'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
+                                style: AppTheme.of(context).title3.override(
+                                      fontFamily: AppTheme.of(context).title3Family,
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).green,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      //Beneficio
-                      SizedBox(
-                        width: width * 126,
-                        child: Row(
-                          children: [
-                            /*  Text(
-                              'Beneficio:',
-                              style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
-                                    useGoogleFonts: false,
-                                  ),
-                            ), */
-                            Text(
-                              'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
-                              style: AppTheme.of(context).title3.override(
-                                    fontFamily: AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).green,
-                                  ),
-                            ),
-                          ],
+                        //Pago Anticipado
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1440 * 196,
+                          child: Row(
+                            children: [
+                              /* Text(
+                                'Pago Adelantado:',
+                                style: AppTheme.of(context).subtitle1.override(
+                                      fontFamily: 'Gotham',
+                                      useGoogleFonts: false,
+                                    ),
+                              ), */
+                              Text(
+                                'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
+                                style: AppTheme.of(context).title3.override(
+                                      fontFamily: AppTheme.of(context).title3Family,
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).primaryColor,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      //Pago Anticipado
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 1440 * 196,
-                        child: Row(
-                          children: [
-                            /* Text(
-                              'Pago Adelantado:',
-                              style: AppTheme.of(context).subtitle1.override(
-                                    fontFamily: 'Gotham',
-                                    useGoogleFonts: false,
-                                  ),
-                            ), */
-                            Text(
-                              'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
-                              style: AppTheme.of(context).title3.override(
-                                    fontFamily: AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryColor,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                );
+              },
+              body: Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.zero,
+                    topRight: Radius.circular(6),
+                    bottomRight: Radius.circular(6),
+                    bottomLeft: Radius.circular(6),
+                  ),
+                  color: AppTheme.of(context).secondaryBackground,
                 ),
-              );
-            },
-            body: Container(
-              height: 300,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.zero,
-                  topRight: Radius.circular(6),
-                  bottomRight: Radius.circular(6),
-                  bottomLeft: Radius.circular(6),
-                ),
-                color: AppTheme.of(context).secondaryBackground,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: PlutoGrid(
                     key: UniqueKey(),
                     configuration: PlutoGridConfiguration(
@@ -510,7 +500,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                     rows: widget.cliente.rows!,
                     createFooter: (stateManager) {
                       stateManager.setPageSize(100, notify: false);
-                      return SizedBox();
+                      return const SizedBox();
                     },
                     onLoaded: (event) async {
                       stateManager = event.stateManager;
@@ -524,15 +514,15 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                   ),
                 ),
               ),
+              isExpanded: widget.cliente.isExpanded,
             ),
-            isExpanded: widget.cliente.opened,
-          ),
-        ],
-        expansionCallback: (panelIndex, isExpanded) {
-          setState(() {
-            widget.cliente.opened = !isExpanded;
-          });
-        },
+          ],
+          expansionCallback: (panelIndex, isExpanded) {
+            setState(() {
+              widget.cliente.isExpanded = !isExpanded;
+            });
+          },
+        ),
       ),
     );
   }

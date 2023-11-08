@@ -16,7 +16,7 @@ class SeleccionPagosAnticipados {
   double? facturacion = 0;
   double? beneficio = 0;
   double? pagoAdelantado = 0;
-  bool opened = false;
+  bool isExpanded = false;
 
   SeleccionPagosAnticipados({
     this.clienteId,
