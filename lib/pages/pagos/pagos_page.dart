@@ -1,3 +1,4 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/pagos/widgets/tarjeta_mes.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
@@ -47,7 +48,7 @@ class _PagosPageState extends State<PagosPage> {
     visualState.setTapedOption(3);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
-    //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
+    String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
     final PagosProvider provider = Provider.of<PagosProvider>(context);
 
@@ -68,6 +69,9 @@ class _PagosPageState extends State<PagosPage> {
                         pantalla: 'Pagos',
                         controllerBusqueda: provider.controllerBusqueda,
                         onSearchChanged: (p0) async {
+                          await provider.getRecords();
+                        },
+                        onMonedaSeleccionada: () async {
                           await provider.getRecords();
                         },
                       ),

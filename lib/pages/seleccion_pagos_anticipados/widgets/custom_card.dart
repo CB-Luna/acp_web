@@ -1,4 +1,5 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_seleccion_facturas.dart';
 import 'package:acp_web/pages/widgets/custom_image_container.dart';
@@ -27,6 +28,7 @@ class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
     double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
+    String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
@@ -198,7 +200,7 @@ class _CustomCardState extends State<CustomCard> {
                               return StatefulBuilder(
                                 builder: (context, setState) {
                                   return PopUpSeleccionfacturas(
-                                    moneda: 'GTQ',
+                                    moneda: monedaSeleccionada!,
                                     cliente: widget.cliente,
                                   );
                                 },

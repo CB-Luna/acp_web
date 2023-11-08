@@ -59,7 +59,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         params: {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1, 2, 3], //TODO: Change
-          'nom_monedas': ["GTQ", "USD"], //TODO: Change
+          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
 

@@ -1,3 +1,4 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/contenedores_pagos_anticipados.dart';
 import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/custom_card.dart';
 import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/custom_list.dart';
@@ -49,7 +50,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     visualState.setTapedOption(2);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
-    //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
+    String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
     final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
 
@@ -71,6 +72,9 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                         controllerBusqueda: provider.controllerBusqueda,
                         onSearchChanged: (p0) async {
                           await provider.search();
+                        },
+                        onMonedaSeleccionada: () async {
+                          await provider.getRecords();
                         },
                       ),
                       //Contenido
@@ -102,7 +106,9 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                 },
                               ),
                               //Contenedores
-                              const ContenedoresPagosAnticipados(),
+                              ContenedoresPagosAnticipados(
+                                moneda: monedaSeleccionada!,
+                              ),
                               //Lista - Grid
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
@@ -121,7 +127,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                           itemCount: provider.clientes.length,
                                           itemBuilder: (BuildContext ctx, index) {
                                             return CustomCard(
-                                              moneda: 'GTQ',
+                                              moneda: monedaSeleccionada,
                                               cliente: provider.clientes[index],
                                             );
                                           },
@@ -273,7 +279,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                 scrollDirection: Axis.vertical,
                                                 itemBuilder: (BuildContext ctx, index) {
                                                   return CustomListCard(
-                                                    moneda: 'GTQ',
+                                                    moneda: monedaSeleccionada,
                                                     cliente: provider.clientes[index],
                                                   );
                                                 },

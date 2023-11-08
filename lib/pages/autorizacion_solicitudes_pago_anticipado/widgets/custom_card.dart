@@ -197,7 +197,7 @@ class _CustomCardState extends State<CustomCard> {
                               return StatefulBuilder(
                                 builder: (context, setState) {
                                   return PopUpSeleccionfacturas(
-                                    moneda: 'GTQ',
+                                    moneda: widget.moneda,
                                     cliente: widget.cliente,
                                   );
                                 },

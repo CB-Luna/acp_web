@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:path/path.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:acp_web/helpers/globals.dart';
@@ -60,7 +61,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         params: {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1, 2, 3], //TODO: Change
-          'nom_monedas': ["GTQ", "USD"], //TODO: Change
+          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
 

@@ -7,7 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ContenedoresPagosAnticipados extends StatefulWidget {
-  const ContenedoresPagosAnticipados({super.key});
+  const ContenedoresPagosAnticipados({
+    super.key,
+    required this.moneda,
+  });
+
+  final String moneda;
 
   @override
   State<ContenedoresPagosAnticipados> createState() => _ContenedoresPagosAnticipadosState();
@@ -72,7 +77,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(provider.montoFacturacion)}',
+                          '${widget.moneda} ${moneyFormat(provider.montoFacturacion)}',
                           style: AppTheme.of(context).title2,
                         ),
                       ],
@@ -102,7 +107,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(provider.totalPagos)}',
+                          '${widget.moneda} ${moneyFormat(provider.totalPagos)}',
                           style: AppTheme.of(context).title2,
                         ),
                       ],
@@ -256,7 +261,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(provider.fondoDisponibleRestante)}',
+                          '${widget.moneda} ${moneyFormat(provider.fondoDisponibleRestante)}',
                           style: AppTheme.of(context).title2.override(
                                 fontFamily: AppTheme.of(context).title2Family,
                                 useGoogleFonts: false,
@@ -275,7 +280,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
-                          'GTQ ${moneyFormat(provider.beneficioTotal)}',
+                          '${widget.moneda} ${moneyFormat(provider.beneficioTotal)}',
                           style: AppTheme.of(context).title2,
                         ),
                       ],

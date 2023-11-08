@@ -73,6 +73,9 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                         onSearchChanged: (p0) async {
                           await provider.search();
                         },
+                        onMonedaSeleccionada: () async {
+                          await provider.getRecords();
+                        },
                       ),
                       //Contenido
                       Expanded(
@@ -103,7 +106,9 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                 },
                               ),
                               //Contenedores
-                              const ContenedoresPagosAnticipados(),
+                              ContenedoresPagosAnticipados(
+                                moneda: monedaSeleccionada!,
+                              ),
                               //Lista - Grid
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
@@ -122,7 +127,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                           itemCount: provider.clientes.length,
                                           itemBuilder: (BuildContext ctx, index) {
                                             return CustomCard(
-                                              moneda: 'GTQ',
+                                              moneda: monedaSeleccionada!,
                                               cliente: provider.clientes[index],
                                             );
                                           },
@@ -255,7 +260,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                                 scrollDirection: Axis.vertical,
                                                 itemBuilder: (BuildContext ctx, index) {
                                                   return CustomListCard(
-                                                    moneda: 'GTQ',
+                                                    moneda: monedaSeleccionada!,
                                                     cliente: provider.clientes[index],
                                                   );
                                                 },

@@ -68,7 +68,7 @@ class Usuario {
       activo: json['activo'],
       cambioContrasena: json['cambio_contrasena'] ?? true,
       fechaIngreso: json['fecha_ingreso'] != null ? DateTime.parse(json["fecha_ingreso"]).toLocal() : null,
-      monedaSeleccionada: 'G001',
+      monedaSeleccionada: 'GTQ',
     );
 
     return usuario;

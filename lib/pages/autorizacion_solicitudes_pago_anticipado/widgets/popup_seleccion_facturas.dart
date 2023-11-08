@@ -243,7 +243,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                                   ),
                             ), */
                               Text(
-                                'GTQ ${moneyFormat(widget.cliente.facturacion!)}',
+                                '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
                                 style: AppTheme.of(context).title3.override(
                                       fontFamily: AppTheme.of(context).title3Family,
                                       useGoogleFonts: false,
@@ -266,7 +266,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                                   ),
                             ), */
                               Text(
-                                'GTQ ${moneyFormat(widget.cliente.beneficio!)}',
+                                '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
                                 style: AppTheme.of(context).title3.override(
                                       fontFamily: AppTheme.of(context).title3Family,
                                       useGoogleFonts: false,
@@ -289,7 +289,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                                   ),
                             ), */
                               Text(
-                                'GTQ ${moneyFormat(widget.cliente.pagoAdelantado!)}',
+                                '${widget.moneda} ${moneyFormat(widget.cliente.pagoAdelantado!)}',
                                 style: AppTheme.of(context).title3.override(
                                       fontFamily: AppTheme.of(context).title3Family,
                                       useGoogleFonts: false,
