@@ -1,3 +1,4 @@
+import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/functions/money_format_3_decimals.dart';
 import 'package:acp_web/helpers/globals.dart';
@@ -125,13 +126,6 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              /* Text(
-                                'Facturas Seleccionadas:',
-                                style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                    ),
-                              ), */
                               Text(
                                 widget.cliente.facturasSeleccionadas!.toString(),
                                 style: AppTheme.of(context).title3.override(
@@ -158,70 +152,49 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         //Facturación
                         SizedBox(
                           width: width * 160,
-                          child: Row(
-                            children: [
-                              /* Text(
-                                'Facturación:',
-                                style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                    ),
-                              ), */
-                              Text(
-                                '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
-                                style: AppTheme.of(context).title3.override(
-                                      fontFamily: AppTheme.of(context).title3Family,
-                                      useGoogleFonts: false,
-                                      color: AppTheme.of(context).tertiaryColor,
-                                    ),
-                              ),
-                            ],
+                          child: Text(
+                            '${widget.moneda} ${moneyFormat(widget.cliente.facturacion!)}',
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).tertiaryColor,
+                                ),
                           ),
                         ),
                         //Beneficio
                         SizedBox(
                           width: width * 126,
-                          child: Row(
-                            children: [
-                              /*  Text(
-                                'Beneficio:',
-                                style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                    ),
-                              ), */
-                              Text(
-                                '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
-                                style: AppTheme.of(context).title3.override(
-                                      fontFamily: AppTheme.of(context).title3Family,
-                                      useGoogleFonts: false,
-                                      color: AppTheme.of(context).green,
-                                    ),
-                              ),
-                            ],
+                          child: Text(
+                            '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).green,
+                                ),
+                          ),
+                        ),
+                        //Fecha Solicitud
+                        SizedBox(
+                          width: width * 126,
+                          child: Text(
+                            dateFormat(widget.cliente.fechaSolicitud),
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).green,
+                                ),
                           ),
                         ),
                         //Pago Anticipado
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1440 * 196,
-                          child: Row(
-                            children: [
-                              /* Text(
-                                'Pago Adelantado:',
-                                style: AppTheme.of(context).subtitle1.override(
-                                      fontFamily: 'Gotham',
-                                      useGoogleFonts: false,
-                                    ),
-                              ), */
-                              Text(
-                                '${widget.moneda} ${moneyFormat(widget.cliente.pagoAdelantado!)}',
-                                style: AppTheme.of(context).title3.override(
-                                      fontFamily: AppTheme.of(context).title3Family,
-                                      useGoogleFonts: false,
-                                      color: AppTheme.of(context).primaryColor,
-                                    ),
-                              ),
-                            ],
+                          child: Text(
+                            '${widget.moneda} ${moneyFormat(widget.cliente.pagoAdelantado!)}',
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).primaryColor,
+                                ),
                           ),
                         ),
                       ],
