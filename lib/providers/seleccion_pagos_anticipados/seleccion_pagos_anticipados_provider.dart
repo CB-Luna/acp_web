@@ -117,7 +117,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   }
 
   Future<void> seleccionAutomatica() async {
-    await uncheckAll();
+    //await uncheckAll();
 
     ejecBloq = true;
     notifyListeners();
@@ -270,6 +270,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       log('Error en SeleccionaPagosanticipadosProvider - checkInList() - $e');
     }
 
+    clientes.sort((a, b) => b.facturasSeleccionadas!.compareTo(a.facturasSeleccionadas!));
     return notifyListeners();
   }
 

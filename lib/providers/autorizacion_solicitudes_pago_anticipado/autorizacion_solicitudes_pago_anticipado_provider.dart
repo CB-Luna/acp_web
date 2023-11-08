@@ -118,7 +118,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   }
 
   Future<void> seleccionAutomatica() async {
-    await uncheckAll();
+    //await uncheckAll();
 
     ejecBloq = true;
     notifyListeners();
@@ -271,6 +271,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - checkInList() - $e');
     }
 
+    clientes.sort((a, b) => b.facturasSeleccionadas!.compareTo(a.facturasSeleccionadas!));
     return notifyListeners();
   }
 
