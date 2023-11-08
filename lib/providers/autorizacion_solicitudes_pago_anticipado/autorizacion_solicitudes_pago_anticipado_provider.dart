@@ -57,7 +57,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
 
     try {
       var response = await supabase.rpc(
-        'seleccion_pagos_anticipados',
+        'autorizacion_solicitudes_pago_anticipado',
         params: {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1, 2, 3], //TODO: Change
