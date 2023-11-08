@@ -18,6 +18,7 @@ class Usuario {
     required this.activo,
     required this.cambioContrasena,
     this.fechaIngreso,
+    this.monedaSeleccionada,
   });
 
   String id;
@@ -34,6 +35,8 @@ class Usuario {
   bool activo;
   bool cambioContrasena;
   DateTime? fechaIngreso;
+
+  String? monedaSeleccionada;
 
   String get nombreCompleto => '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
 
@@ -65,6 +68,7 @@ class Usuario {
       activo: json['activo'],
       cambioContrasena: json['cambio_contrasena'] ?? true,
       fechaIngreso: json['fecha_ingreso'] != null ? DateTime.parse(json["fecha_ingreso"]).toLocal() : null,
+      monedaSeleccionada: 'G001',
     );
 
     return usuario;

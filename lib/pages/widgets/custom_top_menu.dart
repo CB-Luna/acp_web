@@ -13,11 +13,13 @@ class CustomTopMenu extends StatefulWidget {
     required this.pantalla,
     this.controllerBusqueda,
     this.onSearchChanged,
+    this.onMonedaSeleccionada,
   });
 
   final String pantalla;
   final TextEditingController? controllerBusqueda;
   final Function(String)? onSearchChanged;
+  final Function()? onMonedaSeleccionada;
 
   @override
   State<CustomTopMenu> createState() => _CustomTopMenuState();
@@ -113,10 +115,15 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'USD' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
-                          onTap: () {},
+                          onTap: () async {
+                            currentUser!.monedaSeleccionada = 'USD';
+                            if (widget.onMonedaSeleccionada != null) {
+                              await widget.onMonedaSeleccionada!();
+                            }
+                          },
                         ),
                         InkWell(
                           child: Text(
@@ -124,10 +131,15 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: AppTheme.of(context).primaryColor,
+                                  color: currentUser!.monedaSeleccionada == 'GTQ' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
-                          onTap: () {},
+                          onTap: () async {
+                            currentUser!.monedaSeleccionada = 'GTQ';
+                            if (widget.onMonedaSeleccionada != null) {
+                              await widget.onMonedaSeleccionada!();
+                            }
+                          },
                         ),
                       ],
                     ),
