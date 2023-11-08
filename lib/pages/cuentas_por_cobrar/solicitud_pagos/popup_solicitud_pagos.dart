@@ -1,6 +1,9 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class PopupSolicitudPagos extends StatefulWidget {
   const PopupSolicitudPagos({
@@ -15,7 +18,7 @@ class PopupSolicitudPagos extends StatefulWidget {
   final String moneda;
   final double comision;
   final double pagoanticipado;
-  final int cantidadFacturasSeleccionadas;
+  final double cantidadFacturasSeleccionadas;
 
   @override
   State<PopupSolicitudPagos> createState() => PopupSolicitudPagosState();
@@ -24,6 +27,7 @@ class PopupSolicitudPagos extends StatefulWidget {
 class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
   @override
   Widget build(BuildContext context) {
+    final SolicitudPagosProvider provider = Provider.of<SolicitudPagosProvider>(context);
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
 
@@ -61,88 +65,86 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
             //Informacion
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'Total de Facturas:',
-                            style: AppTheme.of(context).bodyText2,
-                          ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'Total de Facturas:',
+                          style: AppTheme.of(context).subtitle2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'Moneda:',
-                            style: AppTheme.of(context).bodyText2,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'Moneda:',
+                          style: AppTheme.of(context).subtitle2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'Comisión:',
-                            style: AppTheme.of(context).bodyText2,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'Comisión:',
+                          style: AppTheme.of(context).subtitle2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'Pago Anticipado:',
-                            style: AppTheme.of(context).bodyText2,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'Pago Anticipado:',
+                          style: AppTheme.of(context).subtitle2,
                         ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            '${widget.cantidadFacturasSeleccionadas}',
-                            style: AppTheme.of(context).bodyText2,
-                          ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          '${widget.cantidadFacturasSeleccionadas}',
+                          style: AppTheme.of(context).subtitle2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            widget.moneda,
-                            style: AppTheme.of(context).bodyText2,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          widget.moneda,
+                          style: AppTheme.of(context).subtitle2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'GTQ ${moneyFormat(widget.comision)}',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: AppTheme.of(context).bodyText2Family,
-                                  useGoogleFonts: false,
-                                  color: AppTheme.of(context).green,
-                                ),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'GTQ ${moneyFormat(widget.comision)}',
+                          style: AppTheme.of(context).subtitle2.override(
+                                fontFamily: AppTheme.of(context).bodyText2Family,
+                                useGoogleFonts: false,
+                                color: AppTheme.of(context).green,
+                              ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            'GTQ ${moneyFormat(widget.pagoanticipado)}',
-                            style: AppTheme.of(context).bodyText2.override(
-                                  fontFamily: AppTheme.of(context).bodyText2Family,
-                                  useGoogleFonts: false,
-                                  color: AppTheme.of(context).primaryColor,
-                                ),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'GTQ ${moneyFormat(widget.pagoanticipado)}',
+                          style: AppTheme.of(context).subtitle2.override(
+                                fontFamily: AppTheme.of(context).bodyText2Family,
+                                useGoogleFonts: false,
+                                color: AppTheme.of(context).primaryColor,
+                              ),
                         ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
             //Botones
@@ -175,7 +177,9 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    //Cambiar Status de facturas
+                    provider.actualizarFacturasSeleccionadas();
+                    context.pushReplacement('/solicitud_pagos');
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 8,

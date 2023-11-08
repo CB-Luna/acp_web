@@ -165,12 +165,12 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                           await showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const PopupSolicitudPagos(
-                                moneda: 'GTQ',
-                                cantidadFacturas: 50,
-                                cantidadFacturasSeleccionadas: 5,
-                                comision: 1817,
-                                pagoanticipado: 4845244,
+                              return  PopupSolicitudPagos(
+                                moneda: provider.facturas.first.moneda,
+                                cantidadFacturas: provider.cantidadFacturas,
+                                cantidadFacturasSeleccionadas: provider.cantidadFacturasSeleccionadas,
+                                comision: provider.totalPagos,
+                                pagoanticipado: provider.pagoAnticipado,
                               );
                             },
                           );

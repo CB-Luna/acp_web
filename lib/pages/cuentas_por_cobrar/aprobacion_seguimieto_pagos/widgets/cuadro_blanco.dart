@@ -134,7 +134,13 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         height: 20,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: AppTheme.of(context).yellow,
+                          color: widget.propuesta.estatus == 2
+                              ? AppTheme.of(context).yellow
+                              : widget.propuesta.estatus == 3
+                                  ? AppTheme.of(context).tertiaryColor
+                                  : widget.propuesta.estatus == 4
+                                      ? AppTheme.of(context).green
+                                      : AppTheme.of(context).red,
                         ),
                         child: Center(
                           child: Text(

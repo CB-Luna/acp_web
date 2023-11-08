@@ -1,5 +1,8 @@
+import 'package:acp_web/providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:pdfx/pdfx.dart';
+import 'package:provider/provider.dart';
 
 class PopupAprobacionSeguimientoPagos extends StatefulWidget {
   const PopupAprobacionSeguimientoPagos({super.key, required this.estatus});
@@ -12,6 +15,9 @@ class PopupAprobacionSeguimientoPagos extends StatefulWidget {
 class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimientoPagos> {
   @override
   Widget build(BuildContext context) {
+    final AprobacionSeguimientoPagosProvider provider = Provider.of<AprobacionSeguimientoPagosProvider>(context);
+    //double width = MediaQuery.of(context).size.width / 1440;
+    //double height = MediaQuery.of(context).size.height / 1024;
     return AlertDialog(
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
@@ -40,7 +46,15 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Cargar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
-                        Navigator.pop(context);
+                        if (provider.pdfController != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
+                          provider.verPdf(true);
+                          setState(() {
+                            //Metodo de probado
+                          });
+                        } else {
+                          provider.pickProveedorDoc();
+                          provider.verPdf(true);
+                        }
                       },
                     ),
                   ),
@@ -52,20 +66,46 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Firmar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
-                        Navigator.pop(context);
+                        /* if (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
+                          provider.verPdf(true);
+                          setState(() {});
+                        } else {
+                          provider.pickDoc();
+                          provider.verPdf(true);
+                        } */
                       },
                     ),
                   ),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                    icon: Icon(Icons.fullscreen, color: AppTheme.of(context).primaryColor),
-                    tooltip: 'Pantalla Completa',
-                    color: AppTheme.of(context).primaryColor,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+                      icon: Icon(Icons.fullscreen, color: AppTheme.of(context).primaryColor),
+                      tooltip: 'Pantalla Completa',
+                      color: AppTheme.of(context).primaryColor,
+                      onPressed: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                content: SizedBox(
+                                  width: 1000,
+                                  height: 1000,
+                                  child: PdfView(
+                                    backgroundDecoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(21),
+                                      ),
+                                    ),
+                                    controller: provider.pdfController!,
+                                  ),
+                                ) //Image.memory(provider.imageBytes!),
+                                );
+                          },
+                        );
+                      }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
@@ -106,9 +146,21 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(
-                color: Colors.blue,
-              ),
+              child: (provider.pdfController != null && provider.docProveedor != null)
+                  ? SizedBox(
+                    width: 500,
+                    height: 400,
+                    child: PdfView(
+                        backgroundDecoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(21),
+                          ),
+                        ),
+                        controller: provider.pdfController!,
+                      ),
+                  )
+                  : Container(),
             ))
           ],
         ),

@@ -230,12 +230,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                       scrollDirection: Axis.vertical,
                                       itemBuilder: (BuildContext ctx, index) {
                                         return CustomeCardSolicitudPagos(
-                                          moneda: 'GTQ',
-                                          factura: provider.facturas[index].factuaId.toString(),
-                                          importe: provider.facturas[index].importe,
-                                          comision: provider.facturas[index].comision,
-                                          diaspago: provider.facturas[index].diasPago.toString(),
-                                          pagoAdelantado: provider.facturas[index].pagoAnticipado,
+                                          propuesta: provider.facturas[index],
                                         );
                                       },
                                     ),

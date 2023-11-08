@@ -6,6 +6,9 @@ class SolicitudPagos {
     final double comision;
     final int diasPago;
     final double pagoAnticipado;
+    final String moneda;
+    bool ischeck=false;
+    
 
     SolicitudPagos({
         required this.factuaId,
@@ -13,6 +16,7 @@ class SolicitudPagos {
         required this.comision,
         required this.diasPago,
         required this.pagoAnticipado,
+        required this.moneda,
     });
 
     factory SolicitudPagos.fromJson(String str) => SolicitudPagos.fromMap(json.decode(str));
@@ -25,6 +29,7 @@ class SolicitudPagos {
         comision: json["comision"].toDouble(),
         diasPago: json["dias_pago"],
         pagoAnticipado: json["pago_anticipado"].toDouble(),
+        moneda: json["moneda"],
     );
 
     Map<String, dynamic> toMap() => {
@@ -33,5 +38,6 @@ class SolicitudPagos {
         "comision": comision,
         "dias_pago": diasPago,
         "pago_anticipado": pagoAnticipado,
+        "moneda": moneda,
     };
 }

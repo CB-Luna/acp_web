@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:acp_web/models/global/factura_model.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 class AprobacionSegumientoPagosFuncion {
@@ -38,7 +39,7 @@ class Propuesta {
   final int year;
   final String moneda;
   final int estatus;
-  final List<RegistrosPorDia> registrosPorDia;
+  final List<Factura> registrosPorDia;
   List<PlutoRow>? rows = [];
   bool isExpanded = false;
   double? sumAnticipo = 0;
@@ -63,7 +64,7 @@ class Propuesta {
         year: json["year"],
         estatus: json["estatus"],
         moneda: json["moneda"],
-        registrosPorDia: List<RegistrosPorDia>.from(json["registros_por_dia"].map((x) => RegistrosPorDia.fromMap(x))),
+        registrosPorDia: List<Factura>.from(json["registros_por_dia"].map((x) => Factura.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -76,66 +77,3 @@ class Propuesta {
       };
 }
 
-class RegistrosPorDia {
-  final String noDoc;
-  final String moneda;
-  final String cliente;
-  final int estatus;
-  final double importe;
-  final String sociedad;
-  final double beneficio;
-  final int diasPago;
-  final int clienteId;
-  final int facturaId;
-  final double pagoAnticipado;
-  final DateTime fechaSeleccionPagoAnticipado;
-
-  RegistrosPorDia({
-    required this.noDoc,
-    required this.moneda,
-    required this.cliente,
-    required this.estatus,
-    required this.importe,
-    required this.sociedad,
-    required this.beneficio,
-    required this.diasPago,
-    required this.clienteId,
-    required this.facturaId,
-    required this.pagoAnticipado,
-    required this.fechaSeleccionPagoAnticipado,
-  });
-
-  factory RegistrosPorDia.fromJson(String str) => RegistrosPorDia.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory RegistrosPorDia.fromMap(Map<String, dynamic> json) => RegistrosPorDia(
-        noDoc: json["noDoc"],
-        moneda: json["moneda"],
-        cliente: json["cliente"],
-        estatus: json["estatus"],
-        importe: json["importe"].toDouble(),
-        sociedad: json["sociedad"],
-        beneficio: json["beneficio"].toDouble(),
-        diasPago: json["dias_pago"],
-        clienteId: json["cliente_id"],
-        facturaId: json["factura_id"],
-        pagoAnticipado: json["pago_anticipado"].toDouble(),
-        fechaSeleccionPagoAnticipado: DateTime.parse(json["fecha_seleccion_pago_anticipado"]),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "noDoc": noDoc,
-        "moneda": moneda,
-        "cliente": cliente,
-        "estatus": estatus,
-        "importe": importe,
-        "sociedad": sociedad,
-        "beneficio": beneficio,
-        "dias_pago": diasPago,
-        "cliente_id": clienteId,
-        "factura_id": facturaId,
-        "pago_anticipado": pagoAnticipado,
-        "fecha_seleccion_pago_anticipado": fechaSeleccionPagoAnticipado.toIso8601String(),
-      };
-}

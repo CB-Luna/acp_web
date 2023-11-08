@@ -3,9 +3,11 @@ import 'dart:developer';
 
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:pdfx/pdfx.dart';
 
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
@@ -83,12 +85,12 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             propuesta.rows!.add(
               PlutoRow(
                 cells: {
-                  'id_factura_field': PlutoCell(value: registro.clienteId),
+                  'id_factura_field': PlutoCell(value: registro.facturaId),
                   'cuenta_field': PlutoCell(value: registro.noDoc),
                   'importe_field': PlutoCell(value: registro.importe),
-                  'beneficio_cant_field': PlutoCell(value: registro.beneficio),
+                  'beneficio_cant_field': PlutoCell(value: registro.cantDpp),
                   'pago_anticipado_field': PlutoCell(value: registro.pagoAnticipado),
-                  'dias_pago_field': PlutoCell(value: registro.estatus),
+                  'dias_pago_field': PlutoCell(value: registro.estatusId),
                 },
               ),
             );
@@ -108,7 +110,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   ///////////////////////////PDF//////////////////////////
   ////////////////////////////////////////////////////////
 
-  /*  bool popupVisorPdfVisible = true;
+  /* bool popupVisorPdfVisible = true;
   FilePickerResult? docProveedor;
   PdfController? pdfController;
 
@@ -116,8 +118,8 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     popupVisorPdfVisible = visible;
     notifyListeners();
   }
-
-  Uint8List? imageBytes;
+ */
+  /* Uint8List? imageBytes;
   Future<void> pickDoc() async {
     FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
     //get and load pdf
@@ -131,6 +133,33 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     notifyListeners();
     return;
   } */
+
+  FilePickerResult? docProveedor;
+  PdfController? pdfController;
+
+  bool popupVisorPdfVisible = true;
+
+  void verPdf(bool visible) {
+    popupVisorPdfVisible = visible;
+    notifyListeners();
+  }
+
+  Future<void> pickProveedorDoc() async {
+    FilePickerResult? picker = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'xml']);
+
+    //get and load pdf
+    if (picker != null) {
+      docProveedor = picker;
+      pdfController = PdfController(
+        document: PdfDocument.openData(picker.files.single.bytes!),
+      );
+    } else {
+      pdfController = null;
+    }
+
+    notifyListeners();
+    return;
+  }
 
   /* Future<void> getRecords() async {
     if (stateManager != null) {

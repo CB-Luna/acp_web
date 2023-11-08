@@ -1,4 +1,6 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
+import 'package:acp_web/models/cuentas_por_cobrar/solicitud_pagos.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +8,9 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 class CustomeCardSolicitudPagos extends StatefulWidget {
-  const CustomeCardSolicitudPagos({super.key, required this.factura, required this.diaspago, required this.moneda, required this.importe, required this.comision, required this.pagoAdelantado});
+  const CustomeCardSolicitudPagos({super.key, required this.propuesta});
 
-  final String factura;
-  final String diaspago;
-  final String moneda;
-  final double importe;
-  final double comision;
-  final double pagoAdelantado;
+  final SolicitudPagos propuesta;
 
   @override
   State<CustomeCardSolicitudPagos> createState() => _CustomeCardSolicitudPagosState();
@@ -81,22 +78,23 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Icon(
-                        provider.ischeck == true ? Icons.check_box : Icons.check_box_outline_blank,
+                        widget.propuesta.ischeck == true ? Icons.check_box : Icons.check_box_outline_blank,
                         size: 20,
                       ),
                     ),
                   ),
                   onTap: () async {
                     //Ya están marcadas todas
-                    if (provider.ischeck == false) {
+                    if (widget.propuesta.ischeck == false) {
                       setState(() {
-                        provider.ischeck = true;
+                        widget.propuesta.ischeck = true;
                       });
                     } else {
                       setState(() {
-                        provider.ischeck = false;
+                        widget.propuesta.ischeck = false;
                       });
                     }
+                    provider.facturasSeleccionadas();
                   },
                 ),
               ),
@@ -104,7 +102,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1440 * 160,
                 child: Text(
-                  widget.factura,
+                  widget.propuesta.factuaId.toString(),
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
@@ -117,7 +115,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: width * 160,
                 child: Text(
-                  'GTQ ${moneyFormat(widget.importe)}',
+                  'GTQ ${moneyFormat(widget.propuesta.importe)}',
                   textAlign: TextAlign.center,
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
@@ -130,7 +128,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: width * 160,
                 child: Text(
-                  'GTQ ${moneyFormat(widget.comision)}',
+                  'GTQ ${moneyFormat(widget.propuesta.comision)}',
                   textAlign: TextAlign.center,
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
@@ -143,7 +141,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1440 * 160,
                 child: Text(
-                  widget.diaspago,
+                  widget.propuesta.diasPago.toString(),
                   style: AppTheme.of(context).subtitle1,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.fade,
@@ -153,7 +151,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: width * 160,
                 child: Text(
-                  'GTQ ${moneyFormat(widget.pagoAdelantado)}',
+                  'GTQ ${moneyFormat(widget.propuesta.pagoAnticipado)}',
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,

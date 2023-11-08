@@ -24,7 +24,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
 
   double montoFacturacion = 0;
   int cantidadFacturas = 0;
-  int cantidadFacturasSeleccionadas = 0;
+  double cantidadFacturasSeleccionadas = 0;
   double totalPagos = 0;
   double pagoAnticipado = 0;
   DateTime fecha = DateTime.now();
@@ -78,16 +78,24 @@ class SolicitudPagosProvider extends ChangeNotifier {
   Future<void> clearAll() async {
     controllerBusqueda.clear();
     montoFacturacion = 0;
+    cantidadFacturasSeleccionadas = 0;
+    totalPagos = 0;
+    pagoAnticipado = 0;
     listStateManager;
     listOpenned = true;
     return await solicitudPagos();
   }
 
+  //Traer info facturas
   Future<void> solicitudPagos() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
     }
     cantidadFacturas = 0;
+    montoFacturacion = 0;
+    cantidadFacturasSeleccionadas = 0;
+    totalPagos = 0;
+    pagoAnticipado = 0;
     try {
       var response = await supabase.rpc(
         'solicitud_pagos',
@@ -105,6 +113,52 @@ class SolicitudPagosProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
+    }
+  }
+
+  //Actualizar facturas seleccionadas
+  Future<void> actualizarFacturasSeleccionadas() async {
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+    }
+    try {
+      for (var factura in facturas) {
+        if (factura.ischeck == true) {
+          await supabase.rpc(
+            'update_factura_estatus',
+            params: {
+              'factura_id': factura.factuaId,
+              'estatus_id': 7,
+            },
+          );
+        }
+      }
+    } catch (e) {
+      log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
+    }
+    notifyListeners();
+    return getRecords();
+  }
+
+  //Seleccionar Factuas
+  Future<void> facturasSeleccionadas() async {
+    try {
+      montoFacturacion = 0;
+      cantidadFacturasSeleccionadas = 0;
+      totalPagos = 0;
+      pagoAnticipado = 0;
+      for (var factura in facturas) {
+        if (factura.ischeck) {
+          ischeck = true;
+          montoFacturacion = montoFacturacion + factura.importe;
+          cantidadFacturasSeleccionadas = cantidadFacturasSeleccionadas + 1;
+          totalPagos = totalPagos + factura.comision;
+          pagoAnticipado = pagoAnticipado + factura.pagoAnticipado;
+        }
+      }
+      notifyListeners();
+    } catch (e) {
+      log('Error en facturasSeleccionadas()- $e');
     }
   }
 
