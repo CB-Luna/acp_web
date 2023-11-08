@@ -20,6 +20,10 @@ class Factura {
   DateTime? fechaExtraccion;
   DateTime? fechaActualizacion;
 
+  ///
+  DateTime? fechaEjecucion;
+  DateTime? fechaSolicitud;
+
   Factura({
     this.noDoc,
     this.moneda,
@@ -39,6 +43,10 @@ class Factura {
     this.pagoAnticipado,
     this.fechaExtraccion,
     this.fechaActualizacion,
+
+    ///
+    this.fechaEjecucion,
+    this.fechaSolicitud,
   });
 
   factory Factura.fromJson(String str) => Factura.fromMap(json.decode(str));
@@ -64,6 +72,10 @@ class Factura {
         pagoAnticipado: json["pago_anticipado"]?.toDouble(),
         fechaExtraccion: json["fecha_extraccion"] == null ? null : DateTime.parse(json["fecha_extraccion"]),
         fechaActualizacion: json["fecha_actualizacion"] == null ? null : DateTime.parse(json["fecha_actualizacion"]),
+
+        ///
+        fechaEjecucion: json["fecha_ejecucion"] == null ? null : DateTime.parse(json["fecha_ejecucion"]),
+        fechaSolicitud: json["fecha_solicitud"] == null ? null : DateTime.parse(json["fecha_solicitud"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -85,5 +97,9 @@ class Factura {
         "pago_anticipado": pagoAnticipado,
         "fecha_extraccion": fechaExtraccion?.toIso8601String(),
         "fecha_actualizacion": fechaActualizacion?.toIso8601String(),
+
+        ///
+        "fecha_ejecucion": fechaEjecucion?.toIso8601String(),
+        "fecha_solicitud": fechaSolicitud?.toIso8601String(),
       };
 }
