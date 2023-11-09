@@ -51,6 +51,7 @@ flutter:
   assets:
     - assets/images/
     - assets/videos/
+    - assets/fonts/
 
   fonts:
     - family: Gotham

@@ -10,20 +10,24 @@ class AnimatedLoginWidget extends StatefulWidget {
 }
 
 class _AnimatedLoginWidgetState extends State<AnimatedLoginWidget> {
-  late VideoPlayerController _controller;
+  final VideoPlayerController _controller = VideoPlayerController.asset(
+    'videos/bgvideo.mp4',
+    videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
+  );
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset(
-      'videos/bgvideo.mp4',
-      videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-    )..initialize().then(
-        (_) {
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          setState(() {});
-        },
-      );
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await _controller.initialize();
+      // mutes the video
+      _controller.setVolume(0);
+      // Plays the video once the widget is build and loaded.
+      _controller.play();
+      _controller.setLooping(true);
+      setState(() {});
+    });
   }
 
   @override
@@ -36,10 +40,10 @@ class _AnimatedLoginWidgetState extends State<AnimatedLoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_controller.value.isInitialized == true) {
-      _controller.play();
-      _controller.setLooping(true);
-    }
+    // if (_controller.value.isInitialized == true) {
+    //   _controller.play();
+    //   _controller.setLooping(true);
+    // }
 
     return _controller.value.isInitialized
         ? SizedBox.expand(
