@@ -198,24 +198,43 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  alignment: Alignment.center,
-                  icon: Transform.translate(
-                    offset: const Offset(0, -1.5),
-                    child: Icon(
-                      FontAwesomeIcons.penToSquare,
-                      size: 16,
-                      color: AppTheme.of(context).secondaryColor,
-                    ),
-                  ),
-                  splashRadius: 0.01,
-                  onPressed: () {
-                    readOnly = false;
-                    setState(() {});
-                  },
-                ),
+                readOnly
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        alignment: Alignment.center,
+                        icon: Transform.translate(
+                          offset: const Offset(0, -1.5),
+                          child: Icon(
+                            FontAwesomeIcons.penToSquare,
+                            size: 16,
+                            color: AppTheme.of(context).secondaryColor,
+                          ),
+                        ),
+                        splashRadius: 0.01,
+                        onPressed: () {
+                          readOnly = false;
+                          setState(() {});
+                        },
+                      )
+                    : IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        alignment: Alignment.center,
+                        icon: Transform.translate(
+                          offset: const Offset(0, -1.5),
+                          child: Icon(
+                            FontAwesomeIcons.save,
+                            size: 16,
+                            color: AppTheme.of(context).secondaryColor,
+                          ),
+                        ),
+                        splashRadius: 0.01,
+                        onPressed: () {
+                          readOnly = true;
+                          setState(() {});
+                        },
+                      ),
                 IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -281,7 +300,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
         decoration: InputDecoration(
           hintText: widget.label,
           isDense: true,
-          filled: true,
+          filled: !widget.readOnly,
+          fillColor: widget.bgColor,
           contentPadding: const EdgeInsets.only(
             left: 10,
             right: 10,
@@ -291,7 +311,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
           hintStyle: AppTheme.of(context).subtitle1.override(
                 fontFamily: 'Gotham-Bold',
                 useGoogleFonts: false,
-                color: const Color(0x66000000),
+                fontWeight: FontWeight.w400,
+                color: widget.readOnly ? Colors.black : const Color(0x66000000),
               ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -313,7 +334,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
         style: AppTheme.of(context).subtitle1.override(
               fontFamily: 'Gotham-Bold',
               useGoogleFonts: false,
-              color: const Color(0x66000000),
+              fontWeight: FontWeight.w400,
+              color: widget.readOnly ? Colors.black : const Color(0x88000000),
             ),
       ),
     );

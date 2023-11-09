@@ -47,9 +47,13 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
             child: TasaInputColumn(title: '% Fórmula de Cálculo', data: 'Fórmula'),
           ),
           const SizedBox(height: 16),
-          InputContainer(
-            child: Container(),
-          ),
+          // InputContainer(
+          //   child: Row(
+          //     children: [
+          //       Icon(Icons.),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

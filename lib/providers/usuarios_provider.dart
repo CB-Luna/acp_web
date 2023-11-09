@@ -60,6 +60,7 @@ class UsuariosProvider extends ChangeNotifier {
     rolSeleccionado = null;
     codigoClienteController.clear();
     sociedadClienteController.clear();
+    cliente = null;
 
     nombreImagen = null;
     webImage = null;
@@ -85,11 +86,6 @@ class UsuariosProvider extends ChangeNotifier {
   }
 
   Future<void> getCliente() async {
-    if (cliente != null) {
-      codigoClienteController.text = cliente!.codigoCliente;
-      sociedadClienteController.text = cliente!.sociedad;
-      return;
-    }
     try {
       final res = await supabase.from('cliente').select().eq('codigo_cliente', codigoClienteController.text);
 
@@ -325,7 +321,9 @@ class UsuariosProvider extends ChangeNotifier {
     webImage = null;
     cliente = usuario.cliente;
     if (cliente != null) {
-      await getCliente();
+      // await getCliente();
+      codigoClienteController.text = cliente!.codigoCliente;
+      sociedadClienteController.text = cliente!.sociedad;
     }
   }
 
