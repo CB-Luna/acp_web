@@ -214,27 +214,23 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     return await calcClients();
   }
 
-  Future<void> checkClient(String nombrecliente, bool check) async {
+  Future<void> checkClient(SeleccionPagosAnticipados cliente, bool check) async {
     try {
-      for (var cliente in clientes) {
-        if (cliente.nombreFiscal == nombrecliente) {
-          cliente.facturasSeleccionadas = 0;
-          cliente.facturacion = 0;
-          cliente.beneficio = 0;
-          cliente.pagoAdelantado = 0;
-          if (check) {
-            for (var row in cliente.rows!) {
-              row.setChecked(true);
-              cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-              cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
-              cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
-              cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
-            }
-          } else {
-            for (var row in cliente.rows!) {
-              row.setChecked(false);
-            }
-          }
+      cliente.facturasSeleccionadas = 0;
+      cliente.facturacion = 0;
+      cliente.beneficio = 0;
+      cliente.pagoAdelantado = 0;
+      if (check) {
+        for (var row in cliente.rows!) {
+          row.setChecked(true);
+          cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
+          cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
+          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
+          cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
+        }
+      } else {
+        for (var row in cliente.rows!) {
+          row.setChecked(false);
         }
       }
     } catch (e) {

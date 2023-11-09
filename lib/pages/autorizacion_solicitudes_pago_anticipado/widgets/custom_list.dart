@@ -96,9 +96,9 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                   onTap: () async {
                                     //Ya están marcadas todas
                                     if (widget.cliente.facturasSeleccionadas! == widget.cliente.rows!.length) {
-                                      provider.checkClient(widget.cliente.nombreFiscal!, false);
+                                      provider.checkClient(widget.cliente, false);
                                     } else {
-                                      provider.checkClient(widget.cliente.nombreFiscal!, true);
+                                      provider.checkClient(widget.cliente, true);
                                     }
                                   },
                                 ),
