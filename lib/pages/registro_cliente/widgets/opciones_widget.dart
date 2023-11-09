@@ -1,4 +1,3 @@
-import 'package:acp_web/models/models.dart';
 import 'package:acp_web/pages/widgets/toasts/success_toast.dart';
 import 'package:acp_web/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
@@ -58,40 +57,28 @@ class _OpcionesWidgetState extends State<OpcionesWidget> {
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () async {
-              // await provider.validarImagen(widget.usuario?.imagen);
+              if (provider.cliente == null) return;
 
-              // if (widget.usuario != null) {
-              //   //Editar usuario
-              //   bool res = await provider.editarPerfilDeUsuario(widget.usuario!.id);
+              // await provider.validarImagen(widget.cliente?.imagen);
 
-              //   if (!res) {
-              //     await ApiErrorHandler.callToast('Error al editar perfil de usuario');
-              //     return;
-              //   }
+              bool res = await provider.guardarCliente();
 
-              //   if (!mounted) return;
-              //   fToast.showToast(
-              //     child: const SuccessToast(
-              //       message: 'Usuario editado',
-              //     ),
-              //     gravity: ToastGravity.BOTTOM,
-              //     toastDuration: const Duration(seconds: 2),
-              //   );
-
-              //   context.pushReplacement('/usuarios');
-              //   return;
-              // }
+              if (!res) {
+                await ApiErrorHandler.callToast('Error al guardar cliente');
+                return;
+              }
 
               if (!mounted) return;
               fToast.showToast(
                 child: const SuccessToast(
-                  message: 'Cliente editado',
+                  message: 'Cliente guardado',
                 ),
                 gravity: ToastGravity.BOTTOM,
                 toastDuration: const Duration(seconds: 2),
               );
 
               context.pushReplacement('/clientes');
+              return;
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF21418B),

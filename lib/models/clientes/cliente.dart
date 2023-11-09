@@ -4,7 +4,7 @@ import 'package:acp_web/models/clientes/contacto.dart';
 
 class Cliente {
   Cliente({
-    required this.clienteId,
+    this.clienteId,
     required this.codigoCliente,
     required this.nombreFiscal,
     required this.identificadorFiscal,
@@ -24,7 +24,7 @@ class Cliente {
     required this.contactos,
   });
 
-  int clienteId;
+  int? clienteId;
   String codigoCliente;
   String nombreFiscal;
   String identificadorFiscal;
@@ -72,7 +72,6 @@ class Cliente {
 
   factory Cliente.fromClienteSap(Map<String, dynamic> json) {
     return Cliente(
-      clienteId: json['cliente_sap_id'],
       codigoCliente: json["codigo_cliente"],
       nombreFiscal: json['nombre_fiscal'],
       identificadorFiscal: json['identificador_fiscal'],
@@ -89,6 +88,23 @@ class Cliente {
       contactos: [],
     );
   }
+
+  Map<String, dynamic> toMap() => {
+        "codigo_cliente": codigoCliente,
+        "sociedad": sociedad,
+        "nombre_fiscal": nombreFiscal,
+        "identificador_fiscal": identificadorFiscal,
+        "direccion": direccion,
+        "condicion_pago": condicionPago,
+        "numero_cuenta": numeroCuenta,
+        "tasa_anual": tasaAnual,
+        "logo_url": imagen,
+        "banco_industrial": bancoIndustrial,
+        "tipo_cuenta": tipoCuenta,
+        "moneda": moneda,
+        "formula": formula,
+        "acuerdo_comercial": acuerdoComercial,
+      };
 
   @override
   bool operator ==(Object other) {

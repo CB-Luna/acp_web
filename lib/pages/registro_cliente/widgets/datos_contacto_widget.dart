@@ -213,6 +213,7 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
                         ),
                         splashRadius: 0.01,
                         onPressed: () {
+                          provider.modificado = true;
                           readOnly = false;
                           setState(() {});
                         },
@@ -224,7 +225,7 @@ class _ContactoInputRowState extends State<ContactoInputRow> {
                         icon: Transform.translate(
                           offset: const Offset(0, -1.5),
                           child: Icon(
-                            FontAwesomeIcons.save,
+                            FontAwesomeIcons.floppyDisk,
                             size: 16,
                             color: AppTheme.of(context).secondaryColor,
                           ),

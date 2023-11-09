@@ -28,6 +28,7 @@ class ClientesProvider extends ChangeNotifier {
   Uint8List? webImage;
 
   Cliente? cliente;
+  bool modificado = false;
 
   //PANTALLA CLIENTES
   final busquedaController = TextEditingController();
@@ -43,6 +44,8 @@ class ClientesProvider extends ChangeNotifier {
 
     nombreImagen = null;
     webImage = null;
+
+    modificado = false;
 
     if (notify) notifyListeners();
   }
@@ -131,7 +134,7 @@ class ClientesProvider extends ChangeNotifier {
     final String fileExtension = p.extension(pickedImage.name);
     const uuid = Uuid();
     final String fileName = uuid.v1();
-    nombreImagen = 'avatar-$fileName$fileExtension';
+    nombreImagen = 'logo-$fileName$fileExtension';
 
     webImage = await pickedImage.readAsBytes();
 
@@ -146,7 +149,7 @@ class ClientesProvider extends ChangeNotifier {
 
   Future<String?> uploadImage() async {
     if (webImage != null && nombreImagen != null) {
-      await supabase.storage.from('avatars').uploadBinary(
+      await supabase.storage.from('logos_clientes').uploadBinary(
             nombreImagen!,
             webImage!,
             fileOptions: const FileOptions(
@@ -173,13 +176,13 @@ class ClientesProvider extends ChangeNotifier {
     } else {
       //usuario tiene imagen y se borro => se borra en bd
       if (webImage == null && nombreImagen == null) {
-        await supabase.storage.from('avatars').remove([imagen]);
+        await supabase.storage.from('logos_clientes').remove([imagen]);
       }
       //usuario tiene imagen y no se modifico => no se hace nada
 
       //usuario tiene imagen y se cambio => se borra en bd y se sube la nueva
       if (webImage != null && nombreImagen != imagen) {
-        await supabase.storage.from('avatars').remove([imagen]);
+        await supabase.storage.from('logos_clientes').remove([imagen]);
         final res2 = await uploadImage();
         if (res2 == null) {
           ApiErrorHandler.callToast('Error al subir imagen');
@@ -189,12 +192,16 @@ class ClientesProvider extends ChangeNotifier {
   }
 
   void agregarContacto() {
+    if (cliente?.clienteId == null) {
+      return;
+    }
+    modificado = true;
     final contactoVacio = Contacto(
       nombre: '',
       correo: '',
       puesto: '',
       telefono: '',
-      clienteFk: cliente!.clienteId,
+      clienteFk: cliente!.clienteId!,
     );
     cliente!.contactos.add(contactoVacio);
     notifyListeners();
@@ -202,43 +209,61 @@ class ClientesProvider extends ChangeNotifier {
 
   void eliminarContacto(int index) {
     cliente!.contactos.removeAt(index);
+    modificado = true;
     notifyListeners();
   }
 
-  // Future<Map<String, String>?> registrarUsuario() async {
-  //   try {
-  //     //Registrar al usuario con una contraseña temporal
-  //     var response = await http.post(
-  //       Uri.parse('$supabaseUrl/auth/v1/signup'),
-  //       headers: {'Content-Type': 'application/json', 'apiKey': anonKey},
-  //       body: json.encode(
-  //         {
-  //           "email": correoController.text,
-  //           "password": password,
-  //         },
-  //       ),
-  //     );
-  //     if (response.statusCode > 204) return {'Error': 'El usuario ya existe'};
+  Future<bool> guardarCliente() async {
+    try {
+      if (cliente == null) return false;
 
-  //     final String? userId = jsonDecode(response.body)['user']['id'];
+      if (cliente!.clienteId == null) {
+        //nuevo cliente - insertar en tabla
 
-  //     if (userId == null) return {'Error': 'Error al registrar al usuario'};
+        final res = await supabase
+            .from('cliente')
+            .insert(
+              cliente!.toMap(),
+              defaultToNull: false,
+            )
+            .select('cliente_id');
 
-  //     // final bool tokenSaved = await SupabaseQueries.saveToken(userId, 'token_ingreso', token);
+        if ((res as List).isEmpty) return false;
 
-  //     // if (!tokenSaved) return {'Error': 'Error al guardar token'};
+        final clienteId = res.first['cliente_id'];
 
-  //     // final bool emailSent = await sendEmail(correoController.text, password, token, 'alta');
+        //Crear contactos
+        if (modificado == true) {
+          for (var contacto in cliente!.contactos) {
+            await supabase.from('contacto').insert(contacto.toMap(clienteId: clienteId));
+          }
+        }
+      } else {
+        //cliente existente - actualizar tabla
+        await supabase.from('cliente').update(cliente!.toMap()).eq('cliente_id', cliente!.clienteId);
+        //Crear o actualizar contactos
+        if (modificado == true) {
+          for (var contacto in cliente!.contactos) {
+            if (contacto.contactoId == null) {
+              //crear
+              await supabase.from('contacto').insert(contacto.toMap(clienteId: cliente!.clienteId));
+            } else {
+              //actualizar
+              await supabase.from('contacto').update(contacto.toMap(clienteId: cliente!.clienteId)).eq(
+                    'contacto_id',
+                    contacto.contactoId,
+                  );
+            }
+          }
+        }
+      }
 
-  //     // if (!emailSent) return {'Error': 'Error al mandar email'};
-
-  //     //retornar el id del usuario
-  //     return {'userId': userId};
-  //   } catch (e) {
-  //     log('Error en registrarUsuario() - $e');
-  //     return {'Error': 'Error al registrar usuario'};
-  //   }
-  // }
+      return true;
+    } catch (e) {
+      log('Error en guardarCliente() - $e');
+      return false;
+    }
+  }
 
   // Future<bool> crearPerfilDeUsuario(String userId) async {
   //   if (rolSeleccionado == null) {

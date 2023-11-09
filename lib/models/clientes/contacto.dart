@@ -29,4 +29,12 @@ class Contacto {
       clienteFk: json['cliente_fk'],
     );
   }
+
+  Map<String, dynamic> toMap({required clienteId}) => {
+        "nombre": nombre,
+        "correo": correo,
+        "puesto": puesto,
+        "telefono": telefono,
+        "cliente_fk": clienteId,
+      };
 }

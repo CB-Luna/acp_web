@@ -102,34 +102,34 @@ final GoRouter router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             if (currentUser == null) return const PageNotFoundPage();
             if (currentUser!.rol.permisos.registroClientes == null) return const PageNotFoundPage();
-            // if (state.extra == null) return const ClientesPage();
-            final ClientesProvider provider = Provider.of<ClientesProvider>(context, listen: false);
-            final tempCliente = Cliente(
-              clienteId: 18,
-              codigoCliente: '656829',
-              nombreFiscal: 'Ejem - Q2 Holdings, Inc.',
-              identificadorFiscal: '5108758087226679',
-              sociedad: 'G001',
-              direccion: '1 Mitchell Hill',
-              fechaRegistro: DateTime.now(),
-              condicionPago: 165,
-              numeroCuenta: '',
-              tasaAnual: 12,
-              bancoIndustrial: 'Banco Industrial',
-              tipoCuenta: 'Cuenta X',
-              activo: true,
-              contactos: [
-                Contacto(
-                  contactoId: 1,
-                  nombre: 'Ivan',
-                  correo: 'ivan@gmail.com',
-                  puesto: 'Gerente',
-                  telefono: '0123456789',
-                  clienteFk: 18,
-                ),
-              ],
-            );
-            provider.cliente = tempCliente;
+            if (state.extra == null) return const ClientesPage();
+            // final ClientesProvider provider = Provider.of<ClientesProvider>(context, listen: false);
+            // final tempCliente = Cliente(
+            //   clienteId: 18,
+            //   codigoCliente: '656829',
+            //   nombreFiscal: 'Ejem - Q2 Holdings, Inc.',
+            //   identificadorFiscal: '5108758087226679',
+            //   sociedad: 'G001',
+            //   direccion: '1 Mitchell Hill',
+            //   fechaRegistro: DateTime.now(),
+            //   condicionPago: 165,
+            //   numeroCuenta: '',
+            //   tasaAnual: 12,
+            //   bancoIndustrial: 'Banco Industrial',
+            //   tipoCuenta: 'Cuenta X',
+            //   activo: true,
+            //   contactos: [
+            //     Contacto(
+            //       contactoId: 1,
+            //       nombre: 'Ivan',
+            //       correo: 'ivan@gmail.com',
+            //       puesto: 'Gerente',
+            //       telefono: '0123456789',
+            //       clienteFk: 18,
+            //     ),
+            //   ],
+            // );
+            // provider.cliente = tempCliente;
             return const RegistroClientePage();
           },
         ),
