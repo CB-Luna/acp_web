@@ -338,6 +338,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             field: 'cuenta_field',
                             type: PlutoColumnType.text(),
                             enableEditingMode: false,
+                            width: 180,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
@@ -367,6 +368,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             field: 'importe_field',
                             type: PlutoColumnType.text(),
                             enableEditingMode: false,
+                            width: 180,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
@@ -404,6 +406,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             field: 'beneficio_porc_field',
                             type: PlutoColumnType.text(),
                             enableEditingMode: false,
+                            width: 150,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
@@ -432,6 +435,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             field: 'beneficio_cant_field',
                             type: PlutoColumnType.text(),
                             enableEditingMode: false,
+                            width: 150,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
@@ -469,6 +473,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             field: 'pago_anticipado_field',
                             type: PlutoColumnType.text(),
                             enableEditingMode: false,
+                            width: 180,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
@@ -506,6 +511,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             field: 'dias_pago_field',
                             type: PlutoColumnType.text(),
                             enableEditingMode: false,
+                            width: 100,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
@@ -529,19 +535,23 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             },
                           ),
                           PlutoColumn(
-                            title: 'Días Adicionales para Comisión',
+                            title: 'DAC',
                             titleTextAlign: PlutoColumnTextAlign.center,
                             textAlign: PlutoColumnTextAlign.center,
                             field: 'dias_adicionales_field',
                             type: PlutoColumnType.number(),
                             enableEditingMode: true,
+                            width: 100,
                             titleSpan: TextSpan(
                               children: [
                                 WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
-                                  child: Text(
-                                    'Días Adicionales para Comisión',
-                                    style: AppTheme.of(context).bodyText2,
+                                  child: Tooltip(
+                                    message: 'Días Adicionales para Comisión',
+                                    child: Text(
+                                      'DAC',
+                                      style: AppTheme.of(context).bodyText2,
+                                    ),
                                   ),
                                 ),
                               ],
