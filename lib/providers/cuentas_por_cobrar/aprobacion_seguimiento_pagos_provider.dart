@@ -134,6 +134,41 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     return;
   } */
 
+  Future<void> actualizarFacturasSeleccionadas() async {
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+    }
+    try {
+      for (var cliente in clientes) {
+        for (var propuesta in cliente.propuestas) {
+          {
+            for (var row in propuesta.rows!) {
+              if (row.checked == true) {
+                /* await supabase.from('facturas').update({
+                  'estatus_id': 3,
+                  'fecha_seleccion_pago_anticipado': DateTime.now().toIso8601String(),
+                  'fecha_solicitud': DateTime.now().toIso8601String(),
+                }).eq('id_documento_pk', row.cells["id_factura_field"]!.value); */
+
+                await supabase.rpc(
+                  'update_factura_estatus',
+                  params: {
+                    'factura_id': row.cells["id_factura_field"]!.value,
+                    'estatus_id': 3,
+                  },
+                );
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
+    }
+    notifyListeners();
+    return aprobacionSeguimientoPagos();
+  }
+
   FilePickerResult? docProveedor;
   PdfController? pdfController;
 

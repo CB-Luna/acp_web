@@ -1,5 +1,4 @@
 import 'package:acp_web/functions/money_format.dart';
-import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/solicitud_pagos.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
