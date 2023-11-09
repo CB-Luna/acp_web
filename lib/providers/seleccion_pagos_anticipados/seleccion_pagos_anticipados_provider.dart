@@ -172,7 +172,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           cliente.beneficio = 0;
           cliente.pagoAdelantado = 0;
           for (var row in cliente.rows!) {
-            DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
+            /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
             DateTime now = DateTime.now();
             DateTime fpa = DateTime(now.year, now.month, now.day);
             int dac = row.cells["dias_adicionales_field"]!.value;
@@ -188,7 +188,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
             row.cells["beneficio_porc_field"]!.value = porcComision;
             row.cells["beneficio_cant_field"]!.value = cantComision;
-            row.cells["pago_anticipado_field"]!.value = pagoanticipado;
+            row.cells["pago_anticipado_field"]!.value = pagoanticipado; */
 
             if (row.checked == true) {
               cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
