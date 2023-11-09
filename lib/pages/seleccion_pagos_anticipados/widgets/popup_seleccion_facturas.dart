@@ -576,10 +576,15 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                         },
                         onLoaded: (event) async {},
                         onRowChecked: (event) async {
-                          await provider.updateClientRows(widget.cliente.nombreFiscal!);
+                          await provider.updateClientRows(widget.cliente);
+                          if (widget.cliente.facturasSeleccionadas == 0) {
+                            await provider.blockClient(widget.cliente, false);
+                          } else {
+                            await provider.blockClient(widget.cliente, true);
+                          }
                         },
                         onChanged: (event) async {
-                          await provider.updateClientRows(widget.cliente.nombreFiscal!);
+                          await provider.updateClientRows(widget.cliente);
                         },
                       ),
                     ),

@@ -173,6 +173,34 @@ class _CustomCardState extends State<CustomCard> {
                     ),
                     const SizedBox(width: 8),
                     Tooltip(
+                      message: widget.cliente.bloqueado ? 'Desbloquear' : 'Bloquear',
+                      child: InkWell(
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Icon(
+                              widget.cliente.bloqueado ? Icons.lock_outline : Icons.lock_open_outlined,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        onTap: () async {
+                          if (widget.cliente.bloqueado) {
+                            await provider.blockClient(widget.cliente, false);
+                          } else {
+                            await provider.blockClient(widget.cliente, true);
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Tooltip(
                       message: 'Editar',
                       child: InkWell(
                         child: Container(

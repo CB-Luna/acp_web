@@ -18,6 +18,7 @@ class AutorizacionSolicitudesPagoanticipado {
   double? beneficio = 0;
   double? pagoAdelantado = 0;
   bool isExpanded = false;
+  bool bloqueado = false;
 
   AutorizacionSolicitudesPagoanticipado({
     this.clienteId,

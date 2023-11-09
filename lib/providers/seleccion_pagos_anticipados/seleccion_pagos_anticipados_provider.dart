@@ -131,20 +131,22 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
       while (exit != true) {
         for (var cliente in clientes) {
-          for (var row in cliente.rows!) {
-            if (row.checked == false) {
-              if (beneficioMayor < row.cells["beneficio_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
-                beneficioMayor = row.cells["beneficio_cant_field"]!.value;
-                idFactura = row.cells["id_factura_field"]!.value;
-              }
+          if (!cliente.bloqueado) {
+            for (var row in cliente.rows!) {
+              if (row.checked == false) {
+                if (beneficioMayor < row.cells["beneficio_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
+                  beneficioMayor = row.cells["beneficio_cant_field"]!.value;
+                  idFactura = row.cells["id_factura_field"]!.value;
+                }
 
-              if (vuelta == 1 && row.cells["id_factura_field"]!.value == idFactura) {
-                row.setChecked(true);
-                updateClientRows(cliente.nombreFiscal!);
+                if (vuelta == 1 && row.cells["id_factura_field"]!.value == idFactura) {
+                  row.setChecked(true);
+                  updateClientRows(cliente);
 
-                beneficioMayor = 0;
-                idFactura = 0;
-                vuelta = 0;
+                  beneficioMayor = 0;
+                  idFactura = 0;
+                  vuelta = 0;
+                }
               }
             }
           }
@@ -163,16 +165,23 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     return notifyListeners();
   }
 
-  Future<void> updateClientRows(String nombrecliente) async {
+  Future<void> blockClient(SeleccionPagosAnticipados cliente, bool lock) async {
     try {
-      for (var cliente in clientes) {
-        if (cliente.nombreFiscal == nombrecliente) {
-          cliente.facturasSeleccionadas = 0;
-          cliente.facturacion = 0;
-          cliente.beneficio = 0;
-          cliente.pagoAdelantado = 0;
-          for (var row in cliente.rows!) {
-            /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
+      cliente.bloqueado = lock;
+      notifyListeners();
+    } catch (e) {
+      log('Error en SeleccionaPagosanticipadosProvider - blockClient() - $e');
+    }
+  }
+
+  Future<void> updateClientRows(SeleccionPagosAnticipados cliente) async {
+    try {
+      cliente.facturasSeleccionadas = 0;
+      cliente.facturacion = 0;
+      cliente.beneficio = 0;
+      cliente.pagoAdelantado = 0;
+      for (var row in cliente.rows!) {
+        /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
             DateTime now = DateTime.now();
             DateTime fpa = DateTime(now.year, now.month, now.day);
             int dac = row.cells["dias_adicionales_field"]!.value;
@@ -190,14 +199,12 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
             row.cells["beneficio_cant_field"]!.value = cantComision;
             row.cells["pago_anticipado_field"]!.value = pagoanticipado; */
 
-            if (row.checked == true) {
-              cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-              cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
-              cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
+        if (row.checked == true) {
+          cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
+          cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
+          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
 
-              cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
-            }
-          }
+          cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
         }
       }
     } catch (e) {
@@ -243,7 +250,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         for (var row in cliente.rows!) {
           row.setChecked(false);
         }
-        await updateClientRows(cliente.nombreFiscal!);
+        await updateClientRows(cliente);
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - uncheckAll() - $e');
@@ -270,7 +277,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       log('Error en SeleccionaPagosanticipadosProvider - checkInList() - $e');
     }
 
-    clientes.sort((a, b) => b.facturasSeleccionadas!.compareTo(a.facturasSeleccionadas!));
+    clientes.sort((a, b) => b.beneficio!.compareTo(a.beneficio!));
     return notifyListeners();
   }
 
