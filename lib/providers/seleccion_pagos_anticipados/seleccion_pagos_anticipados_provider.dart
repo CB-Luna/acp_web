@@ -234,7 +234,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - updateClientRows() - $e');
+      log('Error en SeleccionaPagosanticipadosProvider - checkClient() - $e');
     }
 
     return await calcClients();
@@ -270,7 +270,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         fondoDisponibleRestante = controllerFondoDisp.numberValue - totalPagos;
       }
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - checkInList() - $e');
+      log('Error en SeleccionaPagosanticipadosProvider - calcClients() - $e');
     }
 
     clientes.sort((a, b) => b.beneficio!.compareTo(a.beneficio!));
@@ -319,7 +319,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       }
       await clearAll();
     } catch (e) {
-      log('Error en UpdatePartidasSolicitadas() - $e');
+      log('Error en SeleccionaPagosanticipadosProvider - Error en UpdatePartidasSolicitadas() - $e');
       ejecBloq = false;
       notifyListeners();
       return false;

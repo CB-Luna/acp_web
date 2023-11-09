@@ -236,7 +236,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - updateClientRows() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - checkClient() - $e');
     }
 
     return await calcClients();
@@ -272,7 +272,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         fondoDisponibleRestante = controllerFondoDisp.numberValue - totalPagos;
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - checkInList() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - calcClients() - $e');
     }
 
     clientes.sort((a, b) => b.beneficio!.compareTo(a.beneficio!));
@@ -283,7 +283,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
     ejecBloq = true;
     notifyListeners();
     try {
-      /* for (var cliente in clientes) {
+      for (var cliente in clientes) {
         for (var row in cliente.rows!) {
           if (row.checked == true) {
             await supabase.from('bitacora_estatus_facturas').insert(
@@ -291,8 +291,8 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
                 'factura_id': row.cells['id_factura_field']!.value,
                 'prev_estatus_id': row.cells['estatus_id_field']!.value,
                 'post_estatus_id': 2,
-                'pantalla': 'Selección de Pagos Anticipados',
-                'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
+                'pantalla': 'Autorización de Solicitudes de Pago Anticipado',
+                'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Autorización de Solicitudes de Pago Anticipado',
                 'rol_id': currentUser!.rol.rolId,
                 'usuario_id': currentUser!.id,
               },
@@ -318,10 +318,10 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
             }
           }
         }
-      } */
+      }
       await clearAll();
     } catch (e) {
-      log('Error en UpdatePartidasSolicitadas() - $e');
+      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - UpdatePartidasSolicitadas() - $e');
       ejecBloq = false;
       notifyListeners();
       return false;
