@@ -11,7 +11,7 @@ class AnimatedLoginWidget extends StatefulWidget {
 
 class _AnimatedLoginWidgetState extends State<AnimatedLoginWidget> {
   final VideoPlayerController _controller = VideoPlayerController.asset(
-    'videos/bgvideo.mp4',
+    'assets/videos/bgvideo.mp4',
     videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
   );
 
