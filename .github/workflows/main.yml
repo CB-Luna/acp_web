@@ -34,7 +34,7 @@ jobs:
         channel: 'stable'
     - run: flutter --disable-telemetry
     - run: flutter pub get
-    - run: flutter build web --release --base-href /acp/ --web-renderer html
+    - run: flutter build web --release --base-href /acp_web/ --web-renderer html
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
