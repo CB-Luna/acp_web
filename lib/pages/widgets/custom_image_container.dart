@@ -17,14 +17,19 @@ class ImageContainer extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
+        color: AppTheme.of(context).primaryBackground,
         border: Border.all(
           width: 1,
           color: AppTheme.of(context).secondaryColor,
+          strokeAlign: BorderSide.strokeAlignOutside,
         ),
         shape: BoxShape.circle,
       ),
+      clipBehavior: Clip.antiAlias,
       child: imageUrl != null
-          ? Image.network(imageUrl!)
+          ? Image.network(
+              imageUrl!,
+            )
           : Container(
               width: size - 1,
               height: size - 1,
