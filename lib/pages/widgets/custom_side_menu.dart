@@ -342,8 +342,6 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   padding: const EdgeInsets.all(15),
                   child: Image.asset(
                     'assets/images/Logo.png',
-                    width: 180,
-                    height: 60,
                     fit: BoxFit.cover,
                   ),
                 ),
