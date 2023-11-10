@@ -2,6 +2,7 @@ import 'package:acp_web/functions/day_month_format.dart';
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/functions/month_name.dart';
 import 'package:acp_web/models/pagos/pagos_model.dart';
+import 'package:acp_web/pages/pagos/widgets/pop_up_validacion_anexo.dart';
 import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
 import 'package:acp_web/pages/widgets/custom_image_container.dart';
 import 'package:acp_web/providers/providers.dart';
@@ -180,23 +181,46 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        if (widget.pagos.clientes?[index].anexoDoc != null)
-                                          CustomHoverIcon(
-                                            icon: Icons.edit_square,
-                                            size: 20,
-                                            onTap: () {},
+                                        if (widget.pagos.clientes?[index].anexoDoc != null && widget.pagos.clientes?[index].estatusId == 8)
+                                          Tooltip(
+                                            message: 'Validar',
+                                            child: CustomHoverIcon(
+                                              icon: Icons.edit_square,
+                                              size: 20,
+                                              onTap: () async {
+                                                await provider.pickAnexoDoc(widget.pagos.clientes![index].anexoDoc!);
+
+                                                // ignore: use_build_context_synchronously
+                                                await showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return PopUpValidacionAnexo(
+                                                      cliente: widget.pagos.clientes![index],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        if (widget.pagos.clientes?[index].anexoDoc != null && widget.pagos.clientes?[index].estatusId == 8)
+                                          Tooltip(
+                                            message: 'Ver',
+                                            child: CustomHoverIcon(
+                                              icon: Icons.remove_red_eye_outlined,
+                                              size: 20,
+                                              onTap: () {},
+                                            ),
                                           ),
                                         if (widget.pagos.clientes?[index].anexoDoc != null)
-                                          CustomHoverIcon(
-                                            icon: Icons.remove_red_eye_outlined,
-                                            size: 20,
-                                            onTap: () {},
-                                          ),
-                                        if (widget.pagos.clientes?[index].anexoDoc != null)
-                                          CustomHoverIcon(
-                                            icon: Icons.file_download_outlined,
-                                            size: 20,
-                                            onTap: () {},
+                                          Tooltip(
+                                            message: 'Descargar',
+                                            child: CustomHoverIcon(
+                                              icon: Icons.file_download_outlined,
+                                              size: 20,
+                                              onTap: () async {
+                                                await provider.descargarAnexo(widget.pagos.clientes![index].anexoDoc!);
+                                              },
+                                            ),
                                           ),
                                       ],
                                     ),
