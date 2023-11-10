@@ -40,15 +40,10 @@ class _AnimatedLoginWidgetState extends State<AnimatedLoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // if (_controller.value.isInitialized == true) {
-    //   _controller.play();
-    //   _controller.setLooping(true);
-    // }
-
     return _controller.value.isInitialized
         ? SizedBox.expand(
             child: FittedBox(
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               child: SizedBox(
                 width: _controller.value.size.width,
                 height: _controller.value.size.height,
@@ -57,12 +52,5 @@ class _AnimatedLoginWidgetState extends State<AnimatedLoginWidget> {
             ),
           )
         : Container();
-
-    // return _controller.value.isInitialized
-    //     ? AspectRatio(
-    //         aspectRatio: _controller.value.aspectRatio,
-    //         child: VideoPlayer(_controller),
-    //       )
-    //     : Container();
   }
 }

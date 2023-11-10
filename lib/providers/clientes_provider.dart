@@ -40,7 +40,7 @@ class ClientesProvider extends ChangeNotifier {
   }
 
   void initCliente(Cliente cliente) async {
-    clearControllers();
+    clearControllers(notify: false);
     this.cliente = cliente;
     tasaAnualController.text = cliente.tasaAnual?.toString() ?? '';
   }
@@ -223,6 +223,9 @@ class ClientesProvider extends ChangeNotifier {
   Future<bool> guardarCliente() async {
     try {
       if (cliente == null) return false;
+      if (!modificado) return true;
+
+      cliente!.tasaAnual = num.tryParse(tasaAnualController.text);
 
       if (cliente!.clienteId == null) {
         //nuevo cliente - insertar en tabla
@@ -249,18 +252,16 @@ class ClientesProvider extends ChangeNotifier {
         //cliente existente - actualizar tabla
         await supabase.from('cliente').update(cliente!.toMap()).eq('cliente_id', cliente!.clienteId);
         //Crear o actualizar contactos
-        if (modificado == true) {
-          for (var contacto in cliente!.contactos) {
-            if (contacto.contactoId == null) {
-              //crear
-              await supabase.from('contacto').insert(contacto.toMap(clienteId: cliente!.clienteId));
-            } else {
-              //actualizar
-              await supabase.from('contacto').update(contacto.toMap(clienteId: cliente!.clienteId)).eq(
-                    'contacto_id',
-                    contacto.contactoId,
-                  );
-            }
+        for (var contacto in cliente!.contactos) {
+          if (contacto.contactoId == null) {
+            //crear
+            await supabase.from('contacto').insert(contacto.toMap(clienteId: cliente!.clienteId));
+          } else {
+            //actualizar
+            await supabase.from('contacto').update(contacto.toMap(clienteId: cliente!.clienteId)).eq(
+                  'contacto_id',
+                  contacto.contactoId,
+                );
           }
         }
       }
@@ -276,7 +277,7 @@ class ClientesProvider extends ChangeNotifier {
     final parsedValue = num.tryParse(tasaAnualController.text);
     if (parsedValue == null) return;
     modificado = true;
-    cliente!.tasaAnual = parsedValue;
+    // cliente!.tasaAnual = parsedValue;
     notifyListeners();
   }
 
