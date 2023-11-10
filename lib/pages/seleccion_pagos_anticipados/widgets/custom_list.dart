@@ -208,13 +208,13 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             ],
                           ),
                         ),
-                        //Beneficio
+                        //Comisión
                         SizedBox(
                           width: width * 126,
                           child: Row(
                             children: [
                               /*  Text(
-                                'Beneficio:',
+                                'Comisión:',
                                 style: AppTheme.of(context).subtitle1.override(
                                       fontFamily: 'Gotham',
                                       useGoogleFonts: false,
@@ -369,7 +369,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         },
                       ),
                       PlutoColumn(
-                        title: '%Beneficio',
+                        title: '%Comisión',
                         titleTextAlign: PlutoColumnTextAlign.center,
                         textAlign: PlutoColumnTextAlign.center,
                         field: 'beneficio_porc_field',
@@ -381,7 +381,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             WidgetSpan(
                               alignment: PlaceholderAlignment.middle,
                               child: Text(
-                                '%Beneficio',
+                                '%Comisión',
                                 style: AppTheme.of(context).bodyText2,
                               ),
                             ),
@@ -398,7 +398,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         },
                       ),
                       PlutoColumn(
-                        title: 'Beneficio',
+                        title: 'Comisión',
                         titleTextAlign: PlutoColumnTextAlign.center,
                         textAlign: PlutoColumnTextAlign.center,
                         field: 'beneficio_cant_field',
@@ -410,7 +410,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                             WidgetSpan(
                               alignment: PlaceholderAlignment.middle,
                               child: Text(
-                                'Beneficio',
+                                'Comisión',
                                 style: AppTheme.of(context).bodyText2.override(
                                       fontFamily: AppTheme.of(context).bodyText2Family,
                                       useGoogleFonts: false,

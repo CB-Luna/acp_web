@@ -216,7 +216,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
                                                             Text(
-                                                              'Beneficio',
+                                                              'Comisión',
                                                               style: AppTheme.of(context).subtitle1.override(
                                                                     fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,

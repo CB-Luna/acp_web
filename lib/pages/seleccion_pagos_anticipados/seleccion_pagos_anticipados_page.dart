@@ -216,7 +216,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
                                                             Text(
-                                                              'Beneficio',
+                                                              'Comisión',
                                                               style: AppTheme.of(context).subtitle1.override(
                                                                     fontFamily: AppTheme.of(context).subtitle1Family,
                                                                     useGoogleFonts: false,

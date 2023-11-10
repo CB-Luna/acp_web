@@ -85,7 +85,7 @@ class _CustomCardState extends State<CustomCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Beneficio',
+                            'Comisión',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).bodyText1.override(
                                   fontFamily: AppTheme.of(context).bodyText1Family,

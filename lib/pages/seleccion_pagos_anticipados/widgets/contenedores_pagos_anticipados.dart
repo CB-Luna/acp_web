@@ -274,7 +274,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Beneficio Total',
+                          'Comisión Total',
                           style: AppTheme.of(context).bodyText1,
                         ),
                         Text(

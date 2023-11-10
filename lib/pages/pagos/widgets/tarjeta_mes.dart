@@ -80,9 +80,9 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: width * 50,
+                                    width: width * 55,
                                     child: Text(
-                                      widget.pagos.clientes![index].clienteId!.toString(),
+                                      widget.pagos.clientes![index].anexoId != null ? widget.pagos.clientes![index].anexoId!.toString() : 'Pendiente',
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -180,21 +180,24 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CustomHoverIcon(
-                                          icon: Icons.edit_square,
-                                          size: 20,
-                                          onTap: () {},
-                                        ),
-                                        CustomHoverIcon(
-                                          icon: Icons.remove_red_eye_outlined,
-                                          size: 20,
-                                          onTap: () {},
-                                        ),
-                                        CustomHoverIcon(
-                                          icon: Icons.file_download_outlined,
-                                          size: 20,
-                                          onTap: () {},
-                                        ),
+                                        if (widget.pagos.clientes?[index].anexoDoc != null)
+                                          CustomHoverIcon(
+                                            icon: Icons.edit_square,
+                                            size: 20,
+                                            onTap: () {},
+                                          ),
+                                        if (widget.pagos.clientes?[index].anexoDoc != null)
+                                          CustomHoverIcon(
+                                            icon: Icons.remove_red_eye_outlined,
+                                            size: 20,
+                                            onTap: () {},
+                                          ),
+                                        if (widget.pagos.clientes?[index].anexoDoc != null)
+                                          CustomHoverIcon(
+                                            icon: Icons.file_download_outlined,
+                                            size: 20,
+                                            onTap: () {},
+                                          ),
                                       ],
                                     ),
                                   )

@@ -122,7 +122,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             color: AppTheme.of(context).primaryBackground,
                           ),
                           Text(
-                            'Beneficio',
+                            'Comisión',
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
@@ -253,13 +253,13 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             ],
                           ),
                         ),
-                        //Beneficio
+                        //Comisión
                         SizedBox(
                           width: width * 126,
                           child: Row(
                             children: [
                               /*  Text(
-                              'Beneficio:',
+                              'Comisión:',
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: 'Gotham',
                                     useGoogleFonts: false,
@@ -400,7 +400,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             },
                           ),
                           PlutoColumn(
-                            title: '%Beneficio',
+                            title: '%Comisión',
                             titleTextAlign: PlutoColumnTextAlign.center,
                             textAlign: PlutoColumnTextAlign.center,
                             field: 'beneficio_porc_field',
@@ -412,7 +412,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                                 WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
                                   child: Text(
-                                    '%Beneficio',
+                                    '%Comisión',
                                     style: AppTheme.of(context).bodyText2,
                                   ),
                                 ),
@@ -429,7 +429,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                             },
                           ),
                           PlutoColumn(
-                            title: 'Beneficio',
+                            title: 'Comisión',
                             titleTextAlign: PlutoColumnTextAlign.center,
                             textAlign: PlutoColumnTextAlign.center,
                             field: 'beneficio_cant_field',
@@ -441,7 +441,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                                 WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
                                   child: Text(
-                                    'Beneficio',
+                                    'Comisión',
                                     style: AppTheme.of(context).bodyText2.override(
                                           fontFamily: AppTheme.of(context).bodyText2Family,
                                           useGoogleFonts: false,
