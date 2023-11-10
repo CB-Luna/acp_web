@@ -29,7 +29,6 @@ class _TarjetaMesState extends State<TarjetaMes> {
     String monedaSeleccionada = 'GTQ';
 
     return Padding(
-      key: UniqueKey(),
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
         //constraints: BoxConstraints(maxHeight: height * 265),
@@ -240,9 +239,8 @@ class _TarjetaMesState extends State<TarjetaMes> {
                 setState(() {
                   print('1.1 - $isExpanded');
                   print('1.2 - ${widget.pagos.isExpanded}');
-                  widget.pagos.isExpanded = !isExpanded;
-                  print('2.1 - $isExpanded');
-                  print('2.2 - ${widget.pagos.isExpanded}');
+                  widget.pagos.isExpanded = !widget.pagos.isExpanded;
+                  print('1.3 - ${widget.pagos.isExpanded}');
                 });
               },
             ),
