@@ -17,7 +17,7 @@ class Cliente {
     this.bancoIndustrial,
     this.tipoCuenta,
     this.moneda,
-    required this.tasaAnual,
+    this.tasaAnual,
     this.formula,
     this.acuerdoComercial,
     required this.activo,
@@ -37,7 +37,7 @@ class Cliente {
   String? bancoIndustrial;
   String? tipoCuenta;
   String? moneda;
-  num tasaAnual;
+  num? tasaAnual;
   String? formula;
   String? acuerdoComercial;
   bool activo;
@@ -82,7 +82,6 @@ class Cliente {
       bancoIndustrial: json['banco_industrial'],
       tipoCuenta: json['tipo_cuenta'],
       moneda: json['moneda'],
-      tasaAnual: json['tasa_anual'],
       sociedad: json['sociedad'],
       activo: true,
       contactos: [],

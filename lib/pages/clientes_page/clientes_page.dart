@@ -251,8 +251,7 @@ class _ClientesPageState extends State<ClientesPage> {
                                           ),
                                           splashRadius: 0.01,
                                           onPressed: () async {
-                                            provider.clearControllers();
-                                            provider.cliente = cliente;
+                                            provider.initCliente(cliente);
                                             await context.pushNamed(
                                               'editar_cliente',
                                               extra: cliente,

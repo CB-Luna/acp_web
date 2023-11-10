@@ -19,6 +19,7 @@ class ClientesProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
 
   TextEditingController codigoClienteController = TextEditingController();
+  TextEditingController tasaAnualController = TextEditingController();
 
   bool activo = true;
 
@@ -30,7 +31,6 @@ class ClientesProvider extends ChangeNotifier {
   Cliente? cliente;
   bool modificado = false;
 
-  //PANTALLA CLIENTES
   final busquedaController = TextEditingController();
   String orden = "cliente_id";
 
@@ -39,8 +39,15 @@ class ClientesProvider extends ChangeNotifier {
     await getClientes();
   }
 
+  void initCliente(Cliente cliente) async {
+    clearControllers();
+    this.cliente = cliente;
+    tasaAnualController.text = cliente.tasaAnual?.toString() ?? '';
+  }
+
   void clearControllers({bool clearEmail = true, bool notify = true}) {
     codigoClienteController.clear();
+    tasaAnualController.clear();
 
     nombreImagen = null;
     webImage = null;
@@ -265,6 +272,21 @@ class ClientesProvider extends ChangeNotifier {
     }
   }
 
+  void setTasaAnual() {
+    final parsedValue = num.tryParse(tasaAnualController.text);
+    if (parsedValue == null) return;
+    modificado = true;
+    cliente!.tasaAnual = parsedValue;
+    notifyListeners();
+  }
+
+  String getTasaAnualAsString() {
+    num? parsedValue = num.tryParse(tasaAnualController.text);
+    if (parsedValue == null) return 'Tasa Anual';
+    parsedValue = parsedValue / 100;
+    return parsedValue.toStringAsPrecision(6);
+  }
+
   // Future<bool> crearPerfilDeUsuario(String userId) async {
   //   if (rolSeleccionado == null) {
   //     return false;
@@ -360,6 +382,7 @@ class ClientesProvider extends ChangeNotifier {
   void dispose() {
     busquedaController.dispose();
     codigoClienteController.dispose();
+    tasaAnualController.dispose();
     super.dispose();
   }
 }
