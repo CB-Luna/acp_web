@@ -45,7 +45,7 @@ class _CustomCardState extends State<CustomCard> {
           children: [
             Row(
               children: [
-                ImageContainer(imageUrl: widget.cliente.logoUrl, size: 42),
+                ClientImageContainer(imageName: widget.cliente.logo, size: 42),
                 const SizedBox(width: 20),
                 Expanded(
                   child: Column(

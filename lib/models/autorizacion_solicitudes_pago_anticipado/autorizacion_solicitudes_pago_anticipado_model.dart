@@ -9,7 +9,7 @@ class AutorizacionSolicitudesPagoanticipado {
   String? sociedad;
   String? codigoCliente;
   //String? contacto;
-  String? logoUrl;
+  String? logo;
   DateTime? fechaSolicitud;
   List<Factura>? facturas;
   List<PlutoRow>? rows = [];
@@ -26,7 +26,7 @@ class AutorizacionSolicitudesPagoanticipado {
     this.sociedad,
     this.codigoCliente,
     //this.contacto,
-    this.logoUrl,
+    this.logo,
     this.fechaSolicitud,
     this.facturas,
   });
@@ -41,7 +41,7 @@ class AutorizacionSolicitudesPagoanticipado {
         sociedad: json["sociedad"],
         codigoCliente: json["codigo_cliente"],
         //contacto: json["contacto"],
-        logoUrl: json["logo_url"],
+        logo: json["logo"],
         fechaSolicitud: json["fecha_solicitud"] == null ? null : DateTime.parse(json["fecha_solicitud"]),
         facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
       );
@@ -52,7 +52,7 @@ class AutorizacionSolicitudesPagoanticipado {
         "sociedad": sociedad,
         "codigo_cliente": codigoCliente,
         //"contacto": contacto,
-        "logo_url": logoUrl,
+        "logo": logo,
         "fecha_solicitud": "${fechaSolicitud!.year.toString().padLeft(4, '0')}-${fechaSolicitud!.month.toString().padLeft(2, '0')}-${fechaSolicitud!.day.toString().padLeft(2, '0')}",
         "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
       };

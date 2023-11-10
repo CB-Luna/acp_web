@@ -178,7 +178,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                           width: MediaQuery.of(context).size.width / 1440 * 160,
                           child: Row(
                             children: [
-                              ImageContainer(imageUrl: widget.cliente.logoUrl, size: 20),
+                              ClientImageContainer(imageName: widget.cliente.logo, size: 20),
                               const SizedBox(width: 5),
                               SizedBox(
                                 width: width * 135,

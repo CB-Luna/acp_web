@@ -90,10 +90,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                     width: width * 111,
                                     child: Row(
                                       children: [
-                                        ImageContainer(
-                                          imageUrl: widget.pagos.clientes?[index].logoUrl,
-                                          size: 20,
-                                        ),
+                                        ClientImageContainer(imageName: widget.pagos.clientes?[index].logo, size: 20),
                                         const SizedBox(width: 5),
                                         SizedBox(
                                           width: width * 90,

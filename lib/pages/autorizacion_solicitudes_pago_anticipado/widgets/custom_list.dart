@@ -132,7 +132,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              ImageContainer(imageUrl: widget.cliente.logoUrl, size: 20),
+                              ClientImageContainer(imageName: widget.cliente.logo, size: 20),
                               const SizedBox(width: 5),
                               SizedBox(
                                 width: width * 135,

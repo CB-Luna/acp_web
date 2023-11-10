@@ -9,7 +9,7 @@ class SeleccionPagosAnticipados {
   String? sociedad;
   String? codigoCliente;
   //String? contacto;
-  String? logoUrl;
+  String? logo;
   List<Factura>? facturas;
   List<PlutoRow>? rows = [];
   int? facturasSeleccionadas = 0;
@@ -25,7 +25,7 @@ class SeleccionPagosAnticipados {
     this.sociedad,
     this.codigoCliente,
     //this.contacto,
-    this.logoUrl,
+    this.logo,
     this.facturas,
   });
 
@@ -39,7 +39,7 @@ class SeleccionPagosAnticipados {
         sociedad: json["sociedad"],
         codigoCliente: json["codigo_cliente"],
         //contacto: json["contacto"],
-        logoUrl: json["logo_url"],
+        logo: json["logo"],
         facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
       );
 
@@ -49,7 +49,7 @@ class SeleccionPagosAnticipados {
         "sociedad": sociedad,
         "codigo_cliente": codigoCliente,
         //"contacto": contacto,
-        "logo_url": logoUrl,
+        "logo": logo,
         "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
       };
 }

@@ -1,21 +1,37 @@
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class ImageContainer extends StatelessWidget {
-  const ImageContainer({
+class ClientImageContainer extends StatefulWidget {
+  const ClientImageContainer({
     super.key,
-    this.imageUrl,
+    this.imageName,
     required this.size,
   });
 
-  final String? imageUrl;
+  final String? imageName;
   final double size;
+
+  @override
+  State<ClientImageContainer> createState() => _ClientImageContainerState();
+}
+
+class _ClientImageContainerState extends State<ClientImageContainer> {
+  String? url;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.imageName != null) {
+      url = supabase.storage.from('logos_clientes').getPublicUrl(widget.imageName!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: size,
+      width: widget.size,
+      height: widget.size,
       decoration: BoxDecoration(
         color: AppTheme.of(context).primaryBackground,
         border: Border.all(
@@ -26,13 +42,13 @@ class ImageContainer extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       clipBehavior: Clip.antiAlias,
-      child: imageUrl != null
+      child: url != null
           ? Image.network(
-              imageUrl!,
+              url!,
             )
           : Container(
-              width: size - 1,
-              height: size - 1,
+              width: widget.size - 1,
+              height: widget.size - 1,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1,
@@ -43,7 +59,7 @@ class ImageContainer extends StatelessWidget {
               child: Center(
                 child: Icon(
                   Icons.image_outlined,
-                  size: size - 10,
+                  size: widget.size - 10,
                 ),
               ),
             ),
