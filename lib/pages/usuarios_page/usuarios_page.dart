@@ -166,7 +166,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                               PlutoColumn(
                                 title: 'Rol',
                                 field: 'rol',
-                                width: 100,
+                                width: 150,
                                 enableContextMenu: false,
                                 enableDropToResize: false,
                                 titleTextAlign: PlutoColumnTextAlign.center,
