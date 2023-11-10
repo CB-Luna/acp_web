@@ -70,6 +70,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1, 2, 3],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
+          'clienteid': currentUser!.cliente!.clienteId
         },
       ).select();
       clientes = (response as List<dynamic>).map((cliente) => AprobacionSegumientoPagosFuncion.fromJson(jsonEncode(cliente))).toList();

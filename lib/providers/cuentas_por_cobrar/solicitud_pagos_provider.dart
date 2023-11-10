@@ -103,6 +103,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1],
           'nom_monedas': ["GTQ", "USD"],
+          'clienteid':currentUser!.cliente!.clienteId
         },
       ).select();
       facturas = (response as List<dynamic>).map((cliente) => SolicitudPagos.fromJson(jsonEncode(cliente))).toList();
