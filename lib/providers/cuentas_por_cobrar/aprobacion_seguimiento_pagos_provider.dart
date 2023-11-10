@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
+import 'package:acp_web/theme/theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart' as pdfcolor;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
 import 'dart:html' as html;
+import 'package:pdf/widgets.dart' as pw;
 
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
@@ -206,6 +210,91 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     return;
   }
 
+  /* Future<void> crearPDF() async {
+    try {
+      final pdf = pw.Document();
+      pdf.addPage(
+        pw.Page(
+            build: (context) => pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Expanded(
+                      child: pw.Container(
+                        margin: const pw.EdgeInsets.symmetric(horizontal: 20),
+                        height: 70,
+                        child: pw.FittedBox(
+                          child: pw.Text(
+                            'Total: ${541217}', /////////////////////////////
+                            style: pw.TextStyle(
+                              color: pdfcolor.PdfColors.white,
+                              fontStyle: pw.FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    pw.Expanded(
+                      child: pw.Row(
+                        children: [
+                          pw.Container(
+                            margin: const pw.EdgeInsets.only(left: 10, right: 10),
+                            height: 70,
+                            child: pw.Text(
+                              'Invoice to:',
+                              style: pw.TextStyle(
+                                color: pdfcolor.PdfColors.blue,
+                                fontWeight: pw.FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          pw.Expanded(
+                            child: pw.Container(
+                              height: 70,
+                              child: pw.RichText(
+                                  text: pw.TextSpan(
+                                      text: 'test\n', ///////////////
+                                      style: pw.TextStyle(
+                                        color: pdfcolor.PdfColors.blue,
+                                        fontWeight: pw.FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                      children: [
+                                    const pw.TextSpan(
+                                      text: '\n',
+                                      style: pw.TextStyle(
+                                        fontSize: 5,
+                                      ),
+                                    ),
+                                    pw.TextSpan(
+                                      text: '2023', ////////////////////
+                                      style: pw.TextStyle(
+                                        fontWeight: pw.FontWeight.normal,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ])),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+      );
+      final file = File('example.pdf');
+      await file.writeAsBytes(await pdf.save());
+      pdfController = PdfController(
+        document: PdfDocument.openData(pdf.save()),
+      );
+      notifyListeners();
+    } catch (e) {
+      log('Error en CrearPDF- $e');
+    }
+
+    return;
+  }
+ */
   /* Future<void> getRecords() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);

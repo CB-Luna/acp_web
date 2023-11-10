@@ -71,7 +71,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       },
                     ),
                   ),
-                if (widget.propuesta.estatus == 2 && provider.anexo == true)
+                if (widget.propuesta.estatus == 2)
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: IconButton(
@@ -79,6 +79,11 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Firmar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
+                        provider.firmaAnexo=true;
+                        provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo Firmado.pdf'));
+                        setState(() {
+                          
+                        });
                         //TODO:Metodo para firmar directamente el archivo
                       },
                     ),
