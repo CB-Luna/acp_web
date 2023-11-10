@@ -342,6 +342,7 @@ class _PagosPageState extends State<PagosPage> {
                                         itemBuilder: (BuildContext ctx, index) {
                                           Pagos pago = provider.pagos[index];
                                           return TarjetaMes(
+                                            key: Key('${monthName(pago.month!)} ${pago.year}'),
                                             pagos: pago,
                                           );
                                         },

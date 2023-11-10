@@ -20,8 +20,6 @@ class TarjetaMes extends StatefulWidget {
 }
 
 class _TarjetaMesState extends State<TarjetaMes> {
-  bool isExpanded = false;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
@@ -48,7 +46,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                 ExpansionPanel(
                   backgroundColor: Colors.transparent,
                   canTapOnHeader: true,
-                  isExpanded: isExpanded,
+                  isExpanded: widget.pagos.isExpanded,
                   headerBuilder: (context, isExpanded) {
                     return Row(
                       children: [
@@ -237,9 +235,9 @@ class _TarjetaMesState extends State<TarjetaMes> {
                   ),
                 )
               ],
-              expansionCallback: (panelIndex, expanded) {
+              expansionCallback: (panelIndex, isExpanded) {
                 setState(() {
-                  isExpanded = !expanded;
+                  widget.pagos.isExpanded = !isExpanded;
                 });
               },
             ),
