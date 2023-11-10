@@ -1,4 +1,6 @@
+import 'package:acp_web/functions/month_name.dart';
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/pagos/pagos_model.dart';
 import 'package:acp_web/pages/pagos/widgets/tarjeta_mes.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
@@ -338,8 +340,9 @@ class _PagosPageState extends State<PagosPage> {
                                         itemCount: provider.pagos.length,
                                         scrollDirection: Axis.vertical,
                                         itemBuilder: (BuildContext ctx, index) {
+                                          Pagos pago = provider.pagos[index];
                                           return TarjetaMes(
-                                            pagos: provider.pagos[index],
+                                            pagos: pago,
                                           );
                                         },
                                       ),
