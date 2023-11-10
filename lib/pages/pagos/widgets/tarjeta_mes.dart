@@ -152,7 +152,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                   SizedBox(
                                     width: width * 90,
                                     child: Text(
-                                      dayMothFormat(widget.pagos.clientes![index].fechaPago!),
+                                      widget.pagos.clientes![index].fechaPago != null ? dayMothFormat(widget.pagos.clientes![index].fechaPago!) : 'Pendiente',
                                       style: AppTheme.of(context).subtitle1,
                                       textAlign: TextAlign.center,
                                     ),
