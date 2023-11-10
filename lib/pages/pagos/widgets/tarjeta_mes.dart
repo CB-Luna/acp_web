@@ -238,8 +238,11 @@ class _TarjetaMesState extends State<TarjetaMes> {
               ],
               expansionCallback: (panelIndex, isExpanded) {
                 setState(() {
+                  print('1.1 - $isExpanded');
+                  print('1.2 - ${widget.pagos.isExpanded}');
                   widget.pagos.isExpanded = !isExpanded;
-                  print(widget.pagos.isExpanded);
+                  print('2.1 - $isExpanded');
+                  print('2.2 - ${widget.pagos.isExpanded}');
                 });
               },
             ),
