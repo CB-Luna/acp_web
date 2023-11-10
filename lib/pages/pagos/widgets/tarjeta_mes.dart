@@ -58,7 +58,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                     );
                   },
                   body: Container(
-                    constraints: BoxConstraints(maxHeight: height * 250),
+                    constraints: BoxConstraints(maxHeight: height * 500),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: widget.pagos.clientes!.length,
