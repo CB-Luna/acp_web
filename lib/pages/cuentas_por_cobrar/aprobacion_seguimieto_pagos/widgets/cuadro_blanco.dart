@@ -134,7 +134,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         height: 20,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: widget.propuesta.estatus == 2
+                          color: widget.propuesta.estatus == 2 || widget.propuesta.estatus == 7 || widget.propuesta.estatus == 8 || widget.propuesta.estatus == 9 || widget.propuesta.estatus == 10
                               ? AppTheme.of(context).yellow
                               : widget.propuesta.estatus == 3
                                   ? AppTheme.of(context).tertiaryColor
@@ -152,7 +152,15 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                         ? 'Pagada'
                                         : widget.propuesta.estatus == 5
                                             ? 'Rechazada'
-                                            : 'Cancelada',
+                                            : widget.propuesta.estatus == 6
+                                                ? 'Cancelada'
+                                                : widget.propuesta.estatus == 7
+                                                    ? 'Autoización Solicitud'
+                                                    : widget.propuesta.estatus == 8
+                                                        ? 'Por Validar'
+                                                        : widget.propuesta.estatus == 9
+                                                            ? 'SAP en Proceso'
+                                                            : 'Pago En Proceso',
                             textAlign: TextAlign.center,
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: AppTheme.of(context).subtitle1Family,
@@ -170,7 +178,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             //validar Anexo
-                            if (widget.propuesta.estatus == 2)
+                            if (widget.propuesta.estatus == 2) // && provider.doc==true
                               IconButton(
                                 onPressed: () async {
                                   await showDialog(
@@ -192,7 +200,9 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(propuesta: widget.propuesta,);
+                                      return PopupAprobacionSeguimientoPagos(
+                                        propuesta: widget.propuesta,
+                                      );
                                     },
                                   );
                                 },
@@ -208,7 +218,9 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(propuesta: widget.propuesta,);
+                                      return PopupAprobacionSeguimientoPagos(
+                                        propuesta: widget.propuesta,
+                                      );
                                     },
                                   );
                                 },
@@ -242,6 +254,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                       style: plutoGridPopUpStyleConfig(context),
                     ),
                     columns: [
+                      if (widget.propuesta.estatus == 2)
                       PlutoColumn(
                         title: '',
                         titleTextAlign: PlutoColumnTextAlign.center,
@@ -249,7 +262,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         field: 'id_factura_field',
                         type: PlutoColumnType.text(),
                         width: 55,
-                        enableRowChecked: true,
+                        enableRowChecked:  true,
                         enableColumnDrag: false,
                         enableEditingMode: false,
                         enableSetColumnsMenuItem: false,

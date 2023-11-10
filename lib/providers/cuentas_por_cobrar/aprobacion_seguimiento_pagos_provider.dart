@@ -1,17 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
-import 'package:acp_web/theme/theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:pdf/pdf.dart' as pdfcolor;
+//import 'package:pdf/pdf.dart' as pdfcolor;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
 import 'dart:html' as html;
-import 'package:pdf/widgets.dart' as pw;
+//import 'package:pdf/widgets.dart' as pw;
 
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
@@ -78,10 +76,11 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         },
       ).select();
       clientes = (response as List<dynamic>).map((cliente) => AprobacionSegumientoPagosFuncion.fromJson(jsonEncode(cliente))).toList();
-
       for (var cliente in clientes) {
         for (var propuesta in cliente.propuestas) {
           for (var registro in propuesta.registrosPorDia) {
+            propuesta.sumAnticipo = propuesta.sumAnticipo! + registro.pagoAnticipado!;
+            propuesta.sumComision = propuesta.sumComision! + registro.cantDpp!;
             propuesta.rows!.add(
               PlutoRow(
                 cells: {
