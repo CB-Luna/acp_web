@@ -9,8 +9,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
 import 'dart:html' as html;
 
-import 'package:provider/provider.dart';
-
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
   PlutoGridStateManager? stateManager;
@@ -158,7 +156,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
               'estatus_id': 8,
             },
           );
-        } else {
+        } /*  else {
           await supabase.rpc(
             'update_factura_estatus',
             params: {
@@ -166,7 +164,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
               'estatus_id': 1,
             },
           );
-        }
+        } */
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
