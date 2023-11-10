@@ -26,7 +26,8 @@ abstract class AppTheme {
     darkTheme = DarkModeTheme(mode: conf?.dark);
   }
 
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static void saveThemeMode(ThemeMode mode) =>
+      mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
   static AppTheme of(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
 
@@ -185,6 +186,7 @@ extension TextStyleHelper on TextStyle {
     double? letterSpacing,
     bool useGoogleFonts = true,
     TextDecoration? decoration,
+    TextDecorationStyle? decorationStyle,
     double? lineHeight,
   }) =>
       useGoogleFonts
@@ -196,6 +198,7 @@ extension TextStyleHelper on TextStyle {
               fontStyle: fontStyle ?? this.fontStyle,
               letterSpacing: letterSpacing ?? this.letterSpacing,
               decoration: decoration,
+              decorationStyle: decorationStyle,
               height: lineHeight,
             )
           : copyWith(
@@ -206,6 +209,7 @@ extension TextStyleHelper on TextStyle {
               letterSpacing: letterSpacing,
               fontStyle: fontStyle,
               decoration: decoration,
+              decorationStyle: decorationStyle,
               height: lineHeight,
             );
 }

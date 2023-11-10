@@ -106,7 +106,70 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
                     ),
                   ),
                   Text(
-                    ' * (FNP - FPA + 1 + DAC), 6)',
+                    ' * (',
+                    style: AppTheme.of(context).bodyText1.override(
+                          fontFamily: 'Gotham-Regular',
+                          useGoogleFonts: false,
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                  Tooltip(
+                    message: 'Fecha normal de pago',
+                    child: Text(
+                      'FNP',
+                      style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline,
+                            decorationStyle: TextDecorationStyle.dotted,
+                          ),
+                    ),
+                  ),
+                  Text(
+                    '- ',
+                    style: AppTheme.of(context).bodyText1.override(
+                          fontFamily: 'Gotham-Regular',
+                          useGoogleFonts: false,
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                  Tooltip(
+                    message: 'Fecha de pago anticipado',
+                    child: Text(
+                      'FPA',
+                      style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline,
+                            decorationStyle: TextDecorationStyle.dotted,
+                          ),
+                    ),
+                  ),
+                  Text(
+                    ' + 1 + ',
+                    style: AppTheme.of(context).bodyText1.override(
+                          fontFamily: 'Gotham-Regular',
+                          useGoogleFonts: false,
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                  Tooltip(
+                    message: 'Días adicionales para comisión',
+                    child: Text(
+                      'DAC',
+                      style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline,
+                            decorationStyle: TextDecorationStyle.dotted,
+                          ),
+                    ),
+                  ),
+                  Text(
+                    '), 6)',
                     style: AppTheme.of(context).bodyText1.override(
                           fontFamily: 'Gotham-Regular',
                           useGoogleFonts: false,
