@@ -7,4 +7,4 @@ const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
 // String bonitaConnectionUrl = 'https://arux.cbluna-dev.com/arux/api';
 
-const int mobileSize = 700;
+const int mobileSize = 800;
