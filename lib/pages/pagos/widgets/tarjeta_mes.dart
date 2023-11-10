@@ -29,6 +29,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
     String monedaSeleccionada = 'GTQ';
 
     return Padding(
+      key: UniqueKey(),
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
         //constraints: BoxConstraints(maxHeight: height * 265),
@@ -238,6 +239,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
               expansionCallback: (panelIndex, isExpanded) {
                 setState(() {
                   widget.pagos.isExpanded = !isExpanded;
+                  print(widget.pagos.isExpanded);
                 });
               },
             ),
