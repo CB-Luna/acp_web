@@ -33,6 +33,7 @@ class _CustomCardState extends State<CustomCard> {
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
     return Container(
+      key: UniqueKey(),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: const Color(0xFFF7F9FB),

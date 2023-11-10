@@ -51,6 +51,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
+        key: UniqueKey(),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(16)),
           color: widget.cliente.isExpanded ? AppTheme.of(context).secondaryBackground : AppTheme.of(context).gray,

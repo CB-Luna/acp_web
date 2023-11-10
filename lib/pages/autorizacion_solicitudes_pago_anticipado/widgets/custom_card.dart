@@ -30,6 +30,7 @@ class _CustomCardState extends State<CustomCard> {
     final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
 
     return Container(
+      key: UniqueKey(),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: const Color(0xFFF7F9FB),
