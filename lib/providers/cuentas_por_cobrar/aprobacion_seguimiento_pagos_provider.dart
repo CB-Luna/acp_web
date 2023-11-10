@@ -5,22 +5,23 @@ import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
+import 'dart:html' as html;
+
+import 'package:provider/provider.dart';
 
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
   PlutoGridStateManager? stateManager;
   final controllerBusqueda = TextEditingController();
-
-  final controllerFondoDisp = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
-  final controllerFondoDispFake = TextEditingController();
   late List<PlutoGridStateManager> listStateManager;
   List<dynamic> listCarrito = [];
 
   bool ejecBloq = false;
   bool listOpenned = true;
+  bool anexo = false;
+  bool firmaAnexo = false;
 
   Future<void> clearAll() async {
     listStateManager;
@@ -28,18 +29,14 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     return notifyListeners();
   }
 
-/*   void addCarrito() {
-    listCarrito = [];
-    sumComision = 0;
-    sumAnticipo = 0;
-    for (var element in clientes) {
-      if (element.checked == true) {
-        sumComision = sumComision + element.cells['Importe']!.value;
-        sumAnticipo = sumAnticipo + element.cells['Comisión']!.value;
-      }
+  Future<void> search() async {
+    try {
+      clientes = [];
+    } catch (e) {
+      log('Error en aprobacionSeguimientoPagos - search() - $e');
     }
-    notifyListeners();
-  } */
+    return aprobacionSeguimientoPagos();
+  }
 
   Future<void> facturasSeleccionadas(int dia, int mes) async {
     try {
@@ -74,7 +71,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         params: {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1, 2, 3],
-          'nom_monedas': ["GTQ"],
+          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
         },
       ).select();
       clientes = (response as List<dynamic>).map((cliente) => AprobacionSegumientoPagosFuncion.fromJson(jsonEncode(cliente))).toList();
@@ -91,6 +88,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                   'beneficio_cant_field': PlutoCell(value: registro.cantDpp),
                   'pago_anticipado_field': PlutoCell(value: registro.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: registro.estatusId),
+                  'moneda_field': PlutoCell(value: registro.moneda),
                 },
               ),
             );
@@ -134,32 +132,40 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     return;
   } */
 
-  Future<void> actualizarFacturasSeleccionadas() async {
+  Future<void> actualizarFacturasSeleccionadas(Propuesta propuesta) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
     }
     try {
-      for (var cliente in clientes) {
-        for (var propuesta in cliente.propuestas) {
-          {
-            for (var row in propuesta.rows!) {
-              if (row.checked == true) {
-                await supabase.from('facturas').update({
-                  'estatus_id': 3,
-                  'fecha_seleccion_pago_anticipado': DateTime.now().toUtc().toIso8601String(),
-                  'fecha_solicitud': DateTime.now().toUtc().toIso8601String(),
-                }).eq('factura_id', row.cells["id_factura_field"]!.value);
+      var idAnexo = (await supabase.from('anexo').insert(
+        {
+          'anticipo': propuesta.sumAnticipo,
+          'comision': propuesta.sumComision,
+          'cliente_id': currentUser!.cliente!.clienteId,
+        },
+      ).select())[0]['anexo_id'];
 
-                /* await supabase.rpc(
-                  'update_factura_estatus',
-                  params: {
-                    'factura_id': row.cells["id_factura_field"]!.value,
-                    'estatus_id': 3,
-                  },
-                ); */
-              }
-            }
-          }
+      await supabase.storage.from('anexo').uploadBinary('anexo_$idAnexo.pdf', docProveedor!.files[0].bytes!);
+      await supabase.from('anexo').update({'documento': 'anexo_$idAnexo.pdf'}).eq('anexo_id', idAnexo);
+
+      for (var row in propuesta.rows!) {
+        if (row.checked == true) {
+          await supabase.from('facturas').update({'anexo_id': idAnexo}).eq('factura_id', row.cells["id_factura_field"]!.value);
+          await supabase.rpc(
+            'update_factura_estatus',
+            params: {
+              'factura_id': row.cells["id_factura_field"]!.value,
+              'estatus_id': 8,
+            },
+          );
+        } else {
+          await supabase.rpc(
+            'update_factura_estatus',
+            params: {
+              'factura_id': row.cells["id_factura_field"]!.value,
+              'estatus_id': 1,
+            },
+          );
         }
       }
     } catch (e) {
@@ -170,14 +176,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   }
 
   FilePickerResult? docProveedor;
-  PdfController? pdfController;
-
-  bool popupVisorPdfVisible = true;
-
-  void verPdf(bool visible) {
-    popupVisorPdfVisible = visible;
-    notifyListeners();
-  }
+  PdfController pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
 
   Future<void> pickProveedorDoc() async {
     FilePickerResult? picker = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'xml']);
@@ -189,9 +188,21 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         document: PdfDocument.openData(picker.files.single.bytes!),
       );
     } else {
-      pdfController = null;
+      pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
     }
+    firmaAnexo = true;
+    return notifyListeners();
+  }
 
+  //Descargar PDF
+  final String pdfUrl = 'assets/docs/Anexo .pdf'; // Reemplaza con la URL real del archivo PDF
+
+  void descargarPDF() {
+    html.AnchorElement(href: pdfUrl)
+      ..target = 'blank'
+      ..download = 'Anexo.pdf'
+      ..click();
+    anexo = true;
     notifyListeners();
     return;
   }

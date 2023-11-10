@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -6,20 +9,36 @@ import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 
 class PopupAprobacionSeguimientoPagos extends StatefulWidget {
-  const PopupAprobacionSeguimientoPagos({super.key, required this.estatus});
-  final int estatus;
+  const PopupAprobacionSeguimientoPagos({super.key, required this.propuesta});
+  final Propuesta propuesta;
 
   @override
   State<PopupAprobacionSeguimientoPagos> createState() => PopupAprobacionSeguimientoPagosState();
 }
 
 class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimientoPagos> {
+  /* @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final AprobacionSeguimientoPagosProvider provider = Provider.of<AprobacionSeguimientoPagosProvider>(
+        context,
+        listen: false,
+      );
+      provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
+      provider.anexo = false;
+      provider.firmaAnexo = false;
+    });
+  } */
+
   @override
   Widget build(BuildContext context) {
     final AprobacionSeguimientoPagosProvider provider = Provider.of<AprobacionSeguimientoPagosProvider>(context);
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
     return AlertDialog(
+      key: UniqueKey(),
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
       content: Container(
@@ -39,27 +58,20 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
-                if (widget.estatus == 2)
+                if (widget.propuesta.estatus == 2 && provider.anexo == true)
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: IconButton(
                       icon: Icon(Icons.upload_file, color: AppTheme.of(context).primaryColor),
-                      tooltip: 'Cargar Anexo',
+                      tooltip: 'Cargar Anexo Firmado',
                       color: AppTheme.of(context).primaryColor,
-                      onPressed: () {
-                        if (provider.pdfController != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
-                          provider.verPdf(true);
-                          setState(() {
-                            //Metodo de probado
-                          });
-                        } else {
-                          provider.pickProveedorDoc();
-                          provider.verPdf(true);
-                        }
+                      onPressed: () async {
+                        await provider.pickProveedorDoc();
+                        /* setState(() {}); */
                       },
                     ),
                   ),
-                if (widget.estatus == 3)
+                if (widget.propuesta.estatus == 2 && provider.anexo == true)
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: IconButton(
@@ -67,16 +79,11 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Firmar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
-                        /* if (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
-                          provider.verPdf(true);
-                          setState(() {});
-                        } else {
-                          provider.pickDoc();
-                          provider.verPdf(true);
-                        } */
+                        //TODO:Metodo para firmar directamente el archivo
                       },
                     ),
                   ),
+                //Pantalla Completa
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
@@ -100,7 +107,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                                         Radius.circular(21),
                                       ),
                                     ),
-                                    controller: provider.pdfController!,
+                                    controller: provider.pdfController,
                                   ),
                                 ) //Image.memory(provider.imageBytes!),
                                 );
@@ -108,6 +115,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                         );
                       }),
                 ),
+                //Descargar Anexo
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
@@ -115,10 +123,11 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                     tooltip: 'Descargar Anexo',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      Navigator.pop(context);
+                      provider.descargarPDF();
                     },
                   ),
                 ),
+                //Imprimir
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
@@ -147,84 +156,114 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: (provider.pdfController != null && provider.docProveedor != null)
-                    ? SizedBox(
-                        width: 500,
-                        height: 400,
-                        child: PdfView(
-                          backgroundDecoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(21),
-                            ),
-                          ),
-                          controller: provider.pdfController!,
-                        ),
-                      )
-                    : Container(
-                        color: Colors.white,
-                        child: Center(child: Text('Favor de Cargar anexo para vista previa', style: AppTheme.of(context).subtitle2)),
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff262626),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppTheme.of(context).primaryColor,
+                        width: 1.5,
                       ),
+                    ),
+                    child: PdfView(
+                      pageSnapping: false,
+                      scrollDirection: Axis.vertical,
+                      physics: const BouncingScrollPhysics(),
+                      renderer: (PdfPage page) {
+                        if (page.width >= page.height) {
+                          return page.render(
+                            width: page.width * 7,
+                            height: page.height * 4,
+                            format: PdfPageImageFormat.jpeg,
+                            backgroundColor: '#15FF0D',
+                          );
+                        } else if (page.width == page.height) {
+                          return page.render(
+                            width: page.width * 4,
+                            height: page.height * 4,
+                            format: PdfPageImageFormat.jpeg,
+                            backgroundColor: '#15FF0D',
+                          );
+                        } else {
+                          return page.render(
+                            width: page.width * 4,
+                            height: page.height * 7,
+                            format: PdfPageImageFormat.jpeg,
+                            backgroundColor: '#15FF0D',
+                          );
+                        }
+                      },
+                      controller: provider.pdfController,
+                      onDocumentLoaded: (document) {},
+                      onPageChanged: (page) {},
+                    )),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 8,
-                      shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
-                      backgroundColor: AppTheme.of(context).tertiaryColor,
-                    ),
-                    child: SizedBox(
-                      width: width * 180,
-                      height: height * 60,
-                      child: Center(
-                        child: Text(
-                          'Cancelar',
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: AppTheme.of(context).bodyText2Family,
-                                useGoogleFonts: false,
-                                color: AppTheme.of(context).primaryBackground,
+            provider.firmaAnexo == true
+                ? Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            //Navigator.pop(context);
+                            context.pushReplacement('/aprobacion_seguimiento_pagos');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 8,
+                            shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
+                            backgroundColor: AppTheme.of(context).tertiaryColor,
+                          ),
+                          child: SizedBox(
+                            width: width * 180,
+                            height: height * 60,
+                            child: Center(
+                              child: Text(
+                                'Cancelar',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: AppTheme.of(context).bodyText2Family,
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).primaryBackground,
+                                    ),
                               ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      //Cambiar Status de facturas
-                      provider.actualizarFacturasSeleccionadas();
-                      context.pushReplacement('/aprobacion_seguimiento_pagos');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 8,
-                      shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
-                      backgroundColor: AppTheme.of(context).primaryColor,
-                    ),
-                    child: SizedBox(
-                      width: width * 180,
-                      height: height * 60,
-                      child: Center(
-                        child: Text(
-                          'Aceptar',
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: AppTheme.of(context).bodyText2Family,
-                                useGoogleFonts: false,
-                                color: AppTheme.of(context).primaryBackground,
+                        ElevatedButton(
+                          onPressed: () async {
+                            //Cambiar Status de facturas
+                            if (provider.docProveedor != null) {
+                              await provider.actualizarFacturasSeleccionadas(widget.propuesta);
+                              context.pushReplacement('/aprobacion_seguimiento_pagos');
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 8,
+                            shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
+                            backgroundColor: AppTheme.of(context).primaryColor,
+                          ),
+                          child: SizedBox(
+                            width: width * 180,
+                            height: height * 60,
+                            child: Center(
+                              child: Text(
+                                'Aceptar',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: AppTheme.of(context).bodyText2Family,
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context).primaryBackground,
+                                    ),
                               ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            )
+                  )
+                : Container()
           ],
         ),
       ),

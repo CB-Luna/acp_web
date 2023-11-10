@@ -1,6 +1,6 @@
 import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
-import 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/popup_solicitud_pagos.dart';
+import 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/widgets/popup_solicitud_pagos.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';

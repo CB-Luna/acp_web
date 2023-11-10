@@ -1,4 +1,5 @@
-import 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/custome_card_solicitud_pagos.dart';
+import 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/widgets/contenedores_solicitud_pagos.dart';
+import 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/widgets/custome_card_solicitud_pagos.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_scrollbar.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
@@ -6,13 +7,11 @@ import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/solicitud_pagos_provider.dart';
-//import 'package:acp_web/providers/cuentas_por_cobrar/cuentas_por_cobrar_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'contenedores_solicitud_pagos.dart';
 
 class SolicitudPagosPage extends StatefulWidget {
   const SolicitudPagosPage({super.key});

@@ -102,7 +102,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         child: Row(
                           children: [
                             Text(
-                              'GTQ ${moneyFormat(widget.propuesta.sumAnticipo!)}',
+                              '${widget.propuesta.moneda} ${moneyFormat(widget.propuesta.sumAnticipo!)}',
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
@@ -118,7 +118,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         child: Row(
                           children: [
                             Text(
-                              'GTQ ${moneyFormat(widget.propuesta.sumComision!)}',
+                              '${widget.propuesta.moneda} ${moneyFormat(widget.propuesta.sumComision!)}',
                               style: AppTheme.of(context).subtitle1.override(
                                     fontFamily: AppTheme.of(context).subtitle1Family,
                                     useGoogleFonts: false,
@@ -176,7 +176,9 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(estatus: widget.propuesta.estatus);
+                                      return PopupAprobacionSeguimientoPagos(
+                                        propuesta: widget.propuesta,
+                                      );
                                     },
                                   );
                                 },
@@ -190,7 +192,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(estatus: widget.propuesta.estatus);
+                                      return PopupAprobacionSeguimientoPagos(propuesta: widget.propuesta,);
                                     },
                                   );
                                 },
@@ -206,7 +208,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(estatus: widget.propuesta.estatus);
+                                      return PopupAprobacionSeguimientoPagos(propuesta: widget.propuesta,);
                                     },
                                   );
                                 },
@@ -315,7 +317,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                             child: Text(
-                              ' ${moneyFormat(rendererContext.cell.value)}',
+                              '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
                               style: AppTheme.of(context).bodyText2.override(
                                     fontFamily: AppTheme.of(context).bodyText2Family,
                                     useGoogleFonts: false,
@@ -352,7 +354,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                             child: Text(
-                              ' ${moneyFormat(rendererContext.cell.value)}',
+                              '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
                               style: AppTheme.of(context).bodyText2.override(
                                     fontFamily: AppTheme.of(context).bodyText2Family,
                                     useGoogleFonts: false,
@@ -389,7 +391,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                             child: Text(
-                              ' ${moneyFormat(rendererContext.cell.value)}',
+                              '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
                               style: AppTheme.of(context).bodyText2.override(
                                     fontFamily: AppTheme.of(context).bodyText2Family,
                                     useGoogleFonts: false,
