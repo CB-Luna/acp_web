@@ -255,26 +255,26 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                     ),
                     columns: [
                       if (widget.propuesta.estatus == 2)
-                      PlutoColumn(
-                        title: '',
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        field: 'id_factura_field',
-                        type: PlutoColumnType.text(),
-                        width: 55,
-                        enableRowChecked:  true,
-                        enableColumnDrag: false,
-                        enableEditingMode: false,
-                        enableSetColumnsMenuItem: false,
-                        enableFilterMenuItem: false,
-                        enableContextMenu: false,
-                        enableHideColumnMenuItem: false,
-                        enableDropToResize: false,
-                        enableSorting: false,
-                        renderer: (rendererContext) {
-                          return const SizedBox.shrink();
-                        },
-                      ),
+                        PlutoColumn(
+                          title: '',
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          field: 'id_factura_field',
+                          type: PlutoColumnType.text(),
+                          width: 55,
+                          enableRowChecked: true,
+                          enableColumnDrag: false,
+                          enableEditingMode: false,
+                          enableSetColumnsMenuItem: false,
+                          enableFilterMenuItem: false,
+                          enableContextMenu: false,
+                          enableHideColumnMenuItem: false,
+                          enableDropToResize: false,
+                          enableSorting: false,
+                          renderer: (rendererContext) {
+                            return const SizedBox.shrink();
+                          },
+                        ),
                       PlutoColumn(
                         title: 'Cuenta',
                         titleTextAlign: PlutoColumnTextAlign.center,
@@ -464,7 +464,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
           ],
           expansionCallback: (panelIndex, isExpanded) {
             setState(() {
-              widget.propuesta.isExpanded = !isExpanded;
+              widget.propuesta.isExpanded = !widget.propuesta.isExpanded;
             });
           },
         ),

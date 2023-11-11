@@ -75,7 +75,7 @@ class _CuadroGrisState extends State<CuadroGris> {
               ],
               expansionCallback: (panelIndex, isExpanded) {
                 setState(() {
-                  widget.clase.isExpanded = !isExpanded;
+                  widget.clase.isExpanded = !widget.clase.isExpanded;
                 });
               },
             ),

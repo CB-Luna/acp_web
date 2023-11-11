@@ -564,7 +564,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
           ],
           expansionCallback: (panelIndex, isExpanded) {
             setState(() {
-              widget.cliente.isExpanded = !isExpanded;
+              widget.cliente.isExpanded = !widget.cliente.isExpanded;
             });
           },
         ),
