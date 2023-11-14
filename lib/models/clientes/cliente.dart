@@ -66,7 +66,7 @@ class Cliente {
       acuerdoComercial: json['acuerdo_comercial'],
       sociedad: json['sociedad'],
       activo: json['activo'],
-      contactos: json['contactos'] != null ? [] : [],
+      contactos: (json['contactos'] as List).map((contacto) => Contacto.fromMap(contacto)).toList(),
     );
   }
 

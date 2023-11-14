@@ -59,7 +59,7 @@ class ClientesProvider extends ChangeNotifier {
 
   Future<void> getClientes() async {
     try {
-      final query = supabase.from('cliente').select();
+      final query = supabase.from('cliente_completo').select();
 
       final res = await query.like('nombre_fiscal', '%${busquedaController.text}%').order(orden, ascending: true);
 
