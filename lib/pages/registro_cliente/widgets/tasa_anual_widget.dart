@@ -1,11 +1,11 @@
-import 'package:acp_web/pages/registro_cliente/widgets/input_container.dart';
-import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/pages/registro_cliente/widgets/input_container.dart';
+import 'package:acp_web/theme/theme.dart';
 
 class TasaAnualWidget extends StatefulWidget {
   const TasaAnualWidget({super.key});
@@ -127,7 +127,7 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
                     ),
                   ),
                   Text(
-                    '- ',
+                    ' - ',
                     style: AppTheme.of(context).bodyText1.override(
                           fontFamily: 'Gotham-Regular',
                           useGoogleFonts: false,
