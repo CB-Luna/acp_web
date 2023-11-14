@@ -17,7 +17,7 @@ class PopupAprobacionSeguimientoPagos extends StatefulWidget {
 }
 
 class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimientoPagos> {
-  /* @override
+  @override
   void initState() {
     super.initState();
 
@@ -26,11 +26,12 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
         context,
         listen: false,
       );
-      provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
+      await provider.crearPDF(widget.propuesta);
+      //provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
       provider.anexo = false;
       provider.firmaAnexo = false;
     });
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +80,9 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Firmar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
-                        provider.firmaAnexo=true;
-                        provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo Firmado.pdf'));
-                        setState(() {
-                          
-                        });
+                        provider.firmaAnexo = true;
+                        //provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo Firmado.pdf'));
+                        setState(() {});
                         //TODO:Metodo para firmar directamente el archivo
                       },
                     ),
@@ -112,7 +111,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                                         Radius.circular(21),
                                       ),
                                     ),
-                                    controller: provider.pdfController,
+                                    controller: provider.pdfController!,
                                   ),
                                 ) //Image.memory(provider.imageBytes!),
                                 );
@@ -128,7 +127,9 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                     tooltip: 'Descargar Anexo',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      provider.descargarPDF();
+                      provider.descargarArchivo(provider.documento,'Anexo.pdf');
+                      provider.anexo=true;
+                      setState(() {});
                     },
                   ),
                 ),
@@ -172,38 +173,41 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                         width: 1.5,
                       ),
                     ),
-                    child: PdfView(
-                      pageSnapping: false,
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      renderer: (PdfPage page) {
-                        if (page.width >= page.height) {
-                          return page.render(
-                            width: page.width * 7,
-                            height: page.height * 4,
-                            format: PdfPageImageFormat.jpeg,
-                            backgroundColor: '#15FF0D',
-                          );
-                        } else if (page.width == page.height) {
-                          return page.render(
-                            width: page.width * 4,
-                            height: page.height * 4,
-                            format: PdfPageImageFormat.jpeg,
-                            backgroundColor: '#15FF0D',
-                          );
-                        } else {
-                          return page.render(
-                            width: page.width * 4,
-                            height: page.height * 7,
-                            format: PdfPageImageFormat.jpeg,
-                            backgroundColor: '#15FF0D',
-                          );
-                        }
-                      },
-                      controller: provider.pdfController,
-                      onDocumentLoaded: (document) {},
-                      onPageChanged: (page) {},
-                    )),
+                    child: provider.pdfController == null
+                        ? const CircularProgressIndicator()
+                        : PdfView(
+                            pageSnapping: false,
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            renderer: (PdfPage page) {
+                              if (page.width >= page.height) {
+                                return page.render(
+                                  width: page.width * 7,
+                                  height: page.height * 4,
+                                  format: PdfPageImageFormat.jpeg,
+                                  backgroundColor: '#15FF0D',
+                                );
+                              } else if (page.width == page.height) {
+                                return page.render(
+                                  width: page.width * 4,
+                                  height: page.height * 4,
+                                  format: PdfPageImageFormat.jpeg,
+                                  backgroundColor: '#15FF0D',
+                                );
+                              } else {
+                                return page.render(
+                                  width: page.width * 4,
+                                  height: page.height * 7,
+                                  format: PdfPageImageFormat.jpeg,
+                                  backgroundColor: '#15FF0D',
+                                );
+                              }
+                            },
+                            controller: provider.pdfController!,
+                            onDocumentLoaded: (document) {},
+                            onPageChanged: (page) {},
+                            onDocumentError: (error) {},
+                          )),
               ),
             ),
             provider.firmaAnexo == true

@@ -180,11 +180,12 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                             //validar Anexo
                             if (widget.propuesta.estatus == 2) // && provider.doc==true
                               IconButton(
+                                tooltip: 'Validar Anexo',
                                 onPressed: () async {
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(
+                                      return  PopupAprobacionSeguimientoPagos(
                                         propuesta: widget.propuesta,
                                       );
                                     },
@@ -200,7 +201,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return PopupAprobacionSeguimientoPagos(
+                                      return  PopupAprobacionSeguimientoPagos(
                                         propuesta: widget.propuesta,
                                       );
                                     },

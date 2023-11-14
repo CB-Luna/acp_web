@@ -35,7 +35,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
         context,
         listen: false,
       );
-      provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
+      //provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
       provider.anexo = false;
       provider.firmaAnexo = false;
       await provider.aprobacionSeguimientoPagos();
