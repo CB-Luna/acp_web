@@ -1,3 +1,4 @@
+import 'package:acp_web/providers/dashboards/dashboards_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +66,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => PagosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DashboardsProvider(),
         ),
       ],
       child: const MyApp(),

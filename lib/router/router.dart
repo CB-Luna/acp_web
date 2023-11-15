@@ -1,3 +1,4 @@
+import 'package:acp_web/pages/dashboards/dashboards_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -203,6 +204,16 @@ final GoRouter router = GoRouter(
           return const PageNotFoundPage();
         } */
         return const SolicitudPagosPage();
+      },
+    ),
+     GoRoute(
+      path: '/dashboards',
+      name: 'Dashboards',
+      builder: (BuildContext context, GoRouterState state) {
+        /* if (currentUser!.rol.permisos.pagos == null) {
+          return const PageNotFoundPage();
+        } */
+        return const DashboardsPage();
       },
     ),
   ],

@@ -80,9 +80,8 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Firmar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
-                        provider.firmaAnexo = true;
-                        //provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo Firmado.pdf'));
-                        setState(() {});
+                       /*  provider.firmaAnexo = true;
+                        setState(() {}); */
                         //TODO:Metodo para firmar directamente el archivo
                       },
                     ),
@@ -113,8 +112,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                                     ),
                                     controller: provider.pdfController!,
                                   ),
-                                ) //Image.memory(provider.imageBytes!),
-                                );
+                                ));
                           },
                         );
                       }),
@@ -127,8 +125,8 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                     tooltip: 'Descargar Anexo',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      provider.descargarArchivo(provider.documento,'Anexo.pdf');
-                      provider.anexo=true;
+                      provider.descargarArchivo(provider.documento, 'Anexo.pdf');
+                      provider.anexo = true;
                       setState(() {});
                     },
                   ),
@@ -244,9 +242,42 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                         ElevatedButton(
                           onPressed: () async {
                             //Cambiar Status de facturas
-                            if (provider.docProveedor != null) {
-                              await provider.actualizarFacturasSeleccionadas(widget.propuesta);
-                              context.pushReplacement('/aprobacion_seguimiento_pagos');
+                            if (provider.ejecBloq) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Proceso ejecutandose.'),
+                                ),
+                              );
+                            } else {
+                              if (provider.docProveedor == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Por Favor Cargue Anexo Firmado'),
+                                  ),
+                                );
+                              } else if (provider.docProveedor != null) {
+                                if (await provider.actualizarFacturasSeleccionadas(widget.propuesta)) {
+                                  if (!mounted) return;
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Proceso realizado con exito'),
+                                    ),
+                                  );
+                                  setState(() {
+                                    provider.ejecBloq = false;
+                                  });
+                                } else {
+                                  if (!mounted) return;
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Proceso fallido'),
+                                    ),
+                                  );
+                                }
+                                context.pushReplacement('/aprobacion_seguimiento_pagos');
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

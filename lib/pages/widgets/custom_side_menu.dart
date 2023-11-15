@@ -319,7 +319,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       borderRadius: borderRadius,
                       margin: paddingHItems,
                       isSelected: visualState.isTaped[6],
-                      onTap: () => setState(() => visualState.setTapedOption(6)),
+                      onTap: ()  {
+                        setState(() {
+                          visualState.setTapedOption(6);
+                        });
+                        context.pushReplacement('/dashboards');
+                      },
                     ),
                   if (currentUser!.rol.rolId == 1)
                     SideMenuItemDataTile(

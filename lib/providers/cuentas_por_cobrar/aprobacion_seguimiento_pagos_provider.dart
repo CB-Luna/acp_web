@@ -138,34 +138,9 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   ///////////////////////////PDF//////////////////////////
   ////////////////////////////////////////////////////////
 
-  /* bool popupVisorPdfVisible = true;
-  FilePickerResult? docProveedor;
-  PdfController? pdfController;
-
-  void verPdf(bool visible) {
-    popupVisorPdfVisible = visible;
+  Future<bool> actualizarFacturasSeleccionadas(Propuesta propuesta) async {
+    ejecBloq = true;
     notifyListeners();
-  }
- */
-  /* Uint8List? imageBytes;
-  Future<void> pickDoc() async {
-    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
-    //get and load pdf
-    if (picker != null) {
-      docProveedor = picker;
-      imageBytes = picker.files.single.bytes;
-    } else {
-      imageBytes = null;
-    }
-
-    notifyListeners();
-    return;
-  } */
-
-  Future<void> actualizarFacturasSeleccionadas(Propuesta propuesta) async {
-    if (stateManager != null) {
-      stateManager!.setShowLoading(true);
-    }
     try {
       var idAnexo = (await supabase.from('anexo').insert(
         {
@@ -188,21 +163,16 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
               'estatus_id': 8,
             },
           );
-        } /*  else {
-          await supabase.rpc(
-            'update_factura_estatus',
-            params: {
-              'factura_id': row.cells["id_factura_field"]!.value,
-              'estatus_id': 1,
-            },
-          );
-        } */
+        } 
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
+      ejecBloq = false;
+      notifyListeners();
     }
+    await aprobacionSeguimientoPagos();
     notifyListeners();
-    return aprobacionSeguimientoPagos();
+    return true;
   }
 
   FilePickerResult? docProveedor;
@@ -225,46 +195,28 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   }
 
   //Descargar PDF
-  //late String pdfUrl = pdfController!.document.toString(); // Reemplaza con la URL real del archivo PDF
-   String pdfUrl = '';
-  
-  void descargarPDF() {
-  // Verifica si la URL no está vacía antes de intentar descargar
-  if (pdfUrl.isNotEmpty) {
-    html.AnchorElement(href: pdfUrl)
-      ..target = 'blank'
-      ..download = 'Anexo.pdf'
-      ..click();
-    anexo = true;
-    notifyListeners();
-  } else {
-    // Manejo de error: la URL del PDF está vacía
-    print('Error: La URL del PDF está vacía');
+  String pdfUrl = '';
+
+  void descargarArchivo(Uint8List datos, String nombreArchivo) {
+    // Crear un Blob con los datos
+    final blob = html.Blob([datos]);
+
+    // Crear una URL para el Blob
+    final url = html.Url.createObjectUrlFromBlob(blob);
+
+    // Crear un enlace HTML para la descarga
+    final anchor = html.AnchorElement(href: url)
+      ..target = 'web'
+      ..download = nombreArchivo;
+
+    // Hacer clic en el enlace para iniciar la descarga
+    html.document.body?.children.add(anchor);
+    anchor.click();
+
+    // Limpiar después de la descarga
+    html.document.body?.children.remove(anchor);
+    html.Url.revokeObjectUrl(url);
   }
-}
-
-void descargarArchivo(Uint8List datos, String nombreArchivo) {
-  // Crear un Blob con los datos
-  final blob = html.Blob([datos]);
-
-  // Crear una URL para el Blob
-  final url = html.Url.createObjectUrlFromBlob(blob);
-
-  // Crear un enlace HTML para la descarga
-  final anchor = html.AnchorElement(href: url)
-    ..target = 'web'
-    ..download = nombreArchivo;
-
-  // Hacer clic en el enlace para iniciar la descarga
-  html.document.body?.children.add(anchor);
-  anchor.click();
-
-  // Limpiar después de la descarga
-  html.document.body?.children.remove(anchor);
-  html.Url.revokeObjectUrl(url);
-}
-
-
 
   Future<PdfController?> crearPDF(Propuesta propuesta) async {
     final headers = ['Cuenta', 'Importe', 'Comisión', 'Pago Anticipado', 'Días para Pago'];
@@ -494,53 +446,12 @@ void descargarArchivo(Uint8List datos, String nombreArchivo) {
     pdfController = PdfController(
       document: PdfDocument.openData(pdf.save()),
     );
-    pdfUrl = pdfController!.document.toString();
-    documento=await pdf.save();
+    documento = await pdf.save();
     notifyListeners();
     return pdfController;
   }
+
   late Uint8List documento;
-
-  /* final file = File('example.pdf');
-      await file.writeAsBytes(await pdf.save());
-      pdfController = PdfController(
-        document: PdfDocument.openData(pdf.save()),
-      ); */
-
-  /* Future<void> getRecords() async {
-    if (stateManager != null) {
-      stateManager!.setShowLoading(true);
-    }
-    try {
-      await checkInList();
-    } catch (e) {
-      log('Error en getPartidasPull() - $e');
-    }
-  }
-
-  Future<bool> updateRecords() async {
-    try {
-      await clearAll();
-      return true;
-    } catch (e) {
-      log('Error en UpdatePartidasSolicitadas() - $e');
-      return false;
-    }
-  }
-
-  Future<void> checkInList() async {
-    for (var element in rows) {
-      if (element.checked == true) {}
-    }
-    return notifyListeners();
-  }
-
-  Future<void> uncheckAll() async {
-    for (var element in rows) {
-      element.setChecked(false);
-    }
-    await checkInList();
-  } */
 }
 
 class Registro {
