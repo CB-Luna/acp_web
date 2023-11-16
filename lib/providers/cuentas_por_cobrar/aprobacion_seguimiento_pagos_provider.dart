@@ -53,13 +53,13 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             data.clear();
             for (var row in propuesta.rows!) {
               if (row.checked == true) {
-                propuesta.sumAnticipo = propuesta.sumAnticipo! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
-                propuesta.sumComision = propuesta.sumComision! + row.cells["beneficio_cant_field"]!.value;
+                propuesta.sumAnticipo = propuesta.sumAnticipo! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
+                propuesta.sumComision = propuesta.sumComision! + row.cells["comision_cant_field"]!.value;
                 registros = [
                   Registro(
                     cuenta: row.cells["cuenta_field"]!.value,
                     importe: '${row.cells["moneda_field"]!.value} ${moneyFormat(row.cells["importe_field"]!.value)}',
-                    comision: '${row.cells["moneda_field"]!.value} ${moneyFormat(row.cells["beneficio_cant_field"]!.value)}',
+                    comision: '${row.cells["moneda_field"]!.value} ${moneyFormat(row.cells["comision_cant_field"]!.value)}',
                     pagoAnticipado: '${row.cells["moneda_field"]!.value} ${moneyFormat(row.cells["pago_anticipado_field"]!.value)}',
                     diasPago: row.cells["dias_pago_field"]!.value.toString(),
                   ),
@@ -108,14 +108,14 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         for (var propuesta in cliente.propuestas) {
           for (var registro in propuesta.registrosPorDia) {
             propuesta.sumAnticipo = propuesta.sumAnticipo! + registro.pagoAnticipado!;
-            propuesta.sumComision = propuesta.sumComision! + registro.cantDpp!;
+            propuesta.sumComision = propuesta.sumComision! + registro.cantComision!;
             propuesta.rows!.add(
               PlutoRow(
                 cells: {
                   'id_factura_field': PlutoCell(value: registro.facturaId),
                   'cuenta_field': PlutoCell(value: registro.noDoc),
                   'importe_field': PlutoCell(value: registro.importe),
-                  'beneficio_cant_field': PlutoCell(value: registro.cantDpp),
+                  'comision_cant_field': PlutoCell(value: registro.cantComision),
                   'pago_anticipado_field': PlutoCell(value: registro.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: registro.estatusId),
                   'moneda_field': PlutoCell(value: registro.moneda),
@@ -163,7 +163,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
               'estatus_id': 8,
             },
           );
-        } 
+        }
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');

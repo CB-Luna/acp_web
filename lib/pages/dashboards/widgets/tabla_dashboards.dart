@@ -24,7 +24,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
     final DashboardsProvider provider = Provider.of<DashboardsProvider>(context);
 
     return Container(
-      width: width*800,//width * 490,
+      width: width * 800, //width * 490,
       height: height * 224,
       constraints: const BoxConstraints(minWidth: 400),
       decoration: BoxDecoration(
@@ -173,7 +173,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                     title: '% Comisión',
                     titleTextAlign: PlutoColumnTextAlign.center,
                     textAlign: PlutoColumnTextAlign.center,
-                    field: 'beneficio_cant_field',
+                    field: 'comision_cant_field',
                     type: PlutoColumnType.text(),
                     enableEditingMode: false,
                     titleSpan: TextSpan(

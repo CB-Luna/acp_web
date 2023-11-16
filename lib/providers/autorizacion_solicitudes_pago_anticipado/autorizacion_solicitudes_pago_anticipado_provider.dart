@@ -68,7 +68,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       clientes = (response as List<dynamic>).map((cliente) => AutorizacionSolicitudesPagoanticipado.fromJson(jsonEncode(cliente))).toList();
 
       for (var cliente in clientes) {
-        cliente.facturas!.sort((a, b) => b.cantDpp!.compareTo(a.cantDpp!)); //TODO: Realizar ordenamiento mediante el query
+        cliente.facturas!.sort((a, b) => b.cantComision!.compareTo(a.cantComision!)); //TODO: Realizar ordenamiento mediante el query
 
         List<PlutoRow> rows = [];
 
@@ -81,8 +81,8 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
                   'cuenta_field': PlutoCell(value: factura.noDoc),
                   'moneda_field': PlutoCell(value: factura.moneda),
                   'importe_field': PlutoCell(value: factura.importe),
-                  'beneficio_porc_field': PlutoCell(value: factura.porcDpp),
-                  'beneficio_cant_field': PlutoCell(value: factura.cantDpp),
+                  'comision_porc_field': PlutoCell(value: factura.porcComision),
+                  'comision_cant_field': PlutoCell(value: factura.cantComision),
                   'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: factura.diasPago),
                   'dias_adicionales_field': PlutoCell(value: 0),
@@ -136,8 +136,8 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
           if (!cliente.bloqueado) {
             for (var row in cliente.rows!) {
               if (row.checked == false) {
-                if (beneficioMayor < row.cells["beneficio_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
-                  beneficioMayor = row.cells["beneficio_cant_field"]!.value;
+                if (beneficioMayor < row.cells["comision_cant_field_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
+                  beneficioMayor = row.cells["comision_cant_field"]!.value;
                   idFactura = row.cells["id_factura_field"]!.value;
                 }
 
@@ -197,14 +197,14 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
             double cantComision = porcComision * row.cells["importe_field"]!.value;
             double pagoanticipado = row.cells["importe_field"]!.value - cantComision;
 
-            row.cells["beneficio_porc_field"]!.value = porcComision;
-            row.cells["beneficio_cant_field"]!.value = cantComision;
+            row.cells["comision_porc_field"]!.value = porcComision;
+            row.cells["comision_cant_field"]!.value = cantComision;
             row.cells["pago_anticipado_field"]!.value = pagoanticipado; */
 
         if (row.checked == true) {
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
-          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
+          cliente.beneficio = cliente.beneficio! + row.cells["comision_cant_field"]!.value;
+          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
 
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
         }
@@ -226,8 +226,8 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         for (var row in cliente.rows!) {
           row.setChecked(true);
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.beneficio = cliente.beneficio! + row.cells["beneficio_cant_field"]!.value;
-          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["beneficio_cant_field"]!.value);
+          cliente.beneficio = cliente.beneficio! + row.cells["comision_cant_field"]!.value;
+          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
         }
       } else {
@@ -309,8 +309,8 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
             if (row.cells["dias_adicionales_field"]!.value != 0) {
               await supabase.from('facturas').update(
                 {
-                  'porc_dpp': row.cells["beneficio_porc_field"]!.value * 100,
-                  'cant_dpp': row.cells["beneficio_cant_field"]!.value,
+                  'porc_comision': row.cells["comision_porc_field"]!.value * 100,
+                  'cant_comision': row.cells["comision_cant_field"]!.value,
                   'pago_anticipado': row.cells["pago_anticipado_field"]!.value,
                   'dias_pago_adicionales': row.cells["dias_adicionales_field"]!.value,
                 },

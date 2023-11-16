@@ -185,7 +185,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return  PopupAprobacionSeguimientoPagos(
+                                      return PopupAprobacionSeguimientoPagos(
                                         propuesta: widget.propuesta,
                                       );
                                     },
@@ -201,7 +201,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return  PopupAprobacionSeguimientoPagos(
+                                      return PopupAprobacionSeguimientoPagos(
                                         propuesta: widget.propuesta,
                                       );
                                     },
@@ -346,7 +346,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         title: 'Beneficio',
                         titleTextAlign: PlutoColumnTextAlign.center,
                         textAlign: PlutoColumnTextAlign.center,
-                        field: 'beneficio_cant_field',
+                        field: 'comision_cant_field',
                         type: PlutoColumnType.text(),
                         enableEditingMode: false,
                         titleSpan: TextSpan(

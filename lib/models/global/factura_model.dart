@@ -4,8 +4,8 @@ class Factura {
   String? noDoc;
   String? moneda;
   double? importe;
-  double? cantDpp;
-  double? porcDpp;
+  double? cantComision;
+  double? porcComision;
   String? sociedad;
   int? diasPago;
   DateTime? fechaDoc;
@@ -28,8 +28,8 @@ class Factura {
     this.noDoc,
     this.moneda,
     this.importe,
-    this.cantDpp,
-    this.porcDpp,
+    this.cantComision,
+    this.porcComision,
     this.sociedad,
     this.diasPago,
     this.fechaDoc,
@@ -57,8 +57,8 @@ class Factura {
         noDoc: json["noDoc"],
         moneda: json["moneda"],
         importe: json["importe"]?.toDouble(),
-        cantDpp: json["cant_dpp"]?.toDouble(),
-        porcDpp: json["porc_dpp"]?.toDouble(),
+        cantComision: json["cant_comision"]?.toDouble(),
+        porcComision: json["porc_comision"]?.toDouble(),
         sociedad: json["sociedad"],
         diasPago: json["dias_pago"],
         fechaDoc: json["fecha_doc"] == null ? null : DateTime.parse(json["fecha_doc"]),
@@ -82,8 +82,8 @@ class Factura {
         "noDoc": noDoc,
         "moneda": moneda,
         "importe": importe,
-        "cant_dpp": cantDpp,
-        "porc_dpp": porcDpp,
+        "cant_comision": cantComision,
+        "porc_comision": porcComision,
         "sociedad": sociedad,
         "dias_pago": diasPago,
         "fecha_doc": fechaDoc?.toIso8601String(),
