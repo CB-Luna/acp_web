@@ -1,4 +1,4 @@
-import 'package:acp_web/providers/dashboards/dashboards_provider.dart';
+import 'package:acp_web/providers/reportes/dashboards_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

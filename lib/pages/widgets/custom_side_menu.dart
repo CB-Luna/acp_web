@@ -307,40 +307,90 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     ),
                   if (currentUser!.rol.permisos.dashboards != null)
                     SideMenuItemDataTile(
-                      title: 'Dashboard',
+                      title: 'Reportes',
                       titleStyle: dataTileTextStyle,
                       selectedTitleStyle: dataTileSelectedTextStyle,
                       icon: Icon(
-                        Icons.pie_chart_outline,
+                        Icons.dashboard,
                         size: iconSize,
                       ),
+                      hoverColor: Colors.transparent,
+                      highlightSelectedColor: highlightSelectedColor,
+                      margin: paddingHItems,
+                      isSelected:
+                          (!visualState.isGroupTaped['Reportes']! && (visualState.isTaped[6] || visualState.isTaped[10])) || ((visualState.isTaped[6] || visualState.isTaped[10]) && !data.isOpen),
+                      onTap: () => setState(() {
+                        visualState.isGroupTaped.update('Reportes', (value) => !value);
+                      }),
+                    ),
+                  if (currentUser!.rol.permisos.dashboards != null && (visualState.isGroupTaped['Reportes']! && data.isOpen))
+                    SideMenuItemDataTile(
+                      title: 'Dashbords',
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
-                      margin: paddingHItems,
+                      margin: paddingHItemsGroup,
                       isSelected: visualState.isTaped[6],
-                      onTap: ()  {
+                      onTap: () {
                         setState(() {
                           visualState.setTapedOption(6);
                         });
                         context.pushReplacement('/dashboards');
                       },
                     ),
+                  if (currentUser!.rol.permisos.dashboards != null && (visualState.isGroupTaped['Reportes']! && data.isOpen))
+                    SideMenuItemDataTile(
+                      //title: 'Autorización de solicitudes de pago anticipado',
+                      title: 'Reportes Pricing',
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
+                      hoverColor: hoverColor,
+                      highlightSelectedColor: highlightSelectedColor,
+                      borderRadius: borderRadius,
+                      margin: paddingHItemsGroup,
+                      isSelected: visualState.isTaped[10],
+                      onTap: () {
+                        setState(() {
+                          visualState.setTapedOption(10);
+                        });
+                        context.pushReplacement('/reporte_pricing');
+                      },
+                    ),
                   if (currentUser!.rol.rolId == 1)
                     SideMenuItemDataTile(
-                      title: 'Ajustes',
+                      title: 'Configuración',
                       titleStyle: dataTileTextStyle,
                       selectedTitleStyle: dataTileSelectedTextStyle,
                       icon: Icon(
                         Icons.settings_outlined,
                         size: iconSize,
                       ),
+                      hoverColor: Colors.transparent,
+                      highlightSelectedColor: highlightSelectedColor,
+                      margin: paddingHItems,
+                      isSelected: (!visualState.isGroupTaped['Configuración']! && (visualState.isTaped[11])) || ((visualState.isTaped[11]) && !data.isOpen),
+                      onTap: () => setState(() {
+                        visualState.isGroupTaped.update('Configuración', (value) => !value);
+                      }),
+                    ),
+                  if (currentUser!.rol.rolId == 1 && (visualState.isGroupTaped['Configuración']! && data.isOpen))
+                    SideMenuItemDataTile(
+                      title: 'Calculadora Pricing',
+                      titleStyle: dataTileTextStyle,
+                      selectedTitleStyle: dataTileSelectedTextStyle,
                       hoverColor: hoverColor,
                       highlightSelectedColor: highlightSelectedColor,
                       borderRadius: borderRadius,
-                      margin: paddingHItems,
-                      isSelected: visualState.isTaped[7],
-                      onTap: () => setState(() => visualState.setTapedOption(7)),
+                      margin: paddingHItemsGroup,
+                      isSelected: visualState.isTaped[11],
+                      onTap: () {
+                        setState(() {
+                          visualState.setTapedOption(11);
+                        });
+                        context.pushReplacement('/calculadora_pricing');
+                      },
                     ),
                 ],
                 footer: Padding(

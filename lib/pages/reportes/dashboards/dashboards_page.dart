@@ -1,14 +1,14 @@
 import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/pages/dashboards/widgets/contenedores_dashboards.dart';
-import 'package:acp_web/pages/dashboards/widgets/graficas_dashboards.dart';
-import 'package:acp_web/pages/dashboards/widgets/marcadores.dart';
-import 'package:acp_web/pages/dashboards/widgets/tabla_dashboards.dart';
+import 'package:acp_web/pages/reportes/dashboards/widgets/contenedores_dashboards.dart';
+import 'package:acp_web/pages/reportes/dashboards/widgets/graficas_dashboards.dart';
+import 'package:acp_web/pages/reportes/dashboards/widgets/marcadores.dart';
+import 'package:acp_web/pages/reportes/dashboards/widgets/tabla_dashboards.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
-import 'package:acp_web/providers/dashboards/dashboards_provider.dart';
+import 'package:acp_web/providers/reportes/dashboards_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +62,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
                 children: [
                   //Top Menu
                   CustomTopMenu(
-                    pantalla: 'Dashboards',
+                    pantalla: 'Reportes',
                     controllerBusqueda: provider.controllerBusqueda,
                     onSearchChanged: (p0) async {
                       await provider.search();

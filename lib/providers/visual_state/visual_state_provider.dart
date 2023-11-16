@@ -17,6 +17,8 @@ class VisualStateProvider extends ChangeNotifier {
   Map<String, bool> isGroupTaped = {
     'Propuesta de Pago': true,
     'Cuentas por Cobrar': true,
+    'Reportes': true,
+    'Configuración': true,
   };
   List<bool> isTaped = [
     false, //Home
@@ -27,11 +29,11 @@ class VisualStateProvider extends ChangeNotifier {
     false, //Proveedores
     false, //Clientes
     false, //Dashboard
-    false, //Ajustes
+    false, //Configuración
     false, //Cuentas por Cobrar - aprobacion y segumiento de pagos
     false, //Cuentas por Cobrar - solicitud de pagos
-    false, //
-    false, //
+    false, //Reporte Pricing
+    false, //Calculadora Pricing
     false, //
   ];
 

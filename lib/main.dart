@@ -1,4 +1,6 @@
-import 'package:acp_web/providers/dashboards/dashboards_provider.dart';
+import 'package:acp_web/providers/configuracion/calculadora_pricing_provider.dart';
+import 'package:acp_web/providers/reportes/dashboards_provider.dart';
+import 'package:acp_web/providers/reportes/reporte_pricing_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +71,12 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => DashboardsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ReportePricingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CalculadoraPricingProvider(),
         ),
       ],
       child: const MyApp(),
