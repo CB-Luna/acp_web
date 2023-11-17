@@ -32,7 +32,6 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
-    - run: flutter --disable-telemetry
     - run: flutter pub get
     - run: flutter build web --release --base-href /acp_web/ --web-renderer html
     - name: Upload artifact
