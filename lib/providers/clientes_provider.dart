@@ -156,7 +156,7 @@ class ClientesProvider extends ChangeNotifier {
 
   Future<String?> uploadImage() async {
     if (webImage != null && nombreImagen != null) {
-      await supabase.storage.from('logos_clientes').uploadBinary(
+      await supabase.storage.from('logos-cliente').uploadBinary(
             nombreImagen!,
             webImage!,
             fileOptions: const FileOptions(
@@ -183,13 +183,13 @@ class ClientesProvider extends ChangeNotifier {
     } else {
       //usuario tiene imagen y se borro => se borra en bd
       if (webImage == null && nombreImagen == null) {
-        await supabase.storage.from('logos_clientes').remove([imagen]);
+        await supabase.storage.from('logos-cliente').remove([imagen]);
       }
       //usuario tiene imagen y no se modifico => no se hace nada
 
       //usuario tiene imagen y se cambio => se borra en bd y se sube la nueva
       if (webImage != null && nombreImagen != imagen) {
-        await supabase.storage.from('logos_clientes').remove([imagen]);
+        await supabase.storage.from('logos-cliente').remove([imagen]);
         final res2 = await uploadImage();
         if (res2 == null) {
           ApiErrorHandler.callToast('Error al subir imagen');
