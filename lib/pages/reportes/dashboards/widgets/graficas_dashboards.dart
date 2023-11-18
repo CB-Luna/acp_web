@@ -24,7 +24,7 @@ class _GraficasDashboardsState extends State<GraficasDashboards> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          width: width * 412,
+          width: width * 450,
           height: height * 280,
           constraints: const BoxConstraints(minWidth: 400),
           decoration: BoxDecoration(
@@ -60,7 +60,7 @@ class _GraficasDashboardsState extends State<GraficasDashboards> {
           ),
         ),
         Container(
-          width: width * 412,
+          width: width * 450,
           height: height * 280,
           constraints: const BoxConstraints(minWidth: 400),
           decoration: BoxDecoration(

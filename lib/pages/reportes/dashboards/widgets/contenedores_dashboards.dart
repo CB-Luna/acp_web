@@ -23,196 +23,208 @@ class _ContenedoresDashboardsState extends State<ContenedoresDashboards> {
     final DashboardsProvider provider = Provider.of<DashboardsProvider>(context);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          width: width * 248,
-          height: 140,
-          constraints: const BoxConstraints(minWidth: 400),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5ECF6),
-            borderRadius: BorderRadius.circular(16),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.of(context).tertiaryColor)),
           child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Wrap(
-              runSpacing: 16,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              width: width * 440,
+              height: 140,
+              constraints: const BoxConstraints(minWidth: 400),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE5ECF6),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Wrap(
+                  runSpacing: 16,
                   children: [
-                    Text(
-                      'Numero Anexos',
-                      style: AppTheme.of(context).title3,
-                    ),
-                    /*  Text(
-                      '${provider.numAnexos}',
-                      style: AppTheme.of(context).title3,
-                    ), */
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(4),
-                        child: Icon(
-                          Icons.monetization_on_outlined,
-                          size: 20,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Numero Anexos',
+                          style: AppTheme.of(context).title3,
                         ),
-                      ),
+                        /*  Text(
+                          '${provider.numAnexos}',
+                          style: AppTheme.of(context).title3,
+                        ), */
+                        Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.monetization_on_outlined,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Generados',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            Text(
+                              '${provider.montoFacturacion}',
+                              style: AppTheme.of(context).title2,
+                            ),
+                          ],
+                        ),
+                        Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Aceptados',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            Text(
+                              '${provider.cantidadFacturas}',
+                              style: AppTheme.of(context).title2,
+                            ),
+                          ],
+                        ),
+                        Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Cancelados',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            Text(
+                              '${provider.totalPagos}',
+                              style: AppTheme.of(context).title2,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Generados',
-                          style: AppTheme.of(context).bodyText1,
-                        ),
-                        Text(
-                          '${provider.montoFacturacion}',
-                          style: AppTheme.of(context).title2,
-                        ),
-                      ],
-                    ),
-                    Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Aceptados',
-                          style: AppTheme.of(context).bodyText1,
-                        ),
-                        Text(
-                          '${provider.cantidadFacturas}',
-                          style: AppTheme.of(context).title2,
-                        ),
-                      ],
-                    ),
-                    Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Cancelados',
-                          style: AppTheme.of(context).bodyText1,
-                        ),
-                        Text(
-                          '${provider.totalPagos}',
-                          style: AppTheme.of(context).title2,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
         ),
         Container(
-          width: width * 248,
-          height: 140,
-          constraints: const BoxConstraints(minWidth: 400),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE3F5FF),
-            borderRadius: BorderRadius.circular(16),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.of(context).tertiaryColor)),
           child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Wrap(
-              runSpacing: 16,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              width: width * 440,
+              height: 140,
+              constraints: const BoxConstraints(minWidth: 400),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE3F5FF),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Wrap(
+                  runSpacing: 16,
                   children: [
-                    Text(
-                      'Días Credito Promedio al que se esta pagando',
-                      style: AppTheme.of(context).title3,
-                    ),
-                    Wrap(
-                      spacing: 16,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Tooltip(
-                          message: 'Autorizar Pago',
-                          child: InkWell(
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.black12,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Icon(
-                                    Icons.play_arrow_outlined,
-                                    size: 20,
+                        Text(
+                          'Días Credito Promedio al que se esta pagando',
+                          style: AppTheme.of(context).title3,
+                        ),
+                        Wrap(
+                          spacing: 16,
+                          children: [
+                            Tooltip(
+                              message: 'Autorizar Pago',
+                              child: InkWell(
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(4),
+                                      child: Icon(
+                                        Icons.play_arrow_outlined,
+                                        size: 20,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              onTap: () {}
-                              /*  async {
-                              if (provider.ejecBloq) {
-                                const SnackBar(
-                                  content: Text('Proceso ejecutandose.'),
-                                );
-                              } else {
-                                if (provider.fondoDisponibleRestante < 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                                  onTap: () {}
+                                  /*  async {
+                                  if (provider.ejecBloq) {
                                     const SnackBar(
-                                      content: Text('El fondo disponible restante no puede ser menor a 0.'),
-                                    ),
-                                  );
-                                } else if (provider.cantidadFacturasSeleccionadas == 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Debe de seleccionar por lo menos una cuenta para realizar este proceso.'),
-                                    ),
-                                  );
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return const PopUpEjecucion();
+                                      content: Text('Proceso ejecutandose.'),
+                                    );
+                                  } else {
+                                    if (provider.fondoDisponibleRestante < 0) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('El fondo disponible restante no puede ser menor a 0.'),
+                                        ),
+                                      );
+                                    } else if (provider.cantidadFacturasSeleccionadas == 0) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Debe de seleccionar por lo menos una cuenta para realizar este proceso.'),
+                                        ),
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return const PopUpEjecucion();
+                                            },
+                                          );
                                         },
                                       );
-                                    },
-                                  );
-                                }
-                              }
-                            }, */
+                                    }
+                                  }
+                                }, */
+                                  ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ' ${provider.fondoDisponibleRestante}%',
+                          style: AppTheme.of(context).title2.override(
+                                fontFamily: AppTheme.of(context).title2Family,
+                                useGoogleFonts: false,
+                                color: provider.fondoDisponibleRestante < 0 ? AppTheme.of(context).red : AppTheme.of(context).primaryText,
                               ),
                         ),
                       ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      ' ${provider.fondoDisponibleRestante}%',
-                      style: AppTheme.of(context).title2.override(
-                            fontFamily: AppTheme.of(context).title2Family,
-                            useGoogleFonts: false,
-                            color: provider.fondoDisponibleRestante < 0 ? AppTheme.of(context).red : AppTheme.of(context).primaryText,
-                          ),
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

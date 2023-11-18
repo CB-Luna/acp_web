@@ -75,102 +75,112 @@ class _DashboardsPageState extends State<DashboardsPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomHeaderOptions(
-                            encabezado: 'Dashboards',
-                            filterSelected: filterSelected,
-                            gridSelected: gridSelected,
-                            onFilterSelected: () {
-                              setState(() {
-                                filterSelected = !filterSelected;
-                              });
-                            },
-                            onGridSelected: () {
-                              setState(() {
-                                gridSelected = true;
-                              });
-                            },
-                            onListSelected: () {
-                              setState(() {
-                                gridSelected = false;
-                              });
-                            },
-                          ),
-                          //Marcadores
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Marcadores(
-                                  width: width,
-                                  titulo: 'Tasa Minima',
-                                  cantidad: '720',
-                                  porcentaje: 15,
-                                  icono: Icons.file_open,
-                                  moneda: 'GTQ',
-                                  color: AppTheme.of(context).blueBackground,
-                                ),
-                                Marcadores(
-                                  width: width,
-                                  titulo: 'Tasa Maxima',
-                                  cantidad: '720',
-                                  porcentaje: 15,
-                                  icono: Icons.file_open,
-                                  moneda: 'GTQ',
-                                  color: AppTheme.of(context).purpleBackground,
-                                ),
-                                Marcadores(
-                                  width: width,
-                                  titulo: 'Moda',
-                                  cantidad: '720',
-                                  porcentaje: 15,
-                                  icono: Icons.file_open,
-                                  moneda: 'GTQ',
-                                  color: AppTheme.of(context).blueBackground,
-                                ),
-                                Marcadores(
-                                  width: width,
-                                  titulo: 'Media',
-                                  cantidad: '720',
-                                  porcentaje: 15,
-                                  icono: Icons.file_open,
-                                  moneda: 'GTQ',
-                                  color: AppTheme.of(context).purpleBackground,
-                                ),
-                                Marcadores(
-                                  width: width,
-                                  titulo: 'Tasa Promedio\nPonderada',
-                                  cantidad: '720',
-                                  porcentaje: 15,
-                                  icono: Icons.file_open,
-                                  moneda: 'GTQ',
-                                  color: AppTheme.of(context).blueBackground,
-                                ),
-                              ],
+                      child: SingleChildScrollView(
+                        controller: ScrollController(),
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomHeaderOptions(
+                              encabezado: 'Dashboards',
+                              filterSelected: filterSelected,
+                              gridSelected: gridSelected,
+                              onFilterSelected: () {
+                                setState(() {
+                                  filterSelected = !filterSelected;
+                                });
+                              },
+                              onGridSelected: () {
+                                setState(() {
+                                  gridSelected = true;
+                                });
+                              },
+                              onListSelected: () {
+                                setState(() {
+                                  gridSelected = false;
+                                });
+                              },
                             ),
-                          ),
-                          //Contenedores
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: ContenedoresDashboards(
-                              moneda: monedaSeleccionada!,
+                            //Marcadores
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.of(context).tertiaryColor)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Marcadores(
+                                        width: width,
+                                        titulo: 'Tasa Minima',
+                                        cantidad: '720',
+                                        porcentaje: 15,
+                                        icono: Icons.file_open,
+                                        moneda: 'GTQ',
+                                        color: AppTheme.of(context).blueBackground,
+                                      ),
+                                      Marcadores(
+                                        width: width,
+                                        titulo: 'Tasa Maxima',
+                                        cantidad: '720',
+                                        porcentaje: 15,
+                                        icono: Icons.file_open,
+                                        moneda: 'GTQ',
+                                        color: AppTheme.of(context).purpleBackground,
+                                      ),
+                                      Marcadores(
+                                        width: width,
+                                        titulo: 'Moda',
+                                        cantidad: '720',
+                                        porcentaje: 15,
+                                        icono: Icons.file_open,
+                                        moneda: 'GTQ',
+                                        color: AppTheme.of(context).blueBackground,
+                                      ),
+                                      Marcadores(
+                                        width: width,
+                                        titulo: 'Media',
+                                        cantidad: '720',
+                                        porcentaje: 15,
+                                        icono: Icons.file_open,
+                                        moneda: 'GTQ',
+                                        color: AppTheme.of(context).purpleBackground,
+                                      ),
+                                      Marcadores(
+                                        width: width,
+                                        titulo: 'Tasa Promedio\nPonderada',
+                                        cantidad: '720',
+                                        porcentaje: 15,
+                                        icono: Icons.file_open,
+                                        moneda: 'GTQ',
+                                        color: AppTheme.of(context).blueBackground,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          //Graficas
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 16),
-                            child: GraficasDashboards(),
-                          ),
-                          //Tabla
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 16),
-                            child: TablaDashboards(),
-                          ),
-                        ],
+                            //Contenedores
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: ContenedoresDashboards(
+                                moneda: monedaSeleccionada!,
+                              ),
+                            ),
+                            //Graficas
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: GraficasDashboards(),
+                            ),
+                            //Tabla
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: TablaDashboards(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
