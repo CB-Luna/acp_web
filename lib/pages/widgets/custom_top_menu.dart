@@ -101,13 +101,16 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       spacing: 8,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Text(
-                          'Moneda',
-                          style: AppTheme.of(context).title3.override(
-                                fontFamily: AppTheme.of(context).title3Family,
-                                useGoogleFonts: false,
-                                color: AppTheme.of(context).primaryColor,
-                              ),
+                        Tooltip(
+                          message: 'Selecciona el tipo de moneda',
+                          child: Text(
+                            'Moneda',
+                            style: AppTheme.of(context).title3.override(
+                                  fontFamily: AppTheme.of(context).title3Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).primaryColor,
+                                ),
+                          ),
                         ),
                         InkWell(
                           child: Text(
