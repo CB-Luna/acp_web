@@ -23,7 +23,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
 
-    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

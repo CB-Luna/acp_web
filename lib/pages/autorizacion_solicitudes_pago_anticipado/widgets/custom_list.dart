@@ -46,7 +46,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
     //double height = MediaQuery.of(context).size.height / 1024;
     double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
 
-    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),

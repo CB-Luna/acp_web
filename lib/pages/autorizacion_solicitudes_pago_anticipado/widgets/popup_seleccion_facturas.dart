@@ -31,7 +31,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
     double height = MediaQuery.of(context).size.height / 1024;
     double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
 
-    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,

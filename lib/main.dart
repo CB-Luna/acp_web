@@ -64,7 +64,7 @@ void main() async {
           create: (_) => SeleccionaPagosanticipadosProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => AutorizacionAolicitudesPagoAnticipadoProvider(),
+          create: (_) => AutorizacionSolicitudesPagoAnticipadoProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => PagosProvider(),

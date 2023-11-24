@@ -27,7 +27,7 @@ class _CustomCardState extends State<CustomCard> {
   Widget build(BuildContext context) {
     double porcentajeSeleccionadas = widget.cliente.facturasSeleccionadas! * 100 / widget.cliente.facturas!.length;
 
-    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return Container(
       key: UniqueKey(),

@@ -10,7 +10,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_model.dart';
 
-class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
+class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
 
   List<AutorizacionSolicitudesPagoanticipado> clientes = [];
@@ -98,7 +98,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - getRecords() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - getRecords() - $e');
     }
     return await calcClients();
   }
@@ -113,7 +113,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       beneficioTotal = 0;
       clientes = [];
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - search() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - search() - $e');
     }
     return getRecords();
   }
@@ -136,7 +136,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
           if (!cliente.bloqueado) {
             for (var row in cliente.rows!) {
               if (row.checked == false) {
-                if (beneficioMayor < row.cells["comision_cant_field_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
+                if (beneficioMayor < row.cells["comision_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
                   beneficioMayor = row.cells["comision_cant_field"]!.value;
                   idFactura = row.cells["id_factura_field"]!.value;
                 }
@@ -159,7 +159,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - seleccionAutomatica() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - seleccionAutomatica() - $e');
       ejecBloq = false;
       return notifyListeners();
     }
@@ -172,7 +172,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       cliente.bloqueado = lock;
       notifyListeners();
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - blockClient() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - blockClient() - $e');
     }
   }
 
@@ -210,7 +210,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - updateClientRows() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - updateClientRows() - $e');
     }
 
     return await calcClients();
@@ -236,7 +236,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - checkClient() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - checkClient() - $e');
     }
 
     return await calcClients();
@@ -251,7 +251,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         await updateClientRows(cliente);
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - uncheckAll() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - uncheckAll() - $e');
     }
     return await calcClients();
   }
@@ -272,7 +272,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         fondoDisponibleRestante = controllerFondoDisp.numberValue - totalPagos;
       }
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - calcClients() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - calcClients() - $e');
     }
 
     clientes.sort((a, b) => b.beneficio!.compareTo(a.beneficio!));
@@ -321,7 +321,7 @@ class AutorizacionAolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       }
       await clearAll();
     } catch (e) {
-      log('Error en AutorizacionAolicitudesPagoAnticipadoProvider - UpdatePartidasSolicitadas() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - UpdatePartidasSolicitadas() - $e');
       ejecBloq = false;
       notifyListeners();
       return false;

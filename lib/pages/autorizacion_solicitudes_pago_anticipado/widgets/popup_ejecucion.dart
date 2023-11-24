@@ -18,7 +18,7 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
     //double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
 
-    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     //String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 

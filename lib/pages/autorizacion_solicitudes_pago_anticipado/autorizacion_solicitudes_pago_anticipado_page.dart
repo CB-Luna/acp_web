@@ -34,7 +34,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(
+      final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(
         context,
         listen: false,
       );
@@ -52,7 +52,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
-    final AutorizacionAolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionAolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
