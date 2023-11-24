@@ -222,6 +222,17 @@ class _TarjetaMesState extends State<TarjetaMes> {
                                               },
                                             ),
                                           ),
+                                        if (widget.pagos.clientes?[index].estatusId == 2)
+                                          Tooltip(
+                                            message: 'Cancelar Propuesta',
+                                            child: CustomHoverIcon(
+                                              icon: Icons.cancel_schedule_send_outlined,
+                                              size: 20,
+                                              onTap: () async {
+                                                await provider.cancelarPropuesta(widget.pagos.clientes![index].facturas!);
+                                              },
+                                            ),
+                                          ),
                                       ],
                                     ),
                                   )

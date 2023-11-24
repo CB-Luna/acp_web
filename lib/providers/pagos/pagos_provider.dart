@@ -112,4 +112,34 @@ class PagosProvider extends ChangeNotifier {
     }
     return getRecords();
   }
+
+  Future<void> cancelarPropuesta(List<Factura> list) async {
+    try {
+      for (var factura in list) {
+        await supabase.from('bitacora_estatus_facturas').insert(
+          {
+            'factura_id': factura.facturaId,
+            'prev_estatus_id': factura.estatusId,
+            'post_estatus_id': 1,
+            'pantalla': 'Pagos',
+            'descripcion': 'Propuesta Cancelada',
+            'rol_id': currentUser!.rol.rolId,
+            'usuario_id': currentUser!.id,
+          },
+        );
+
+        await supabase.rpc(
+          'update_factura_estatus',
+          params: {
+            'factura_id': factura.facturaId,
+            'estatus_id': 1,
+          },
+        );
+      }
+    } catch (e) {
+      log('Error en PagosProvider - cancelarPropuesta() - $e');
+      return;
+    }
+    return getRecords();
+  }
 }
