@@ -24,9 +24,7 @@ class HeaderOptionsState extends State<CustomHeaderButton> {
           style: AppTheme.of(context).title3,
         ),
         ElevatedButton(
-          onPressed: () {
-            widget.onPressed;
-          },
+          onPressed: widget.onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.of(context).primaryColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
