@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:acp_web/functions/day_month_format.dart';
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/functions/money_format_3_decimals.dart';
@@ -32,7 +30,7 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
-    double height = MediaQuery.of(context).size.height / 1024;
+    //double height = MediaQuery.of(context).size.height / 1024;
     final PagosProvider provider = Provider.of<PagosProvider>(context);
 
     String monedaSeleccionada = 'GTQ';

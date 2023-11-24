@@ -22,10 +22,10 @@ class CustomHeaderOptions extends StatefulWidget {
   final Function()? onListSelected;
 
   @override
-  State<CustomHeaderOptions> createState() => Custom_HeaderOptionsState();
+  State<CustomHeaderOptions> createState() => CustomHeaderOptionsState();
 }
 
-class Custom_HeaderOptionsState extends State<CustomHeaderOptions> {
+class CustomHeaderOptionsState extends State<CustomHeaderOptions> {
   @override
   Widget build(BuildContext context) {
     return Row(

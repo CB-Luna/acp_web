@@ -98,7 +98,7 @@ class PagosProvider extends ChangeNotifier {
 
   Future<void> descargarAnexo(String nombreAnexo) async {
     try {
-      String url = await supabase.storage.from('anexo').getPublicUrl(nombreAnexo);
+      String url = supabase.storage.from('anexo').getPublicUrl(nombreAnexo);
 
       final download = await supabase.storage.from('anexo').download(url.split('anexo/')[1]);
       final content = base64Encode(download);

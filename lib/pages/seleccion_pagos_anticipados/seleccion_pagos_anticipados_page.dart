@@ -127,7 +127,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                           itemCount: provider.clientes.length,
                                           itemBuilder: (BuildContext ctx, index) {
                                             return CustomCard(
-                                              moneda: monedaSeleccionada!,
+                                              moneda: monedaSeleccionada,
                                               cliente: provider.clientes[index],
                                             );
                                           },
@@ -260,7 +260,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                                 scrollDirection: Axis.vertical,
                                                 itemBuilder: (BuildContext ctx, index) {
                                                   return CustomListCard(
-                                                    moneda: monedaSeleccionada!,
+                                                    moneda: monedaSeleccionada,
                                                     cliente: provider.clientes[index],
                                                   );
                                                 },

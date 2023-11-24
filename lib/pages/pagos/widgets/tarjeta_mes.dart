@@ -1,15 +1,8 @@
-import 'package:acp_web/functions/day_month_format.dart';
-import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/functions/month_name.dart';
 import 'package:acp_web/models/pagos/pagos_model.dart';
-import 'package:acp_web/pages/pagos/widgets/pop_up_validacion_anexo.dart';
 import 'package:acp_web/pages/pagos/widgets/tarjeta_cliente.dart';
-import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
-import 'package:acp_web/pages/widgets/custom_image_container.dart';
-import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TarjetaMes extends StatefulWidget {
   const TarjetaMes({super.key, required this.pagos});
@@ -23,11 +16,11 @@ class TarjetaMes extends StatefulWidget {
 class _TarjetaMesState extends State<TarjetaMes> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width / 1440;
+    //double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
-    final PagosProvider provider = Provider.of<PagosProvider>(context);
+    //final PagosProvider provider = Provider.of<PagosProvider>(context);
 
-    String monedaSeleccionada = 'GTQ';
+    //String monedaSeleccionada = 'GTQ';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),

@@ -1,5 +1,4 @@
 import 'package:acp_web/functions/month_name.dart';
-import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/pagos/pagos_model.dart';
 import 'package:acp_web/pages/pagos/widgets/tarjeta_mes.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
@@ -50,7 +49,6 @@ class _PagosPageState extends State<PagosPage> {
     visualState.setTapedOption(3);
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
-    String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
     final PagosProvider provider = Provider.of<PagosProvider>(context);
 
