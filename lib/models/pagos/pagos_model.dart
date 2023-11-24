@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:acp_web/models/global/factura_model.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 
 class Pagos {
   int? year;
@@ -38,6 +39,7 @@ class Cliente {
   double? anticipo;
   double? comision;
   List<Factura>? facturas;
+  List<PlutoRow>? rows = [];
   String? sociedad;
   String? anexoDoc;
   int? clienteId;

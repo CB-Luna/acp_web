@@ -46,6 +46,35 @@ class PagosProvider extends ChangeNotifier {
       ).select();
 
       pagos = (response as List<dynamic>).map((cliente) => Pagos.fromJson(jsonEncode(cliente))).toList();
+
+      for (var pago in pagos) {
+        for (var cliente in pago.clientes!) {
+          List<PlutoRow> rows = [];
+          if (cliente.facturas != null && cliente.facturas!.isNotEmpty) {
+            for (var factura in cliente.facturas!) {
+              rows.add(
+                PlutoRow(
+                  cells: {
+                    'id_factura_field': PlutoCell(value: factura.facturaId),
+                    'cuenta_field': PlutoCell(value: factura.noDoc),
+                    'moneda_field': PlutoCell(value: factura.moneda),
+                    'importe_field': PlutoCell(value: factura.importe),
+                    'comision_porc_field': PlutoCell(value: factura.porcComision),
+                    'comision_cant_field': PlutoCell(value: factura.cantComision),
+                    'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
+                    'dias_pago_field': PlutoCell(value: factura.diasPago),
+                    'dias_adicionales_field': PlutoCell(value: 0),
+                    'fecha_pago_field': PlutoCell(value: factura.fechaPago),
+                    'estatus_id_field': PlutoCell(value: factura.estatusId),
+                  },
+                ),
+              );
+            }
+
+            cliente.rows = rows;
+          }
+        }
+      }
     } catch (e) {
       log('Error en PagosProvider - getRecords() - $e');
     }
