@@ -252,8 +252,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                                               ),
                                             ),
                                             //Contenido
-                                            SizedBox(
-                                              height: height * 505,
+                                            Expanded(
                                               child: ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: provider.clientes.length,

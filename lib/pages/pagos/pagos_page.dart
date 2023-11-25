@@ -106,247 +106,247 @@ class _PagosPageState extends State<PagosPage> {
                               //Lista
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
-                                child: Column(
-                                  children: [
-                                    //Encabezado
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 16.0),
-                                      child: Container(
-                                        width: double.infinity,
-                                        //height: height * 79,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          color: AppTheme.of(context).primaryColor,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              //ID
-                                              SizedBox(
-                                                width: width * 50,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.badge_outlined,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'ID',
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                child: SizedBox(
+                                  height: height * 1024 - 211,
+                                  child: Column(
+                                    children: [
+                                      //Encabezado
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 16.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: height * 79,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6),
+                                            color: AppTheme.of(context).primaryColor,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                //ID
+                                                SizedBox(
+                                                  width: width * 50,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.badge_outlined,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'ID',
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Cliente
-                                              SizedBox(
-                                                width: width * 111,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.person,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Cliente',
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Cliente
+                                                SizedBox(
+                                                  width: width * 111,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.person,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Cliente',
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Cuentas Anticipadas
-                                              SizedBox(
-                                                width: width * 61,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.task,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Cuentas Anticipadas',
-                                                      textAlign: TextAlign.center,
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Cuentas Anticipadas
+                                                SizedBox(
+                                                  width: width * 61,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.task,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Cuentas Anticipadas',
+                                                        textAlign: TextAlign.center,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Fecha Propuesta
-                                              SizedBox(
-                                                width: width * 70,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.event_outlined,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Fecha Propuesta',
-                                                      textAlign: TextAlign.center,
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Fecha Propuesta
+                                                SizedBox(
+                                                  width: width * 70,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.event_outlined,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Fecha Propuesta',
+                                                        textAlign: TextAlign.center,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Anticipo
-                                              SizedBox(
-                                                width: width * 130,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.payments_outlined,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Anticipo',
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Anticipo
+                                                SizedBox(
+                                                  width: width * 130,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.payments_outlined,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Anticipo',
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Comision
-                                              SizedBox(
-                                                width: width * 108,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.savings_outlined,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Comision',
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Comision
+                                                SizedBox(
+                                                  width: width * 108,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.savings_outlined,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Comision',
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Fecha Pago
-                                              SizedBox(
-                                                width: width * 90,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.calendar_month_outlined,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Fecha Pago',
-                                                      textAlign: TextAlign.center,
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Fecha Pago
+                                                SizedBox(
+                                                  width: width * 90,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.calendar_month_outlined,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Fecha Pago',
+                                                        textAlign: TextAlign.center,
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              //Estatus
-                                              SizedBox(
-                                                width: width * 122,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.star_outline_sharp,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Estatus',
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                //Estatus
+                                                SizedBox(
+                                                  width: width * 122,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.star_outline_sharp,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Estatus',
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: width * 79,
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.border_color_outlined,
-                                                      size: 25,
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                    ),
-                                                    Text(
-                                                      'Acciones',
-                                                      style: AppTheme.of(context).title3.override(
-                                                            fontFamily: AppTheme.of(context).title3Family,
-                                                            useGoogleFonts: false,
-                                                            color: AppTheme.of(context).primaryBackground,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                                SizedBox(
+                                                  width: width * 79,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.border_color_outlined,
+                                                        size: 25,
+                                                        color: AppTheme.of(context).primaryBackground,
+                                                      ),
+                                                      Text(
+                                                        'Acciones',
+                                                        style: AppTheme.of(context).title3.override(
+                                                              fontFamily: AppTheme.of(context).title3Family,
+                                                              useGoogleFonts: false,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    //Contenido
-                                    SizedBox(
-                                      //color: Colors.red,
-                                      width: double.infinity,
-                                      height: height * 680,
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: provider.pagos.length,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (BuildContext ctx, index) {
-                                          Pagos pago = provider.pagos[index];
-                                          return TarjetaMes(
-                                            key: Key('${monthName(pago.month!)} ${pago.year}'),
-                                            pagos: pago,
-                                          );
-                                        },
+                                      //Contenido
+                                      Expanded(
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: provider.pagos.length,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (BuildContext ctx, index) {
+                                            Pagos pago = provider.pagos[index];
+                                            return TarjetaMes(
+                                              key: Key('${monthName(pago.month!)} ${pago.year}'),
+                                              pagos: pago,
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               )
                             ],

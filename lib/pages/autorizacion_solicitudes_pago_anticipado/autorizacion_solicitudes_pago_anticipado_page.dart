@@ -271,8 +271,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                                               ),
                                             ),
                                             //Contenido
-                                            SizedBox(
-                                              height: height * 505,
+                                            Expanded(
                                               child: ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: provider.clientes.length,
