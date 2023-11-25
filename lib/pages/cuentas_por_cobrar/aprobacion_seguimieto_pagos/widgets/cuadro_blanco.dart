@@ -177,10 +177,10 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            //validar Anexo
+                            //Cargar Anexo
                             if (widget.propuesta.estatus == 2) // && provider.doc==true
                               IconButton(
-                                tooltip: 'Validar Anexo',
+                                tooltip: 'Cargar Anexo',
                                 onPressed: () async {
                                   await showDialog(
                                     context: context,
@@ -191,7 +191,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                     },
                                   );
                                 },
-                                icon: const Icon(Icons.task),
+                                icon: const Icon(Icons.file_open),
                                 color: AppTheme.of(context).primaryColor,
                               ),
                             //Ver Anexo
@@ -207,7 +207,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                     },
                                   );
                                 },
-                                tooltip: 'Validar Anexo',
+                                tooltip: 'Ver Anexo',
                                 icon: const Icon(Icons.picture_as_pdf),
                                 color: AppTheme.of(context).primaryColor,
                               ),

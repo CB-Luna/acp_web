@@ -1,3 +1,4 @@
+import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/pages/reportes/reporte_pricing/widgets/renglon_reporte.dart';
 import 'package:acp_web/pages/widgets/custom_input_field.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
@@ -48,6 +49,7 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(10);
     final ReportePricingProvider provider = Provider.of<ReportePricingProvider>(context);
+
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
       body: SizedBox(
@@ -107,9 +109,39 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 16),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text('Reporte', style: AppTheme.of(context).title3),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text('Reporte', style: AppTheme.of(context).title3),
+                                            //Calcular
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                await provider.reportePricing();
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: AppTheme.of(context).primaryColor,
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                                                padding: const EdgeInsets.all(18),
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.edit_document,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text('Generar',
+                                                      style: AppTheme.of(context).title2.override(
+                                                            fontFamily: AppTheme.of(context).bodyText2Family,
+                                                            useGoogleFonts: false,
+                                                            color: AppTheme.of(context).primaryBackground,
+                                                          )),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       //TAE
@@ -119,11 +151,11 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           title: 'TAE',
                                           child: CustomInputField(
                                             label: 'Captura',
-                                            controller: provider.nombreController,
-                                            keyboardType: TextInputType.name,
+                                            controller: provider.taeController,
+                                            keyboardType: TextInputType.number,
                                             formatters: [
                                               FilteringTextInputFormatter.allow(
-                                                RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                                RegExp(r'[0-9.%]'),
                                               )
                                             ],
                                             validator: (value) {
@@ -142,11 +174,11 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           title: 'Fecha Operación',
                                           child: CustomInputField(
                                             label: 'Captura',
-                                            controller: provider.apellidoPaternoController,
-                                            keyboardType: TextInputType.name,
+                                            controller: provider.fechaOperacionController,
+                                            keyboardType: TextInputType.datetime,
                                             formatters: [
                                               FilteringTextInputFormatter.allow(
-                                                RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                                RegExp(r"^[a-zA-ZÀ-ÿ´ 0-9/]+"),
                                               )
                                             ],
                                             validator: (value) {
@@ -165,11 +197,11 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           title: 'Fecha Pago',
                                           child: CustomInputField(
                                             label: 'Captura',
-                                            controller: provider.apellidoMaternoController,
+                                            controller: provider.fechaPagoController,
                                             keyboardType: TextInputType.name,
                                             formatters: [
                                               FilteringTextInputFormatter.allow(
-                                                RegExp(r"^[a-zA-ZÀ-ÿ´ ]+"),
+                                                RegExp(r"^[a-zA-ZÀ-ÿ´ 0-9/]+"),
                                               )
                                             ],
                                             validator: (value) {
@@ -188,7 +220,7 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           title: 'Días',
                                           child: CustomInputField(
                                             label: 'Captura',
-                                            controller: provider.telefonoController,
+                                            controller: provider.diasController,
                                             keyboardType: TextInputType.phone,
                                             formatters: [
                                               FilteringTextInputFormatter.allow(
@@ -214,7 +246,7 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           title: 'Monto Q',
                                           child: CustomInputField(
                                             label: 'Captura',
-                                            controller: provider.apellidoMaternoController,
+                                            controller: provider.montoQController,
                                             keyboardType: TextInputType.number,
                                             formatters: [
                                               FilteringTextInputFormatter.allow(
@@ -237,7 +269,7 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           title: 'Número Operaciónes',
                                           child: CustomInputField(
                                             label: 'Captura',
-                                            controller: provider.apellidoMaternoController,
+                                            controller: provider.numOperacionesController,
                                             keyboardType: TextInputType.number,
                                             formatters: [
                                               FilteringTextInputFormatter.allow(
@@ -281,9 +313,11 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                               style: AppTheme.of(context).title3,
                                             ),
                                             Tooltip(
-                                              message: 'Guardar',
+                                              message: 'Descargar Excel',
                                               child: InkWell(
-                                                onTap: () {},
+                                                onTap: () async {
+                                                  await provider.reportePricingExcel();
+                                                },
                                                 child: Container(
                                                   width: 30,
                                                   height: 30,
@@ -314,24 +348,38 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             const Spacer(),
-                                            RenglonReporte(titulo: 'Tamaño Comercial/Desembolso Real', valor: 0, style: AppTheme.of(context).subtitle1),
+                                            RenglonReporte(titulo: 'Tamaño Comercial/Desembolso Real', valor: provider.tComercial, style: AppTheme.of(context).subtitle1),
                                             const Spacer(),
-                                            RenglonReporte(titulo: 'Ingresos por Operación de descuento', valor: 0, style: AppTheme.of(context).bodyText2),
-                                            RenglonReporte(titulo: 'Costo Finaniero', valor: 0, style: AppTheme.of(context).bodyText2),
-                                            RenglonReporte(titulo: 'Margen Financiero', valor: 0, porcentaje1: '0.00 %', style: AppTheme.of(context).subtitle1),
+                                            RenglonReporte(titulo: 'Ingresos por Operación de descuento', valor: provider.iODescuento, style: AppTheme.of(context).bodyText2),
+                                            RenglonReporte(titulo: 'Costo Finaniero', valor: provider.cFinanciero, style: AppTheme.of(context).bodyText2),
+                                            RenglonReporte(
+                                                titulo: 'Margen Financiero',
+                                                valor: provider.mFinanciero,
+                                                porcentaje1: '${moneyFormat(provider.pMFinanciero)} %',
+                                                style: AppTheme.of(context).subtitle1),
                                             const Spacer(),
-                                            RenglonReporte(titulo: 'Asignación de gasto operativo', valor: 0, style: AppTheme.of(context).bodyText2),
-                                            RenglonReporte(titulo: 'Margen Operativo', valor: 0, porcentaje1: '0.00 %', porcentaje2: '0.00 %', style: AppTheme.of(context).subtitle1),
+                                            RenglonReporte(titulo: 'Asignación de gasto operativo', valor: provider.aGastoOperativo, style: AppTheme.of(context).bodyText2),
+                                            RenglonReporte(
+                                                titulo: 'Margen Operativo',
+                                                valor: provider.mOperativo,
+                                                porcentaje1: '${moneyFormat(provider.p1MOperativo)} %',
+                                                porcentaje2: '${moneyFormat(provider.p2MOperativo)} %',
+                                                style: AppTheme.of(context).subtitle1),
                                             const Spacer(),
-                                            RenglonReporte(titulo: 'ISR', valor: 0, style: AppTheme.of(context).bodyText2),
-                                            RenglonReporte(titulo: 'Utilidad Neta', valor: 0, porcentaje1: '0.00 %', porcentaje2: '0.00 %', style: AppTheme.of(context).subtitle1),
+                                            RenglonReporte(titulo: 'ISR', valor: provider.isr, style: AppTheme.of(context).bodyText2),
+                                            RenglonReporte(
+                                                titulo: 'Utilidad Neta',
+                                                valor: provider.uNeta,
+                                                porcentaje1: '${moneyFormat(provider.p1UNeta)} %',
+                                                porcentaje2: '${moneyFormat(provider.p2UNeta)} %',
+                                                style: AppTheme.of(context).subtitle1),
                                             const Spacer(),
-                                            RenglonReporte(titulo: 'Asignación de capital', valor: 0, style: AppTheme.of(context).bodyText2),
-                                            RenglonReporte(titulo: 'Costo Capital', valor: 0, style: AppTheme.of(context).bodyText2),
+                                            RenglonReporte(titulo: 'Asignación de capital', valor: provider.aCapital, style: AppTheme.of(context).bodyText2),
+                                            RenglonReporte(titulo: 'Costo Capital', valor: provider.cCapital, style: AppTheme.of(context).bodyText2),
                                             Divider(color: AppTheme.of(context).primaryColor),
-                                            RenglonReporte(titulo: 'EVA- Operación', valor: 0, porcentaje1: '0.00 %', porcentaje2: '0.00 %', style: AppTheme.of(context).subtitle1),
+                                            RenglonReporte(titulo: 'EVA- Operación', valor: provider.eva, porcentaje1: '${moneyFormat(provider.pEva)} %', style: AppTheme.of(context).subtitle1),
                                             Divider(color: AppTheme.of(context).primaryColor),
-                                            RenglonReporte(titulo: 'ROE- Operación', valor: 0, style: AppTheme.of(context).subtitle1),
+                                            RenglonReporte(titulo: 'ROE- Operación', valor: provider.roe, style: AppTheme.of(context).subtitle1),
                                             const Spacer(),
                                           ],
                                         ),

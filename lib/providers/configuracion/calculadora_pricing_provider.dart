@@ -1,19 +1,22 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/configuracion/calculadora_pricing_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class CalculadoraPricingProvider extends ChangeNotifier {
-  TextEditingController costoFinancieroController = TextEditingController();
-  TextEditingController costoOperativoController = TextEditingController();
-  TextEditingController tarifaGOController = TextEditingController();
-  TextEditingController isrController = TextEditingController();
-  TextEditingController capitalBController = TextEditingController();
-  TextEditingController costoCapitalController = TextEditingController();
-  TextEditingController incrementoController = TextEditingController();
-  TextEditingController perdidaController = TextEditingController();
-  TextEditingController codigoClienteController = TextEditingController();
+  final costoFinancieroController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final costoOperativoController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final tarifaGOController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final isrController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final capitalBController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final costoCapitalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final incrementoController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final perdidaController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final codigoClienteController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+
   final controllerBusqueda = TextEditingController();
   late CalculadoraPricing calculadora;
   bool ejecBloq = false;
@@ -29,14 +32,14 @@ class CalculadoraPricingProvider extends ChangeNotifier {
     try {
       var response = await supabase.from('calculadora_pricing').select().order('id', ascending: false).limit(1);
       calculadora = CalculadoraPricing.fromJson(jsonEncode(response[0]));
-      costoFinancieroController.text = calculadora.costoFinanciero.toString();
-      costoOperativoController.text = calculadora.costoOperativo.toString();
-      tarifaGOController.text = calculadora.tarifaGo.toString();
-      isrController.text = calculadora.isr.toString();
-      capitalBController.text = calculadora.asignacionCapital.toString();
-      costoCapitalController.text = calculadora.costoCapital.toString();
-      incrementoController.text = calculadora.probabilidadIncremento.toString();
-      perdidaController.text = calculadora.perdidaIncumplimineto.toString();
+      costoFinancieroController.text = '${(calculadora.costoFinanciero!)}%';
+      costoOperativoController.text = moneyFormat(calculadora.costoOperativo!);
+      tarifaGOController.text = moneyFormat(calculadora.tarifaGo!);
+      isrController.text = '${moneyFormat(calculadora.isr!)}%';
+      capitalBController.text = '${moneyFormat(calculadora.asignacionCapital!)}%';
+      costoCapitalController.text = '${moneyFormat(calculadora.costoCapital!)}%';
+      incrementoController.text = '${moneyFormat(calculadora.probabilidadIncremento!)}%';
+      perdidaController.text = '${moneyFormat(calculadora.perdidaIncumplimineto!)}%';
       notifyListeners();
     } catch (e) {
       log('Error en getCalculadoraPricing- $e');

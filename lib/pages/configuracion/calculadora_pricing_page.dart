@@ -81,50 +81,50 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: provider.ejecBloq
-                              ? GestureDetector(
-                                  onTap: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Proceso ejecutandose'),
-                                      ),
-                                    );
-                                  },
-                                  child: CircularProgressIndicator(
-                                    color: AppTheme.of(context).primaryColor,
+                                ? GestureDetector(
+                                    onTap: () {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Proceso ejecutandose'),
+                                        ),
+                                      );
+                                    },
+                                    child: CircularProgressIndicator(
+                                      color: AppTheme.of(context).primaryColor,
+                                    ),
+                                  )
+                                : CustomHeaderButton(
+                                    encabezado: 'Calculdora Pricing',
+                                    texto: 'Guardar',
+                                    icon: Icons.save,
+                                    onPressed: () async {
+                                      if (provider.ejecBloq) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Proceso ejecutandose.'),
+                                          ),
+                                        );
+                                      }
+                                      if (await provider.calculadoraPricing()) {
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Proceso realizado con exito'),
+                                          ),
+                                        );
+                                        setState(() {
+                                          provider.ejecBloq = false;
+                                        });
+                                      } else {
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Proceso fallido'),
+                                          ),
+                                        );
+                                      }
+                                    },
                                   ),
-                                )
-                              : CustomHeaderButton(
-                              encabezado: 'Calculdora Pricing',
-                              texto: 'Guardar',
-                              icon: Icons.save,
-                              onPressed: () async {
-                                if (provider.ejecBloq) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Proceso ejecutandose.'),
-                                    ),
-                                  );
-                                }
-                                if (await provider.calculadoraPricing()) {
-                                  if (!mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Proceso realizado con exito'),
-                                    ),
-                                  );
-                                  setState(() {
-                                    provider.ejecBloq = false;
-                                  });
-                                } else {
-                                  if (!mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Proceso fallido'),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
                           ),
                           Form(
                             key: formKey,
@@ -156,17 +156,20 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'Costo Financiero',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00%',
                                                 controller: provider.costoFinancieroController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.%]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'El Costo Financiero es requerido';
+                                                  }
+                                                  if (value.length < 5 || value.length > 6) {
+                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -179,17 +182,21 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'Costo Operativo',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00',
                                                 controller: provider.costoOperativoController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'El Costo Operativo es requerido';
+                                                  }
+                                                  // Verificar la longitud de la cadena
+                                                  if (value.isEmpty || value.length > 5) {
+                                                    return 'Por favor, ingresa entre 1 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -202,17 +209,21 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'Tarifa GO/Operación',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00',
                                                 controller: provider.tarifaGOController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'Tarifa GO/Operación es requerido';
+                                                  }
+                                                  // Verificar la longitud de la cadena
+                                                  if (value.length < 4 || value.length > 10) {
+                                                    return 'Por favor, ingresa entre 1 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -225,17 +236,20 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'ISR',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00%',
                                                 controller: provider.isrController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.%]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'El ISR es requerido';
+                                                  }
+                                                  if (value.length < 5 || value.length > 6) {
+                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -253,17 +267,20 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'Asignación Capital BILL',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00%',
                                                 controller: provider.capitalBController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.%]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'Asignación Capital BILL es requerido';
+                                                  }
+                                                  if (value.length < 5 || value.length > 6) {
+                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -276,17 +293,20 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'Costo Capital',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00%',
                                                 controller: provider.costoCapitalController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.%]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'El Costo Capital es requerido';
+                                                  }
+                                                  if (value.length < 5 || value.length > 6) {
+                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -299,17 +319,20 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: 'Probabilidad Incremento BBB',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00%',
                                                 controller: provider.incrementoController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.%]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'Probabilidad Incremento BBB es requerido';
+                                                  }
+                                                  if (value.length < 5 || value.length > 6) {
+                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
                                                   }
                                                   return null;
                                                 },
@@ -322,17 +345,20 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             child: InputContainer(
                                               title: '% Pérdida Incumplimineto',
                                               child: CustomInputField(
-                                                label: 'Captura',
+                                                label: '0.00%',
                                                 controller: provider.perdidaController,
                                                 keyboardType: TextInputType.number,
                                                 formatters: [
                                                   FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9]'),
+                                                    RegExp(r'[0-9.%]'),
                                                   )
                                                 ],
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return '% Pérdida Incumplimineto es requerido';
+                                                  }
+                                                  if (value.length < 5 || value.length > 6) {
+                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
                                                   }
                                                   return null;
                                                 },

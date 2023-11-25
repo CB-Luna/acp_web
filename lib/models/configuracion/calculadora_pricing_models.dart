@@ -3,14 +3,14 @@ import 'dart:convert';
 class CalculadoraPricing {
     int? id;
     DateTime? createdAt;
-    int? costoFinanciero;
-    int? costoOperativo;
-    int? tarifaGo;
-    int? isr;
-    int? asignacionCapital;
-    int? costoCapital;
-    int? probabilidadIncremento;
-    int? perdidaIncumplimineto;
+    double? costoFinanciero;
+    double? costoOperativo;
+    double? tarifaGo;
+    double? isr;
+    double? asignacionCapital;
+    double? costoCapital;
+    double? probabilidadIncremento;
+    double? perdidaIncumplimineto;
 
     CalculadoraPricing({
         this.id,
