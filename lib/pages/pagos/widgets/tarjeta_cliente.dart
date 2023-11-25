@@ -219,10 +219,11 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
                   ),
                 );
               },
-              body: SizedBox(
-                height: 300,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: widget.cliente.rows!.length * 60 + 55,
+                  constraints: BoxConstraints(maxHeight: 500),
                   child: PlutoGrid(
                     key: UniqueKey(),
                     configuration: PlutoGridConfiguration(

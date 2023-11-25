@@ -53,8 +53,12 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
       child: Container(
         key: UniqueKey(),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          color: widget.cliente.isExpanded ? AppTheme.of(context).secondaryBackground : AppTheme.of(context).gray,
+          borderRadius: BorderRadius.circular(16),
+          color: widget.cliente.isExpanded == true
+              ? AppTheme.of(context).secondaryBackground
+              : AppTheme.themeMode == ThemeMode.light
+                  ? const Color(0xFFF7F9FB)
+                  : const Color(0xFFD9D9D9),
         ),
         child: ExpansionPanelList(
           expandedHeaderPadding: EdgeInsets.zero,
@@ -259,19 +263,11 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                   ),
                 );
               },
-              body: Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.zero,
-                    topRight: Radius.circular(6),
-                    bottomRight: Radius.circular(6),
-                    bottomLeft: Radius.circular(6),
-                  ),
-                  color: AppTheme.of(context).secondaryBackground,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: widget.cliente.rows!.length * 60 + 55,
+                  constraints: BoxConstraints(maxHeight: 500),
                   child: PlutoGrid(
                     key: UniqueKey(),
                     configuration: PlutoGridConfiguration(
