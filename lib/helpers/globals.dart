@@ -1,4 +1,3 @@
-import 'package:acp_web/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/theme/theme.dart';
+import 'package:acp_web/models/models.dart';
 
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
