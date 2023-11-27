@@ -42,7 +42,7 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
           InputContainer(
             alignment: Alignment.centerLeft,
             child: TasaInputColumn(
-              title: '% Tasa Anual',
+              title: '% Tasa Anual *',
               child: CustomInputField(
                 label: 'Tasa Anual',
                 keyboardType: TextInputType.text,
