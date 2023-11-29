@@ -24,6 +24,10 @@ class Factura {
   DateTime? fechaEjecucion;
   DateTime? fechaSolicitud;
 
+  //
+  double? upfn = 0;
+  double? mpfn = 0;
+
   Factura({
     this.noDoc,
     this.moneda,

@@ -1,4 +1,5 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/functions/money_format_3_decimals.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_seleccion_facturas.dart';
@@ -88,7 +89,30 @@ class _CustomCardState extends State<CustomCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Comisión',
+                            'TAE',
+                            overflow: TextOverflow.fade,
+                            style: AppTheme.of(context).bodyText1.override(
+                                  fontFamily: AppTheme.of(context).bodyText1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                ),
+                          ),
+                          Text(
+                            '${moneyFormat3Decimals(widget.cliente.tae!)} %',
+                            overflow: TextOverflow.fade,
+                            style: AppTheme.of(context).subtitle1.override(
+                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Ingreso por descuento',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).bodyText1.override(
                                   fontFamily: AppTheme.of(context).bodyText1Family,
@@ -103,6 +127,56 @@ class _CustomCardState extends State<CustomCard> {
                                   fontFamily: AppTheme.of(context).subtitle1Family,
                                   useGoogleFonts: false,
                                   color: AppTheme.of(context).secondaryText,
+                                ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Margen Operativo',
+                            overflow: TextOverflow.fade,
+                            style: AppTheme.of(context).bodyText1.override(
+                                  fontFamily: AppTheme.of(context).bodyText1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          Text(
+                            '${moneyFormat3Decimals(widget.cliente.margenOperativo!)} %',
+                            overflow: TextOverflow.fade,
+                            style: AppTheme.of(context).subtitle1.override(
+                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Utilidad Neta',
+                            overflow: TextOverflow.fade,
+                            style: AppTheme.of(context).bodyText1.override(
+                                  fontFamily: AppTheme.of(context).bodyText1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          Text(
+                            '${moneyFormat3Decimals(widget.cliente.utilidadNeta!)} %',
+                            overflow: TextOverflow.fade,
+                            style: AppTheme.of(context).subtitle1.override(
+                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                  useGoogleFonts: false,
+                                  color: AppTheme.of(context).secondaryText,
+                                  fontWeight: FontWeight.bold,
                                 ),
                           ),
                         ],

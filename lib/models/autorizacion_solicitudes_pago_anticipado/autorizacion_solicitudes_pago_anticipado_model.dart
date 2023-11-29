@@ -15,7 +15,10 @@ class AutorizacionSolicitudesPagoanticipado {
   List<PlutoRow>? rows = [];
   int? facturasSeleccionadas = 0;
   double? facturacion = 0;
+  double? tae = 0;
   double? comision = 0;
+  double? margenOperativo = 0;
+  double? utilidadNeta = 0;
   double? pagoAdelantado = 0;
   bool isExpanded = false;
   bool bloqueado = false;

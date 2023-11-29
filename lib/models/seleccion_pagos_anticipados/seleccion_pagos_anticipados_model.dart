@@ -14,11 +14,12 @@ class SeleccionPagosAnticipados {
   List<PlutoRow>? rows = [];
   int? facturasSeleccionadas = 0;
   double? facturacion = 0;
+  double? facturaionTotal = 0;
+  double? tae = 0;
   double? comision = 0;
-  double? pagoAdelantado = 0;
   double? margenOperativo = 0;
   double? utilidadNeta = 0;
-  double? tae = 0;
+  double? pagoAdelantado = 0;
   bool isExpanded = false;
   bool bloqueado = false;
 
@@ -30,6 +31,7 @@ class SeleccionPagosAnticipados {
     //this.contacto,
     this.logo,
     this.facturas,
+    this.tae,
   });
 
   factory SeleccionPagosAnticipados.fromJson(String str) => SeleccionPagosAnticipados.fromMap(json.decode(str));
@@ -44,6 +46,7 @@ class SeleccionPagosAnticipados {
         //contacto: json["contacto"],
         logo: json["logo"],
         facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
+        tae: json["tasa_anual"]?.toDouble(),
       );
 
   Map<String, dynamic> toMap() => {
@@ -54,5 +57,6 @@ class SeleccionPagosAnticipados {
         //"contacto": contacto,
         "logo": logo,
         "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
+        "tasa_anual": tae,
       };
 }
