@@ -20,53 +20,57 @@ class RegistroClientePage extends StatefulWidget {
 
 class _RegistroClientePageState extends State<RegistroClientePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: AppTheme.of(context).primaryBackground,
-      body: const Row(
+      body: Row(
         children: [
-          CustomSideMenu(),
+          const CustomSideMenu(),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 //Top Menu
-                CustomTopMenu(pantalla: 'Registro de Clientes'),
+                const CustomTopMenu(pantalla: 'Registro de Clientes'),
                 //Contenido
                 Expanded(
                   child: SingleChildScrollView(
                     clipBehavior: Clip.none,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          //Encabezado
-                          RegistroClientesHeader(encabezado: 'Registro de Clientes'),
-                          //Contenido
-                          DatosGeneralesWidget(),
-                          SizedBox(height: 16),
-                          DatosContactoWidget(),
-                          SizedBox(height: 16),
-                          TasaAnualWidget(),
-                        ],
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Form(
+                        key: formKey,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //Encabezado
+                            RegistroClientesHeader(encabezado: 'Registro de Clientes'),
+                            //Contenido
+                            DatosGeneralesWidget(),
+                            SizedBox(height: 16),
+                            DatosContactoWidget(),
+                            SizedBox(height: 16),
+                            TasaAnualWidget(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: OpcionesWidget(),
+                  child: OpcionesWidget(formKey: formKey),
                 ),
                 //Footer
-                Footer(),
+                const Footer(),
               ],
             ),
           ),
-          CustomSideNotifications(),
+          const CustomSideNotifications(),
         ],
       ),
     );

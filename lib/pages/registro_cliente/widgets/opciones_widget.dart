@@ -9,7 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:acp_web/providers/providers.dart';
 
 class OpcionesWidget extends StatefulWidget {
-  const OpcionesWidget({super.key});
+  const OpcionesWidget({
+    super.key,
+    required this.formKey,
+  });
+
+  final GlobalKey<FormState> formKey;
 
   @override
   State<OpcionesWidget> createState() => _OpcionesWidgetState();
@@ -57,6 +62,9 @@ class _OpcionesWidgetState extends State<OpcionesWidget> {
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: () async {
+              if (!widget.formKey.currentState!.validate()) {
+                return;
+              }
               if (provider.cliente == null) return;
 
               // await provider.validarImagen(widget.cliente?.imagen);

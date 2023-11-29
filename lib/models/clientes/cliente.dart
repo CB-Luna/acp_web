@@ -18,8 +18,8 @@ class Cliente {
     this.tipoCuenta,
     this.moneda,
     this.tasaAnual,
-    this.formula,
     this.acuerdoComercial,
+    this.fechaContrato,
     required this.activo,
     required this.contactos,
   });
@@ -38,8 +38,8 @@ class Cliente {
   String? tipoCuenta;
   String? moneda;
   num? tasaAnual;
-  String? formula;
   String? acuerdoComercial;
+  DateTime? fechaContrato;
   bool activo;
   List<Contacto> contactos;
 
@@ -62,8 +62,8 @@ class Cliente {
       tipoCuenta: json['tipo_cuenta'],
       moneda: json['moneda'],
       tasaAnual: json['tasa_anual'],
-      formula: json['formula'],
       acuerdoComercial: json['acuerdo_comercial'],
+      fechaContrato: json['fecha_contrato'] != null ? DateTime.parse(json['fecha_contrato']) : null,
       sociedad: json['sociedad'],
       activo: json['activo'],
       contactos: (json['contactos'] as List).map((contacto) => Contacto.fromMap(contacto)).toList(),
@@ -101,8 +101,8 @@ class Cliente {
         "banco_industrial": bancoIndustrial,
         "tipo_cuenta": tipoCuenta,
         "moneda": moneda,
-        "formula": formula,
         "acuerdo_comercial": acuerdoComercial,
+        "fecha_contrato": fechaContrato?.toIso8601String(),
       };
 
   @override

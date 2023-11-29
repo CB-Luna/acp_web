@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:acp_web/providers/providers.dart';
@@ -15,6 +16,12 @@ class TasaAnualWidget extends StatefulWidget {
 }
 
 class _TasaAnualWidgetState extends State<TasaAnualWidget> {
+  final dateMaskFormatter = MaskTextInputFormatter(
+    mask: '####-##-##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
   @override
   Widget build(BuildContext context) {
     final ClientesProvider provider = Provider.of<ClientesProvider>(context);
@@ -39,27 +46,59 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
             ),
           ),
           const SizedBox(height: 16),
-          InputContainer(
-            alignment: Alignment.centerLeft,
-            child: TasaInputColumn(
-              title: '% Tasa Anual *',
-              child: CustomInputField(
-                label: 'Tasa Anual',
-                keyboardType: TextInputType.text,
-                formatters: [
-                  FilteringTextInputFormatter.allow(
-                    RegExp(r'[0-9.]'),
-                  )
-                ],
-                onChanged: (value) => provider.setTasaAnual(),
-                controller: provider.tasaAnualController,
+          Row(
+            children: [
+              Expanded(
+                child: InputContainer(
+                  alignment: Alignment.centerLeft,
+                  child: DataInputColumn(
+                    title: '% Tasa Anual *',
+                    child: CustomInputField(
+                      label: 'Tasa Anual',
+                      keyboardType: TextInputType.text,
+                      formatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[0-9.]'),
+                        )
+                      ],
+                      onChanged: (value) => provider.setTasaAnual(),
+                      controller: provider.tasaAnualController,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: InputContainer(
+                  alignment: Alignment.centerLeft,
+                  child: DataInputColumn(
+                    title: 'Fecha Contrato',
+                    child: CustomInputField(
+                      label: 'yyyy-MM-dd',
+                      keyboardType: TextInputType.text,
+                      formatters: [dateMaskFormatter],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'La fecha de contrato es obligatoria';
+                        }
+                        final date = DateTime.tryParse(value);
+                        if (date == null) {
+                          return 'La fecha no es válida';
+                        }
+                        return null;
+                      },
+                      onChanged: (_) => provider.modificado = true,
+                      controller: provider.fechaContratoController,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           InputContainer(
             alignment: Alignment.centerLeft,
-            child: TasaInputColumn(
+            child: DataInputColumn(
               title: '% Fórmula de Cálculo',
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -194,8 +233,8 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
   }
 }
 
-class TasaInputColumn extends StatelessWidget {
-  const TasaInputColumn({
+class DataInputColumn extends StatelessWidget {
+  const DataInputColumn({
     super.key,
     required this.title,
     required this.child,
@@ -220,16 +259,6 @@ class TasaInputColumn extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         child,
-        // Text(
-        //   data,
-        //   style: AppTheme.of(context).subtitle1.override(
-        //         fontFamily: 'Gotham-Regular',
-        //         useGoogleFonts: false,
-        //         color: Colors.black,
-        //         fontSize: 14,
-        //         fontWeight: FontWeight.w400,
-        //       ),
-        // ),
       ],
     );
   }
