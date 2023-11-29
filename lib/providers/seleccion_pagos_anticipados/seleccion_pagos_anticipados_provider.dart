@@ -3,6 +3,7 @@ import 'dart:developer';
 //import 'dart:typed_data';
 
 import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/global/factura_model.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -18,7 +19,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   double totalPagos = 0;
 
   double fondoDisponibleRestante = 0;
-  double beneficioTotal = 0;
+  double comisionTotal = 0;
   final controllerFondoDisp = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   final controllerFondoDispFake = TextEditingController();
 
@@ -34,7 +35,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     cantidadFacturas = 0;
     cantidadFacturasSeleccionadas = 0;
     totalPagos = 0;
-    beneficioTotal = 0;
+    comisionTotal = 0;
     fondoDisponibleRestante = 0;
 
     controllerFondoDisp.text = '0.00';
@@ -74,6 +75,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           for (var factura in cliente.facturas!) {
             rows.add(
               PlutoRow(
+                checked: factura.fechaSolicitud != null,
                 cells: {
                   'id_factura_field': PlutoCell(value: factura.facturaId),
                   'cuenta_field': PlutoCell(value: factura.noDoc),
@@ -108,7 +110,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       cantidadFacturas = 0;
       cantidadFacturasSeleccionadas = 0;
       totalPagos = 0;
-      beneficioTotal = 0;
+      comisionTotal = 0;
       clientes = [];
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - search() - $e');
@@ -178,7 +180,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     try {
       cliente.facturasSeleccionadas = 0;
       cliente.facturacion = 0;
-      cliente.beneficio = 0;
+      cliente.comision = 0;
       cliente.pagoAdelantado = 0;
       for (var row in cliente.rows!) {
         /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
@@ -201,7 +203,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
         if (row.checked == true) {
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.beneficio = cliente.beneficio! + row.cells["comision_cant_field"]!.value;
+          cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
           cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
 
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
@@ -218,13 +220,13 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     try {
       cliente.facturasSeleccionadas = 0;
       cliente.facturacion = 0;
-      cliente.beneficio = 0;
+      cliente.comision = 0;
       cliente.pagoAdelantado = 0;
       if (check) {
         for (var row in cliente.rows!) {
           row.setChecked(true);
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.beneficio = cliente.beneficio! + row.cells["comision_cant_field"]!.value;
+          cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
           cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
         }
@@ -259,13 +261,13 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     cantidadFacturasSeleccionadas = 0;
     totalPagos = 0;
     fondoDisponibleRestante = 0;
-    beneficioTotal = 0;
+    comisionTotal = 0;
     try {
       for (var cliente in clientes) {
         montoFacturacion = montoFacturacion + cliente.facturacion!;
         cantidadFacturasSeleccionadas = cantidadFacturasSeleccionadas + cliente.facturasSeleccionadas!;
-        beneficioTotal = beneficioTotal + cliente.beneficio!;
-        totalPagos = montoFacturacion - beneficioTotal;
+        comisionTotal = comisionTotal + cliente.comision!;
+        totalPagos = montoFacturacion - comisionTotal;
 
         fondoDisponibleRestante = controllerFondoDisp.numberValue - totalPagos;
       }
@@ -273,7 +275,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       log('Error en SeleccionaPagosanticipadosProvider - calcClients() - $e');
     }
 
-    clientes.sort((a, b) => b.beneficio!.compareTo(a.beneficio!));
+    clientes.sort((a, b) => b.comision!.compareTo(a.comision!));
     return notifyListeners();
   }
 

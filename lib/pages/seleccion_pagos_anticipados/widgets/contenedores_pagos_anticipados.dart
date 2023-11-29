@@ -278,7 +278,7 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                           style: AppTheme.of(context).bodyText1,
                         ),
                         Text(
-                          '${widget.moneda} ${moneyFormat(provider.beneficioTotal)}',
+                          '${widget.moneda} ${moneyFormat(provider.comisionTotal)}',
                           style: AppTheme.of(context).title2,
                         ),
                       ],

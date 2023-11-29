@@ -198,7 +198,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                         SizedBox(
                           width: width * 126,
                           child: Text(
-                            '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
+                            '${widget.moneda} ${moneyFormat(widget.cliente.comision!)}',
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,

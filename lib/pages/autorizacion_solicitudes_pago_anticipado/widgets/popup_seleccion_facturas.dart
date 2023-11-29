@@ -268,7 +268,7 @@ class PopUpSeleccionfacturasState extends State<PopUpSeleccionfacturas> {
                                       ),
                                 ), */
                                   Text(
-                                    '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
+                                    '${widget.moneda} ${moneyFormat(widget.cliente.comision!)}',
                                     style: AppTheme.of(context).title3.override(
                                           fontFamily: AppTheme.of(context).title3Family,
                                           useGoogleFonts: false,

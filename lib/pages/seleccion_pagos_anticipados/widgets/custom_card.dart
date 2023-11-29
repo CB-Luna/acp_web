@@ -97,7 +97,7 @@ class _CustomCardState extends State<CustomCard> {
                                 ),
                           ),
                           Text(
-                            '${widget.moneda} ${moneyFormat(widget.cliente.beneficio!)}',
+                            '${widget.moneda} ${moneyFormat(widget.cliente.comision!)}',
                             overflow: TextOverflow.fade,
                             style: AppTheme.of(context).subtitle1.override(
                                   fontFamily: AppTheme.of(context).subtitle1Family,

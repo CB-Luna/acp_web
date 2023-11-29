@@ -19,7 +19,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   double totalPagos = 0;
 
   double fondoDisponibleRestante = 0;
-  double beneficioTotal = 0;
+  double comisionTotal = 0;
   final controllerFondoDisp = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   final controllerFondoDispFake = TextEditingController();
 
@@ -35,7 +35,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
     cantidadFacturas = 0;
     cantidadFacturasSeleccionadas = 0;
     totalPagos = 0;
-    beneficioTotal = 0;
+    comisionTotal = 0;
     fondoDisponibleRestante = 0;
 
     controllerFondoDisp.text = '0.00';
@@ -109,7 +109,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       cantidadFacturas = 0;
       cantidadFacturasSeleccionadas = 0;
       totalPagos = 0;
-      beneficioTotal = 0;
+      comisionTotal = 0;
       clientes = [];
     } catch (e) {
       log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - search() - $e');
@@ -179,7 +179,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
     try {
       cliente.facturasSeleccionadas = 0;
       cliente.facturacion = 0;
-      cliente.beneficio = 0;
+      cliente.comision = 0;
       cliente.pagoAdelantado = 0;
       for (var row in cliente.rows!) {
         /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
@@ -202,7 +202,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
 
         if (row.checked == true) {
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.beneficio = cliente.beneficio! + row.cells["comision_cant_field"]!.value;
+          cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
           cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
 
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
@@ -219,13 +219,13 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
     try {
       cliente.facturasSeleccionadas = 0;
       cliente.facturacion = 0;
-      cliente.beneficio = 0;
+      cliente.comision = 0;
       cliente.pagoAdelantado = 0;
       if (check) {
         for (var row in cliente.rows!) {
           row.setChecked(true);
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.beneficio = cliente.beneficio! + row.cells["comision_cant_field"]!.value;
+          cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
           cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
         }
@@ -260,13 +260,13 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
     cantidadFacturasSeleccionadas = 0;
     totalPagos = 0;
     fondoDisponibleRestante = 0;
-    beneficioTotal = 0;
+    comisionTotal = 0;
     try {
       for (var cliente in clientes) {
         montoFacturacion = montoFacturacion + cliente.facturacion!;
         cantidadFacturasSeleccionadas = cantidadFacturasSeleccionadas + cliente.facturasSeleccionadas!;
-        beneficioTotal = beneficioTotal + cliente.beneficio!;
-        totalPagos = montoFacturacion - beneficioTotal;
+        comisionTotal = comisionTotal + cliente.comision!;
+        totalPagos = montoFacturacion - comisionTotal;
 
         fondoDisponibleRestante = controllerFondoDisp.numberValue - totalPagos;
       }
@@ -274,7 +274,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - calcClients() - $e');
     }
 
-    clientes.sort((a, b) => b.beneficio!.compareTo(a.beneficio!));
+    clientes.sort((a, b) => b.comision!.compareTo(a.comision!));
     return notifyListeners();
   }
 
