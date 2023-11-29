@@ -127,7 +127,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                     tooltip: 'Descargar Anexo',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      provider.descargarArchivo(provider.documento, '${dateFormat(provider.fecha)}_${currentUser!.nombreCompleto}.pdf');
+                      provider.descargarArchivo(provider.documento, '${dateFormat(provider.fecha)}_Anexo_${currentUser!.nombreCompleto}.pdf');
                       provider.anexo = true;
                       setState(() {});
                     },
@@ -251,13 +251,13 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                                 ),
                               );
                             } else {
-                              if (provider.docProveedor == null) {
+                              if (provider.docProveedor == null && widget.propuesta.estatus == 2) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Por Favor Cargue Anexo Firmado'),
                                   ),
                                 );
-                              } else if (provider.docProveedor != null) {
+                              } else if (provider.docProveedor != null && widget.propuesta.estatus == 2) {
                                 if (await provider.actualizarFacturasSeleccionadas(widget.propuesta)) {
                                   if (!mounted) return;
                                   Navigator.pop(context);

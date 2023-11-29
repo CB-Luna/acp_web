@@ -1,8 +1,3 @@
-import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/pages/reportes/dashboards/widgets/contenedores_dashboards.dart';
-import 'package:acp_web/pages/reportes/dashboards/widgets/graficas_dashboards.dart';
-import 'package:acp_web/pages/reportes/dashboards/widgets/marcadores.dart';
-import 'package:acp_web/pages/reportes/dashboards/widgets/tabla_dashboards.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
@@ -44,7 +39,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width / 1440;
+    //double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
 
     final VisualStateProvider visualState =
@@ -77,40 +72,38 @@ class _DashboardsPageState extends State<DashboardsPage> {
                   //Contenido
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomHeaderOptions(
-                            encabezado: 'Dashboards',
-                            filterSelected: filterSelected,
-                            gridSelected: gridSelected,
-                            onFilterSelected: () {
-                              setState(() {
-                                filterSelected = !filterSelected;
-                              });
-                            },
-                            onGridSelected: () {
-                              setState(() {
-                                gridSelected = true;
-                              });
-                            },
-                            onListSelected: () {
-                              setState(() {
-                                gridSelected = false;
-                              });
-                            },
-                          ),
-                          IFrame(
-                            src:
-                                "http://34.27.79.47:8088/superset/dashboard/p/Aez4gpQlpad/",
-                            width: MediaQuery.of(context).size.width * 100,
-                            height: MediaQuery.of(context).size.height * 0.77,
-                            // width: 1200,
-                            // height: 760,
-                          )
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomHeaderOptions(
+                          encabezado: 'Dashboards',
+                          filterSelected: filterSelected,
+                          gridSelected: gridSelected,
+                          onFilterSelected: () {
+                            setState(() {
+                              filterSelected = !filterSelected;
+                            });
+                          },
+                          onGridSelected: () {
+                            setState(() {
+                              gridSelected = true;
+                            });
+                          },
+                          onListSelected: () {
+                            setState(() {
+                              gridSelected = false;
+                            });
+                          },
+                        ),
+                        IFrame(
+                          src:
+                              "http://34.27.79.47:8088/superset/dashboard/p/Aez4gpQlpad/",
+                          width: MediaQuery.of(context).size.width * 100,
+                          height: MediaQuery.of(context).size.height * 0.77,
+                          // width: 1200,
+                          // height: 760,
+                        )
+                      ],
                     ),
                   ),
                   //Footer

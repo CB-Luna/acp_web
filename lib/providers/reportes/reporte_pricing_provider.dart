@@ -10,12 +10,12 @@ import 'package:excel/excel.dart';
 
 class ReportePricingProvider extends ChangeNotifier {
   late CalculadoraPricing calculadora;
-  final taeController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
-  final diasController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  final taeController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', rightSymbol: '%');
   final montoQController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
-  final numOperacionesController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   TextEditingController fechaOperacionController = TextEditingController();
   TextEditingController fechaPagoController = TextEditingController();
+  TextEditingController diasControll = TextEditingController();
+  TextEditingController nOperacionesController = TextEditingController();
 
   final controllerBusqueda = TextEditingController();
 
@@ -31,6 +31,7 @@ class ReportePricingProvider extends ChangeNotifier {
   double cCapital = 0;
   double eva = 0, pEva = 0;
   double roe = 0;
+  String fehcaPago = '', fechaOperacionE = '';
 
   bool ejecBloq = false;
 
@@ -43,29 +44,66 @@ class ReportePricingProvider extends ChangeNotifier {
 
   Future<void> reportePricing() async {
     try {
+      DateTime parseDate(String dateStr) {
+        // Parsear la cadena en un objeto DateTime con el formato dd/MM/yyyy
+        List<String> parts = dateStr.split('/');
+        int day = int.parse(parts[0]);
+        int month = int.parse(parts[1]);
+        int year = int.parse(parts[2]);
+        return DateTime(year, month, day);
+      }
+
+      // Obtener las fechas ingresadas
+      String fechaOperacion = fechaOperacionController.text;
+      String fechaPago = fechaPagoController.text;
+
+      // Validar que ambas fechas estén ingresadas y tengan el formato correcto
+      const pattern = r"^\d{2}/\d{2}/\d{4}$";
+      final regexp = RegExp(pattern);
+
+      if (fechaOperacion.isNotEmpty && fechaPago.isNotEmpty && regexp.hasMatch(fechaOperacion) && regexp.hasMatch(fechaPago)) {
+        // Convertir las fechas a objetos DateTime
+        DateTime fechaOperacionDate = parseDate(fechaOperacion);
+        DateTime fechaPagoDate = parseDate(fechaPago);
+
+        // Calcular la diferencia de días
+        int diferenciaDias = fechaPagoDate.difference(fechaOperacionDate).inDays;
+
+        // Mostrar la diferencia de días en el tercer campo
+        diasControll.text = diferenciaDias.toString();
+      }
+
+      // Llamado de los datos de la calculadora pricing
       var response = await supabase.from('calculadora_pricing').select().order('id', ascending: false).limit(1);
       calculadora = CalculadoraPricing.fromJson(jsonEncode(response[0]));
-      iODescuento = (((taeController.numberValue / 360) * diasController.numberValue) * montoQController.numberValue); //27.77
-      tComercial = (montoQController.numberValue - iODescuento); //72.22
-      cFinanciero = (((calculadora.costoFinanciero! / 365) * diasController.numberValue) * tComercial); //0.812475
+
+      //Operaciones fomrulario
+      iODescuento = ((((taeController.numberValue/100) / 360) * double.parse(diasControll.text)) * montoQController.numberValue);
+      tComercial = (montoQController.numberValue - iODescuento);
+      cFinanciero = ((((calculadora.costoFinanciero!/100) / 365) * double.parse(diasControll.text)) * tComercial);
       mFinanciero = (iODescuento - cFinanciero);
       pMFinanciero = (mFinanciero / iODescuento);
-      aGastoOperativo = (calculadora.tarifaGo! * numOperacionesController.numberValue);
+      aGastoOperativo = (calculadora.tarifaGo! * double.parse(nOperacionesController.text));
       mOperativo = (mFinanciero - aGastoOperativo);
       p1MOperativo = (mOperativo / iODescuento);
-      p2MOperativo = ((mOperativo / montoQController.numberValue) * (360 / diasController.numberValue));
-      isr = calculadora.isr!;
+      p2MOperativo = ((mOperativo / montoQController.numberValue) * (360 / double.parse(diasControll.text)));
+      isr = (calculadora.isr!/100);
       uNeta = (mOperativo - isr);
       p1UNeta = (uNeta / iODescuento);
-      p2UNeta = ((uNeta / montoQController.numberValue) * (360 / diasController.numberValue));
-      aCapital = (tComercial * calculadora.asignacionCapital!);
-      cCapital = ((calculadora.costoCapital! / 365) * (diasController.numberValue) * (aCapital));
+      p2UNeta = ((uNeta / montoQController.numberValue) * (360 / double.parse(diasControll.text)));
+      aCapital = (tComercial * (calculadora.asignacionCapital!/100));
+      cCapital = (((calculadora.costoCapital!/100) / 365) * (double.parse(diasControll.text)) * (aCapital));
       eva = (uNeta - cCapital);
       pEva = (eva / iODescuento);
-      roe = ((uNeta / aCapital) * (360 / diasController.numberValue));
+      roe = ((uNeta / aCapital) * (360 / double.parse(diasControll.text)));
+
+      //Registro Fechas para Excel
+      fechaOperacionE = fechaOperacionController.text;
+      fehcaPago = fechaPagoController.text;
+
       notifyListeners();
     } catch (e) {
-      log('Error en aprobacionSeguimientoPagos - search() - $e');
+      log('Error en reportePricing - $e');
     }
   }
 
@@ -73,13 +111,17 @@ class ReportePricingProvider extends ChangeNotifier {
     //Crear excel
 
     Excel excel = Excel.createExcel();
-    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
-
-    if (sheet == null) return false;
+    Sheet sheet = excel['Reporte_Pricing'];
 
     //Agregar primera linea
+    sheet.setColumnWidth(0, 30);
+    /*  sheet.setColumnWidth(5, 30);
+    sheet.setColumnWidth(7, 30);
+    sheet.setColumnWidth(9, 30); */
+    /* sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0)).value = 'Fecha Creacion Resumen';
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: 0)).value = 'Fecha Pago';
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 9, rowIndex: 0)).value = 'Fecha Operación'; */
     sheet.appendRow([
-      'Título',
       'Reporte Pricing',
       '',
       'Usuario',
@@ -87,10 +129,10 @@ class ReportePricingProvider extends ChangeNotifier {
       '',
       'Fecha Creacion Resumen',
       dateFormat(DateTime.now()),
-      'Fecha Pago',
-      fechaPagoController.text,
       'Fecha Operación',
-      fechaOperacionController.text,
+      fechaOperacionE,
+      'Fecha Pago',
+      fehcaPago,
     ]);
 
     //Agregar linea vacia
@@ -111,6 +153,9 @@ class ReportePricingProvider extends ChangeNotifier {
     sheet.appendRow(['']);
     sheet.appendRow(['EVA- Operación', moneyFormat(eva), '${moneyFormat(pEva)} %', '']);
     sheet.appendRow(['ROE- Operación', moneyFormat(roe), '', '']);
+
+    //Borrar Sheet1 default
+    excel.delete('Sheet1');
 
     //Descargar
     final List<int>? fileBytes = excel.save(fileName: "Reporte_Pricing.xlsx");

@@ -43,7 +43,7 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     // String? monedaSeleccionada = currentUser!.monedaSeleccionada;
-    double width = MediaQuery.of(context).size.width / 1440;
+    //double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
 
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
@@ -73,307 +73,301 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                   ),
                   //Contenido
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: provider.ejecBloq
-                                ? GestureDetector(
-                                    onTap: () {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Proceso ejecutandose'),
-                                        ),
-                                      );
-                                    },
-                                    child: CircularProgressIndicator(
-                                      color: AppTheme.of(context).primaryColor,
+                    child: SingleChildScrollView(
+                      clipBehavior: Clip.none,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //Encabezado
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: provider.ejecBloq
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('Proceso ejecutandose'),
+                                          ),
+                                        );
+                                      },
+                                      child: CircularProgressIndicator(
+                                        color: AppTheme.of(context).primaryColor,
+                                      ),
+                                    )
+                                  : CustomHeaderButton(
+                                      encabezado: 'Calculdora Pricing',
+                                      texto: 'Guardar',
+                                      icon: Icons.save,
+                                      onPressed: () async {
+                                        if (provider.ejecBloq) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Proceso ejecutandose.'),
+                                            ),
+                                          );
+                                        }
+                                        if (await provider.calculadoraPricing()) {
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Proceso realizado con exito'),
+                                            ),
+                                          );
+                                          setState(() {
+                                            provider.ejecBloq = false;
+                                          });
+                                        } else {
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Proceso fallido'),
+                                            ),
+                                          );
+                                        }
+                                      },
                                     ),
-                                  )
-                                : CustomHeaderButton(
-                                    encabezado: 'Calculdora Pricing',
-                                    texto: 'Guardar',
-                                    icon: Icons.save,
-                                    onPressed: () async {
-                                      if (provider.ejecBloq) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Proceso ejecutandose.'),
-                                          ),
-                                        );
-                                      }
-                                      if (await provider.calculadoraPricing()) {
-                                        if (!mounted) return;
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Proceso realizado con exito'),
-                                          ),
-                                        );
-                                        setState(() {
-                                          provider.ejecBloq = false;
-                                        });
-                                      } else {
-                                        if (!mounted) return;
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Proceso fallido'),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                          ),
-                          Form(
-                            key: formKey,
-                            child: Container(
-                              width: width * 700,
+                            ),
+                            //Contenido
+                            Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
                                 color: AppTheme.of(context).secondaryBackground,
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Reporte', style: AppTheme.of(context).title3),
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 16),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('Reporte', style: AppTheme.of(context).title3),
+                                      ),
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          //Costo Financiero
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'Costo Financiero',
-                                              child: CustomInputField(
-                                                label: '0.00%',
-                                                controller: provider.costoFinancieroController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.%]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'El Costo Financiero es requerido';
-                                                  }
-                                                  if (value.length < 5 || value.length > 6) {
-                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        //Costo Financiero
+                                        InputContainer(
+                                          title: 'Costo Financiero',
+                                          child: CustomInputField(
+                                            label: '0.00%',
+                                            controller: provider.costoFinancieroController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Costo Financiero es requerido';
+                                              } else if (value.length < 4 || value.length > 7) {
+                                                return 'Por favor, ingresa entre 0.00% y 100.00%';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                          //Costo Operativo
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'Costo Operativo',
-                                              child: CustomInputField(
-                                                label: '0.00',
-                                                controller: provider.costoOperativoController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'El Costo Operativo es requerido';
-                                                  }
-                                                  // Verificar la longitud de la cadena
-                                                  if (value.isEmpty || value.length > 5) {
-                                                    return 'Por favor, ingresa entre 1 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        //Asignación Capital BILL
+                                        InputContainer(
+                                          title: 'Asignación Capital BILL',
+                                          child: CustomInputField(
+                                            label: '0.00%',
+                                            controller: provider.capitalBController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Asignación Capital BILL es requerido';
+                                              } else if (value.length < 4 || value.length > 7) {
+                                                return 'Por favor, ingresa entre 0.00% y 100.00%';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                          //Tarifa GO/Operación
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'Tarifa GO/Operación',
-                                              child: CustomInputField(
-                                                label: '0.00',
-                                                controller: provider.tarifaGOController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'Tarifa GO/Operación es requerido';
-                                                  }
-                                                  // Verificar la longitud de la cadena
-                                                  if (value.length < 4 || value.length > 10) {
-                                                    return 'Por favor, ingresa entre 1 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        //Costo Operativo
+                                        InputContainer(
+                                          title: 'Costo Operativo',
+                                          child: CustomInputField(
+                                            label: '0.00',
+                                            controller: provider.costoOperativoController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'El Costo Operativo es requerido';
+                                              }
+                                              // Verificar la longitud de la cadena
+                                              if (value.isEmpty || value.length > 7) {
+                                                return 'Por favor, ingresa entre\n 0.00 y 999,999,999.99';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                          //ISR
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'ISR',
-                                              child: CustomInputField(
-                                                label: '0.00%',
-                                                controller: provider.isrController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.%]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'El ISR es requerido';
-                                                  }
-                                                  if (value.length < 5 || value.length > 6) {
-                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        //Costo Capital
+                                        InputContainer(
+                                          title: 'Costo Capital',
+                                          child: CustomInputField(
+                                            label: '0.00%',
+                                            controller: provider.costoCapitalController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Costo Capital es requerido';
+                                              } else if (value.length < 4 || value.length > 7) {
+                                                return 'Por favor, ingresa entre 0.00% y 100.00%';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      Column(
-                                        children: [
-                                          //Asignación Capital BILL
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'Asignación Capital BILL',
-                                              child: CustomInputField(
-                                                label: '0.00%',
-                                                controller: provider.capitalBController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.%]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'Asignación Capital BILL es requerido';
-                                                  }
-                                                  if (value.length < 5 || value.length > 6) {
-                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        //Tarifa GO/Operación
+                                        InputContainer(
+                                          title: 'Tarifa GO/Operación',
+                                          child: CustomInputField(
+                                            label: '0.00',
+                                            controller: provider.tarifaGOController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Tarifa GO/Operación es requerido';
+                                              } else if (value.length < 4 || value.length > 14) {
+                                                return 'Por favor, ingresa entre\n 0.00 y 999,999,999.99';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                          //Costo Capital
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'Costo Capital',
-                                              child: CustomInputField(
-                                                label: '0.00%',
-                                                controller: provider.costoCapitalController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.%]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'El Costo Capital es requerido';
-                                                  }
-                                                  if (value.length < 5 || value.length > 6) {
-                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        //Probabilidad Incremento BBB
+                                        InputContainer(
+                                          title: 'Probabilidad Incremento BBB',
+                                          child: CustomInputField(
+                                            label: '0.00%',
+                                            controller: provider.incrementoController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Probabilidad Incremento BBB es requerido';
+                                              } else if (value.length < 4 || value.length > 7) {
+                                                return 'Por favor, ingresa entre 0.00% y 100.00%';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                          //Probabilidad Incremento BBB
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: 'Probabilidad Incremento BBB',
-                                              child: CustomInputField(
-                                                label: '0.00%',
-                                                controller: provider.incrementoController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.%]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'Probabilidad Incremento BBB es requerido';
-                                                  }
-                                                  if (value.length < 5 || value.length > 6) {
-                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        //ISR
+                                        InputContainer(
+                                          title: 'ISR',
+                                          child: CustomInputField(
+                                            label: '0.00%',
+                                            controller: provider.isrController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'El ISR es requerido';
+                                              } else if (value.length < 4 || value.length > 7) {
+                                                return 'Por favor, ingresa entre 0.00% y 100.00%';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                          //% Pérdida Incumplimineto
-                                          Padding(
-                                            padding: const EdgeInsets.only(bottom: 16),
-                                            child: InputContainer(
-                                              title: '% Pérdida Incumplimineto',
-                                              child: CustomInputField(
-                                                label: '0.00%',
-                                                controller: provider.perdidaController,
-                                                keyboardType: TextInputType.number,
-                                                formatters: [
-                                                  FilteringTextInputFormatter.allow(
-                                                    RegExp(r'[0-9.%]'),
-                                                  )
-                                                ],
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return '% Pérdida Incumplimineto es requerido';
-                                                  }
-                                                  if (value.length < 5 || value.length > 6) {
-                                                    return 'Por favor, ingresa entre 5 y 6 valores.';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        //% Pérdida Incumplimineto
+                                        InputContainer(
+                                          title: '% Pérdida Incumplimineto',
+                                          child: CustomInputField(
+                                            label: '0.00%',
+                                            controller: provider.perdidaController,
+                                            keyboardType: TextInputType.number,
+                                            formatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[0-9.]'),
+                                              )
+                                            ],
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'El % Pérdida Incumplimineto es requerido';
+                                              } else if (value.length < 4 || value.length > 7) {
+                                                return 'Por favor, ingresa entre 0.00% y 100.00%';
+                                              }
+                                              return null;
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
