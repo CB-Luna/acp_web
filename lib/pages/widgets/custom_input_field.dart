@@ -12,6 +12,7 @@ class CustomInputField extends StatefulWidget {
     this.formatters,
     this.onChanged,
     this.readOnly = false,
+    this.height = 45,
   });
 
   final String label;
@@ -21,6 +22,7 @@ class CustomInputField extends StatefulWidget {
   final List<TextInputFormatter>? formatters;
   final void Function(String)? onChanged;
   final bool readOnly;
+  final double? height;
 
   @override
   State<CustomInputField> createState() => _CustomInputFieldState();
@@ -30,7 +32,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: widget.height,
       alignment: Alignment.center,
       child: TextFormField(
         controller: widget.controller,

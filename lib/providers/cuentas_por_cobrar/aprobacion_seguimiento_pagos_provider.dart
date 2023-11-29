@@ -8,6 +8,7 @@ import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_v
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart' as pdfcolor;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
@@ -150,8 +151,8 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         },
       ).select())[0]['anexo_id'];
 
-      await supabase.storage.from('anexo').uploadBinary('anexo_$idAnexo.pdf', docProveedor!.files[0].bytes!);
-      await supabase.from('anexo').update({'documento': 'anexo_$idAnexo.pdf'}).eq('anexo_id', idAnexo);
+      await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', docProveedor!.files[0].bytes!);
+      await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
 
       for (var row in propuesta.rows!) {
         if (row.checked == true) {
@@ -264,9 +265,9 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                             crossAxisCount: 2,
                             children: [
                               pw.Text('Anexo #'),
-                              pw.Text('Anexo 174117'),
+                              pw.Text('Anexo'),
                               pw.Text('Fecha Anexo:'),
-                              pw.Text(dateFormat(fecha)),
+                              pw.Text(DateFormat.MMMEd('es').format(fecha)),
                             ],
                           ),
                         ),
