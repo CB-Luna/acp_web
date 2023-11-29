@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:acp_web/functions/date_format.dart';
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
@@ -80,7 +82,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                       tooltip: 'Firmar Anexo',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () {
-                       /*  provider.firmaAnexo = true;
+                        /*  provider.firmaAnexo = true;
                         setState(() {}); */
                         //TODO:Metodo para firmar directamente el archivo
                       },
@@ -125,7 +127,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                     tooltip: 'Descargar Anexo',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      provider.descargarArchivo(provider.documento, 'Anexo.pdf');
+                      provider.descargarArchivo(provider.documento, '${dateFormat(provider.fecha)}_${currentUser!.nombreCompleto}.pdf');
                       provider.anexo = true;
                       setState(() {});
                     },

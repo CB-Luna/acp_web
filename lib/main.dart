@@ -1,6 +1,4 @@
-import 'package:acp_web/providers/configuracion/calculadora_pricing_provider.dart';
-import 'package:acp_web/providers/reportes/dashboards_provider.dart';
-import 'package:acp_web/providers/reportes/reporte_pricing_provider.dart';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +14,11 @@ import 'package:acp_web/router/router.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/helpers/scroll_behavior.dart';
 import 'package:acp_web/internationalization/internationalization.dart';
-import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
+import 'package:acp_web/providers/configuracion/calculadora_pricing_provider.dart';
+import 'package:acp_web/providers/reportes/dashboards_provider.dart';
+import 'package:acp_web/providers/reportes/reporte_pricing_provider.dart';
+import 'package:acp_web/services/navigation_service.dart';
+import 'package:acp_web/pages/widgets/inactivity_popup.dart';
 
 import 'providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
 
@@ -31,11 +33,6 @@ void main() async {
   );
 
   await initGlobals();
-
-  // Configuration? conf = await SupabaseQueries.getUserTheme();
-
-  //obtener tema
-  // AppTheme.initConfiguration(conf);
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
@@ -104,31 +101,55 @@ class _MyAppState extends State<MyApp> {
         AppTheme.saveThemeMode(mode);
       });
 
+  late RestartableTimer timer;
+
+  @override
+  void initState() {
+    timer = RestartableTimer(
+      const Duration(minutes: 3),
+      () {
+        if (currentUser != null && ModalRoute.of(context)?.isCurrent != true) {
+          showDialog(
+            context: NavigationService.navigatorKey.currentState!.context,
+            builder: (context) {
+              return const InactivityPopup();
+            },
+          );
+        }
+      },
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Portal(
-      child: MaterialApp.router(
-        title: 'ACP',
-        debugShowCheckedModeBanner: false,
-        locale: _locale,
-        localizationsDelegates: const [
-          AppLocalizationsDelegate(),
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en', 'US')],
-        theme: ThemeData(
-          brightness: Brightness.light,
-          dividerColor: Colors.grey,
+      child: Listener(
+        onPointerDown: (event) => timer.reset(),
+        onPointerMove: (event) => timer.reset(),
+        child: MaterialApp.router(
+          title: 'ACP',
+          debugShowCheckedModeBanner: false,
+          locale: _locale,
+          localizationsDelegates: const [
+            AppLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en', 'US')],
+          theme: ThemeData(
+            brightness: Brightness.light,
+            dividerColor: Colors.grey,
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            dividerColor: Colors.grey,
+          ),
+          themeMode: _themeMode,
+          routerConfig: router,
+          scrollBehavior: MyCustomScrollBehavior(),
         ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          dividerColor: Colors.grey,
-        ),
-        themeMode: _themeMode,
-        routerConfig: router,
-        scrollBehavior: MyCustomScrollBehavior(),
       ),
     );
   }

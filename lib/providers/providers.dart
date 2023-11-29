@@ -1,3 +1,5 @@
+export 'package:acp_web/providers/visual_state/visual_state_provider.dart';
+
 export 'package:acp_web/providers/user_provider.dart';
 export 'package:acp_web/providers/clientes_provider.dart';
 export 'package:acp_web/providers/usuarios_provider.dart';

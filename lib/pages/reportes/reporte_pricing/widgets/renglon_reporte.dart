@@ -1,6 +1,8 @@
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/providers/reportes/reporte_pricing_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RenglonReporte extends StatefulWidget {
   const RenglonReporte({
@@ -24,6 +26,7 @@ class RenglonReporte extends StatefulWidget {
 class _RenglonReporteState extends State<RenglonReporte> {
   @override
   Widget build(BuildContext context) {
+    final ReportePricingProvider provider = Provider.of<ReportePricingProvider>(context);
     double width = MediaQuery.of(context).size.width / 1440;
 
     return Padding(
@@ -52,7 +55,7 @@ class _RenglonReporteState extends State<RenglonReporte> {
           SizedBox(
             width: width * 20,
             child: Text(
-              'Q',
+              'Q', //'${provider.montoQController.numberValue}',
               style: widget.style == AppTheme.of(context).bodyText2
                   ? AppTheme.of(context).bodyText2.override(
                         fontFamily: AppTheme.of(context).bodyText2Family,

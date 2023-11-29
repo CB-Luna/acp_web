@@ -137,7 +137,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       InputContainer(
-                                        title: 'Nombre de contacto',
+                                        title: 'Nombre de contacto *',
                                         child: CustomInputField(
                                           label: 'Nombre',
                                           controller: provider.nombreController,
@@ -159,7 +159,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                         width: 16,
                                       ),
                                       InputContainer(
-                                        title: 'Correo Electrónico',
+                                        title: 'Correo Electrónico *',
                                         child: CustomInputField(
                                           label: 'Email',
                                           controller: provider.correoController,
@@ -181,7 +181,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       InputContainer(
-                                        title: 'Apellido Paterno',
+                                        title: 'Apellido Paterno *',
                                         child: CustomInputField(
                                           label: 'Apellido Paterno',
                                           controller: provider.apellidoPaternoController,
@@ -228,7 +228,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       InputContainer(
-                                        title: 'Teléfono de Contacto',
+                                        title: 'Teléfono de Contacto *',
                                         child: CustomInputField(
                                           label: 'Teléfono',
                                           controller: provider.telefonoController,
@@ -253,7 +253,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                         width: 16,
                                       ),
                                       InputContainer(
-                                        title: 'Rol de Usuario',
+                                        title: 'Rol de Usuario *',
                                         child: CustomDropDown(
                                           label: 'Rol',
                                           value: provider.rolSeleccionado?.nombre,
@@ -288,7 +288,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         InputContainer(
-                                          title: 'Código de cliente',
+                                          title: 'Código de cliente *',
                                           child: CustomInputField(
                                             label: 'Código',
                                             controller: provider.codigoClienteController,
