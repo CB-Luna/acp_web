@@ -20,6 +20,7 @@ class ClientesProvider extends ChangeNotifier {
 
   TextEditingController codigoClienteController = TextEditingController();
   TextEditingController tasaAnualController = TextEditingController();
+  TextEditingController fechaContratoController = TextEditingController();
 
   bool activo = true;
 
@@ -43,6 +44,7 @@ class ClientesProvider extends ChangeNotifier {
     clearControllers(notify: false);
     this.cliente = cliente;
     tasaAnualController.text = cliente.tasaAnual?.toString() ?? '';
+    fechaContratoController.text = dateFormatInverse(cliente.fechaContrato);
   }
 
   void clearControllers({bool clearEmail = true, bool notify = true}) {
@@ -226,6 +228,7 @@ class ClientesProvider extends ChangeNotifier {
       if (!modificado) return true;
 
       cliente!.tasaAnual = num.tryParse(tasaAnualController.text);
+      cliente!.fechaContrato = DateTime.tryParse(fechaContratoController.text);
 
       if (cliente!.clienteId == null) {
         //nuevo cliente - insertar en tabla
@@ -384,6 +387,7 @@ class ClientesProvider extends ChangeNotifier {
     busquedaController.dispose();
     codigoClienteController.dispose();
     tasaAnualController.dispose();
+    fechaContratoController.dispose();
     super.dispose();
   }
 }

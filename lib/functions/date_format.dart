@@ -38,3 +38,8 @@ String dateFormat(
   }
   return formattedDate;
 }
+
+String dateFormatInverse(DateTime? x) {
+  if (x == null) return '';
+  return DateFormat('yyyy-MM-dd').format(x);
+}

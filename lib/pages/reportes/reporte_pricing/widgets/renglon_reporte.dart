@@ -39,6 +39,7 @@ class _RenglonReporteState extends State<RenglonReporte> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Tooltip(
+                  verticalOffset: 5,
                   message: widget.message,
                   child: Text(
                     widget.titulo,

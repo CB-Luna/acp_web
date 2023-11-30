@@ -14,6 +14,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
 import 'dart:html' as html;
 import 'package:pdf/widgets.dart' as pw;
+import 'package:signature/signature.dart';
 
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
@@ -219,6 +220,18 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     html.Url.revokeObjectUrl(url);
   }
 
+  final SignatureController controller = SignatureController(penColor: Colors.black, penStrokeWidth: 5);
+  Uint8List? signature;
+  Future<Uint8List> exportSignature() async {
+    pdfController = null;
+    notifyListeners();
+    final exportController = SignatureController(penStrokeWidth: 2, penColor: Colors.black, exportBackgroundColor: Colors.white, points: controller.points);
+    signature = await exportController.toPngBytes();
+    exportController.dispose();
+    firmaAnexo = true;
+    return signature!;
+  }
+
   Future<PdfController?> crearPDF(Propuesta propuesta) async {
     final headers = ['Cuenta', 'Importe', 'Comisión', 'Pago Anticipado', 'Días para Pago'];
     //final data = registros.map((registro) => [registro.cuenta, registro.importe, registro.comision, registro.pagoAnticipado, registro.diasPago]).toList();
@@ -418,13 +431,21 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             ]),
             pw.Spacer(),
             //Foother
-            pw.Text(
-              'F. ________________________________________ .',
-              style: const pw.TextStyle(
-                fontSize: 20,
-                color: pdfcolor.PdfColor.fromInt(0xFF060606),
-              ),
-            ),
+            controller.isNotEmpty
+                ? pw.Image(
+                    pw.MemoryImage(signature!),
+                    height: 250,
+                    width: 350,
+                    fit: pw.BoxFit.fill,
+                    alignment: pw.Alignment.center,
+                  )
+                : pw.Text(
+                    'F. ________________________________________ .',
+                    style: const pw.TextStyle(
+                      fontSize: 20,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
             pw.Text(
               'AUTORIZADO POR: ${currentUser!.nombreCompleto}',
               style: const pw.TextStyle(
@@ -451,7 +472,6 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     notifyListeners();
     return pdfController;
   }
-
   late Uint8List documento;
 }
 
