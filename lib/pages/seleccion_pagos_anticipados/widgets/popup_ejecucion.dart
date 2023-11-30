@@ -1,4 +1,5 @@
 import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -144,31 +145,26 @@ class _PopUpEjecucionState extends State<PopUpEjecucion> {
                                     icon: Icons.check_outlined,
                                     onTap: () async {
                                       if (provider.ejecBloq) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Proceso ejecutandose'),
-                                          ),
+                                        ApiErrorHandler.callToast(
+                                          'Proceso ejecutandose.',
                                         );
                                       } else {
                                         if (await provider.updateRecords()) {
                                           if (!mounted) return;
                                           Navigator.pop(context);
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Proceso realizado con exito'),
-                                            ),
+                                          ApiErrorHandler.callToast(
+                                            'Proceso realizado con exito.',
+                                            // ignore: use_build_context_synchronously
+                                            '#${AppTheme.of(context).green.value.toRadixString(16)}',
                                           );
-
                                           setState(() {
                                             provider.ejecBloq = false;
                                           });
                                         } else {
                                           if (!mounted) return;
                                           Navigator.pop(context);
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Proceso fallido'),
-                                            ),
+                                          ApiErrorHandler.callToast(
+                                            'Proceso fallido.',
                                           );
                                         }
                                       }

@@ -353,7 +353,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
               {
                 'factura_id': row.cells['id_factura_field']!.value,
                 'prev_estatus_id': row.cells['estatus_id_field']!.value,
-                'post_estatus_id': 2,
+                'post_estatus_id': 11,
                 'pantalla': 'Selección de Pagos Anticipados',
                 'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
                 'rol_id': currentUser!.rol.rolId,
@@ -365,7 +365,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
               'update_factura_estatus',
               params: {
                 'factura_id': row.cells['id_factura_field']!.value,
-                'estatus_id': 2,
+                'estatus_id': 11,
               },
             );
 
@@ -382,6 +382,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           }
         }
       }
+      //TODO: llamar proceso de bonita
       await clearAll();
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - Error en UpdatePartidasSolicitadas() - $e');

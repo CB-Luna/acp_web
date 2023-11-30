@@ -1,5 +1,6 @@
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/pages/seleccion_pagos_anticipados/widgets/popup_ejecucion.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -211,21 +212,17 @@ class _ContenedoresPagosAnticipadosState extends State<ContenedoresPagosAnticipa
                             ),
                             onTap: () async {
                               if (provider.ejecBloq) {
-                                const SnackBar(
-                                  content: Text('Proceso ejecutandose.'),
+                                ApiErrorHandler.callToast(
+                                  'Proceso ejecutandose.',
                                 );
                               } else {
                                 if (provider.fondoDisponibleRestante < 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('El fondo disponible restante no puede ser menor a 0.'),
-                                    ),
+                                  ApiErrorHandler.callToast(
+                                    'El fondo disponible restante no puede ser menor a 0.',
                                   );
                                 } else if (provider.cantidadFacturasSeleccionadas == 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Debe de seleccionar por lo menos una cuenta para realizar este proceso.'),
-                                    ),
+                                  ApiErrorHandler.callToast(
+                                    'Debe de seleccionar por lo menos una cuenta para realizar este proceso.',
                                   );
                                 } else {
                                   showDialog(
