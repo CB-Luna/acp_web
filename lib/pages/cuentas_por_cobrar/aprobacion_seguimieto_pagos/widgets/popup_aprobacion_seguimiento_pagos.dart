@@ -3,6 +3,7 @@
 import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
+import 'package:acp_web/pages/cuentas_por_cobrar/aprobacion_seguimieto_pagos/widgets/firma_pdf.dart';
 import 'package:acp_web/providers/cuentas_por_cobrar/aprobacion_seguimiento_pagos_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
       //provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
       provider.anexo = false;
       provider.firmaAnexo = false;
+      provider.controller.clear();
     });
   }
 
@@ -78,15 +80,19 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: IconButton(
-                      icon: Icon(Icons.history_edu, color: AppTheme.of(context).primaryColor),
-                      tooltip: 'Firmar Anexo',
-                      color: AppTheme.of(context).primaryColor,
-                      onPressed: () {
-                        /*  provider.firmaAnexo = true;
-                        setState(() {}); */
-                        //TODO:Metodo para firmar directamente el archivo
-                      },
-                    ),
+                        icon: Icon(Icons.history_edu, color: AppTheme.of(context).primaryColor),
+                        tooltip: 'Firmar Anexo',
+                        color: AppTheme.of(context).primaryColor,
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return FirmaPDF(
+                                propuesta: widget.propuesta,
+                              );
+                            },
+                          );
+                        }),
                   ),
                 //Pantalla Completa
                 Padding(
