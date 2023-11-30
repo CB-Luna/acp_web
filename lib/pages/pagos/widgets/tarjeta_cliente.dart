@@ -7,6 +7,7 @@ import 'package:acp_web/pages/pagos/widgets/pop_up_validacion_anexo.dart';
 import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
 import 'package:acp_web/pages/widgets/custom_image_container.dart';
 import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -208,7 +209,18 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
                                   icon: Icons.cancel_schedule_send_outlined,
                                   size: 20,
                                   onTap: () async {
-                                    await provider.cancelarPropuesta(widget.cliente.facturas!);
+                                    int resp = await provider.cancelarPropuesta(widget.cliente.facturas!);
+                                    if (resp == 1) {
+                                      ApiErrorHandler.callToast('Error al realizar el proceso');
+                                    } else if (resp == 2) {
+                                      ApiErrorHandler.callToast('El anexo ya ha sido cargado');
+                                    } else {
+                                      ApiErrorHandler.callToast(
+                                        'Propuesta cancelada con exito',
+                                        // ignore: use_build_context_synchronously
+                                        '#${AppTheme.of(context).green.value.toRadixString(16)}',
+                                      );
+                                    }
                                   },
                                 ),
                               ),

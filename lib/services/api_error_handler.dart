@@ -17,12 +17,11 @@ class ApiErrorHandler {
     }
   }
 
-  static Future<void> callToast(
-      [String msg = 'Error al realizar petición']) async {
+  static Future<void> callToast([String msg = 'Error al realizar petición', String color = "#e74c3c"]) async {
     await Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
-      webBgColor: "#e74c3c",
+      webBgColor: color,
       textColor: Colors.black,
       timeInSecForIosWeb: 5,
       webPosition: 'center',

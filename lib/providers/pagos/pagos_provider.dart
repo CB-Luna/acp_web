@@ -142,33 +142,48 @@ class PagosProvider extends ChangeNotifier {
     return getRecords();
   }
 
-  Future<void> cancelarPropuesta(List<Factura> list) async {
+  Future<int> cancelarPropuesta(List<Factura> list) async {
     try {
+      //Revisamos no se haya realizado la carga del Anexo por parte del cliente antes de proceder con la cancelación del proceso
+      bool anexoCreado = false;
       for (var factura in list) {
-        await supabase.from('bitacora_estatus_facturas').insert(
-          {
-            'factura_id': factura.facturaId,
-            'prev_estatus_id': factura.estatusId,
-            'post_estatus_id': 1,
-            'pantalla': 'Pagos',
-            'descripcion': 'Propuesta Cancelada',
-            'rol_id': currentUser!.rol.rolId,
-            'usuario_id': currentUser!.id,
-          },
-        );
+        var response = await supabase.from('facturas').select('estatus_id').eq('factura_id', factura.facturaId);
+        if (response[0]["estatus_id"] == 8) {
+          anexoCreado = true;
+        }
+      }
 
-        await supabase.rpc(
-          'update_factura_estatus',
-          params: {
-            'factura_id': factura.facturaId,
-            'estatus_id': 1,
-          },
-        );
+      if (anexoCreado == false) {
+        for (var factura in list) {
+          await supabase.from('bitacora_estatus_facturas').insert(
+            {
+              'factura_id': factura.facturaId,
+              'prev_estatus_id': factura.estatusId,
+              'post_estatus_id': 1,
+              'pantalla': 'Pagos',
+              'descripcion': 'Propuesta Cancelada',
+              'rol_id': currentUser!.rol.rolId,
+              'usuario_id': currentUser!.id,
+            },
+          );
+
+          await supabase.rpc(
+            'update_factura_estatus',
+            params: {
+              'factura_id': factura.facturaId,
+              'estatus_id': 1,
+            },
+          );
+        }
+      } else {
+        await getRecords();
+        return 2;
       }
     } catch (e) {
       log('Error en PagosProvider - cancelarPropuesta() - $e');
-      return;
+      return 1;
     }
-    return getRecords();
+    await getRecords();
+    return 0;
   }
 }
