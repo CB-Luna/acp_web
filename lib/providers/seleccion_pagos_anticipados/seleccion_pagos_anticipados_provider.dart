@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
+import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/configuracion/calculadora_pricing_models.dart';
 import 'package:acp_web/models/global/factura_model.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:http/http.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
@@ -136,15 +138,23 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       if (respaldo.isEmpty) {
         respaldo = clientes;
       }
-      //Corroboración de que no se realizó ninguna selección despues de realizar una busqueda
+
+      //Almacenamiento de cambios que haya realizado el usuario al realizar una selección sobre una busqueda
       for (var cliente in clientes) {
         for (var clienteResp in respaldo) {
-          if (cliente.clienteId == clienteResp.clienteId) {
-            clienteResp.rows = cliente.rows;
+          if (clienteResp.clienteId == cliente.clienteId) {
+            for (var row in cliente.rows!) {
+              for (var rowResp in clienteResp.rows!) {
+                if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value) {
+                  rowResp.setChecked(row.checked);
+                }
+              }
+            }
           }
         }
       }
 
+      //Reinicio de indicadores
       fondoDisponibleRestante = controllerFondoDisp.numberValue;
       montoFacturacion = 0;
       cantidadFacturas = 0;
@@ -152,19 +162,31 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       totalPagos = 0;
       comisionTotal = 0;
       clientes = [];
+
+      //Obtención información de la busqueda realizada
       await getRecords();
 
+      //De lo respaldado se sobreescribe sobre los datos obtenidos
       for (var cliente in clientes) {
         for (var clienteResp in respaldo) {
-          if (cliente.clienteId == clienteResp.clienteId) {
-            cliente.rows = clienteResp.rows;
+          if (clienteResp.clienteId == cliente.clienteId) {
+            for (var row in cliente.rows!) {
+              for (var rowResp in clienteResp.rows!) {
+                if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value) {
+                  row.setChecked(rowResp.checked);
+                }
+              }
+            }
+            //Se encontró relación con un cliente del respaldo con uno obtenido de la busqueda
             updateClientRows(cliente);
           }
         }
       }
+
+      //Calculo de indicadores superiores
       await calcClients();
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - search() - $e');
+      log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - search() - $e');
     }
   }
 
@@ -382,7 +404,17 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           }
         }
       }
-      //TODO: llamar proceso de bonita
+      await post(
+        Uri.parse(bonitaConnectionUrl),
+        body: json.encode(
+          {
+            "user": "Web",
+            "action": "bonitaProcessInstantiation",
+            "process": "ARUXACP_Propuesta_Pago_Anticipado",
+            "data": {},
+          },
+        ),
+      );
       await clearAll();
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - Error en UpdatePartidasSolicitadas() - $e');
