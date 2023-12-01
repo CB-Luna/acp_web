@@ -71,7 +71,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                         pantalla: 'Propuesta de Pago',
                         controllerBusqueda: provider.controllerBusqueda,
                         onSearchChanged: (p0) async {
-                          await provider.search();
+                          await provider.search(p0);
                         },
                         onMonedaSeleccionada: () async {
                           await provider.getRecords();

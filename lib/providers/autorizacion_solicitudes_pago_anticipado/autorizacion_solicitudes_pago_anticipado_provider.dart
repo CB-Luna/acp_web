@@ -13,6 +13,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
 
   List<AutorizacionSolicitudesPagoanticipado> clientes = [];
+  List<AutorizacionSolicitudesPagoanticipado> respaldo = [];
   double montoFacturacion = 0;
   int cantidadFacturas = 0;
   int cantidadFacturasSeleccionadas = 0;
@@ -102,8 +103,29 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
     return await calcClients();
   }
 
-  Future<void> search() async {
+  Future<void> search(String busqueda) async {
     try {
+      //Almacenamiento de seleccion
+      if (respaldo.isEmpty) {
+        respaldo = clientes;
+      }
+
+      //Almacenamiento de cambios que haya realizado el usuario al realizar una selección sobre una busqueda
+      for (var cliente in clientes) {
+        for (var clienteResp in respaldo) {
+          if (clienteResp.clienteId == cliente.clienteId) {
+            for (var row in cliente.rows!) {
+              for (var rowResp in clienteResp.rows!) {
+                if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value) {
+                  rowResp.setChecked(row.checked);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      //Reinicio de indicadores
       fondoDisponibleRestante = controllerFondoDisp.numberValue;
       montoFacturacion = 0;
       cantidadFacturas = 0;
@@ -111,10 +133,32 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       totalPagos = 0;
       comisionTotal = 0;
       clientes = [];
+
+      //Obtención información de la busqueda realizada
+      await getRecords();
+
+      //De lo respaldado se sobreescribe sobre los datos obtenidos
+      for (var cliente in clientes) {
+        for (var clienteResp in respaldo) {
+          if (clienteResp.clienteId == cliente.clienteId) {
+            for (var row in cliente.rows!) {
+              for (var rowResp in clienteResp.rows!) {
+                if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value) {
+                  row.setChecked(rowResp.checked);
+                }
+              }
+            }
+            //Se encontró relación con un cliente del respaldo con uno obtenido de la busqueda
+            updateClientRows(cliente);
+          }
+        }
+      }
+
+      //Calculo de indicadores superiores
+      await calcClients();
     } catch (e) {
       log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - search() - $e');
     }
-    return getRecords();
   }
 
   Future<void> seleccionAutomatica() async {
