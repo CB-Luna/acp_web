@@ -119,8 +119,9 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                   'importe_field': PlutoCell(value: registro.importe),
                   'comision_cant_field': PlutoCell(value: registro.cantComision),
                   'pago_anticipado_field': PlutoCell(value: registro.pagoAnticipado),
-                  'dias_pago_field': PlutoCell(value: registro.estatusId),
+                  'dias_pago_field': PlutoCell(value: registro.diasPago),
                   'moneda_field': PlutoCell(value: registro.moneda),
+                  'estatus_field': PlutoCell(value: registro.estatusId)
                 },
               ),
             );
@@ -144,33 +145,42 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     ejecBloq = true;
     notifyListeners();
     try {
-      var idAnexo = (await supabase.from('anexo').insert(
-        {
-          'anticipo': propuesta.sumAnticipo,
-          'comision': propuesta.sumComision,
-          'cliente_id': currentUser!.cliente!.clienteId,
-        },
-      ).select())[0]['anexo_id'];
-
-      await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', docProveedor!.files[0].bytes!);
-      await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
-
       for (var row in propuesta.rows!) {
         if (row.checked == true) {
-          await supabase.from('facturas').update({'anexo_id': idAnexo}).eq('factura_id', row.cells["id_factura_field"]!.value);
-          await supabase.rpc(
-            'update_factura_estatus',
-            params: {
-              'factura_id': row.cells["id_factura_field"]!.value,
-              'estatus_id': 8,
-            },
-          );
+          var response = await supabase.from('facturas').select('estatus_id').eq('factura_id', row.cells["id_factura_field"]!.value);
+          if (response[0]["estatus_id"] == 2) {
+            var idAnexo = (await supabase.from('anexo').insert(
+              {
+                'anticipo': propuesta.sumAnticipo,
+                'comision': propuesta.sumComision,
+                'cliente_id': currentUser!.cliente!.clienteId,
+              },
+            ).select())[0]['anexo_id'];
+            if (docProveedor != null) {
+              await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', docProveedor!.files[0].bytes!);
+              await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
+            } else {
+              await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', documento);
+              await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
+            }
+            await supabase.from('facturas').update({'anexo_id': idAnexo}).eq('factura_id', row.cells["id_factura_field"]!.value);
+            await supabase.rpc(
+              'update_factura_estatus',
+              params: {
+                'factura_id': row.cells["id_factura_field"]!.value,
+                'estatus_id': 8,
+              },
+            );
+          } else {
+            return false;
+          }
         }
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
       ejecBloq = false;
       notifyListeners();
+      return false;
     }
     await aprobacionSeguimientoPagos();
     notifyListeners();
@@ -472,6 +482,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     notifyListeners();
     return pdfController;
   }
+
   late Uint8List documento;
 }
 

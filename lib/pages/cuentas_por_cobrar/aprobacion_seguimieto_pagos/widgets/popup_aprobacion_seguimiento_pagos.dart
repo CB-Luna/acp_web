@@ -33,7 +33,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
       //provider.pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
       provider.anexo = false;
       provider.firmaAnexo = false;
-      provider.controller.clear();
+      //provider.controller.clear();
     });
   }
 
@@ -257,13 +257,13 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                                 ),
                               );
                             } else {
-                              if (provider.docProveedor == null && widget.propuesta.estatus == 2) {
+                              if (provider.pdfController == null || provider.documento.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Por Favor Cargue Anexo Firmado'),
                                   ),
                                 );
-                              } else if (provider.docProveedor != null && widget.propuesta.estatus == 2) {
+                              } else if ( provider.pdfController != null) {
                                 if (await provider.actualizarFacturasSeleccionadas(widget.propuesta)) {
                                   if (!mounted) return;
                                   Navigator.pop(context);
