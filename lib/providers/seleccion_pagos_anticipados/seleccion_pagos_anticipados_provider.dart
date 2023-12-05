@@ -67,7 +67,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         params: {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1, 2, 3], //TODO: Change
-          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
+          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
         },
       ).select();
 
@@ -82,7 +82,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           for (var factura in cliente.facturas!) {
             var imq = factura.importe!;
             var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
-            var diasDif = DateTime.now().difference(factura.fechaDoc!).inDays; //factura.fechaDoc!.difference(DateTime.now()).inDays; //TODO: Cambiar por fecha normal de pago
+            var diasDif = factura.fechaDoc!.add(Duration(days: cliente.condPago!)).difference(DateTime.now()).inDays; //TODO: Cambiar por fecha normal de pago
 
             var iod = ((cliente.tae! / 360) * (diasDif)) * (imq); //Ingresos por operación de descuento
             var pa = imq - iod; //Pago Anticipado
@@ -375,7 +375,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
               {
                 'factura_id': row.cells['id_factura_field']!.value,
                 'prev_estatus_id': row.cells['estatus_id_field']!.value,
-                'post_estatus_id': 11,
+                'post_estatus_id': 2,
                 'pantalla': 'Selección de Pagos Anticipados',
                 'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
                 'rol_id': currentUser!.rol.rolId,
@@ -387,7 +387,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
               'update_factura_estatus',
               params: {
                 'factura_id': row.cells['id_factura_field']!.value,
-                'estatus_id': 11,
+                'estatus_id': 2,
               },
             );
 

@@ -244,7 +244,7 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
                       style: plutoGridPopUpStyleConfig(context),
                     ),
                     columns: [
-                      PlutoColumn(
+                      /*  PlutoColumn(
                         title: '',
                         titleTextAlign: PlutoColumnTextAlign.center,
                         textAlign: PlutoColumnTextAlign.center,
@@ -263,7 +263,7 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
                         renderer: (rendererContext) {
                           return const SizedBox.shrink();
                         },
-                      ),
+                      ), */
                       PlutoColumn(
                         title: 'Cuenta',
                         titleTextAlign: PlutoColumnTextAlign.center,

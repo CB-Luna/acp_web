@@ -8,6 +8,7 @@ class SeleccionPagosAnticipados {
   String? nombreFiscal;
   String? sociedad;
   String? codigoCliente;
+  int? condPago;
   //String? contacto;
   String? logo;
   List<Factura>? facturas;
@@ -31,6 +32,7 @@ class SeleccionPagosAnticipados {
     //this.contacto,
     this.logo,
     this.facturas,
+    this.condPago,
     this.tae,
   });
 
@@ -46,6 +48,7 @@ class SeleccionPagosAnticipados {
         //contacto: json["contacto"],
         logo: json["logo"],
         facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
+        condPago: json["cond_pago"].toDouble(),
         tae: json["tasa_anual"]?.toDouble(),
       );
 
@@ -58,5 +61,6 @@ class SeleccionPagosAnticipados {
         "logo": logo,
         "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
         "tasa_anual": tae,
+        "cond_pago": condPago,
       };
 }
