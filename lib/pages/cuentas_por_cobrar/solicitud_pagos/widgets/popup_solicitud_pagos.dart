@@ -123,7 +123,7 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
-                          'GTQ ${moneyFormat(widget.comision)}',
+                          '${widget.moneda} ${moneyFormat(widget.comision)}',
                           style: AppTheme.of(context).subtitle2.override(
                                 fontFamily: AppTheme.of(context).bodyText2Family,
                                 useGoogleFonts: false,
@@ -134,7 +134,7 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
-                          'GTQ ${moneyFormat(widget.pagoanticipado)}',
+                          '${widget.moneda} ${moneyFormat(widget.pagoanticipado)}',
                           style: AppTheme.of(context).subtitle2.override(
                                 fontFamily: AppTheme.of(context).bodyText2Family,
                                 useGoogleFonts: false,

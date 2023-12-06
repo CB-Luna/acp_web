@@ -101,7 +101,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1440 * 160,
                 child: Text(
-                  widget.propuesta.factuaId.toString(),
+                  widget.propuesta.noDoc.toString(),
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
@@ -114,7 +114,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: width * 160,
                 child: Text(
-                  'GTQ ${moneyFormat(widget.propuesta.importe)}',
+                  '${widget.propuesta.moneda} ${moneyFormat(widget.propuesta.importe!)}',
                   textAlign: TextAlign.center,
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
@@ -127,7 +127,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: width * 160,
                 child: Text(
-                  'GTQ ${moneyFormat(widget.propuesta.comision)}',
+                  '${widget.propuesta.moneda} ${moneyFormat(widget.propuesta.comision!)}',
                   textAlign: TextAlign.center,
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
@@ -150,7 +150,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: width * 160,
                 child: Text(
-                  'GTQ ${moneyFormat(widget.propuesta.pagoAnticipado)}',
+                  '${widget.propuesta.moneda} ${moneyFormat(widget.propuesta.pagoAnticipado!)}',
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,

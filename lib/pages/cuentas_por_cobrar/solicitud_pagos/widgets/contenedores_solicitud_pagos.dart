@@ -166,7 +166,7 @@ class _ContenedoresSolicitudPagosState extends State<ContenedoresSolicitudPagos>
                             context: context,
                             builder: (BuildContext context) {
                               return  PopupSolicitudPagos(
-                                moneda: provider.facturas.first.moneda,
+                                moneda: provider.facturas.first.moneda!,
                                 cantidadFacturas: provider.cantidadFacturas,
                                 cantidadFacturasSeleccionadas: provider.cantidadFacturasSeleccionadas,
                                 comision: provider.totalPagos,

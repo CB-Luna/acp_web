@@ -151,10 +151,10 @@ class SolicitudPagosProvider extends ChangeNotifier {
       for (var factura in facturas) {
         if (factura.ischeck) {
           ischeck = true;
-          montoFacturacion = montoFacturacion + factura.importe;
+          montoFacturacion = montoFacturacion + factura.importe!;
           cantidadFacturasSeleccionadas = cantidadFacturasSeleccionadas + 1;
-          totalPagos = totalPagos + factura.comision;
-          pagoAnticipado = pagoAnticipado + factura.pagoAnticipado;
+          totalPagos = totalPagos + factura.comision!;
+          pagoAnticipado = pagoAnticipado + factura.pagoAnticipado!;
         }
       }
       notifyListeners();

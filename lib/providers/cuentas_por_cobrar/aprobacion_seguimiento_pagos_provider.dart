@@ -145,24 +145,30 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     ejecBloq = true;
     notifyListeners();
     try {
+      bool estatus2 = false;
       for (var row in propuesta.rows!) {
-        if (row.checked == true) {
-          var response = await supabase.from('facturas').select('estatus_id').eq('factura_id', row.cells["id_factura_field"]!.value);
-          if (response[0]["estatus_id"] == 2) {
-            var idAnexo = (await supabase.from('anexo').insert(
-              {
-                'anticipo': propuesta.sumAnticipo,
-                'comision': propuesta.sumComision,
-                'cliente_id': currentUser!.cliente!.clienteId,
-              },
-            ).select())[0]['anexo_id'];
-            if (docProveedor != null) {
-              await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', docProveedor!.files[0].bytes!);
-              await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
-            } else {
-              await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', documento);
-              await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
-            }
+        var response = await supabase.from('facturas').select('estatus_id').eq('factura_id', row.cells["id_factura_field"]!.value);
+        if (response[0]["estatus_id"] == 2) {
+          estatus2 = true;
+        }
+      }
+      if (estatus2 == true) {
+        var idAnexo = (await supabase.from('anexo').insert(
+          {
+            'anticipo': propuesta.sumAnticipo,
+            'comision': propuesta.sumComision,
+            'cliente_id': currentUser!.cliente!.clienteId,
+          },
+        ).select())[0]['anexo_id'];
+        if (docProveedor != null) {
+          await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', docProveedor!.files[0].bytes!);
+          await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
+        } else {
+          await supabase.storage.from('anexo').uploadBinary('${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf', documento);
+          await supabase.from('anexo').update({'documento': '${dateFormat(fecha)}_${idAnexo}_${currentUser!.nombreCompleto}.pdf'}).eq('anexo_id', idAnexo);
+        }
+        for (var row in propuesta.rows!) {
+          if (row.checked == true) {
             await supabase.from('facturas').update({'anexo_id': idAnexo}).eq('factura_id', row.cells["id_factura_field"]!.value);
             await supabase.rpc(
               'update_factura_estatus',
