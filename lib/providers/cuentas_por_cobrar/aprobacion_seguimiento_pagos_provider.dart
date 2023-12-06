@@ -5,10 +5,10 @@ import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
+import 'package:date_format/date_format.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart' as pdfcolor;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:pdfx/pdfx.dart';
@@ -121,7 +121,8 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                   'pago_anticipado_field': PlutoCell(value: registro.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: registro.diasPago),
                   'moneda_field': PlutoCell(value: registro.moneda),
-                  'estatus_field': PlutoCell(value: registro.estatusId)
+                  'estatus_field': PlutoCell(value: registro.estatusId),
+                  'cliente_field': PlutoCell(value: registro.clienteId),
                 },
               ),
             );
@@ -247,8 +248,11 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     firmaAnexo = true;
     return signature!;
   }
-
+  
   Future<PdfController?> crearPDF(Propuesta propuesta) async {
+    DateTime fechaContrato;
+    var response = await supabase.from('cliente').select('fecha_contrato').eq('cliente_id', currentUser!.cliente!.clienteId);
+    fechaContrato = DateTime.parse(response[0]['fecha_contrato'].toString());
     final headers = ['Cuenta', 'Importe', 'Comisión', 'Pago Anticipado', 'Días para Pago'];
     //final data = registros.map((registro) => [registro.cuenta, registro.importe, registro.comision, registro.pagoAnticipado, registro.diasPago]).toList();
     final logo = (await rootBundle.load('assets/images/Logo.png')).buffer.asUint8List();
@@ -296,7 +300,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                               pw.Text('Anexo #'),
                               pw.Text('Anexo'),
                               pw.Text('Fecha Anexo:'),
-                              pw.Text(DateFormat.MMMEd('es').format(fecha)),
+                              pw.Text(formatDate(fecha, [dd,'/',m,'/', yyyy], locale: const SpanishDateLocale(),)),
                             ],
                           ),
                         ),
@@ -356,7 +360,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             ),
             //Contenido
             pw.Text(
-              'Que con fecha, el ${dateFormat(fecha)} se formalizó Contrato de Factoraje con anticipo de contraseñas celebrado entre Cliente con NIT ${currentUser!.cliente!.clienteId} y código de cliente No. ${currentUser!.cliente!.codigoCliente}.',
+              'Que con fecha, el ${formatDate(fechaContrato, [obtenerDiaEnLetras(fechaContrato.day), ' de ', MM, ' del ', obtenerDiaEnLetras(fechaContrato.year)], locale: const SpanishDateLocale(),)} se formalizó Contrato de Factoraje con anticipo de contraseñas celebrado entre Cliente con NIT ${currentUser!.cliente!.clienteId} y código de cliente No. ${currentUser!.cliente!.codigoCliente}.',
               style: const pw.TextStyle(
                 fontSize: 20,
                 color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -379,7 +383,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Text(
-                      'Thank you for your business',
+                      'Gracias por hacer negocios',
                       style: pw.TextStyle(
                         color: const pdfcolor.PdfColor.fromInt(0xFF060606),
                         fontWeight: pw.FontWeight.bold,
@@ -388,19 +392,11 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                     pw.Container(
                       margin: const pw.EdgeInsets.only(top: 20, bottom: 8),
                       child: pw.Text(
-                        'Payment Info:',
+                        'Informacion de Pago:',
                         style: pw.TextStyle(
                           color: const pdfcolor.PdfColor.fromInt(0xFF060606),
                           fontWeight: pw.FontWeight.bold,
                         ),
-                      ),
-                    ),
-                    pw.Text(
-                      'paymentInfo',
-                      style: const pw.TextStyle(
-                        fontSize: 8,
-                        lineSpacing: 5,
-                        color: pdfcolor.PdfColor.fromInt(0xFF060606),
                       ),
                     ),
                   ],
@@ -490,6 +486,85 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   }
 
   late Uint8List documento;
+  String obtenerDiaEnLetras(int numeroDia) {
+      switch (numeroDia) {
+        case 1:
+          return 'uno';
+        case 2:
+          return 'dos';
+        case 3:
+          return 'tres';
+        case 4:
+          return 'cuatro';
+        case 5:
+          return 'cinco';
+        case 6:
+          return 'seis';
+        case 7:
+          return 'siete';
+        case 8:
+          return 'ocho';
+        case 9:
+          return 'nueve';
+        case 10:
+          return 'diez';
+        case 11:
+          return 'once';
+        case 12:
+          return 'doce';
+        case 13:
+          return 'trece';
+        case 14:
+          return 'catorce';
+        case 15:
+          return 'quince';
+        case 16:
+          return 'dieciséis';
+        case 17:
+          return 'diecisiete';
+        case 18:
+          return 'dieciocho';
+        case 19:
+          return 'diecinueve';
+        case 20:
+          return 'veinte';
+        case 21:
+          return 'veintiuno';
+        case 22:
+          return 'veintidós';
+        case 23:
+          return 'veintitrés';
+        case 24:
+          return 'veinticuatro';
+        case 25:
+          return 'veinticinco';
+        case 26:
+          return 'veintiséis';
+        case 27:
+          return 'veintisiete';
+        case 28:
+          return 'veintiocho';
+        case 29:
+          return 'veintinueve';
+        case 30:
+          return 'treinta';
+        case 31:
+          return 'treinta y uno';
+        case 2023:
+          return 'dos mil veintitrés';
+        case 2024:
+          return 'dos mil veinticuatro';
+        case 2025:
+          return 'dos mil veinticinco';
+        case 2026:
+          return 'dos mil veintiseis';
+        case 2027:
+          return 'dos mil veintisiete';
+        default:
+          return '';
+      }
+    }
+
 }
 
 class Registro {
