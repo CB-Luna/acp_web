@@ -20,6 +20,8 @@ class ClientesProvider extends ChangeNotifier {
 
   TextEditingController codigoClienteController = TextEditingController();
   TextEditingController tasaAnualController = TextEditingController();
+  TextEditingController tasaPreferencialController = TextEditingController();
+  TextEditingController facturacionMayorAController = TextEditingController();
   TextEditingController fechaContratoController = TextEditingController();
 
   bool activo = true;
@@ -44,12 +46,16 @@ class ClientesProvider extends ChangeNotifier {
     clearControllers(notify: false);
     this.cliente = cliente;
     tasaAnualController.text = cliente.tasaAnual?.toString() ?? '';
+    tasaPreferencialController.text = cliente.tasaPreferencial?.toString() ?? '';
+    facturacionMayorAController.text = cliente.facturacionMayorA?.toString() ?? '';
     fechaContratoController.text = dateFormatInverse(cliente.fechaContrato);
   }
 
   void clearControllers({bool clearEmail = true, bool notify = true}) {
     codigoClienteController.clear();
     tasaAnualController.clear();
+    tasaPreferencialController.clear();
+    facturacionMayorAController.clear();
 
     nombreImagen = null;
     webImage = null;
@@ -229,6 +235,8 @@ class ClientesProvider extends ChangeNotifier {
 
       cliente!.tasaAnual = num.tryParse(tasaAnualController.text);
       cliente!.fechaContrato = DateTime.tryParse(fechaContratoController.text);
+      cliente!.tasaPreferencial = num.tryParse(tasaPreferencialController.text);
+      cliente!.facturacionMayorA = num.tryParse(facturacionMayorAController.text);
 
       if (cliente!.clienteId == null) {
         //nuevo cliente - insertar en tabla
@@ -291,70 +299,6 @@ class ClientesProvider extends ChangeNotifier {
     return parsedValue.toStringAsPrecision(6);
   }
 
-  // Future<bool> crearPerfilDeUsuario(String userId) async {
-  //   if (rolSeleccionado == null) {
-  //     return false;
-  //   }
-  //   try {
-  //     await supabase.from('perfil_usuario').insert(
-  //       {
-  //         'perfil_usuario_id': userId,
-  //         'nombre': nombreController.text,
-  //         'apellido_paterno': apellidoPaternoController.text,
-  //         'apellido_materno': apellidoMaternoController.text,
-  //         'telefono': telefonoController.text,
-  //         'rol_fk': rolSeleccionado!.rolId,
-  //         'compania': 'ACP',
-  //         'cliente_fk': cliente?.clienteId,
-  //         'imagen': nombreImagen,
-  //         'activo': activo,
-  //       },
-  //     );
-  //     return true;
-  //   } catch (e) {
-  //     log('Error en crearPerfilDeUsuario() - $e');
-  //     return false;
-  //   }
-  // }
-
-  // Future<bool> editarPerfilDeUsuario(String userId) async {
-  //   try {
-  //     await supabase.from('perfil_usuario').update(
-  //       {
-  //         'nombre': nombreController.text,
-  //         'apellido_paterno': apellidoPaternoController.text,
-  //         'apellido_materno': apellidoMaternoController.text,
-  //         'telefono': telefonoController.text,
-  //         'rol_fk': rolSeleccionado!.rolId,
-  //         'compania': 'ACP',
-  //         'cliente_fk': cliente?.clienteId,
-  //         'imagen': nombreImagen,
-  //         'activo': activo,
-  //       },
-  //     ).eq('perfil_usuario_id', userId);
-  //     return true;
-  //   } catch (e) {
-  //     log('Error en editarPerfilUsuario() - $e');
-  //     return false;
-  //   }
-  // }
-
-  // Future<void> initEditarUsuario(Usuario usuario) async {
-  //   nombreController.text = usuario.nombre;
-  //   apellidoPaternoController.text = usuario.apellidoPaterno;
-  //   apellidoMaternoController.text = usuario.apellidoMaterno ?? '';
-  //   correoController.text = usuario.email;
-  //   telefonoController.text = usuario.telefono;
-  //   rolSeleccionado = usuario.rol;
-  //   activo = usuario.activo;
-  //   nombreImagen = usuario.imagen;
-  //   webImage = null;
-  //   cliente = usuario.cliente;
-  //   if (cliente != null) {
-  //     await getCliente();
-  //   }
-  // }
-
   Future<bool> updateActivado(Cliente cliente, bool value, int rowIndex) async {
     try {
       //actualizar usuario
@@ -368,25 +312,13 @@ class ClientesProvider extends ChangeNotifier {
     }
   }
 
-  // Future<bool> borrarUsuario(String userId) async {
-  //   try {
-  //     final res = await supabase.rpc('borrar_usuario_id', params: {
-  //       'user_id': userId,
-  //     });
-  //     usuarios.removeWhere((user) => user.id == userId);
-  //     llenarPlutoGrid(usuarios);
-  //     return res;
-  //   } catch (e) {
-  //     log('Error en borrarUsuario() - $e');
-  //     return false;
-  //   }
-  // }
-
   @override
   void dispose() {
     busquedaController.dispose();
     codigoClienteController.dispose();
     tasaAnualController.dispose();
+    tasaPreferencialController.dispose();
+    facturacionMayorAController.dispose();
     fechaContratoController.dispose();
     super.dispose();
   }

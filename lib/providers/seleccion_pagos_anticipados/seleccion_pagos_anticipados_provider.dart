@@ -71,10 +71,13 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         },
       ).select();
 
-      clientes = (response as List<dynamic>).map((cliente) => SeleccionPagosAnticipados.fromJson(jsonEncode(cliente))).toList();
+      clientes = (response as List<dynamic>)
+          .map((cliente) => SeleccionPagosAnticipados.fromJson(jsonEncode(cliente)))
+          .toList();
 
       for (var cliente in clientes) {
-        cliente.facturas!.sort((a, b) => b.cantComision!.compareTo(a.cantComision!)); //TODO: Realizar ordenamiento mediante el query
+        cliente.facturas!
+            .sort((a, b) => b.cantComision!.compareTo(a.cantComision!)); //TODO: Realizar ordenamiento mediante el query
 
         List<PlutoRow> rows = [];
 
@@ -82,7 +85,10 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           for (var factura in cliente.facturas!) {
             var imq = factura.importe!;
             var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
-            var diasDif = factura.fechaDoc!.add(Duration(days: cliente.condPago!)).difference(DateTime.now()).inDays; //TODO: Cambiar por fecha normal de pago
+            var diasDif = factura.fechaDoc!
+                .add(Duration(days: cliente.condPago!))
+                .difference(DateTime.now())
+                .inDays; //TODO: Cambiar por fecha normal de pago
 
             var iod = ((cliente.tae! / 360) * (diasDif)) * (imq); //Ingresos por operación de descuento
             var pa = imq - iod; //Pago Anticipado
@@ -208,7 +214,8 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           if (!cliente.bloqueado) {
             for (var row in cliente.rows!) {
               if (row.checked == false) {
-                if (beneficioMayor < row.cells["comision_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
+                if (beneficioMayor < row.cells["comision_cant_field"]!.value &&
+                    row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
                   beneficioMayor = row.cells["comision_cant_field"]!.value;
                   idFactura = row.cells["id_factura_field"]!.value;
                 }
@@ -281,7 +288,8 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         if (row.checked == true) {
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
           cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
-          cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
+          cliente.pagoAdelantado =
+              cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
 
           cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
 
@@ -377,7 +385,8 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
                 'prev_estatus_id': row.cells['estatus_id_field']!.value,
                 'post_estatus_id': 2,
                 'pantalla': 'Selección de Pagos Anticipados',
-                'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
+                'descripcion':
+                    'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
                 'rol_id': currentUser!.rol.rolId,
                 'usuario_id': currentUser!.id,
               },
@@ -404,17 +413,17 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           }
         }
       }
-      await post(
-        Uri.parse(bonitaConnectionUrl),
-        body: json.encode(
-          {
-            "user": "Web",
-            "action": "bonitaProcessInstantiation",
-            "process": "ARUXACP_Propuesta_Pago_Anticipado",
-            "data": {},
-          },
-        ),
-      );
+      // await post(
+      //   Uri.parse(bonitaConnectionUrl),
+      //   body: json.encode(
+      //     {
+      //       "user": "Web",
+      //       "action": "bonitaProcessInstantiation",
+      //       "process": "ARUXACP_Propuesta_Pago_Anticipado",
+      //       "data": {},
+      //     },
+      //   ),
+      // );
       await clearAll();
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - Error en UpdatePartidasSolicitadas() - $e');

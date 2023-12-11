@@ -56,6 +56,12 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
                     child: CustomInputField(
                       label: 'Tasa Anual',
                       keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'La tasa anual es obligatoria';
+                        }
+                        return null;
+                      },
                       formatters: [
                         FilteringTextInputFormatter.allow(
                           RegExp(r'[0-9.]'),
@@ -75,7 +81,7 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
                     title: 'Fecha Contrato',
                     child: CustomInputField(
                       label: 'yyyy-MM-dd',
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.datetime,
                       formatters: [dateMaskFormatter],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -89,6 +95,50 @@ class _TasaAnualWidgetState extends State<TasaAnualWidget> {
                       },
                       onChanged: (_) => provider.modificado = true,
                       controller: provider.fechaContratoController,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: InputContainer(
+                  alignment: Alignment.centerLeft,
+                  child: DataInputColumn(
+                    title: '% Tasa Preferencial',
+                    child: CustomInputField(
+                      label: 'Tasa Preferencial',
+                      keyboardType: TextInputType.text,
+                      formatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[0-9.]'),
+                        )
+                      ],
+                      onChanged: (value) => provider.modificado = true,
+                      controller: provider.tasaPreferencialController,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: InputContainer(
+                  alignment: Alignment.centerLeft,
+                  child: DataInputColumn(
+                    title: 'Facturación mayor a:',
+                    child: CustomInputField(
+                      label: '\$ 0.00',
+                      keyboardType: TextInputType.text,
+                      formatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[0-9.]'),
+                        )
+                      ],
+                      onChanged: (_) => provider.modificado = true,
+                      controller: provider.facturacionMayorAController,
                     ),
                   ),
                 ),

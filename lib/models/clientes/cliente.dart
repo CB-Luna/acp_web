@@ -18,6 +18,8 @@ class Cliente {
     this.tipoCuenta,
     this.moneda,
     this.tasaAnual,
+    this.tasaPreferencial,
+    this.facturacionMayorA,
     this.acuerdoComercial,
     this.fechaContrato,
     required this.activo,
@@ -38,6 +40,8 @@ class Cliente {
   String? tipoCuenta;
   String? moneda;
   num? tasaAnual;
+  num? tasaPreferencial;
+  num? facturacionMayorA;
   String? acuerdoComercial;
   DateTime? fechaContrato;
   bool activo;
@@ -62,6 +66,8 @@ class Cliente {
       tipoCuenta: json['tipo_cuenta'],
       moneda: json['moneda'],
       tasaAnual: json['tasa_anual'],
+      tasaPreferencial: json['tasa_preferencial'],
+      facturacionMayorA: json['facturacion_mayor_a'],
       acuerdoComercial: json['acuerdo_comercial'],
       fechaContrato: json['fecha_contrato'] != null ? DateTime.parse(json['fecha_contrato']) : null,
       sociedad: json['sociedad'],
@@ -97,6 +103,8 @@ class Cliente {
         "condicion_pago": condicionPago,
         "numero_cuenta": numeroCuenta,
         "tasa_anual": tasaAnual,
+        "tasa_preferencial": tasaPreferencial,
+        "facturacion_mayor_a": facturacionMayorA,
         "logo": imagen,
         "banco_industrial": bancoIndustrial,
         "tipo_cuenta": tipoCuenta,
