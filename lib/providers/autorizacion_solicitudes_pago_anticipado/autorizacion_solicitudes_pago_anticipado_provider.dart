@@ -31,6 +31,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
 
   Future<void> clearAll() async {
     clientes = [];
+    respaldo = [];
 
     montoFacturacion = 0;
     cantidadFacturas = 0;
@@ -154,6 +155,10 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         }
       }
 
+      if (busqueda.isEmpty) {
+        respaldo = [];
+      }
+
       //Calculo de indicadores superiores
       await calcClients();
     } catch (e) {
@@ -226,13 +231,12 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       cliente.comision = 0;
       cliente.pagoAdelantado = 0;
       for (var row in cliente.rows!) {
-        /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
+        /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day); //TODO: Cambiar por la fecha normal de pago
             DateTime now = DateTime.now();
             DateTime fpa = DateTime(now.year, now.month, now.day);
             int dac = row.cells["dias_adicionales_field"]!.value;
-            double tasaAnual = 10 / 100; // TODO: Obtener Tasa Anual del mantenimiento de Clientes : cliente.tasaAnual;
-
-            double x = tasaAnual / 360;
+          
+            double x = cliente.tae! / 360;
             int y = fnp.difference(fpa).inDays + 1 + dac;
             double z = x * y;
 

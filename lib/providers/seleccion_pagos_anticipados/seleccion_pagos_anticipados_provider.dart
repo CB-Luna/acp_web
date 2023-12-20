@@ -2,14 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
-import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/configuracion/calculadora_pricing_models.dart';
-import 'package:acp_web/models/global/factura_model.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:http/http.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
@@ -71,13 +68,10 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         },
       ).select();
 
-      clientes = (response as List<dynamic>)
-          .map((cliente) => SeleccionPagosAnticipados.fromJson(jsonEncode(cliente)))
-          .toList();
+      clientes = (response as List<dynamic>).map((cliente) => SeleccionPagosAnticipados.fromJson(jsonEncode(cliente))).toList();
 
       for (var cliente in clientes) {
-        cliente.facturas!
-            .sort((a, b) => b.cantComision!.compareTo(a.cantComision!)); //TODO: Realizar ordenamiento mediante el query
+        cliente.facturas!.sort((a, b) => b.cantComision!.compareTo(a.cantComision!)); //TODO: Realizar ordenamiento mediante el query
 
         List<PlutoRow> rows = [];
 
@@ -85,10 +79,8 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           for (var factura in cliente.facturas!) {
             var imq = factura.importe!;
             var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
-            var diasDif = factura.fechaDoc!
-                .add(Duration(days: cliente.condPago!))
-                .difference(DateTime.now())
-                .inDays; //TODO: Cambiar por fecha normal de pago
+            var diasDif = factura.fechaDoc!.add(Duration(days: cliente.condPago!)).difference(DateTime.now()).inDays; //TODO: Cambiar por fecha normal de pago
+            //var diasDif = factura.fechaPago!.difference(DateTime.now()).inDays;
 
             var iod = ((cliente.tae! / 360) * (diasDif)) * (imq); //Ingresos por operación de descuento
             var pa = imq - iod; //Pago Anticipado
@@ -99,7 +91,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
             factura.mpfn = ((mfi - ago) / imq) * (360 / (diasDif));
 
-            cliente.facturaionTotal = cliente.facturaionTotal! + factura.importe!;
+            cliente.facturacionTotal = cliente.facturacionTotal! + factura.importe!;
 
             rows.add(
               PlutoRow(
@@ -124,7 +116,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
             );
           }
 
-          if (cliente.facturaionTotal! >= 100000 && currentUser!.monedaSeleccionada == 'GTQ') {
+          if (cliente.facturacionTotal! >= 100000 && currentUser!.monedaSeleccionada == 'GTQ') {
             cliente.tae = 33;
           }
 
@@ -189,6 +181,10 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
 
+      if (busqueda.isEmpty) {
+        respaldo = [];
+      }
+
       //Calculo de indicadores superiores
       await calcClients();
     } catch (e) {
@@ -214,8 +210,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           if (!cliente.bloqueado) {
             for (var row in cliente.rows!) {
               if (row.checked == false) {
-                if (beneficioMayor < row.cells["comision_cant_field"]!.value &&
-                    row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
+                if (beneficioMayor < row.cells["comision_cant_field"]!.value && row.cells["pago_anticipado_field"]!.value < fondoDisponibleRestante) {
                   beneficioMayor = row.cells["comision_cant_field"]!.value;
                   idFactura = row.cells["id_factura_field"]!.value;
                 }
@@ -267,36 +262,86 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       double sumaUpfn = 0;
       double sumaMpfn = 0;
       for (var row in cliente.rows!) {
-        /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day);
-            DateTime now = DateTime.now();
-            DateTime fpa = DateTime(now.year, now.month, now.day);
-            int dac = row.cells["dias_adicionales_field"]!.value;
-            double tasaAnual = 10 / 100; // TODO: Obtener Tasa Anual del mantenimiento de Clientes : cliente.tasaAnual;
+        /* DateTime fnp =
+            DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day); //TODO: Cambiar por la fecha normal de pago
+        DateTime now = DateTime.now();
+        DateTime fpa = DateTime(now.year, now.month, now.day);
+        int dac = row.cells["dias_adicionales_field"]!.value;
 
-            double x = tasaAnual / 360;
-            int y = fnp.difference(fpa).inDays + 1 + dac;
-            double z = x * y;
+        double x = cliente.tae! / 360;
+        int y = fnp.difference(fpa).inDays + 1 + dac;
+        double z = x * y;
 
-            double porcComision = double.parse((z).toStringAsFixed(6));
-            double cantComision = porcComision * row.cells["importe_field"]!.value;
-            double pagoanticipado = row.cells["importe_field"]!.value - cantComision;
+        double porcComision = double.parse((z).toStringAsFixed(6));
+        double cantComision = porcComision * row.cells["importe_field"]!.value;
+        double pagoanticipado = row.cells["importe_field"]!.value - cantComision;
 
-            row.cells["comision_porc_field"]!.value = porcComision;
-            row.cells["comision_cant_field"]!.value = cantComision;
-            row.cells["pago_anticipado_field"]!.value = pagoanticipado; */
+        row.cells["comision_porc_field"]!.value = porcComision;
+        row.cells["comision_cant_field"]!.value = cantComision;
+        row.cells["pago_anticipado_field"]!.value = pagoanticipado; */
 
         if (row.checked == true) {
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
-          cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
-          cliente.pagoAdelantado =
-              cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
-
-          cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
-
-          sumaUpfn = sumaUpfn + row.cells["upfn_field"]!.value;
-          sumaMpfn = sumaMpfn + row.cells["mpfn_field"]!.value;
         }
       }
+
+      if ((cliente.facturacionMayorA != null && cliente.tasaPreferencial != null) && cliente.facturacion! > cliente.facturacionMayorA!) {
+        cliente.tae = cliente.tasaPreferencial;
+      } else if (cliente.facturacionTotal! >= 100000 && currentUser!.monedaSeleccionada == 'GTQ') {
+        cliente.tae = 33;
+      } else {
+        cliente.tae = cliente.tasaAnual;
+      }
+
+      cliente.facturasSeleccionadas = 0;
+      cliente.facturacion = 0;
+      cliente.comision = 0;
+      cliente.pagoAdelantado = 0;
+      cliente.margenOperativo = 0;
+      cliente.utilidadNeta = 0;
+
+      sumaUpfn = 0;
+      sumaMpfn = 0;
+
+      var res = await supabase.from('calculadora_pricing').select().order('id', ascending: false).limit(1);
+      CalculadoraPricing calculadora = CalculadoraPricing.fromJson(jsonEncode(res[0]));
+
+      for (var factura in cliente.facturas!) {
+        var imq = factura.importe!;
+        var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
+        var diasDif = factura.fechaDoc!.add(Duration(days: cliente.condPago!)).difference(DateTime.now()).inDays; //TODO: Cambiar por fecha normal de pago
+        //var diasDif = factura.fechaPago!.difference(DateTime.now()).inDays;
+
+        var iod = ((cliente.tae! / 360) * (diasDif)) * (imq); //Ingresos por operación de descuento
+        var pa = imq - iod; //Pago Anticipado
+        var cfi = ((calculadora.costoFinanciero! / 365) * (diasDif)) * (pa); //Costo Financiero
+        var mfi = iod - cfi; //Margen Financiero
+        var mop = mfi - ago; //Margen Operativo
+        factura.upfn = ((mop - calculadora.isr!) / imq) * (360 / (diasDif));
+
+        factura.mpfn = ((mfi - ago) / imq) * (360 / (diasDif));
+
+        //cliente.facturacionTotal = cliente.facturacionTotal! + factura.importe!;
+
+        for (var row in cliente.rows!) {
+          if (row.cells["id_factura_field"]!.value == factura.facturaId) {
+            row.cells["upfn_field"]!.value = factura.upfn;
+            row.cells["mpfn_field"]!.value = factura.mpfn;
+
+            if (row.checked == true) {
+              cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
+              cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;
+              cliente.pagoAdelantado = cliente.pagoAdelantado! + (row.cells["importe_field"]!.value - row.cells["comision_cant_field"]!.value);
+
+              cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
+
+              sumaUpfn = sumaUpfn + row.cells["upfn_field"]!.value;
+              sumaMpfn = sumaMpfn + row.cells["mpfn_field"]!.value;
+            }
+          }
+        }
+      }
+
       if (cliente.facturasSeleccionadas != 0) {
         cliente.utilidadNeta = sumaUpfn / cliente.facturasSeleccionadas!;
         cliente.margenOperativo = sumaMpfn / cliente.facturasSeleccionadas!;
@@ -310,10 +355,6 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
   Future<void> checkClient(SeleccionPagosAnticipados cliente, bool check) async {
     try {
-      cliente.facturasSeleccionadas = 0;
-      cliente.facturacion = 0;
-      cliente.comision = 0;
-      cliente.pagoAdelantado = 0;
       if (check) {
         for (var row in cliente.rows!) {
           row.setChecked(true);
@@ -385,8 +426,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
                 'prev_estatus_id': row.cells['estatus_id_field']!.value,
                 'post_estatus_id': 2,
                 'pantalla': 'Selección de Pagos Anticipados',
-                'descripcion':
-                    'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
+                'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Selección de Pagos Anticipados',
                 'rol_id': currentUser!.rol.rolId,
                 'usuario_id': currentUser!.id,
               },
