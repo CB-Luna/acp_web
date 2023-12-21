@@ -89,8 +89,8 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
             var cfi = ((calculadora.costoFinanciero! / 365) * (diasDif)) * (pa); //Costo Financiero
             var mfi = iod - cfi; //Margen Financiero
             var mop = mfi - ago; //Margen Operativo
-            factura.upfn = ((mop - calculadora.isr!) / imq) * (360 / (diasDif));
 
+            factura.upfn = ((mop - calculadora.isr!) / imq) * (360 / (diasDif));
             factura.mpfn = ((mfi - ago) / imq) * (360 / (diasDif));
 
             cliente.facturacionTotal = cliente.facturacionTotal! + factura.importe!;
@@ -121,10 +121,6 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
             if (factura.fechaSolicitud != null) {
               cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
             }
-          }
-
-          if (cliente.facturacionTotal! >= 100000 && currentUser!.monedaSeleccionada == 'GTQ') {
-            cliente.tae = 33;
           }
 
           cliente.rows = rows;
