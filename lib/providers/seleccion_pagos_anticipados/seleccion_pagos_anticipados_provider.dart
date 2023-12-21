@@ -48,6 +48,8 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   }
 
   Future<void> getRecords() async {
+    ejecBloq = true;
+    notifyListeners();
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
     }
@@ -98,6 +100,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
                 checked: factura.fechaSolicitud != null,
                 cells: {
                   'id_factura_field': PlutoCell(value: factura.facturaId),
+                  'id_cliente_field': PlutoCell(value: cliente.clienteId),
                   'cuenta_field': PlutoCell(value: factura.noDoc),
                   'moneda_field': PlutoCell(value: factura.moneda),
                   'importe_field': PlutoCell(value: factura.importe),
@@ -114,6 +117,10 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
                 },
               ),
             );
+
+            if (factura.fechaSolicitud != null) {
+              cliente.facturasSeleccionadas = cliente.facturasSeleccionadas! + 1;
+            }
           }
 
           if (cliente.facturacionTotal! >= 100000 && currentUser!.monedaSeleccionada == 'GTQ') {
@@ -123,66 +130,72 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           cliente.rows = rows;
           cantidadFacturas = cantidadFacturas + cliente.facturas!.length;
         }
+
+        if (cliente.facturasSeleccionadas != 0) {
+          updateClientRows(cliente);
+        }
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
     }
-    return await calcClients();
+    await calcClients();
+
+    ejecBloq = false;
+    return notifyListeners();
   }
 
   Future<void> search(String busqueda) async {
     try {
-      //Almacenamiento de seleccion
       if (respaldo.isEmpty) {
         respaldo = clientes;
-      }
-
-      //Almacenamiento de cambios que haya realizado el usuario al realizar una selección sobre una busqueda
-      for (var cliente in clientes) {
-        for (var clienteResp in respaldo) {
-          if (clienteResp.clienteId == cliente.clienteId) {
-            for (var row in cliente.rows!) {
-              for (var rowResp in clienteResp.rows!) {
-                if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value) {
-                  rowResp.setChecked(row.checked);
+      } else {
+        //Almacenamiento de cambios que haya realizado el usuario al realizar una selección sobre una busqueda
+        for (var cliente in clientes) {
+          for (var clienteResp in respaldo) {
+            if (clienteResp.clienteId == cliente.clienteId) {
+              for (var row in cliente.rows!) {
+                for (var rowResp in clienteResp.rows!) {
+                  if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value && rowResp.cells["id_cliente_field"]!.value == row.cells["id_cliente_field"]!.value) {
+                    rowResp.setChecked(row.checked);
+                  }
                 }
               }
             }
           }
         }
-      }
 
-      //Reinicio de indicadores
-      fondoDisponibleRestante = controllerFondoDisp.numberValue;
-      montoFacturacion = 0;
-      cantidadFacturas = 0;
-      cantidadFacturasSeleccionadas = 0;
-      totalPagos = 0;
-      comisionTotal = 0;
-      clientes = [];
+        //Reinicio de indicadores
+        fondoDisponibleRestante = controllerFondoDisp.numberValue;
+        montoFacturacion = 0;
+        cantidadFacturas = 0;
+        cantidadFacturasSeleccionadas = 0;
+        totalPagos = 0;
+        comisionTotal = 0;
+        clientes = [];
 
-      //Obtención información de la busqueda realizada
-      await getRecords();
+        //Obtención información de la busqueda realizada
+        await getRecords();
 
-      //De lo respaldado se sobreescribe sobre los datos obtenidos
-      for (var cliente in clientes) {
-        for (var clienteResp in respaldo) {
-          if (clienteResp.clienteId == cliente.clienteId) {
-            for (var row in cliente.rows!) {
-              for (var rowResp in clienteResp.rows!) {
-                if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value) {
-                  row.setChecked(rowResp.checked);
+        //De lo respaldado se sobreescribe sobre los datos obtenidos
+        for (var cliente in clientes) {
+          for (var clienteResp in respaldo) {
+            if (clienteResp.clienteId == cliente.clienteId) {
+              for (var row in cliente.rows!) {
+                for (var rowResp in clienteResp.rows!) {
+                  if (rowResp.cells["id_factura_field"]!.value == row.cells["id_factura_field"]!.value && rowResp.cells["id_cliente_field"]!.value == row.cells["id_cliente_field"]!.value) {
+                    row.setChecked(rowResp.checked);
+                  }
                 }
               }
+              //Se encontró relación con un cliente del respaldo con uno obtenido de la busqueda
+              updateClientRows(cliente);
             }
-            //Se encontró relación con un cliente del respaldo con uno obtenido de la busqueda
-            updateClientRows(cliente);
           }
         }
-      }
 
-      if (busqueda.isEmpty) {
-        respaldo = [];
+        if (busqueda.isEmpty) {
+          respaldo = [];
+        }
       }
 
       //Calculo de indicadores superiores
