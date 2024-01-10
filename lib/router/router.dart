@@ -1,3 +1,4 @@
+import 'package:acp_web/functions/tokens.dart';
 import 'package:acp_web/pages/configuracion/calculadora_pricing_page.dart';
 import 'package:acp_web/pages/reportes/dashboards/dashboards_page.dart';
 import 'package:acp_web/pages/reportes/reporte_pricing/reporte_pricing_page.dart';
@@ -75,18 +76,18 @@ final GoRouter router = GoRouter(
     //   },
     // ),
 
-    // GoRoute(
-    //   path: '/cambio-contrasena',
-    //   name: 'cambio_contrasena',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     if (currentUser != null) return const CambioContrasenaPage();
-    //     final String? token = state.queryParams['token'];
-    //     if (token == null) return const LoginPage();
-    //     final tokenMap = parseToken(token);
-    //     if (tokenMap == null) return const LoginPage();
-    //     return CambioContrasenaPage(token: tokenMap);
-    //   },
-    // ),
+    GoRoute(
+      path: '/cambio-contrasena',
+      name: 'cambio_contrasena',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser != null) return const CambioContrasenaPage();
+        final String? tokenString = state.uri.queryParameters['token'];
+        if (tokenString == null) return const LoginPage();
+        final token = parseToken(tokenString);
+        if (token == null) return const LoginPage();
+        return CambioContrasenaPage(token: token);
+      },
+    ),
     GoRoute(
       path: '/clientes',
       name: 'clientes',

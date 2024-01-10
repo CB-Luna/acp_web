@@ -1,3 +1,4 @@
+export 'package:acp_web/pages/login_page/cambio_contrasena.dart';
 export 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_page.dart';
 export 'package:acp_web/pages/pagos/pagos_page.dart';
 export 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/solicitud_pagos_page.dart';

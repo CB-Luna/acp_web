@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
         final userId = await userState.getUserId(userState.emailController.text);
 
         if (userId == null) {
-          await ApiErrorHandler.callToast('El correo no está registrado');
+          await ApiErrorHandler.callToast('Usuario y/o contraseña incorrecta');
           return;
         }
 
@@ -145,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
           await userState.incrementLoginAttempts(
             userState.emailController.text,
           );
-          await ApiErrorHandler.callToast('Credenciales inválidas');
+          await ApiErrorHandler.callToast('Usuario y/o contraseña incorrecta');
 
           return;
         }
