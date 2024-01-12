@@ -5,6 +5,6 @@ const String anonKey =
 final redirectUrl = '${Uri.base.origin}/cambio-contrasena';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
-String bonitaConnectionUrl = '${Uri.base.origin}/arux/api';
+String bonitaConnectionUrl = '${Uri.base.origin}/acp/api';
 
 const int mobileSize = 800;
