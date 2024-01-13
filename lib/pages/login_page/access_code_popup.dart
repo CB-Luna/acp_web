@@ -82,21 +82,21 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
       //   return;
       // }
 
-      await userState.checkIfUserChangedPasswordInLast90Days(currentUser!.id);
+      // await userState.checkIfUserChangedPasswordInLast90Days(currentUser!.id);
 
-      if (!userState.userChangedPasswordInLast90Days) {
-        if (!mounted) return;
-        context.pushReplacement('/cambio-contrasena');
-        return;
-      }
+      // if (!userState.userChangedPasswordInLast90Days) {
+      //   if (!mounted) return;
+      //   context.pushReplacement('/cambio-contrasena');
+      //   return;
+      // }
 
-      if (!currentUser!.cambioContrasena) {
-        if (!mounted) return;
-        context.pushReplacement('/cambio-contrasena');
-        return;
-      }
+      // if (!currentUser!.cambioContrasena) {
+      //   if (!mounted) return;
+      //   context.pushReplacement('/cambio-contrasena');
+      //   return;
+      // }
 
-      userState.registerLogin(currentUser!.id);
+      // userState.registerLogin(currentUser!.id);
 
       if (!mounted) return;
       context.pushReplacement('/');

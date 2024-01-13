@@ -172,7 +172,7 @@ class UserState extends ChangeNotifier {
   Future<bool> sendEmailWithToken(String email, String password, String token, String type) async {
     //Mandar correo
     final response = await http.post(
-      Uri.parse(bonitaConnectionUrl),
+      Uri.parse(apiGatewayUrl),
       body: json.encode(
         {
           "user": "Web",
@@ -208,36 +208,36 @@ class UserState extends ChangeNotifier {
     return true;
   }
 
-  // Future<bool> sendEmailWithAccessCode(String email, String id) async {
-  //   //Mandar correo
-  //   final response = await http.post(
-  //     Uri.parse(bonitaConnectionUrl),
-  //     body: json.encode(
-  //       {
-  //         "user": "Web",
-  //         "action": "bonitaBpmCaseVariables",
-  //         'process': 'DVLogin',
-  //         'data': {
-  //           'variables': [
-  //             {
-  //               'name': 'correo',
-  //               'value': email,
-  //             },
-  //             {
-  //               'name': 'id',
-  //               'value': id,
-  //             },
-  //           ]
-  //         },
-  //       },
-  //     ),
-  //   );
-  //   if (response.statusCode > 204) {
-  //     return false;
-  //   }
+  Future<bool> sendEmailWithAccessCode(String email, String id) async {
+    //Mandar correo
+    final response = await http.post(
+      Uri.parse(apiGatewayUrl),
+      body: json.encode(
+        {
+          "user": "Web",
+          "action": "bonitaBpmCaseVariables",
+          'process': 'DVLogin',
+          'data': {
+            'variables': [
+              {
+                'name': 'correo',
+                'value': email,
+              },
+              {
+                'name': 'id',
+                'value': id,
+              },
+            ]
+          },
+        },
+      ),
+    );
+    if (response.statusCode > 204) {
+      return false;
+    }
 
-  //   return true;
-  // }
+    return true;
+  }
 
   Future<Map<String, String>?> resetPassword(String email) async {
     try {
@@ -304,12 +304,12 @@ class UserState extends ChangeNotifier {
       );
       if (!codeSaved) return false;
 
-      // final emailSent = await sendEmailWithAccessCode(
-      //   emailController.text,
-      //   userId,
-      // );
+      final emailSent = await sendEmailWithAccessCode(
+        emailController.text,
+        userId,
+      );
 
-      // if (!emailSent) return false;
+      if (!emailSent) return false;
       return true;
     } catch (e) {
       log('Error en sendEmailWithAccessCode() -$e');

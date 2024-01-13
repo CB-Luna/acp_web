@@ -1,15 +1,14 @@
 import 'dart:developer';
 
 import 'package:acp_web/helpers/constants.dart';
+import 'package:acp_web/pages/login_page/access_code_popup.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sf;
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/helpers/supabase/queries.dart';
 import 'package:acp_web/pages/login_page/reset_password_popup.dart';
 import 'package:acp_web/pages/widgets/custom_button.dart';
 import 'package:acp_web/pages/widgets/toggle_icon.dart';
@@ -44,102 +43,37 @@ class _LoginFormState extends State<LoginForm> {
           return;
         }
 
-        // //Check if token exists
-        // if (widget.token == null) {
-        //   final userIsBlocked = await userState.checkIfUserBlocked(
-        //     userState.emailController.text,
-        //   );
-        //   if (userIsBlocked) {
-        //     if (!mounted) return;
-        //     await showDialog(
-        //       context: context,
-        //       builder: (_) => const AccessBlockedPopup(),
-        //     );
-        //     return;
-        //   }
-        //   //Validate password
-        //   await supabase.auth.signInWithPassword(
-        //     email: userState.emailController.text,
-        //     password: userState.passwordController.text,
-        //   );
-        //   await supabase.auth.signOut();
-        //   //send access code
-        //   final emailSent = await userState.sendAccessCode(userId);
-        //   if (!emailSent) {
-        //     await ApiErrorHandler.callToast('Error al enviar código de acceso');
-        //     return;
-        //   }
-        //   //show access code popup
+        // final userIsBlocked = await userState.checkIfUserBlocked(
+        //   userState.emailController.text,
+        // );
+        // if (userIsBlocked) {
         //   if (!mounted) return;
         //   await showDialog(
         //     context: context,
-        //     builder: (_) => AccessCodePopup(userId: userId),
+        //     builder: (_) => const AccessBlockedPopup(),
         //   );
         //   return;
         // }
 
-        // //if it exists = validate, login and dont ask for access code
-        // final tokenValid = await widget.token!.validate('ingreso');
-        // if (!tokenValid) {
-        //   //mostrar mensaje de error
-        //   await ApiErrorHandler.callToast(
-        //     'Contraseña inválida',
-        //   );
-        //   return;
-        // }
-
+        //Validate password
         await supabase.auth.signInWithPassword(
           email: userState.emailController.text,
           password: userState.passwordController.text,
         );
-
-        if (userState.recuerdame == true) {
-          await userState.setEmail();
-          await userState.setPassword();
-        } else {
-          userState.emailController.text = '';
-          userState.passwordController.text = '';
-          await prefs.remove('email');
-          await prefs.remove('password');
-        }
-
-        if (supabase.auth.currentUser == null) {
-          await ApiErrorHandler.callToast();
+        await supabase.auth.signOut();
+        //send access code
+        final emailSent = await userState.sendAccessCode(userId);
+        if (!emailSent) {
+          await ApiErrorHandler.callToast('Error al enviar código de acceso');
           return;
         }
-
-        currentUser = await SupabaseQueries.getCurrentUserData();
-
-        if (currentUser == null) {
-          await ApiErrorHandler.callToast();
-          return;
-        }
-
-        // if (currentUser!.activado == false) {
-        //   await ApiErrorHandler.callToast('El usuario está desactivado');
-        //   await supabase.auth.signOut();
-        //   return;
-        // }
-
-        // await userState.checkIfUserChangedPasswordInLast90Days(currentUser!.id);
-
-        // if (!userState.userChangedPasswordInLast90Days) {
-        //   if (!mounted) return;
-        //   context.pushReplacement('/cambio-contrasena');
-        //   return;
-        // }
-
-        // if (!currentUser!.cambioContrasena) {
-        //   if (!mounted) return;
-        //   context.pushReplacement('/cambio-contrasena');
-        //   return;
-        // }
-
-        // userState.registerLogin(currentUser!.id);
-
+        //show access code popup
         if (!mounted) return;
-
-        context.pushReplacement('/');
+        await showDialog(
+          context: context,
+          builder: (_) => AccessCodePopup(userId: userId),
+        );
+        return;
       } catch (e) {
         if (e is sf.AuthException) {
           await userState.incrementLoginAttempts(
