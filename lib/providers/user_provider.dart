@@ -177,7 +177,7 @@ class UserState extends ChangeNotifier {
         {
           "user": "Web",
           "action": "bonitaBpmCaseVariables",
-          'process': 'Alta_de_Usuario',
+          'process': 'ACP_Alta_de_Usuario',
           'data': {
             'variables': [
               {
@@ -216,7 +216,7 @@ class UserState extends ChangeNotifier {
         {
           "user": "Web",
           "action": "bonitaBpmCaseVariables",
-          'process': 'DVLogin',
+          'process': 'ACP_DVLogin',
           'data': {
             'variables': [
               {
