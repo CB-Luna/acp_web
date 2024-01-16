@@ -23,7 +23,7 @@ class _ClientImageContainerState extends State<ClientImageContainer> {
   void initState() {
     super.initState();
     if (widget.imageName != null) {
-      url = supabase.storage.from('logos-cliente').getPublicUrl(widget.imageName!);
+      url = supabase.storage.from('logo-clientes').getPublicUrl(widget.imageName!);
     }
   }
 
