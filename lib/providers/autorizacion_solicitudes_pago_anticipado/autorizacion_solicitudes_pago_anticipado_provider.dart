@@ -89,7 +89,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
                   'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: factura.diasPago),
                   'dias_adicionales_field': PlutoCell(value: 0),
-                  'fecha_pago_field': PlutoCell(value: factura.fechaPago),
+                  'fecha_normal_pago_field': PlutoCell(value: factura.fechaNormalPago),
                   'estatus_id_field': PlutoCell(value: factura.estatusId),
                 },
               ),
@@ -235,22 +235,22 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       cliente.comision = 0;
       cliente.pagoAdelantado = 0;
       for (var row in cliente.rows!) {
-        /* DateTime fnp = DateTime(row.cells["fecha_pago_field"]!.value.year, row.cells["fecha_pago_field"]!.value.month, row.cells["fecha_pago_field"]!.value.day); //TODO: Cambiar por la fecha normal de pago
-            DateTime now = DateTime.now();
-            DateTime fpa = DateTime(now.year, now.month, now.day);
-            int dac = row.cells["dias_adicionales_field"]!.value;
-          
-            double x = cliente.tae! / 360;
-            int y = fnp.difference(fpa).inDays + 1 + dac;
-            double z = x * y;
+        DateTime fnp = DateTime(row.cells["fecha_normal_pago_field"]!.value.year, row.cells["fecha_normal_pago_field"]!.value.month, row.cells["fecha_normal_pago_field"]!.value.day);
+        DateTime now = DateTime.now();
+        DateTime fpa = DateTime(now.year, now.month, now.day);
+        int dac = row.cells["dias_adicionales_field"]!.value;
 
-            double porcComision = double.parse((z).toStringAsFixed(6));
-            double cantComision = porcComision * row.cells["importe_field"]!.value;
-            double pagoanticipado = row.cells["importe_field"]!.value - cantComision;
+        double x = (cliente.tae! / 100) / 360;
+        int y = fnp.difference(fpa).inDays + 1 + dac;
+        double z = x * y;
 
-            row.cells["comision_porc_field"]!.value = porcComision;
-            row.cells["comision_cant_field"]!.value = cantComision;
-            row.cells["pago_anticipado_field"]!.value = pagoanticipado; */
+        double porcComision = double.parse((z).toStringAsFixed(6));
+        double cantComision = porcComision * row.cells["importe_field"]!.value;
+        double pagoanticipado = row.cells["importe_field"]!.value - cantComision;
+
+        row.cells["comision_porc_field"]!.value = porcComision;
+        row.cells["comision_cant_field"]!.value = cantComision;
+        row.cells["pago_anticipado_field"]!.value = pagoanticipado;
 
         if (row.checked == true) {
           cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;

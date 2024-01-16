@@ -19,6 +19,7 @@ class Factura {
   double? pagoAnticipado;
   DateTime? fechaExtraccion;
   DateTime? fechaActualizacion;
+  DateTime? fechaNormalPago;
 
   ///
   DateTime? fechaEjecucion;
@@ -47,6 +48,7 @@ class Factura {
     this.pagoAnticipado,
     this.fechaExtraccion,
     this.fechaActualizacion,
+    this.fechaNormalPago,
 
     ///
     this.fechaEjecucion,
@@ -58,7 +60,7 @@ class Factura {
   String toJson() => json.encode(toMap());
 
   factory Factura.fromMap(Map<String, dynamic> json) => Factura(
-        noDoc: json["noDoc"],
+        noDoc: json["no_doc"],
         moneda: json["moneda"],
         importe: json["importe"]?.toDouble(),
         cantComision: json["cant_comision"]?.toDouble(),
@@ -76,6 +78,7 @@ class Factura {
         pagoAnticipado: json["pago_anticipado"]?.toDouble(),
         fechaExtraccion: json["fecha_extraccion"] == null ? null : DateTime.parse(json["fecha_extraccion"]),
         fechaActualizacion: json["fecha_actualizacion"] == null ? null : DateTime.parse(json["fecha_actualizacion"]),
+        fechaNormalPago: json["fecha_normal_pago"] == null ? null : DateTime.parse(json["fecha_normal_pago"]),
 
         ///
         fechaEjecucion: json["fecha_ejecucion"] == null ? null : DateTime.parse(json["fecha_ejecucion"]),
@@ -83,7 +86,7 @@ class Factura {
       );
 
   Map<String, dynamic> toMap() => {
-        "noDoc": noDoc,
+        "no_doc": noDoc,
         "moneda": moneda,
         "importe": importe,
         "cant_comision": cantComision,
@@ -101,6 +104,7 @@ class Factura {
         "pago_anticipado": pagoAnticipado,
         "fecha_extraccion": fechaExtraccion?.toIso8601String(),
         "fecha_actualizacion": fechaActualizacion?.toIso8601String(),
+        "fecha_normal_pago": fechaNormalPago?.toIso8601String(),
 
         ///
         "fecha_ejecucion": fechaEjecucion?.toIso8601String(),

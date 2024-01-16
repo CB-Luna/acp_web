@@ -248,7 +248,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
     firmaAnexo = true;
     return signature!;
   }
-  
+
   Future<PdfController?> crearPDF(Propuesta propuesta) async {
     DateTime fechaContrato;
     var response = await supabase.from('cliente').select('fecha_contrato').eq('cliente_id', currentUser!.cliente!.clienteId);
@@ -300,7 +300,11 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                               pw.Text('Anexo #'),
                               pw.Text('Anexo'),
                               pw.Text('Fecha Anexo:'),
-                              pw.Text(formatDate(fecha, [dd,'/',m,'/', yyyy], locale: const SpanishDateLocale(),)),
+                              pw.Text(formatDate(
+                                fecha,
+                                [dd, '/', m, '/', yyyy],
+                                locale: const SpanishDateLocale(),
+                              )),
                             ],
                           ),
                         ),
@@ -360,7 +364,11 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             ),
             //Contenido
             pw.Text(
-              'Que con fecha, el ${formatDate(fechaContrato, [obtenerDiaEnLetras(fechaContrato.day), ' de ', MM, ' del ', obtenerDiaEnLetras(fechaContrato.year)], locale: const SpanishDateLocale(),)} se formalizó Contrato de Factoraje con anticipo de contraseñas celebrado entre Cliente con NIT ${currentUser!.cliente!.clienteId} y código de cliente No. ${currentUser!.cliente!.codigoCliente}.',
+              'Que con fecha, el ${formatDate(
+                fechaContrato,
+                [obtenerDiaEnLetras(fechaContrato.day), ' de ', MM, ' del ', obtenerDiaEnLetras(fechaContrato.year)],
+                locale: const SpanishDateLocale(),
+              )} se formalizó Contrato de Factoraje con anticipo de contraseñas celebrado entre Cliente con NIT ${currentUser!.cliente!.clienteId} y código de cliente No. ${currentUser!.cliente!.codigoCliente}.',
               style: const pw.TextStyle(
                 fontSize: 20,
                 color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -487,84 +495,83 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
 
   late Uint8List documento;
   String obtenerDiaEnLetras(int numeroDia) {
-      switch (numeroDia) {
-        case 1:
-          return 'uno';
-        case 2:
-          return 'dos';
-        case 3:
-          return 'tres';
-        case 4:
-          return 'cuatro';
-        case 5:
-          return 'cinco';
-        case 6:
-          return 'seis';
-        case 7:
-          return 'siete';
-        case 8:
-          return 'ocho';
-        case 9:
-          return 'nueve';
-        case 10:
-          return 'diez';
-        case 11:
-          return 'once';
-        case 12:
-          return 'doce';
-        case 13:
-          return 'trece';
-        case 14:
-          return 'catorce';
-        case 15:
-          return 'quince';
-        case 16:
-          return 'dieciséis';
-        case 17:
-          return 'diecisiete';
-        case 18:
-          return 'dieciocho';
-        case 19:
-          return 'diecinueve';
-        case 20:
-          return 'veinte';
-        case 21:
-          return 'veintiuno';
-        case 22:
-          return 'veintidós';
-        case 23:
-          return 'veintitrés';
-        case 24:
-          return 'veinticuatro';
-        case 25:
-          return 'veinticinco';
-        case 26:
-          return 'veintiséis';
-        case 27:
-          return 'veintisiete';
-        case 28:
-          return 'veintiocho';
-        case 29:
-          return 'veintinueve';
-        case 30:
-          return 'treinta';
-        case 31:
-          return 'treinta y uno';
-        case 2023:
-          return 'dos mil veintitrés';
-        case 2024:
-          return 'dos mil veinticuatro';
-        case 2025:
-          return 'dos mil veinticinco';
-        case 2026:
-          return 'dos mil veintiseis';
-        case 2027:
-          return 'dos mil veintisiete';
-        default:
-          return '';
-      }
+    switch (numeroDia) {
+      case 1:
+        return 'uno';
+      case 2:
+        return 'dos';
+      case 3:
+        return 'tres';
+      case 4:
+        return 'cuatro';
+      case 5:
+        return 'cinco';
+      case 6:
+        return 'seis';
+      case 7:
+        return 'siete';
+      case 8:
+        return 'ocho';
+      case 9:
+        return 'nueve';
+      case 10:
+        return 'diez';
+      case 11:
+        return 'once';
+      case 12:
+        return 'doce';
+      case 13:
+        return 'trece';
+      case 14:
+        return 'catorce';
+      case 15:
+        return 'quince';
+      case 16:
+        return 'dieciséis';
+      case 17:
+        return 'diecisiete';
+      case 18:
+        return 'dieciocho';
+      case 19:
+        return 'diecinueve';
+      case 20:
+        return 'veinte';
+      case 21:
+        return 'veintiuno';
+      case 22:
+        return 'veintidós';
+      case 23:
+        return 'veintitrés';
+      case 24:
+        return 'veinticuatro';
+      case 25:
+        return 'veinticinco';
+      case 26:
+        return 'veintiséis';
+      case 27:
+        return 'veintisiete';
+      case 28:
+        return 'veintiocho';
+      case 29:
+        return 'veintinueve';
+      case 30:
+        return 'treinta';
+      case 31:
+        return 'treinta y uno';
+      case 2023:
+        return 'dos mil veintitrés';
+      case 2024:
+        return 'dos mil veinticuatro';
+      case 2025:
+        return 'dos mil veinticinco';
+      case 2026:
+        return 'dos mil veintiseis';
+      case 2027:
+        return 'dos mil veintisiete';
+      default:
+        return '';
     }
-
+  }
 }
 
 class Registro {

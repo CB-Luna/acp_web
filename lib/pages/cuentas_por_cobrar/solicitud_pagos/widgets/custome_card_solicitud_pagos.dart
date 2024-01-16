@@ -101,7 +101,7 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1440 * 160,
                 child: Text(
-                  widget.propuesta.noDoc.toString(),
+                  widget.propuesta.no_doc.toString(),
                   style: AppTheme.of(context).subtitle1.override(
                         fontFamily: AppTheme.of(context).subtitle1Family,
                         useGoogleFonts: false,
