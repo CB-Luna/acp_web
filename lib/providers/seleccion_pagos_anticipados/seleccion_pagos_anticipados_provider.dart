@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
+import 'package:http/http.dart' as http;
+
+import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/configuracion/calculadora_pricing_models.dart';
 import 'package:acp_web/models/seleccion_pagos_anticipados/seleccion_pagos_anticipados_model.dart';
@@ -462,20 +465,26 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           }
         }
       }
-      // await post(
-      //   Uri.parse(bonitaConnectionUrl),
-      //   body: json.encode(
-      //     {
-      //       "user": "Web",
-      //       "action": "bonitaProcessInstantiation",
-      //       "process": "ARUXACP_Propuesta_Pago_Anticipado",
-      //       "data": {},
-      //     },
-      //   ),
-      // );
+
+      final response = await http.post(
+        Uri.parse(apiGatewayUrl),
+        body: json.encode(
+          {
+            "user": "Web",
+            "action": "bonitaProcessInstantiation",
+            "process": "ACP_Propuesta_Pago_Anticipado",
+            "data": {},
+          },
+        ),
+      );
+
+      if (response.statusCode > 204) {
+        return false;
+      }
+
       await clearAll();
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - Error en UpdatePartidasSolicitadas() - $e');
+      log('Error en SeleccionaPagosanticipadosProvider - Error en updateRecords() - $e');
       ejecBloq = false;
       notifyListeners();
       return false;
