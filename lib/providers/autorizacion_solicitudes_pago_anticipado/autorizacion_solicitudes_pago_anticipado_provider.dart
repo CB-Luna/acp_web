@@ -381,7 +381,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
           {
             "user": "Web",
             "action": "bonitaProcessInstantiation",
-            "process": "ACP_Solicitud_de_pago_anticipado_aceptada",
+            "process": "ACP_Solicitud_de_Pago_Anticipado_Aceptada",
             "data": {},
           },
         ),
