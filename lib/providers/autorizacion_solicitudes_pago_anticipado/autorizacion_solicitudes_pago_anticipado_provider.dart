@@ -2,12 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/autorizacion_solicitudes_pago_anticipado/autorizacion_solicitudes_pago_anticipado_model.dart';
+
+import '../../helpers/constants.dart';
 
 class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -341,7 +345,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
               {
                 'factura_id': row.cells['id_factura_field']!.value,
                 'prev_estatus_id': row.cells['estatus_id_field']!.value,
-                'post_estatus_id': 2,
+                'post_estatus_id': 12,
                 'pantalla': 'Autorización de Solicitudes de Pago Anticipado',
                 'descripcion': 'Factura seleccionada para su ejecución en la pantalla de Autorización de Solicitudes de Pago Anticipado',
                 'rol_id': currentUser!.rol.rolId,
@@ -353,7 +357,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
               'update_factura_estatus',
               params: {
                 'factura_id': row.cells['id_factura_field']!.value,
-                'estatus_id': 2,
+                'estatus_id': 12,
               },
             );
 
@@ -370,6 +374,23 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
           }
         }
       }
+
+      final response = await http.post(
+        Uri.parse(apiGatewayUrl),
+        body: json.encode(
+          {
+            "user": "Web",
+            "action": "bonitaProcessInstantiation",
+            "process": "ACP_Solicitud_de_pago_anticipado_aceptada",
+            "data": {},
+          },
+        ),
+      );
+
+      if (response.statusCode > 204) {
+        return false;
+      }
+
       await clearAll();
     } catch (e) {
       log('Error en AutorizacionSolicitudesPagoAnticipadoProvider - UpdatePartidasSolicitadas() - $e');

@@ -8,22 +8,25 @@ class SeleccionPagosAnticipados {
   String? nombreFiscal;
   String? sociedad;
   String? codigoCliente;
-  int? condPago;
-  //String? contacto;
   String? logo;
-  List<Factura>? facturas;
-  List<PlutoRow>? rows = [];
-  int? facturasSeleccionadas = 0;
-  double? facturacion = 0;
-  double? facturacionTotal = 0;
+  //
+  int? condPago;
   double? tasaAnual;
   double? tae = 0;
   double? facturacionMayorA;
   double? tasaPreferencial;
+  //
+  List<Factura>? facturas;
+  //
+  List<PlutoRow>? rows = [];
+  int? facturasSeleccionadas = 0;
+  double? facturacion = 0;
+  double? facturacionTotal = 0;
   double? comision = 0;
   double? margenOperativo = 0;
   double? utilidadNeta = 0;
   double? pagoAdelantado = 0;
+  //
   bool isExpanded = false;
   bool bloqueado = false;
 
@@ -32,14 +35,15 @@ class SeleccionPagosAnticipados {
     this.nombreFiscal,
     this.sociedad,
     this.codigoCliente,
-    //this.contacto,
     this.logo,
-    this.facturas,
+    //
     this.condPago,
     this.tasaAnual,
     this.tae,
     this.facturacionMayorA,
     this.tasaPreferencial,
+    //
+    this.facturas,
   });
 
   factory SeleccionPagosAnticipados.fromJson(String str) => SeleccionPagosAnticipados.fromMap(json.decode(str));
@@ -51,14 +55,15 @@ class SeleccionPagosAnticipados {
         nombreFiscal: json["nombre_fiscal"],
         sociedad: json["sociedad"],
         codigoCliente: json["codigo_cliente"],
-        //contacto: json["contacto"],
         logo: json["logo"],
-        facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
+        //
         condPago: json["cond_pago"].toDouble(),
         tasaAnual: json["tasa_anual"]?.toDouble(),
         tae: json["tasa_anual"]?.toDouble(),
         facturacionMayorA: json["facturacion_mayor_a"]?.toDouble(),
         tasaPreferencial: json["tasa_preferencial"]?.toDouble(),
+        //
+        facturas: json["facturas"] == null ? [] : List<Factura>.from(json["facturas"]!.map((x) => Factura.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -66,12 +71,13 @@ class SeleccionPagosAnticipados {
         "nombre_fiscal": nombreFiscal,
         "sociedad": sociedad,
         "codigo_cliente": codigoCliente,
-        //"contacto": contacto,
         "logo": logo,
-        "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
-        "tasa_anual": tae,
+        //
         "cond_pago": condPago,
+        "tasa_anual": tae,
         "facturacion_mayor_a": facturacionMayorA,
         "tasa_preferencial": tasaPreferencial,
+        //
+        "facturas": facturas == null ? [] : List<dynamic>.from(facturas!.map((x) => x.toMap())),
       };
 }
