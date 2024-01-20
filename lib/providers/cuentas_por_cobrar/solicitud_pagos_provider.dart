@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/solicitud_pagos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:http/http.dart' as http;
 
 class SolicitudPagosProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
@@ -103,7 +106,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
           'busqueda': controllerBusqueda.text,
           'ids_sociedades': [1],
           'nom_monedas': ["GTQ", "USD"],
-          'clienteid':currentUser!.cliente!.clienteId
+          'clienteid': currentUser!.cliente!.clienteId
         },
       ).select();
       facturas = (response as List<dynamic>).map((cliente) => SolicitudPagos.fromJson(jsonEncode(cliente))).toList();
@@ -118,11 +121,45 @@ class SolicitudPagosProvider extends ChangeNotifier {
   }
 
   //Actualizar facturas seleccionadas
-  Future<void> actualizarFacturasSeleccionadas() async {
+  Future<bool> actualizarFacturasSeleccionadas() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
     }
     try {
+      final response = await http.post(
+        Uri.parse(apiGatewayUrl),
+        body: json.encode(
+          {
+            "user": "Web",
+            "action": "bonitaBpmCaseVariables",
+            "process": "ACP_Solicitud_de_pago_anticipado",
+            'data': {
+              'variables': [
+                {
+                  'name': 'cliente',
+                  'value': currentUser!.nombreCompleto,
+                },
+                {
+                  'name': 'numero',
+                  'value': cantidadFacturasSeleccionadas.toString(),
+                },
+                {
+                  'name': 'importe',
+                  'value': moneyFormat(montoFacturacion),
+                },
+                {
+                  'name': 'cliente_correo',
+                  'value': 'al.castillolic@gmail.com',
+                },
+              ]
+            },
+          },
+        ),
+      );
+      if (response.statusCode > 204) {
+        return false;
+      }
+      log((response.body));
       for (var factura in facturas) {
         if (factura.ischeck == true) {
           await supabase.rpc(
@@ -137,8 +174,11 @@ class SolicitudPagosProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
     }
+
+    await getRecords();
+    await solicitudPagos();
     notifyListeners();
-    return getRecords();
+    return true;
   }
 
   //Seleccionar Factuas

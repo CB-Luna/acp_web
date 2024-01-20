@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
 import 'package:date_format/date_format.dart';
@@ -15,6 +16,7 @@ import 'package:pdfx/pdfx.dart';
 import 'dart:html' as html;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:signature/signature.dart';
+import 'package:http/http.dart' as http;
 
 class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
   List<AprobacionSegumientoPagosFuncion> clientes = [];
@@ -115,7 +117,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
               PlutoRow(
                 cells: {
                   'id_factura_field': PlutoCell(value: registro.facturaId),
-                  'cuenta_field': PlutoCell(value: registro.noDoc),
+                  'cuenta_field': PlutoCell(value: registro.noDoc.toString()),
                   'importe_field': PlutoCell(value: registro.importe),
                   'comision_cant_field': PlutoCell(value: registro.cantComision),
                   'pago_anticipado_field': PlutoCell(value: registro.pagoAnticipado),
@@ -182,6 +184,35 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             return false;
           }
         }
+        final response = await http.post(
+          Uri.parse(apiGatewayUrl),
+          body: json.encode(
+            {
+              "user": "Web",
+              "action": "bonitaBpmCaseVariables",
+              "process": "ACP_Validacion_de_Anexo",
+              'data': {
+                'variables': [
+                  {
+                    'name': 'fecha',
+                    'value': dateFormat(DateTime.now()),
+                  },
+                  {
+                    'name': 'cliente',
+                    'value': currentUser!.nombreCompleto,
+                  },
+                  {
+                    'name': 'cliente_correo',
+                    'value': 'kevin.14985@gmail.com',
+                  },
+                ]
+              },
+            },
+          ),
+        );
+        if (response.statusCode > 204) {
+          return false;
+        }
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
@@ -190,6 +221,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
       return false;
     }
     await aprobacionSeguimientoPagos();
+    ejecBloq = false;
     notifyListeners();
     return true;
   }

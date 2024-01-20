@@ -263,7 +263,7 @@ class PopupAprobacionSeguimientoPagosState extends State<PopupAprobacionSeguimie
                                     content: Text('Por Favor Cargue Anexo Firmado'),
                                   ),
                                 );
-                              } else if ( provider.pdfController != null) {
+                              } else {
                                 if (await provider.actualizarFacturasSeleccionadas(widget.propuesta)) {
                                   if (!mounted) return;
                                   Navigator.pop(context);

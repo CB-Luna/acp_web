@@ -176,10 +176,9 @@ class PopupSolicitudPagosState extends State<PopupSolicitudPagos> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     //Cambiar Status de facturas
-                    provider.actualizarFacturasSeleccionadas();
-                    context.pushReplacement('/solicitud_pagos');
+                    await provider.actualizarFacturasSeleccionadas();
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 8,
