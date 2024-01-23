@@ -75,7 +75,7 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                   //Contenido
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.all(8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -375,12 +375,14 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                                     style: AppTheme.of(context).bodyText2),
                                                 RenglonReporte(
                                                     titulo: 'Costo Finaniero',
-                                                    message: '(("Costo Financiero"/365)*("Días"))*(("Tamaño Comercial) / ("DESEMBOLSO REAL"))',
+                                                    message:
+                                                        '(("Costo Financiero"/365)*("Días"))*(("Tamaño Comercial) / ("DESEMBOLSO REAL"))',
                                                     valor: provider.cFinanciero,
                                                     style: AppTheme.of(context).bodyText2),
                                                 RenglonReporte(
                                                     titulo: 'Margen Financiero',
-                                                    message: '("Ingresos por operación de descuento" - "Costo Financiero")',
+                                                    message:
+                                                        '("Ingresos por operación de descuento" - "Costo Financiero")',
                                                     valor: provider.mFinanciero,
                                                     porcentaje1: '${moneyFormat(provider.pMFinanciero)} %',
                                                     style: AppTheme.of(context).subtitle1),
@@ -396,7 +398,10 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                                     porcentaje1: '${moneyFormat(provider.p1MOperativo)} %',
                                                     porcentaje2: '${moneyFormat(provider.p2MOperativo)} %',
                                                     style: AppTheme.of(context).subtitle1),
-                                                RenglonReporte(titulo: 'ISR', valor: provider.isr, style: AppTheme.of(context).bodyText2),
+                                                RenglonReporte(
+                                                    titulo: 'ISR',
+                                                    valor: provider.isr,
+                                                    style: AppTheme.of(context).bodyText2),
                                                 RenglonReporte(
                                                     titulo: 'Utilidad Neta',
                                                     message: '("Margen Operativo"-"ISR")',
@@ -406,12 +411,14 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                                     style: AppTheme.of(context).subtitle1),
                                                 RenglonReporte(
                                                     titulo: 'Asignación de capital',
-                                                    message: '(("Tamaño Comercial" / "DESEMBOLSO REAL") * ("Asignación capital BIII))',
+                                                    message:
+                                                        '(("Tamaño Comercial" / "DESEMBOLSO REAL") * ("Asignación capital BIII))',
                                                     valor: provider.aCapital,
                                                     style: AppTheme.of(context).bodyText2),
                                                 RenglonReporte(
                                                     titulo: 'Costo Capital',
-                                                    message: '(("Costo Capital/"365)*("Dias")*("Asignación de capital"))',
+                                                    message:
+                                                        '(("Costo Capital/"365)*("Dias")*("Asignación de capital"))',
                                                     valor: provider.cCapital,
                                                     style: AppTheme.of(context).bodyText2),
                                                 Divider(color: AppTheme.of(context).primaryColor),
@@ -423,7 +430,10 @@ class _ReportePricingPageState extends State<ReportePricingPage> {
                                                     style: AppTheme.of(context).subtitle1),
                                                 Divider(color: AppTheme.of(context).primaryColor),
                                                 RenglonReporte(
-                                                    titulo: 'ROE- Operación', message: '(("Utilidad Neta"/"Asignación de capital")*(360/"Dias"))', valor: provider.roe, style: AppTheme.of(context).subtitle1),
+                                                    titulo: 'ROE- Operación',
+                                                    message: '(("Utilidad Neta"/"Asignación de capital")*(360/"Dias"))',
+                                                    valor: provider.roe,
+                                                    style: AppTheme.of(context).subtitle1),
                                               ],
                                             ),
                                           ),

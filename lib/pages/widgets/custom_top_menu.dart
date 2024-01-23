@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/providers/providers.dart';
-import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 
 class CustomTopMenu extends StatefulWidget {
@@ -82,10 +81,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                                 color: AppTheme.of(context).secondaryText,
                               ),
                         ),
-                        Text(
-                          widget.pantalla,
-                          style: AppTheme.of(context).bodyText1,
-                        ),
+                        Text(widget.pantalla, style: AppTheme.of(context).bodyText1),
                       ],
                     )
                   ],
@@ -118,7 +114,9 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'USD' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'USD'
+                                      ? AppTheme.of(context).primaryColor
+                                      : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {
@@ -134,7 +132,9 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'GTQ' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'GTQ'
+                                      ? AppTheme.of(context).primaryColor
+                                      : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {
@@ -217,7 +217,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
               ),
             ],
           ),
-          const Divider()
+          const Divider(height: 1),
         ],
       ),
     );

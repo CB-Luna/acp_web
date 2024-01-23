@@ -9,7 +9,6 @@ import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/pages/clientes_page/widgets/header.dart';
-import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
@@ -63,7 +62,7 @@ class _ClientesPageState extends State<ClientesPage> {
                 //Contenido
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

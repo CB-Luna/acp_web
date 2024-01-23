@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:pluto_grid/pluto_grid.dart';
+import 'package:provider/provider.dart';
+
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/contenedores_pagos_anticipados.dart';
 import 'package:acp_web/pages/autorizacion_solicitudes_pago_anticipado/widgets/custom_card.dart';
@@ -7,11 +11,7 @@ import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
 import 'package:acp_web/pages/widgets/custom_top_menu.dart';
 import 'package:acp_web/providers/providers.dart';
-import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:pluto_grid/pluto_grid.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/footer.dart';
 
@@ -34,7 +34,8 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(
+      final AutorizacionSolicitudesPagoAnticipadoProvider provider =
+          Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(
         context,
         listen: false,
       );
@@ -52,7 +53,8 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
-    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider =
+        Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
@@ -80,7 +82,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                       //Contenido
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [

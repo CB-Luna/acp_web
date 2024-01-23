@@ -75,7 +75,16 @@ final GoRouter router = GoRouter(
     //     );
     //   },
     // ),
-
+    GoRoute(
+      path: '/home',
+      name: 'home',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser == null) {
+          return const PageNotFoundPage();
+        }
+        return const HomePage();
+      },
+    ),
     GoRoute(
       path: '/cambio-contrasena',
       name: 'cambio_contrasena',

@@ -63,7 +63,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                   child: SingleChildScrollView(
                     clipBehavior: Clip.none,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.all(8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

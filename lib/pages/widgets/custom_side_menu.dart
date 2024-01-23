@@ -136,7 +136,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                         context.pushReplacement('/home');
                       },
                     ),
-                  if (currentUser!.rol.permisos.solicitudPago != null && currentUser!.rol.permisos.aprobacionPago != null)
+                  if (currentUser!.rol.permisos.solicitudPago != null &&
+                      currentUser!.rol.permisos.aprobacionPago != null)
                     SideMenuItemDataTile(
                       title: 'Cuentas por Cobrar',
                       titleStyle: dataTileTextStyle,
@@ -148,13 +149,15 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       hoverColor: Colors.transparent,
                       highlightSelectedColor: highlightSelectedColor,
                       margin: paddingHItems,
-                      isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! && (visualState.isTaped[8] || visualState.isTaped[9])) ||
+                      isSelected: (!visualState.isGroupTaped['Cuentas por Cobrar']! &&
+                              (visualState.isTaped[8] || visualState.isTaped[9])) ||
                           ((visualState.isTaped[8] || visualState.isTaped[9]) && !data.isOpen),
                       onTap: () => setState(() {
                         visualState.isGroupTaped.update('Cuentas por Cobrar', (value) => !value);
                       }),
                     ),
-                  if (currentUser!.rol.permisos.solicitudPago != null && (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen))
+                  if (currentUser!.rol.permisos.solicitudPago != null &&
+                      (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen))
                     SideMenuItemDataTile(
                       title: 'Solicitud de Pagos',
                       titleStyle: dataTileTextStyle,
@@ -171,7 +174,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                         context.pushReplacement('/solicitud_pagos');
                       },
                     ),
-                  if (currentUser!.rol.permisos.aprobacionPago != null && (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen))
+                  if (currentUser!.rol.permisos.aprobacionPago != null &&
+                      (visualState.isGroupTaped['Cuentas por Cobrar']! && data.isOpen))
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Aprobación y Seguimiento de Pagos',
@@ -189,7 +193,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                         context.pushReplacement('/aprobacion_seguimiento_pagos');
                       },
                     ),
-                  if (currentUser!.rol.permisos.seleccionPagosAnticipados != null && currentUser!.rol.permisos.autorizacionSolicitudesPagoAnticipado != null)
+                  if (currentUser!.rol.permisos.seleccionPagosAnticipados != null &&
+                      currentUser!.rol.permisos.autorizacionSolicitudesPagoAnticipado != null)
                     SideMenuItemDataTile(
                       title: 'Propuesta de pago',
                       titleStyle: dataTileTextStyle,
@@ -201,13 +206,15 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       hoverColor: Colors.transparent,
                       highlightSelectedColor: highlightSelectedColor,
                       margin: paddingHItems,
-                      isSelected: (!visualState.isGroupTaped['Propuesta de Pago']! && (visualState.isTaped[1] || visualState.isTaped[2])) ||
+                      isSelected: (!visualState.isGroupTaped['Propuesta de Pago']! &&
+                              (visualState.isTaped[1] || visualState.isTaped[2])) ||
                           ((visualState.isTaped[1] || visualState.isTaped[2]) && !data.isOpen),
                       onTap: () => setState(() {
                         visualState.isGroupTaped.update('Propuesta de Pago', (value) => !value);
                       }),
                     ),
-                  if (currentUser!.rol.permisos.seleccionPagosAnticipados != null && (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen))
+                  if (currentUser!.rol.permisos.seleccionPagosAnticipados != null &&
+                      (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen))
                     SideMenuItemDataTile(
                       title: 'Selección de pagos anticipados',
                       titleStyle: dataTileTextStyle,
@@ -224,7 +231,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                         context.pushReplacement('/seleccion_pagos_anticipados');
                       },
                     ),
-                  if (currentUser!.rol.permisos.autorizacionSolicitudesPagoAnticipado != null && (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen))
+                  if (currentUser!.rol.permisos.autorizacionSolicitudesPagoAnticipado != null &&
+                      (visualState.isGroupTaped['Propuesta de Pago']! && data.isOpen))
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Autorización de solicitudes',
@@ -317,13 +325,15 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       hoverColor: Colors.transparent,
                       highlightSelectedColor: highlightSelectedColor,
                       margin: paddingHItems,
-                      isSelected:
-                          (!visualState.isGroupTaped['Reportes']! && (visualState.isTaped[6] || visualState.isTaped[10])) || ((visualState.isTaped[6] || visualState.isTaped[10]) && !data.isOpen),
+                      isSelected: (!visualState.isGroupTaped['Reportes']! &&
+                              (visualState.isTaped[6] || visualState.isTaped[10])) ||
+                          ((visualState.isTaped[6] || visualState.isTaped[10]) && !data.isOpen),
                       onTap: () => setState(() {
                         visualState.isGroupTaped.update('Reportes', (value) => !value);
                       }),
                     ),
-                  if (currentUser!.rol.permisos.dashboards != null && (visualState.isGroupTaped['Reportes']! && data.isOpen))
+                  if (currentUser!.rol.permisos.dashboards != null &&
+                      (visualState.isGroupTaped['Reportes']! && data.isOpen))
                     SideMenuItemDataTile(
                       title: 'Dashbords',
                       titleStyle: dataTileTextStyle,
@@ -340,7 +350,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                         context.pushReplacement('/dashboards');
                       },
                     ),
-                  if (currentUser!.rol.permisos.dashboards != null && (visualState.isGroupTaped['Reportes']! && data.isOpen))
+                  if (currentUser!.rol.permisos.dashboards != null &&
+                      (visualState.isGroupTaped['Reportes']! && data.isOpen))
                     SideMenuItemDataTile(
                       //title: 'Autorización de solicitudes de pago anticipado',
                       title: 'Reportes Pricing',
@@ -370,7 +381,8 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                       hoverColor: Colors.transparent,
                       highlightSelectedColor: highlightSelectedColor,
                       margin: paddingHItems,
-                      isSelected: (!visualState.isGroupTaped['Configuración']! && (visualState.isTaped[11])) || ((visualState.isTaped[11]) && !data.isOpen),
+                      isSelected: (!visualState.isGroupTaped['Configuración']! && (visualState.isTaped[11])) ||
+                          ((visualState.isTaped[11]) && !data.isOpen),
                       onTap: () => setState(() {
                         visualState.isGroupTaped.update('Configuración', (value) => !value);
                       }),
@@ -404,9 +416,6 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
             },
           ),
         ),
-        const SizedBox(
-          width: 15,
-        )
       ],
     );
   }

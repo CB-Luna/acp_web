@@ -42,11 +42,9 @@ class _DashboardsPageState extends State<DashboardsPage> {
     //double width = MediaQuery.of(context).size.width / 1440;
     //double height = MediaQuery.of(context).size.height / 1024;
 
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(6);
-    final DashboardsProvider provider =
-        Provider.of<DashboardsProvider>(context);
+    final DashboardsProvider provider = Provider.of<DashboardsProvider>(context);
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
       body: SizedBox(
@@ -71,7 +69,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
                   ),
                   //Contenido
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -96,8 +94,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
                           },
                         ),
                         IFrame(
-                          src:
-                              "http://34.27.79.47:8088/superset/dashboard/p/Aez4gpQlpad/",
+                          src: "http://34.27.79.47:8088/superset/dashboard/p/Aez4gpQlpad/",
                           width: MediaQuery.of(context).size.width * 100,
                           height: MediaQuery.of(context).size.height * 0.77,
                           // width: 1200,

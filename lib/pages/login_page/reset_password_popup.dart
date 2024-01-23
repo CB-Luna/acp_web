@@ -117,24 +117,16 @@ class _ResetPasswordPopupState extends State<ResetPasswordPopup> {
                                 decoration: InputDecoration(
                                   hintStyle: AppTheme.of(context).bodyText2,
                                   enabledBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(4.0),
-                                      topRight: Radius.circular(4.0),
-                                    ),
+                                    borderSide: BorderSide(color: Colors.transparent),
                                   ),
                                   focusedBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(4.0),
-                                      topRight: Radius.circular(4.0),
-                                    ),
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                  ),
+                                  errorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                  ),
+                                  focusedErrorBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
                                   ),
                                 ),
                                 style: AppTheme.of(context).bodyText1.override(

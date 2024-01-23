@@ -5,6 +5,7 @@ export 'package:acp_web/pages/cuentas_por_cobrar/solicitud_pagos/solicitud_pagos
 export 'package:acp_web/pages/registro_cliente/registro_cliente_page.dart';
 export 'package:acp_web/pages/clientes_page/clientes_page.dart';
 export 'package:acp_web/pages/usuarios_page/usuarios_page.dart';
+export 'package:acp_web/pages/home_page/home_page.dart';
 export 'package:acp_web/pages/seleccion_pagos_anticipados/seleccion_pagos_anticipados_page.dart';
 export 'package:acp_web/pages/cuentas_por_cobrar/aprobacion_seguimieto_pagos/aprobacion_seguimiento_pagos_page.dart';
 export 'package:acp_web/pages/login_page/login_page.dart';

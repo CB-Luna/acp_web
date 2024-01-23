@@ -41,7 +41,7 @@ class _RegistroClientePageState extends State<RegistroClientePage> {
                   child: SingleChildScrollView(
                     clipBehavior: Clip.none,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.all(8),
                       child: Form(
                         key: formKey,
                         child: const Column(

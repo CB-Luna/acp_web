@@ -20,7 +20,6 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     return Row(
       children: [
-        const SizedBox(width: 15),
         Container(
           decoration: const BoxDecoration(
               //gradient: AppTheme.of(context).blueGradient),

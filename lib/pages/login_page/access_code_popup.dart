@@ -110,7 +110,7 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
         height: 600,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          border: Border.all(color: AppTheme.of(context).primaryColor),
+          border: Border.all(color: AppTheme.of(context).secondaryColor),
           borderRadius: BorderRadius.circular(20),
           color: Colors.black,
         ),
@@ -170,7 +170,7 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: AppTheme.of(context).primaryColor,
+                            color: AppTheme.of(context).secondaryColor,
                             width: 2,
                           ),
                         ),
@@ -200,24 +200,16 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
                                     decoration: InputDecoration(
                                       hintStyle: AppTheme.of(context).bodyText2,
                                       enabledBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
+                                        borderSide: BorderSide(color: Colors.transparent),
                                       ),
                                       focusedBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(4.0),
-                                          topRight: Radius.circular(4.0),
-                                        ),
+                                        borderSide: BorderSide(color: Colors.transparent),
+                                      ),
+                                      errorBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.transparent),
+                                      ),
+                                      focusedErrorBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.transparent),
                                       ),
                                     ),
                                     style: AppTheme.of(context).bodyText1.override(
@@ -252,7 +244,7 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
                                   },
                                   child: Icon(
                                     Icons.arrow_forward,
-                                    color: AppTheme.of(context).primaryColor,
+                                    color: AppTheme.of(context).secondaryColor,
                                     size: 50,
                                   ),
                                 ),
