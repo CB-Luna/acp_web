@@ -32,8 +32,9 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     return SizedBox(
-      height: 85,
+      height: 55,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
           Row(
