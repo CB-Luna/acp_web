@@ -126,7 +126,9 @@ class SolicitudPagosProvider extends ChangeNotifier {
       stateManager!.setShowLoading(true);
     }
     try {
-      final response = await http.post(
+      final correos = await supabase.rpc('correos_gerentes', params: {});
+      for (var correo in correos) {
+        final response = await http.post(
         Uri.parse(apiGatewayUrl),
         body: json.encode(
           {
@@ -149,7 +151,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
                 },
                 {
                   'name': 'cliente_correo',
-                  'value': 'al.castillolic@gmail.com',
+                  'value': correo,
                 },
               ]
             },
@@ -160,6 +162,9 @@ class SolicitudPagosProvider extends ChangeNotifier {
         return false;
       }
       log((response.body));
+        
+      }
+      
       for (var factura in facturas) {
         if (factura.ischeck == true) {
           await supabase.rpc(

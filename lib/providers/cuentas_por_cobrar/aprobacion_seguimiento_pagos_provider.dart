@@ -180,11 +180,11 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                 'estatus_id': 8,
               },
             );
-          } else {
-            return false;
-          }
+          } 
         }
-        final response = await http.post(
+        final correos = await supabase.rpc('correos_gerentes', params: {});
+        for (var correo in correos) {
+          final response = await http.post(
           Uri.parse(apiGatewayUrl),
           body: json.encode(
             {
@@ -203,7 +203,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                   },
                   {
                     'name': 'cliente_correo',
-                    'value': 'kevin.14985@gmail.com',
+                    'value': correo,
                   },
                 ]
               },
@@ -213,6 +213,9 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         if (response.statusCode > 204) {
           return false;
         }
+          
+        }
+        
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
