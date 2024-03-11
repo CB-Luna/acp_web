@@ -16,11 +16,7 @@ class TarjetaMes extends StatefulWidget {
 class _TarjetaMesState extends State<TarjetaMes> {
   @override
   Widget build(BuildContext context) {
-    //double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
-    //final PagosProvider provider = Provider.of<PagosProvider>(context);
-
-    //String monedaSeleccionada = 'GTQ';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -45,7 +41,7 @@ class _TarjetaMesState extends State<TarjetaMes> {
                     return Row(
                       children: [
                         Text(
-                          '${monthName(widget.pagos.month!)} ${widget.pagos.year}',
+                          '${monthName(widget.pagos.month!)} ${widget.pagos.year} - ${widget.pagos.sociedad}',
                           style: AppTheme.of(context).title2,
                         ),
                       ],

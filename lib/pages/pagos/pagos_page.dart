@@ -95,16 +95,18 @@ class _PagosPageState extends State<PagosPage> {
                                     filterSelected = !filterSelected;
                                   });
                                 },
-                                onGridSelected: () {
+                                onGridSelected: null,
+                                /* () {
                                   setState(() {
                                     provider.gridSelected = true;
                                   });
-                                },
-                                onListSelected: () {
+                                }, */
+                                onListSelected: null,
+                                /* () {
                                   setState(() {
                                     provider.gridSelected = false;
                                   });
-                                },
+                                }, */
                               ),
                               //Lista
                               Padding(
@@ -342,7 +344,7 @@ class _PagosPageState extends State<PagosPage> {
                                           itemBuilder: (BuildContext ctx, index) {
                                             Pagos pago = provider.pagos[index];
                                             return TarjetaMes(
-                                              key: Key('${monthName(pago.month!)} ${pago.year}'),
+                                              key: Key('${monthName(pago.month!)} ${pago.year} ${pago.sociedad}'),
                                               pagos: pago,
                                             );
                                           },

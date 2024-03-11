@@ -6,12 +6,14 @@ import 'package:pluto_grid/pluto_grid.dart';
 class Pagos {
   int? year;
   int? month;
+  String sociedad;
   List<Cliente>? clientes;
   bool isExpanded = false;
 
   Pagos({
     this.year,
     this.month,
+    required this.sociedad,
     this.clientes,
   });
 
@@ -22,12 +24,14 @@ class Pagos {
   factory Pagos.fromMap(Map<String, dynamic> json) => Pagos(
         year: json["year"],
         month: json["month"],
+        sociedad: json["sociedad"],
         clientes: json["clientes"] == null ? [] : List<Cliente>.from(json["clientes"]!.map((x) => Cliente.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
         "year": year,
         "month": month,
+        "sociedad": sociedad,
         "clientes": clientes == null ? [] : List<dynamic>.from(clientes!.map((x) => x.toMap())),
       };
 }

@@ -51,32 +51,34 @@ class CustomHeaderOptionsState extends State<CustomHeaderOptions> {
                 onPressed: widget.onFilterSelected,
               ),
             ),
-            Tooltip(
-              message: 'Lista',
-              child: IconButton(
-                icon: Icon(
-                  Icons.format_list_bulleted_outlined,
-                  size: 24,
-                  color: !widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+            if (widget.onListSelected != null)
+              Tooltip(
+                message: 'Lista',
+                child: IconButton(
+                  icon: Icon(
+                    Icons.format_list_bulleted_outlined,
+                    size: 24,
+                    color: !widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                  ),
+                  isSelected: !widget.gridSelected,
+                  splashRadius: 0.01,
+                  onPressed: widget.onListSelected,
                 ),
-                isSelected: !widget.gridSelected,
-                splashRadius: 0.01,
-                onPressed: widget.onListSelected,
               ),
-            ),
-            Tooltip(
-              message: 'Mosaico',
-              child: IconButton(
-                icon: Icon(
-                  Icons.grid_on_outlined,
-                  size: 24,
-                  color: widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+            if (widget.onGridSelected != null)
+              Tooltip(
+                message: 'Mosaico',
+                child: IconButton(
+                  icon: Icon(
+                    Icons.grid_on_outlined,
+                    size: 24,
+                    color: widget.gridSelected ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                  ),
+                  isSelected: widget.gridSelected,
+                  splashRadius: 0.01,
+                  onPressed: widget.onGridSelected,
                 ),
-                isSelected: widget.gridSelected,
-                splashRadius: 0.01,
-                onPressed: widget.onGridSelected,
               ),
-            ),
             IconButton(
               icon: Icon(
                 Icons.more_horiz_outlined,
