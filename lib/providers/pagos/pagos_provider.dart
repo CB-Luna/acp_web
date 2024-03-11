@@ -21,6 +21,7 @@ class PagosProvider extends ChangeNotifier {
   final controllerBusqueda = TextEditingController();
 
   bool gridSelected = false;
+  bool ejecBloq = false;
 
   Future<void> clearAll() async {
     pagos = [];
@@ -31,6 +32,8 @@ class PagosProvider extends ChangeNotifier {
   }
 
   Future<void> getRecords() async {
+    ejecBloq = true;
+    notifyListeners();
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
     }
@@ -40,7 +43,7 @@ class PagosProvider extends ChangeNotifier {
         'pagos',
         params: {
           'busqueda': controllerBusqueda.text,
-          'ids_sociedades': [1, 2, 3], //TODO: Change
+          'nom_sociedades': [currentUser!.sociedadSeleccionada],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
@@ -78,6 +81,8 @@ class PagosProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en PagosProvider - getRecords() - $e');
     }
+    ejecBloq = false;
+    notifyListeners();
     return notifyListeners();
   }
 

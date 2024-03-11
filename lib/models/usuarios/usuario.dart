@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
 
 class Usuario {
@@ -19,6 +20,7 @@ class Usuario {
     required this.cambioContrasena,
     this.fechaIngreso,
     this.monedaSeleccionada,
+    this.sociedadSeleccionada,
   });
 
   String id;
@@ -37,6 +39,7 @@ class Usuario {
   DateTime? fechaIngreso;
 
   String? monedaSeleccionada;
+  String? sociedadSeleccionada;
 
   String get nombreCompleto => '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
 
@@ -68,6 +71,7 @@ class Usuario {
       activo: json['activo'],
       cambioContrasena: json['cambio_contrasena'] ?? true,
       fechaIngreso: json['fecha_ingreso'] != null ? DateTime.parse(json["fecha_ingreso"]).toLocal() : null,
+      sociedadSeleccionada: listaSociedades.first, //TODO: Change
       monedaSeleccionada: 'GTQ',
     );
 

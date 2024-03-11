@@ -68,7 +68,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         'seleccion_pagos_anticipados',
         params: {
           'busqueda': controllerBusqueda.text,
-          'ids_sociedades': [1, 2, 3], //TODO: Change
+          'nom_sociedades': [currentUser!.sociedadSeleccionada],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
@@ -76,7 +76,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       clientes = (response as List<dynamic>).map((cliente) => SeleccionPagosAnticipados.fromJson(jsonEncode(cliente))).toList();
 
       for (var cliente in clientes) {
-        cliente.facturas!.sort((a, b) => b.cantComision!.compareTo(a.cantComision!)); //TODO: Realizar ordenamiento mediante el query
+        cliente.facturas!.sort((a, b) => b.cantComision!.compareTo(a.cantComision!));
 
         List<PlutoRow> rows = [];
 

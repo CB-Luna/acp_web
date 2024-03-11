@@ -503,7 +503,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: 30,
       alignment: Alignment.center,
       child: DropdownButtonHideUnderline(
         child: DropdownButtonFormField(

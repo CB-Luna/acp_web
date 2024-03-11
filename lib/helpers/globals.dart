@@ -18,6 +18,8 @@ late final SharedPreferences prefs;
 
 Usuario? currentUser;
 
+final List<String> listaSociedades = ["G001", "GAP01", "G600", "GB04", "GB02", "GT08", "NATU", "GLAD"]; //TODO: Change
+
 Future<void> initGlobals() async {
   prefs = await SharedPreferences.getInstance();
 
@@ -52,8 +54,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor:
-              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: const Color(0x661C1C1C),
@@ -76,8 +77,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableColumnBorderHorizontal: true,
           enableCellBorderVertical: false,
           enableCellBorderHorizontal: false,
-          checkedColor:
-              AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? AppTheme.of(context).secondaryColor : const Color(0XFF4B4B4B),
           enableRowColorAnimation: true,
           gridBackgroundColor: Colors.transparent,
           gridBorderColor: Colors.transparent,

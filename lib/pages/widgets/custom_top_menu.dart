@@ -1,4 +1,5 @@
 import 'package:acp_web/pages/widgets/custom_hover_icon.dart';
+import 'package:acp_web/pages/widgets/sociedad_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,12 +14,14 @@ class CustomTopMenu extends StatefulWidget {
     this.controllerBusqueda,
     this.onSearchChanged,
     this.onMonedaSeleccionada,
+    this.onSociedadSeleccionada,
   });
 
   final String pantalla;
   final TextEditingController? controllerBusqueda;
   final Function(String)? onSearchChanged;
   final Function()? onMonedaSeleccionada;
+  final Function()? onSociedadSeleccionada;
 
   @override
   State<CustomTopMenu> createState() => _CustomTopMenuState();
@@ -56,11 +59,11 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             visualState.toggleSideMenu();
                           },
                         ),
-                        CustomHoverIcon(
+                        /* CustomHoverIcon(
                           size: 24,
                           icon: Icons.star_border_outlined,
                           onTap: () {},
-                        ),
+                        ), */
                       ],
                     ),
                     Wrap(
@@ -94,6 +97,18 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                   spacing: 8,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
+                    SociedadDropDown(
+                      sociedadSeleccionada: currentUser!.sociedadSeleccionada,
+                      onSelect: (p0) async {
+                        currentUser!.sociedadSeleccionada = p0;
+                        //var route = GoRouter.of(context).location;
+                        //context.pushReplacement(route);
+                        if (widget.onSociedadSeleccionada != null) {
+                          await widget.onSociedadSeleccionada!();
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 8),
                     Wrap(
                       spacing: 8,
                       crossAxisAlignment: WrapCrossAlignment.center,
@@ -115,9 +130,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'USD'
-                                      ? AppTheme.of(context).primaryColor
-                                      : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'USD' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {
@@ -133,9 +146,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'GTQ'
-                                      ? AppTheme.of(context).primaryColor
-                                      : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'GTQ' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {

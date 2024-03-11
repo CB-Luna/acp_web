@@ -34,8 +34,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final AutorizacionSolicitudesPagoAnticipadoProvider provider =
-          Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(
+      final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(
         context,
         listen: false,
       );
@@ -53,8 +52,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     String? monedaSeleccionada = currentUser!.monedaSeleccionada;
 
-    final AutorizacionSolicitudesPagoAnticipadoProvider provider =
-        Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
+    final AutorizacionSolicitudesPagoAnticipadoProvider provider = Provider.of<AutorizacionSolicitudesPagoAnticipadoProvider>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.of(context).primaryBackground,
@@ -115,7 +113,7 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
                                 child: SizedBox(
-                                  height: height * 1024 - 415,
+                                  height: height * 1024 - 385,
                                   child: provider.gridSelected
                                       ? GridView.builder(
                                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

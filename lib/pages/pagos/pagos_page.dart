@@ -74,6 +74,9 @@ class _PagosPageState extends State<PagosPage> {
                         onMonedaSeleccionada: () async {
                           await provider.getRecords();
                         },
+                        onSociedadSeleccionada: () async {
+                          await provider.getRecords();
+                        },
                       ),
                       //Contenido
                       Expanded(
@@ -107,7 +110,7 @@ class _PagosPageState extends State<PagosPage> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
                                 child: SizedBox(
-                                  height: height * 1024 - 211,
+                                  height: height * 1024 - 385,
                                   child: Column(
                                     children: [
                                       //Encabezado
@@ -362,6 +365,21 @@ class _PagosPageState extends State<PagosPage> {
               ],
             ),
           ),
+          if (provider.ejecBloq)
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: const Color(0x32000000),
+              child: Center(
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: CircularProgressIndicator(
+                    color: AppTheme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
