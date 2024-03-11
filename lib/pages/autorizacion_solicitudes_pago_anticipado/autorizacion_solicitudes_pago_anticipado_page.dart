@@ -76,6 +76,9 @@ class _AutorizacionSolicitudesPagoAnticipadoPageState extends State<Autorizacion
                         onMonedaSeleccionada: () async {
                           await provider.getRecords();
                         },
+                        onSociedadSeleccionada: () async {
+                          await provider.getRecords();
+                        },
                       ),
                       //Contenido
                       Expanded(

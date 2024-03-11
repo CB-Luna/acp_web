@@ -67,7 +67,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         'autorizacion_solicitudes_pago_anticipado',
         params: {
           'busqueda': controllerBusqueda.text,
-          'ids_sociedades': [1, 2, 3], //TODO: Change
+          'nom_sociedades': [currentUser!.sociedadSeleccionada],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
