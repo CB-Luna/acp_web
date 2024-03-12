@@ -61,15 +61,15 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     fondoDisponibleRestante = controllerFondoDisp.numberValue;
 
     try {
-      var res = await supabase.from('calculadora_pricing').select().order('id', ascending: false).limit(1);
+      var res = await supabase.from("calculadora_pricing").select().eq("sociedad", currentUser!.sociedadSeleccionada).order("id", ascending: false).limit(1);
       CalculadoraPricing calculadora = CalculadoraPricing.fromJson(jsonEncode(res[0]));
 
       var response = await supabase.rpc(
-        'seleccion_pagos_anticipados',
+        "seleccion_pagos_anticipados",
         params: {
-          'busqueda': controllerBusqueda.text,
-          'nom_sociedades': [currentUser!.sociedadSeleccionada],
-          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
+          "busqueda": controllerBusqueda.text,
+          "nom_sociedades": [currentUser!.sociedadSeleccionada],
+          "nom_monedas": currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
 
@@ -84,7 +84,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
           for (var factura in cliente.facturas!) {
             var imq = factura.importe!;
             var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
-            var diasDif = factura.fechaNormalPago!.difference(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)).inDays;
+            var diasDif = factura.fechaNormalPago!.difference(DateTime(factura.fechaExtraccion!.year, factura.fechaExtraccion!.month, factura.fechaExtraccion!.day)).inDays;
 
             var iod = ((cliente.tae! / 360) * (diasDif)) * (imq); //Ingresos por operación de descuento
             var pa = imq - iod; //Pago Anticipado
@@ -111,6 +111,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
                   'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: factura.diasPago),
                   'dias_adicionales_field': PlutoCell(value: 0),
+                  'fecha_extraccion_field': PlutoCell(value: factura.fechaExtraccion),
                   'fecha_normal_pago_field': PlutoCell(value: factura.fechaNormalPago),
                   'estatus_id_field': PlutoCell(value: factura.estatusId),
                   //
@@ -272,9 +273,10 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
       double sumaUpfn = 0;
       double sumaMpfn = 0;
+      //Realizamos los calculos necesarios para la obtención del dato "Facturación"
       for (var row in cliente.rows!) {
         DateTime fnp = DateTime(row.cells["fecha_normal_pago_field"]!.value.year, row.cells["fecha_normal_pago_field"]!.value.month, row.cells["fecha_normal_pago_field"]!.value.day);
-        DateTime now = DateTime.now();
+        DateTime now = row.cells["fecha_extraccion_field"]!.value;
         DateTime fpa = DateTime(now.year, now.month, now.day);
         int dac = row.cells["dias_adicionales_field"]!.value;
 
@@ -295,6 +297,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         }
       }
 
+      //Una vez obtenido el dato de "Facturación", obtenemos el dato "TAE" según las condiciones siguientes
       if ((cliente.facturacionMayorA != null && cliente.tasaPreferencial != null) && cliente.facturacion! > cliente.facturacionMayorA!) {
         cliente.tae = cliente.tasaPreferencial;
       } else if (cliente.facturacionTotal! >= 100000 && currentUser!.monedaSeleccionada == 'GTQ') {
@@ -313,30 +316,33 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       sumaUpfn = 0;
       sumaMpfn = 0;
 
-      var res = await supabase.from('calculadora_pricing').select().order('id', ascending: false).limit(1);
+      //Obtenemos los datos colocados en la pantalla "Calculadora Pricing" para la obtención de datos como "Margen Operativo" y "Utilidad Neta"
+      var res = await supabase.from("calculadora_pricing").select().eq("sociedad", currentUser!.sociedadSeleccionada).order("id", ascending: false).limit(1);
       CalculadoraPricing calculadora = CalculadoraPricing.fromJson(jsonEncode(res[0]));
 
       for (var factura in cliente.facturas!) {
         var imq = factura.importe!;
         var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
-        var diasDif = factura.fechaNormalPago!.difference(DateTime.now()).inDays;
+        var diasDif = factura.fechaNormalPago!.difference(factura.fechaExtraccion!).inDays;
 
         var iod = ((cliente.tae! / 360) * (diasDif)) * (imq); //Ingresos por operación de descuento
         var pa = imq - iod; //Pago Anticipado
         var cfi = ((calculadora.costoFinanciero! / 365) * (diasDif)) * (pa); //Costo Financiero
         var mfi = iod - cfi; //Margen Financiero
         var mop = mfi - ago; //Margen Operativo
-        factura.upfn = ((mop - calculadora.isr!) / imq) * (360 / (diasDif));
 
-        factura.mpfn = ((mfi - ago) / imq) * (360 / (diasDif));
+        factura.upfn = ((mop - calculadora.isr!) / imq) * (360 / (diasDif)); //Utilidad de la factura
+        factura.mpfn = ((mfi - ago) / imq) * (360 / (diasDif)); //Margen de la factura
 
         //cliente.facturacionTotal = cliente.facturacionTotal! + factura.importe!;
 
         for (var row in cliente.rows!) {
+          //Si la "Factura" de la iteración actual es igual al "Renglón" de la iteración actual
           if (row.cells["id_factura_field"]!.value == factura.facturaId) {
             row.cells["upfn_field"]!.value = factura.upfn;
             row.cells["mpfn_field"]!.value = factura.mpfn;
 
+            //Si el "Renglón" de la iteración actual está marcado
             if (row.checked == true) {
               cliente.facturacion = cliente.facturacion! + row.cells["importe_field"]!.value;
               cliente.comision = cliente.comision! + row.cells["comision_cant_field"]!.value;

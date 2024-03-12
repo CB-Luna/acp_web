@@ -93,6 +93,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
                   'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: factura.diasPago),
                   'dias_adicionales_field': PlutoCell(value: 0),
+                  'fecha_extraccion_field': PlutoCell(value: factura.fechaExtraccion),
                   'fecha_normal_pago_field': PlutoCell(value: factura.fechaNormalPago),
                   'estatus_id_field': PlutoCell(value: factura.estatusId),
                 },
@@ -240,7 +241,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       cliente.pagoAdelantado = 0;
       for (var row in cliente.rows!) {
         DateTime fnp = DateTime(row.cells["fecha_normal_pago_field"]!.value.year, row.cells["fecha_normal_pago_field"]!.value.month, row.cells["fecha_normal_pago_field"]!.value.day);
-        DateTime now = DateTime.now();
+        DateTime now = row.cells["fecha_extraccion_field"]!.value;
         DateTime fpa = DateTime(now.year, now.month, now.day);
         int dac = row.cells["dias_adicionales_field"]!.value;
 
