@@ -27,6 +27,7 @@ class ClientesProvider extends ChangeNotifier {
   bool activo = true;
 
   List<Cliente> clientes = [];
+  String? sociedadSeleccionada;
 
   String? nombreImagen;
   Uint8List? webImage;
@@ -45,6 +46,7 @@ class ClientesProvider extends ChangeNotifier {
   void initCliente(Cliente cliente) async {
     clearControllers(notify: false);
     this.cliente = cliente;
+    sociedadSeleccionada = cliente.sociedadActual;
     tasaAnualController.text = cliente.tasaAnual?.toString() ?? '';
     tasaPreferencialController.text = cliente.tasaPreferencial?.toString() ?? '';
     facturacionMayorAController.text = cliente.facturacionMayorA?.toString() ?? '';
@@ -93,7 +95,7 @@ class ClientesProvider extends ChangeNotifier {
             'cliente_id': PlutoCell(value: cliente.clienteId),
             'cliente': PlutoCell(value: cliente),
             'fecha_registro': PlutoCell(value: dateFormat(cliente.fechaRegistro)),
-            'sociedad': PlutoCell(value: cliente.sociedad),
+            'sociedad': PlutoCell(value: cliente.sociedadActual),
             'moneda': PlutoCell(value: cliente.moneda),
             'tasa_anual': PlutoCell(value: '${cliente.tasaAnual.toString()}%'),
             'activo': PlutoCell(value: cliente.estatus),
@@ -134,6 +136,21 @@ class ClientesProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en getCliente() - $e');
       return false;
+    }
+  }
+
+  Future<void> cambiarCliente(String sociedad) async {
+    try {
+      final res = await supabase
+          .from('cliente_completo')
+          .select()
+          .eq('cliente_id', cliente!.clienteId)
+          .eq('sociedad', sociedad);
+      cliente = Cliente.fromMap(res.first);
+      initCliente(cliente!);
+      notifyListeners();
+    } catch (e) {
+      log('Error en cambiar cliente');
     }
   }
 

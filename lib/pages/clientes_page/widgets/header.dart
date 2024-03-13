@@ -1,3 +1,4 @@
+import 'package:acp_web/pages/widgets/sociedad_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,6 +94,13 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(width: 8),
+            SociedadDropDown(
+              sociedadSeleccionada: 'G001',
+              onSelect: (sociedad) async {
+                // await
+              },
             ),
             const SizedBox(width: 8),
             ElevatedButton(

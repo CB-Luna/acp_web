@@ -2,11 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:acp_web/functions/phone_format.dart';
-import 'package:acp_web/helpers/constants.dart';
-import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/models/models.dart';
-import 'package:acp_web/services/api_error_handler.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:path/path.dart' as p;
 import 'package:random_password_generator/random_password_generator.dart';
@@ -16,6 +11,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:acp_web/functions/phone_format.dart';
+import 'package:acp_web/helpers/constants.dart';
+import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/models.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 
 class UsuariosProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -114,7 +115,7 @@ class UsuariosProvider extends ChangeNotifier {
         return;
       }
 
-      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
+      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromMap(usuario)).toList();
 
       llenarPlutoGrid(usuarios);
     } catch (e) {

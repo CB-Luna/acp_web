@@ -6,10 +6,12 @@ class SociedadDropDown extends StatelessWidget {
   const SociedadDropDown({
     super.key,
     this.sociedadSeleccionada,
+    this.sociedades,
     required this.onSelect,
   });
 
   final String? sociedadSeleccionada;
+  final List<String>? sociedades;
   final dynamic Function(String?) onSelect;
 
   @override
@@ -21,7 +23,7 @@ class SociedadDropDown extends StatelessWidget {
         child: CustomDropDown(
           label: 'Sociedades',
           key: UniqueKey(),
-          items: listaSociedades,
+          items: sociedades ?? listaSociedades,
           value: sociedadSeleccionada,
           onChanged: onSelect,
           validator: (p0) {
