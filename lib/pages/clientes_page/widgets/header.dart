@@ -98,6 +98,7 @@ class _ClientesHeaderState extends State<ClientesHeader> {
             const SizedBox(width: 8),
             SociedadDropDown(
               sociedadSeleccionada: 'G001',
+              sociedades: ["G600", "G001"], //TODO: Colocar las sociedades relacionadas al codigo del cliente
               onSelect: (sociedad) async {
                 // await
               },

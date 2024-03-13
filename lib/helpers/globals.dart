@@ -18,12 +18,14 @@ late final SharedPreferences prefs;
 
 Usuario? currentUser;
 
-final List<String> listaSociedades = ["G001", "GAP01", "G600", "GB04", "GB02", "GT08", "NATU", "GLAD"]; //TODO: Change
+List<String>? listaSociedades;
 
 Future<void> initGlobals() async {
   prefs = await SharedPreferences.getInstance();
 
   currentUser = await SupabaseQueries.getCurrentUserData();
+
+  await SupabaseQueries.getSociedades();
 
   if (currentUser == null) return;
 }
