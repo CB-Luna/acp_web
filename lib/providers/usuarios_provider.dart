@@ -96,7 +96,7 @@ class UsuariosProvider extends ChangeNotifier {
         sociedadClienteController.text = 'No se encontró';
       } else {
         cliente = ClienteUsuario.fromMap(res[0]);
-        sociedadClienteController.text = cliente?.sociedad ?? '';
+        sociedadClienteController.text = cliente?.sociedades.join(', ') ?? '';
       }
     } catch (e) {
       log('Error en getCliente() - $e');
@@ -130,6 +130,11 @@ class UsuariosProvider extends ChangeNotifier {
         imageUrl = supabase.storage.from('avatars').getPublicUrl(usuario.imagen!);
       }
       Map<String, String?> infoUsuario = {'nombre': usuario.nombreCompleto, 'imagen': imageUrl};
+      String sociedad = '-';
+      if (usuario.cliente != null) {
+        final sociedades = usuario.cliente!.sociedades;
+        sociedad = sociedades.length == 1 ? sociedades.first : 'Múltiples';
+      }
       rows.add(
         PlutoRow(
           cells: {
@@ -139,7 +144,7 @@ class UsuariosProvider extends ChangeNotifier {
             'rol': PlutoCell(value: usuario.rol.nombre),
             'compania': PlutoCell(value: usuario.compania),
             'email': PlutoCell(value: usuario.email),
-            'sociedad': PlutoCell(value: usuario.cliente?.sociedad ?? '-'),
+            'sociedad': PlutoCell(value: sociedad),
             'activo': PlutoCell(value: usuario.estatus),
             'acciones': PlutoCell(value: usuario.id),
           },
@@ -323,7 +328,7 @@ class UsuariosProvider extends ChangeNotifier {
     if (cliente != null) {
       // await getCliente();
       codigoClienteController.text = cliente!.codigoCliente;
-      sociedadClienteController.text = cliente!.sociedad;
+      sociedadClienteController.text = cliente?.sociedades.join(', ') ?? '';
     }
   }
 

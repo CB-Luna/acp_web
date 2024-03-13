@@ -117,12 +117,12 @@ class ClienteUsuario {
   ClienteUsuario({
     required this.clienteId,
     required this.codigoCliente,
-    required this.sociedad,
+    required this.sociedades,
   });
 
   int clienteId;
   String codigoCliente;
-  String sociedad;
+  List<String> sociedades;
 
   factory ClienteUsuario.fromJson(String str) => ClienteUsuario.fromMap(json.decode(str));
 
@@ -132,14 +132,14 @@ class ClienteUsuario {
     return ClienteUsuario(
       clienteId: json["cliente_id"],
       codigoCliente: json["codigo_cliente"],
-      sociedad: json['sociedad'],
+      sociedades: (json['sociedades'] as List<dynamic>).map((e) => e as String).toList(),
     );
   }
 
   Map<String, dynamic> toMap() => {
         "cliente_id": clienteId,
         "codigo_acreedor": codigoCliente,
-        'sociedad': sociedad,
+        'sociedades': sociedades,
       };
 
   @override
