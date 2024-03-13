@@ -65,24 +65,48 @@ class CalculadoraPricingProvider extends ChangeNotifier {
     ejecBloq = true;
     notifyListeners();
     try {
-      await supabase.from('calculadora_pricing').insert(
-        {
-          'costo_financiero': costoFinancieroController.numberValue,
-          'costo_operativo': costoOperativoController.numberValue,
-          'tarifa_GO': tarifaGOController.numberValue,
-          'ISR': isrController.numberValue,
-          'asignacion_capital': capitalBController.numberValue,
-          'costo_capital': costoCapitalController.numberValue,
-          'probabilidad_incremento': incrementoController.numberValue,
-          'perdida_incumplimineto': perdidaController.numberValue,
-          'sociedad': currentUser!.sociedadSeleccionada!
-        },
-      );
+      // Consultar si existe un registro con la sociedad actual
+      final res = await supabase.from('calculadora_pricing').select().eq('sociedad', currentUser!.sociedadSeleccionada!).single();
+
+      // Si se encontró un registro, actualizarlo
+      if (res != null) {
+        await supabase.from('calculadora_pricing').update(
+          {
+            'costo_financiero': costoFinancieroController.numberValue,
+            'costo_operativo': costoOperativoController.numberValue,
+            'tarifa_GO': tarifaGOController.numberValue,
+            'ISR': isrController.numberValue,
+            'asignacion_capital': capitalBController.numberValue,
+            'costo_capital': costoCapitalController.numberValue,
+            'probabilidad_incremento': incrementoController.numberValue,
+            'perdida_incumplimineto': perdidaController.numberValue,
+          },
+        ).eq('sociedad', currentUser!.sociedadSeleccionada!);
+      } else {
+        // Si no se encontró un registro, insertar uno nuevo
+        await supabase.from('calculadora_pricing').insert(
+          {
+            'costo_financiero': costoFinancieroController.numberValue,
+            'costo_operativo': costoOperativoController.numberValue,
+            'tarifa_GO': tarifaGOController.numberValue,
+            'ISR': isrController.numberValue,
+            'asignacion_capital': capitalBController.numberValue,
+            'costo_capital': costoCapitalController.numberValue,
+            'probabilidad_incremento': incrementoController.numberValue,
+            'perdida_incumplimineto': perdidaController.numberValue,
+            'sociedad': currentUser!.sociedadSeleccionada!,
+          },
+        );
+      }
     } catch (e) {
-      log('Error en calculadoraPricing- $e');
+      log('Error en crearCalculadoraPricing- $e');
       ejecBloq = false;
       notifyListeners();
+      return false; // Devolver false para indicar que no se pudo completar la operación
     }
+
+    ejecBloq = false;
+    await tablaCalculadora();
     notifyListeners();
     return true;
   }
@@ -99,7 +123,7 @@ class CalculadoraPricingProvider extends ChangeNotifier {
 
   Future<void> cargarDatosCalculadoraPricing(int id) async {
     try {
-      var response = await supabase.from('calculadora_pricing').select().eq('id',id);
+      var response = await supabase.from('calculadora_pricing').select().eq('id', id);
       calculadora = (response as List<dynamic>).map((usuario) => CalculadoraPricing.fromJson(jsonEncode(usuario))).toList();
       costoFinancieroController.text = moneyFormat(calculadora.first.costoFinanciero!);
       costoOperativoController.text = moneyFormat(calculadora.first.costoOperativo!);
