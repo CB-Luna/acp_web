@@ -126,6 +126,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                   'moneda_field': PlutoCell(value: registro.moneda),
                   'estatus_field': PlutoCell(value: registro.estatusId),
                   'cliente_field': PlutoCell(value: registro.clienteId),
+                  'sociedad_field': PlutoCell(value: registro.sociedad),
                 },
               ),
             );
