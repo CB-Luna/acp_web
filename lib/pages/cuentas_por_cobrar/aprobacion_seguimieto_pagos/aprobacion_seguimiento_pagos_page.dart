@@ -69,6 +69,9 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                     onSearchChanged: (p0) async {
                       await provider.search();
                     },
+                    onSociedadSeleccionada: () async{
+                      await provider.aprobacionSeguimientoPagos();
+                    },
                     onMonedaSeleccionada: () async {
                       await provider.aprobacionSeguimientoPagos();
                     },

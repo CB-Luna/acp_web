@@ -9,6 +9,7 @@ class CustomHeaderOptions extends StatefulWidget {
     this.onFilterSelected,
     this.onGridSelected,
     this.onListSelected,
+    this.ondownloadExcel,
     required this.encabezado,
   });
 
@@ -20,6 +21,7 @@ class CustomHeaderOptions extends StatefulWidget {
   final Function()? onFilterSelected;
   final Function()? onGridSelected;
   final Function()? onListSelected;
+  final Function()? ondownloadExcel;
 
   @override
   State<CustomHeaderOptions> createState() => CustomHeaderOptionsState();
@@ -77,6 +79,19 @@ class CustomHeaderOptionsState extends State<CustomHeaderOptions> {
                   isSelected: widget.gridSelected,
                   splashRadius: 0.01,
                   onPressed: widget.onGridSelected,
+                ),
+              ),
+            if (widget.ondownloadExcel != null)
+              Tooltip(
+                message: 'Descargar Excel',
+                child: IconButton(
+                  icon: Icon(
+                    Icons.download,
+                    size: 24,
+                    color: AppTheme.of(context).secondaryColor,
+                  ),
+                  splashRadius: 0.01,
+                  onPressed: widget.ondownloadExcel,
                 ),
               ),
             IconButton(

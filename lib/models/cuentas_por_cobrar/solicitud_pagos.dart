@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class SolicitudPagos {
   int? factuaId;
-  String? no_doc;
+   String? noDoc;
   dynamic referencia;
   double? importe;
   double? comision;
@@ -13,7 +13,7 @@ class SolicitudPagos {
 
   SolicitudPagos({
     this.factuaId,
-    this.no_doc,
+    this.noDoc,
     this.referencia,
     this.importe,
     this.comision,
@@ -28,7 +28,7 @@ class SolicitudPagos {
 
   factory SolicitudPagos.fromMap(Map<String, dynamic> json) => SolicitudPagos(
         factuaId: json["factua_id"],
-        no_doc: json["no_doc"],
+        noDoc: json["noDoc"],
         referencia: json["referencia"],
         importe: json["importe"]?.toDouble(),
         comision: json["comision"]?.toDouble(),
@@ -39,7 +39,7 @@ class SolicitudPagos {
 
   Map<String, dynamic> toMap() => {
         "factua_id": factuaId,
-        "no_doc": no_doc,
+        "noDoc": noDoc,
         "referencia": referencia,
         "importe": importe,
         "comision": comision,

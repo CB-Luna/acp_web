@@ -191,6 +191,16 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
                                   },
                                 ),
                               ),
+                              Tooltip(
+                                message: 'Descargar Excel',
+                                child: CustomHoverIcon(
+                                  icon: Icons.download,
+                                  size: 20,
+                                  onTap: () async {
+                                    await provider.pagosExcel(widget.cliente.rows!);
+                                  },
+                                ),
+                              ),
                             if (widget.cliente.anexoDoc != null)
                               Tooltip(
                                 message: 'Descargar',

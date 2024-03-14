@@ -68,31 +68,32 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                   CustomTopMenu(
                     pantalla: 'Cuentas por Cobrar',
                     controllerBusqueda: provider.controllerBusqueda,
+                    onSociedadSeleccionada: () async {
+                      await provider.solicitudPagos();
+                    },
+                    onMonedaSeleccionada: () async {
+                      await provider.solicitudPagos();
+                    },
                     onSearchChanged: (p0) async {
                       await provider.search();
                     },
                   ),
+
                   //Contenido
                   CustomHeaderOptions(
-                    encabezado: 'Solicitud de Pagos',
-                    filterSelected: filterSelected,
-                    gridSelected: gridSelected,
-                    onFilterSelected: () {
-                      setState(() {
-                        filterSelected = !filterSelected;
-                      });
-                    },
-                    onGridSelected: () {
-                      setState(() {
-                        gridSelected = true;
-                      });
-                    },
-                    onListSelected: () {
-                      setState(() {
-                        gridSelected = false;
-                      });
-                    },
-                  ),
+                      encabezado: 'Solicitud de Pagos',
+                      filterSelected: filterSelected,
+                      gridSelected: gridSelected,
+                      onFilterSelected: () {
+                        setState(() {
+                          filterSelected = !filterSelected;
+                        });
+                      },
+                      ondownloadExcel: () async {
+                        await provider.solicitudExcel();
+                      },
+                      onGridSelected: null,
+                      onListSelected: null),
                   const ContenedoresSolicitudPagos(),
                   //Titulos
                   Padding(

@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
+import 'package:acp_web/functions/date_format.dart';
+import 'package:acp_web/functions/money_format.dart';
+import 'package:excel/excel.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:acp_web/helpers/constants.dart';
@@ -493,5 +496,45 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       return false;
     }
     return true;
+  }
+
+  ////////////Excel////////////////
+  Future<bool> seleccionPagosExcel(SeleccionPagosAnticipados cliente) async {
+    try {
+      //Crear excel
+      Excel excel = Excel.createExcel();
+      Sheet sheet = excel['Selección de pagos anticipados'];
+
+      //Agregar primera lineas
+      sheet.getColumnAutoFits;
+      sheet.appendRow([
+        'Selección de pagos anticipados',
+        '',
+        'Usuario',
+        '${currentUser?.nombreCompleto}',
+        '',
+        'Fecha:',
+        dateFormat(DateTime.now()),
+      ]);
+
+      //Agregar linea vacia
+      sheet.appendRow(['']);
+      sheet.appendRow(['Cuenta', 'Importe', '% Comisión', 'Comisión', 'Pago Anticipado', 'Días para pago', 'DAC']);
+      for (var facturas in cliente.facturas!) {
+        sheet.appendRow([facturas.noDoc, moneyFormat(facturas.importe!), '${moneyFormat(facturas.porcComision!)}%',moneyFormat(facturas.cantComision!), moneyFormat(facturas.pagoAnticipado!), facturas.diasPago,0]);
+      }
+
+      //Borrar Sheet1 default
+      excel.delete('Sheet1');
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados.xlsx");
+      if (fileBytes == null) return false;
+
+      return true;
+    } catch (e) {
+      log('error in excel-$e');
+      return false;
+    }
   }
 }

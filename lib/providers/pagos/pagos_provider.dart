@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
+import 'package:acp_web/functions/date_format.dart';
+import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/global/factura_model.dart';
 import 'package:acp_web/models/pagos/pagos_model.dart';
+import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
@@ -190,5 +193,55 @@ class PagosProvider extends ChangeNotifier {
     }
     await getRecords();
     return 0;
+  }
+
+  ///////////////////Excel/////////////////////////
+  Future<bool> pagosExcel(List<PlutoRow> facturas) async {
+    try {
+      //Crear excel
+
+      Excel excel = Excel.createExcel();
+      Sheet sheet = excel['Pagos'];
+
+      //Agregar primera lineas
+      sheet.getColumnAutoFits;
+      sheet.appendRow([
+        'Pagos',
+        '',
+        'Usuario',
+        '${currentUser?.nombreCompleto}',
+        '',
+        'Fecha:',
+        dateFormat(DateTime.now()),
+      ]);
+
+      //Agregar linea vacia
+      sheet.appendRow(['']);
+      sheet.appendRow(['Cuenta', 'Importe', '% Comisión', 'Comisión', 'Pago Anticipado', 'Días para pago', 'DAC']);
+
+      for (var factura in facturas) {
+        sheet.appendRow([
+          factura.cells['cuenta_field']!.value,
+          moneyFormat(factura.cells['importe_field']!.value),
+          moneyFormat(factura.cells['comision_porc_field']!.value * 100),
+          moneyFormat(factura.cells['comision_cant_field']!.value),
+          factura.cells['pago_anticipado_field']!.value,
+          factura.cells['dias_pago_field']!.value,
+          factura.cells['dias_adicionales_field']!.value,
+        ]);
+      }
+
+      //Borrar Sheet1 default
+      excel.delete('Sheet1');
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Pagos.xlsx");
+      if (fileBytes == null) return false;
+
+      return true;
+    } catch (e) {
+      log('error in excel-$e');
+      return false;
+    }
   }
 }

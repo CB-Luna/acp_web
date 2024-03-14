@@ -236,6 +236,30 @@ class _CustomCardState extends State<CustomCard> {
                         },
                       ),
                     ),
+                    const SizedBox(width: 8),
+                    Tooltip(
+                      message: 'Descargar Excel',
+                      child: InkWell(
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.download,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        onTap: () async {
+                          await provider.seleccionPagosExcel(widget.cliente);
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 Row(

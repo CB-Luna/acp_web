@@ -7,6 +7,7 @@ import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/aprobacion_seguimineto_pagos_view.dart';
 import 'package:date_format/date_format.dart';
+import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -102,7 +103,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         'aprobacion_segumiento_pagos',
         params: {
           'busqueda': controllerBusqueda.text,
-          'ids_sociedades': [1, 2, 3],
+          'nom_sociedades': [currentUser!.sociedadSeleccionada!],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
           'clienteid': currentUser!.cliente!.clienteId
         },
@@ -137,6 +138,49 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - aprobacion_seguimiento_pagos() - $e');
+    }
+  }
+
+  ///////////////////Excel/////////////////////////
+  Future<bool> aprobacionseguimientoExcel(Propuesta propuesta) async {
+    try {
+      //Crear excel
+
+      Excel excel = Excel.createExcel();
+      Sheet sheet = excel['Aprobacion y seguimiento de pagos'];
+
+      //Agregar primera lineas
+      sheet.getColumnAutoFits;
+      sheet.appendRow([
+        'Aprobacion y seguimiento de pagos',
+        '',
+        'Usuario',
+        '${currentUser?.nombreCompleto}',
+        '',
+        'Fecha:',
+        dateFormat(DateTime.now()),
+      ]);
+
+      //Agregar linea vacia
+      sheet.appendRow(['']);
+      sheet.appendRow(['Cuenta', 'Importe', 'Comisión', 'Pago Anticipado', 'Días para pago']);
+      for (var factura in propuesta.registrosPorDia) {
+        sheet.appendRow([factura.noDoc, moneyFormat(factura.importe!), moneyFormat(factura.cantComision!), moneyFormat(factura.pagoAnticipado!), factura.diasPago]);
+
+        //cantidadFacturas = cantidadFacturas + cliente.facturas!.length;
+      }
+
+      //Borrar Sheet1 default
+      excel.delete('Sheet1');
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Aprobacion_seguimiento_pagos.xlsx");
+      if (fileBytes == null) return false;
+
+      return true;
+    } catch (e) {
+      log('error in excel-$e');
+      return false;
     }
   }
 
@@ -180,42 +224,40 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
                 'estatus_id': 8,
               },
             );
-          } 
+          }
         }
         final correos = await supabase.rpc('correos_gerentes', params: {});
         for (var correo in correos) {
           final response = await http.post(
-          Uri.parse(apiGatewayUrl),
-          body: json.encode(
-            {
-              "user": "Web",
-              "action": "bonitaBpmCaseVariables",
-              "process": "ACP_Validacion_de_Anexo",
-              'data': {
-                'variables': [
-                  {
-                    'name': 'fecha',
-                    'value': dateFormat(DateTime.now()),
-                  },
-                  {
-                    'name': 'cliente',
-                    'value': currentUser!.nombreCompleto,
-                  },
-                  {
-                    'name': 'cliente_correo',
-                    'value': correo,
-                  },
-                ]
+            Uri.parse(apiGatewayUrl),
+            body: json.encode(
+              {
+                "user": "Web",
+                "action": "bonitaBpmCaseVariables",
+                "process": "ACP_Validacion_de_Anexo",
+                'data': {
+                  'variables': [
+                    {
+                      'name': 'fecha',
+                      'value': dateFormat(DateTime.now()),
+                    },
+                    {
+                      'name': 'cliente',
+                      'value': currentUser!.nombreCompleto,
+                    },
+                    {
+                      'name': 'cliente_correo',
+                      'value': correo,
+                    },
+                  ]
+                },
               },
-            },
-          ),
-        );
-        if (response.statusCode > 204) {
-          return false;
+            ),
+          );
+          if (response.statusCode > 204) {
+            return false;
+          }
         }
-          
-        }
-        
       }
     } catch (e) {
       log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
