@@ -272,7 +272,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           ),
                                           splashRadius: 0.01,
                                           onPressed: () async {
-                                            await provider.initEditarUsuario(usuario!);
+                                            provider.initEditarUsuario(usuario!);
                                             if (!mounted) return;
                                             await context.pushNamed(
                                               'editar_usuario',

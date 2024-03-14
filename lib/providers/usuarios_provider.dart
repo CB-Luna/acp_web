@@ -88,18 +88,17 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<void> getCliente() async {
     try {
-      final res = await supabase.from('cliente').select().eq('codigo_cliente', codigoClienteController.text);
+      final res = await supabase
+          .from('cliente_completo')
+          .select('cliente_id, codigo_cliente, sociedades')
+          .eq('codigo_cliente', codigoClienteController.text);
 
       if (res == null) return;
 
-      if ((res as List).length != 1) {
-        cliente = null;
-        sociedadClienteController.text = 'No se encontró';
-      } else {
-        cliente = ClienteUsuario.fromMap(res[0]);
-        sociedadClienteController.text = cliente?.sociedades.join(', ') ?? '';
-      }
+      cliente = ClienteUsuario.fromMap(res.first);
+      sociedadClienteController.text = cliente?.sociedades.join(', ') ?? '';
     } catch (e) {
+      sociedadClienteController.text = 'No se encontró';
       log('Error en getCliente() - $e');
     }
   }
@@ -270,7 +269,6 @@ class UsuariosProvider extends ChangeNotifier {
       return false;
     }
 
-    //TODO: validar que cliente no esta asignado a usuario
     try {
       await supabase.from('perfil_usuario').insert(
         {
@@ -315,7 +313,7 @@ class UsuariosProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> initEditarUsuario(Usuario usuario) async {
+  void initEditarUsuario(Usuario usuario) {
     nombreController.text = usuario.nombre;
     apellidoPaternoController.text = usuario.apellidoPaterno;
     apellidoMaternoController.text = usuario.apellidoMaterno ?? '';
