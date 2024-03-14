@@ -27,7 +27,6 @@ class ClientesProvider extends ChangeNotifier {
   bool activo = true;
 
   List<Cliente> clientes = [];
-  String? sociedadSeleccionada;
 
   String? nombreImagen;
   Uint8List? webImage;
@@ -46,7 +45,6 @@ class ClientesProvider extends ChangeNotifier {
   void initCliente(Cliente cliente) async {
     clearControllers(notify: false);
     this.cliente = cliente;
-    sociedadSeleccionada = cliente.sociedadActual;
     tasaAnualController.text = cliente.tasaAnual?.toString() ?? '';
     tasaPreferencialController.text = cliente.tasaPreferencial?.toString() ?? '';
     facturacionMayorAController.text = cliente.facturacionMayorA?.toString() ?? '';
@@ -261,10 +259,12 @@ class ClientesProvider extends ChangeNotifier {
         final res = await supabase
             .from('cliente')
             .insert(
-              cliente!.toMap(),
+              cliente!.toMapTablaCliente(),
               defaultToNull: false,
             )
             .select('cliente_id');
+
+        //TODO: insertar en tabla cliente_sociedad
 
         if ((res as List).isEmpty) return false;
 
@@ -278,7 +278,12 @@ class ClientesProvider extends ChangeNotifier {
         }
       } else {
         //cliente existente - actualizar tabla
-        await supabase.from('cliente').update(cliente!.toMap()).eq('cliente_id', cliente!.clienteId);
+        await supabase
+            .from('cliente_sociedad')
+            .update(cliente!.toMapTablaClienteSociedad())
+            .eq('cliente_fk', cliente!.clienteId)
+            .eq('sociedad_fk', cliente!.sociedadActual);
+
         //Crear o actualizar contactos
         for (var contacto in cliente!.contactos) {
           if (contacto.contactoId == null) {

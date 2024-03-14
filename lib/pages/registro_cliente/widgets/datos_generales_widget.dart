@@ -199,7 +199,7 @@ class ClienteSociedadWidget extends StatelessWidget {
         const SizedBox(height: 16),
         isMultiple
             ? SociedadDropDown(
-                sociedadSeleccionada: provider.sociedadSeleccionada,
+                sociedadSeleccionada: provider.cliente!.sociedadActual,
                 sociedades: sociedadesCliente,
                 onSelect: (sociedad) async {
                   if (sociedad == null) return;

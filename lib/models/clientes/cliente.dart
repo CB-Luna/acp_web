@@ -98,21 +98,23 @@ class Cliente {
     );
   }
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMapTablaCliente() => {
         "codigo_cliente": codigoCliente,
-        "sociedades": jsonEncode(sociedades),
         "nombre_fiscal": nombreFiscal,
         "identificador_fiscal": identificadorFiscal,
         "direccion": direccion,
-        "condicion_pago": condicionPago,
-        "numero_cuenta": numeroCuenta,
-        "tasa_anual": tasaAnual,
-        "tasa_preferencial": tasaPreferencial,
-        "facturacion_mayor_a": facturacionMayorA,
         "logo": imagen,
+        "numero_cuenta": numeroCuenta,
         "banco_industrial": bancoIndustrial,
         "tipo_cuenta": tipoCuenta,
         "moneda": moneda,
+      };
+
+  Map<String, dynamic> toMapTablaClienteSociedad() => {
+        "condicion_pago": condicionPago,
+        "tasa_anual": tasaAnual,
+        "tasa_preferencial": tasaPreferencial,
+        "facturacion_mayor_a": facturacionMayorA,
         "acuerdo_comercial": acuerdoComercial,
         "fecha_contrato": fechaContrato?.toIso8601String(),
       };

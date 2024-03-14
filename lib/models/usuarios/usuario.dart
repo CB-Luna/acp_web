@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
 
 class Usuario {
