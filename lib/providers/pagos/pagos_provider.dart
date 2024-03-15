@@ -237,7 +237,7 @@ class PagosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Pagos_$name.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Pagos_${name}_${currentUser!.sociedadSeleccionada!}.xlsx");
       if (fileBytes == null) return false;
 
       return true;

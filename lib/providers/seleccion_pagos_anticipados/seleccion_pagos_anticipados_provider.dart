@@ -508,7 +508,17 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
       //Agregar primera lineas
       sheet.getColumnAutoFits;
-      sheet.appendRow(['Selección de pagos anticipados', '', 'Usuario', '${currentUser?.nombreCompleto}', '', 'Fecha:', dateFormat(DateTime.now()), 'Sociedad', currentUser!.monedaSeleccionada!]);
+      sheet.appendRow([
+        'Selección de pagos anticipados',
+        '',
+        'Usuario',
+        '${currentUser?.nombreCompleto}',
+        '',
+        'Fecha:',
+        dateFormat(DateTime.now()),
+        'Sociedad',
+        currentUser!.sociedadSeleccionada!,
+      ]);
 
       //Agregar linea vacia
       sheet.appendRow(['']);
@@ -529,7 +539,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados_${facturas.nombreFiscal}.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados_${facturas.nombreFiscal}_${currentUser!.sociedadSeleccionada!}.xlsx");
       if (fileBytes == null) return false;
 
       return true;
