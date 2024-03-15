@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/models/models.dart';
 import 'package:excel/excel.dart';
 import 'package:http/http.dart' as http;
 
@@ -499,7 +500,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
   }
 
   ////////////Excel////////////////
-  Future<bool> seleccionPagosExcel(SeleccionPagosAnticipados cliente) async {
+  Future<bool> seleccionPagosExcel(SeleccionPagosAnticipados facturas) async {
     try {
       //Crear excel
       Excel excel = Excel.createExcel();
@@ -507,28 +508,28 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
 
       //Agregar primera lineas
       sheet.getColumnAutoFits;
-      sheet.appendRow([
-        'Selección de pagos anticipados',
-        '',
-        'Usuario',
-        '${currentUser?.nombreCompleto}',
-        '',
-        'Fecha:',
-        dateFormat(DateTime.now()),
-      ]);
+      sheet.appendRow(['Selección de pagos anticipados', '', 'Usuario', '${currentUser?.nombreCompleto}', '', 'Fecha:', dateFormat(DateTime.now()), 'Sociedad', currentUser!.monedaSeleccionada!]);
 
       //Agregar linea vacia
       sheet.appendRow(['']);
       sheet.appendRow(['Cuenta', 'Importe', '% Comisión', 'Comisión', 'Pago Anticipado', 'Días para pago', 'DAC']);
-      for (var facturas in cliente.facturas!) {
-        sheet.appendRow([facturas.noDoc, moneyFormat(facturas.importe!), '${moneyFormat(facturas.porcComision!)}%',moneyFormat(facturas.cantComision!), moneyFormat(facturas.pagoAnticipado!), facturas.diasPago,0]);
+      for (var factura in facturas.rows!) {
+        sheet.appendRow([
+          factura.cells['cuenta_field']!.value,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['importe_field']!.value)}',
+          '${moneyFormat(factura.cells['comision_porc_field']!.value * 100)} %',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['comision_cant_field']!.value)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['pago_anticipado_field']!.value)}',
+          factura.cells['dias_pago_field']!.value,
+          factura.cells['dias_adicionales_field']!.value,
+        ]);
       }
 
       //Borrar Sheet1 default
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados_${facturas.nombreFiscal}.xlsx");
       if (fileBytes == null) return false;
 
       return true;

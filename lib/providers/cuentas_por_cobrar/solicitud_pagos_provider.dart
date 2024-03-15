@@ -88,42 +88,41 @@ class SolicitudPagosProvider extends ChangeNotifier {
       final correos = await supabase.rpc('correos_gerentes', params: {});
       for (var correo in correos) {
         final response = await http.post(
-        Uri.parse(apiGatewayUrl),
-        body: json.encode(
-          {
-            "user": "Web",
-            "action": "bonitaBpmCaseVariables",
-            "process": "ACP_Solicitud_de_pago_anticipado",
-            'data': {
-              'variables': [
-                {
-                  'name': 'cliente',
-                  'value': currentUser!.nombreCompleto,
-                },
-                {
-                  'name': 'numero',
-                  'value': cantidadFacturasSeleccionadas.toString(),
-                },
-                {
-                  'name': 'importe',
-                  'value': moneyFormat(montoFacturacion),
-                },
-                {
-                  'name': 'cliente_correo',
-                  'value': correo,
-                },
-              ]
+          Uri.parse(apiGatewayUrl),
+          body: json.encode(
+            {
+              "user": "Web",
+              "action": "bonitaBpmCaseVariables",
+              "process": "ACP_Solicitud_de_pago_anticipado",
+              'data': {
+                'variables': [
+                  {
+                    'name': 'cliente',
+                    'value': currentUser!.nombreCompleto,
+                  },
+                  {
+                    'name': 'numero',
+                    'value': cantidadFacturasSeleccionadas.toString(),
+                  },
+                  {
+                    'name': 'importe',
+                    'value': moneyFormat(montoFacturacion),
+                  },
+                  {
+                    'name': 'cliente_correo',
+                    'value': correo,
+                  },
+                ]
+              },
             },
-          },
-        ),
-      );
-      if (response.statusCode > 204) {
-        return false;
+          ),
+        );
+        if (response.statusCode > 204) {
+          return false;
+        }
+        log((response.body));
       }
-      log((response.body));
-        
-      }
-      
+
       for (var factura in facturas) {
         if (factura.ischeck == true) {
           await supabase.rpc(
@@ -213,6 +212,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
     }
     await checkInList();
   }
+
   ///////////////////Excel/////////////////////////
   Future<bool> solicitudExcel() async {
     try {
@@ -231,13 +231,21 @@ class SolicitudPagosProvider extends ChangeNotifier {
         '',
         'Fecha:',
         dateFormat(DateTime.now()),
+        'Sociedad',
+        currentUser!.sociedadSeleccionada!,
       ]);
 
       //Agregar linea vacia
       sheet.appendRow(['']);
-      sheet.appendRow(['Cuenta', 'Importe', 'Comisión', 'Pago Anticipado', 'Días para pago']);
+      sheet.appendRow(['Factura', 'Importe', 'Comisión', 'Días para pago','Pago Anticipado']);
       for (var factura in facturas) {
-        sheet.appendRow([factura.noDoc, moneyFormat(factura.importe!), moneyFormat(factura.comision!), moneyFormat(factura.pagoAnticipado!), factura.diasPago, moneyFormat(factura.pagoAnticipado!)]);
+        sheet.appendRow([
+          factura.noDoc,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.importe!)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.comision!)}',
+          factura.diasPago,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.pagoAnticipado!)}'
+        ]);
 
         //cantidadFacturas = cantidadFacturas + cliente.facturas!.length;
       }
@@ -246,7 +254,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Solicitud_Pagos.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Solicitud_Pagos_${currentUser!.sociedadSeleccionada!}.xlsx");
       if (fileBytes == null) return false;
 
       return true;

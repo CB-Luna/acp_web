@@ -422,6 +422,8 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         '',
         'Fecha:',
         dateFormat(DateTime.now()),
+        'Sociedad:',
+        currentUser!.sociedadSeleccionada!
       ]);
 
       //Agregar linea vacia
@@ -430,10 +432,10 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       for (var factura in clientes.rows!) {
         sheet.appendRow([
           factura.cells['cuenta_field']!.value,
-          moneyFormat(factura.cells['importe_field']!.value),
-          moneyFormat(factura.cells['comision_porc_field']!.value * 100),
-          moneyFormat(factura.cells['comision_cant_field']!.value),
-          factura.cells['pago_anticipado_field']!.value,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['importe_field']!.value)}',
+          '${moneyFormat(factura.cells['comision_porc_field']!.value * 100)} %',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['comision_cant_field']!.value)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['pago_anticipado_field']!.value)}',
           factura.cells['dias_pago_field']!.value,
           factura.cells['dias_adicionales_field']!.value,
         ]);
@@ -443,7 +445,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Autorizacion_solicitudes_pago_anticipado.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Autorizacion_solicitudes_pago_anticipado_${clientes.nombreFiscal}.xlsx");
       if (fileBytes == null) return false;
       return true;
     } catch (e) {
