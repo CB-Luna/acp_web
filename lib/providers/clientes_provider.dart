@@ -142,12 +142,16 @@ class ClientesProvider extends ChangeNotifier {
     try {
       var res = await supabase.rpc(
         'validar_cliente',
-        params: {'codigo_cliente': codigoClienteController.text, 'sociedad': sociedadSeleccionada ?? ''},
-      );
+        params: {'codigo_cliente': codigoClienteController.text},
+      ) as List;
 
+      int? clienteId;
       if (res.isNotEmpty) {
-        await ApiErrorHandler.callToast('Ya existe un cliente con este código y sociedad');
-        return false;
+        if (res.any((e) => e['sociedad'] == sociedadSeleccionada)) {
+          await ApiErrorHandler.callToast('Ya existe un cliente con este código y sociedad');
+          return false;
+        }
+        clienteId = res.first['cliente_id'];
       }
 
       res = await supabase
@@ -164,6 +168,7 @@ class ClientesProvider extends ChangeNotifier {
       }
 
       cliente = Cliente.fromClienteSap(res.first);
+      cliente!.clienteId = clienteId;
 
       return true;
     } catch (e) {
@@ -291,7 +296,7 @@ class ClientesProvider extends ChangeNotifier {
       if (cliente!.clienteId == null) {
         //nuevo cliente - insertar en tabla
 
-        final res = await supabase
+        var res = await supabase
             .from('cliente')
             .insert(
               cliente!.toMapTablaCliente(),
@@ -299,11 +304,15 @@ class ClientesProvider extends ChangeNotifier {
             )
             .select('cliente_id');
 
-        //TODO: insertar en tabla cliente_sociedad
-
         if ((res as List).isEmpty) return false;
 
         final clienteId = res.first['cliente_id'];
+
+        res = await supabase.from('cliente_sociedad').insert({
+          'cliente_fk': clienteId,
+          'sociedad_fk': cliente!.sociedadActual,
+          ...cliente!.toMapTablaClienteSociedad(),
+        });
 
         //Crear contactos
         if (modificado == true) {
@@ -315,7 +324,11 @@ class ClientesProvider extends ChangeNotifier {
         //cliente existente - actualizar tabla
         await supabase
             .from('cliente_sociedad')
-            .update(cliente!.toMapTablaClienteSociedad())
+            .upsert({
+              'cliente_fk': cliente!.clienteId,
+              'sociedad_fk': cliente!.sociedadActual,
+              ...cliente!.toMapTablaClienteSociedad(),
+            })
             .eq('cliente_fk', cliente!.clienteId)
             .eq('sociedad_fk', cliente!.sociedadActual);
 
