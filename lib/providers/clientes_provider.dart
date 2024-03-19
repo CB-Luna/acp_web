@@ -27,6 +27,8 @@ class ClientesProvider extends ChangeNotifier {
   bool activo = true;
 
   List<Cliente> clientes = [];
+  List<String> sociedadesValidacion = [];
+  String? sociedadSeleccionada;
 
   String? nombreImagen;
   Uint8List? webImage;
@@ -39,6 +41,8 @@ class ClientesProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     busquedaController.clear();
+    sociedadesValidacion.clear();
+    sociedadSeleccionada = null;
     await getClientes();
   }
 
@@ -61,6 +65,9 @@ class ClientesProvider extends ChangeNotifier {
     webImage = null;
 
     modificado = false;
+
+    sociedadesValidacion.clear();
+    sociedadSeleccionada = null;
 
     if (notify) notifyListeners();
   }
@@ -106,25 +113,53 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getSociedadesCliente() async {
+    try {
+      final res =
+          await supabase.from('cliente_sap_b2b').select('sociedad').eq('codigo_cliente', codigoClienteController.text);
+
+      if (res == null) return;
+
+      sociedadesValidacion.clear();
+
+      if ((res as List).isEmpty) {
+        sociedadSeleccionada = null;
+      } else {
+        for (Map elem in res) {
+          sociedadesValidacion.add(elem['sociedad']);
+        }
+        sociedadSeleccionada = sociedadesValidacion.first;
+      }
+
+      notifyListeners();
+    } catch (e) {
+      sociedadesValidacion.clear();
+      log('Error en getSociedadesCliente() - $e');
+    }
+  }
+
   Future<bool> getCliente() async {
     try {
-      var res = await supabase.from('cliente').select('cliente_id').eq(
-            'codigo_cliente',
-            codigoClienteController.text,
-          ) as List;
+      var res = await supabase.rpc(
+        'validar_cliente',
+        params: {'codigo_cliente': codigoClienteController.text, 'sociedad': sociedadSeleccionada ?? ''},
+      );
 
       if (res.isNotEmpty) {
-        await ApiErrorHandler.callToast('Ya existe un cliente con este código');
+        await ApiErrorHandler.callToast('Ya existe un cliente con este código y sociedad');
         return false;
       }
 
-      res = await supabase.from('cliente_sap_b2b').select().eq(
-            'codigo_cliente',
-            codigoClienteController.text,
-          ) as List;
+      res = await supabase
+          .from('cliente_sap_b2b')
+          .select()
+          .eq('codigo_cliente', codigoClienteController.text)
+          .eq('sociedad', sociedadSeleccionada) as List;
 
       if (res.isEmpty) {
-        await ApiErrorHandler.callToast('No se encontró un cliente con este código');
+        String mensaje = 'No se encontró un cliente con este código';
+        if (sociedadSeleccionada != null) mensaje = '$mensaje y sociedad';
+        await ApiErrorHandler.callToast(mensaje);
         return false;
       }
 
