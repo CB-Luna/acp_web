@@ -328,7 +328,7 @@ class ClientesProvider extends ChangeNotifier {
               'cliente_fk': cliente!.clienteId,
               'sociedad_fk': cliente!.sociedadActual,
               ...cliente!.toMapTablaClienteSociedad(),
-            })
+            }, onConflict: 'cliente_fk, sociedad_fk')
             .eq('cliente_fk', cliente!.clienteId)
             .eq('sociedad_fk', cliente!.sociedadActual);
 
