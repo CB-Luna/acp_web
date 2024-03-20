@@ -71,6 +71,8 @@ class _AccessCodePopupState extends State<AccessCodePopup> {
 
       currentUser = await SupabaseQueries.getCurrentUserData();
 
+      await SupabaseQueries.getSociedades();
+
       if (currentUser == null) {
         await ApiErrorHandler.callToast();
         return;

@@ -50,6 +50,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     String? monedaSeleccionada = currentUser!.monedaSeleccionada;
+    String? sociedadSeleccionada = currentUser!.sociedadSeleccionada;
 
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 
@@ -73,6 +74,9 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                           await provider.search(p0);
                         },
                         onMonedaSeleccionada: () async {
+                          await provider.getRecords();
+                        },
+                        onSociedadSeleccionada: () async {
                           await provider.getRecords();
                         },
                       ),
@@ -112,7 +116,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
                                 child: SizedBox(
-                                  height: height * 1024 - 415,
+                                  height: height * 1024 - 385,
                                   child: provider.gridSelected
                                       ? GridView.builder(
                                           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

@@ -1,4 +1,3 @@
-import 'package:acp_web/helpers/globals.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +14,7 @@ import 'package:acp_web/pages/registro_usuario_page/widgets/opciones_widget.dart
 import 'package:acp_web/pages/registro_usuario_page/widgets/header.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/pages/widgets/footer.dart';
+import 'package:acp_web/helpers/globals.dart';
 
 class RegistroUsuariosPage extends StatefulWidget {
   const RegistroUsuariosPage({
@@ -314,7 +314,7 @@ class _RegistroUsuariosPageState extends State<RegistroUsuariosPage> {
                                           width: 16,
                                         ),
                                         InputContainer(
-                                          title: 'Sociedad',
+                                          title: 'Sociedades',
                                           child: CustomInputField(
                                             label: 'Sociedad',
                                             controller: provider.sociedadClienteController,
@@ -503,7 +503,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: 30,
       alignment: Alignment.center,
       child: DropdownButtonHideUnderline(
         child: DropdownButtonFormField(

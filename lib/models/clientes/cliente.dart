@@ -8,7 +8,8 @@ class Cliente {
     required this.codigoCliente,
     required this.nombreFiscal,
     required this.identificadorFiscal,
-    required this.sociedad,
+    required this.sociedadActual,
+    required this.sociedades,
     required this.direccion,
     this.imagen,
     required this.fechaRegistro,
@@ -30,7 +31,8 @@ class Cliente {
   String codigoCliente;
   String nombreFiscal;
   String identificadorFiscal;
-  String sociedad;
+  String sociedadActual;
+  List<String> sociedades;
   String direccion;
   String? imagen;
   DateTime fechaRegistro;
@@ -58,6 +60,7 @@ class Cliente {
       nombreFiscal: json['nombre_fiscal'],
       identificadorFiscal: json['identificador_fiscal'],
       direccion: json['direccion'],
+      sociedadActual: json['sociedad'],
       imagen: json['logo'],
       fechaRegistro: DateTime.parse(json['fecha_registro']),
       condicionPago: json['condicion_pago'],
@@ -70,7 +73,7 @@ class Cliente {
       facturacionMayorA: json['facturacion_mayor_a'],
       acuerdoComercial: json['acuerdo_comercial'],
       fechaContrato: json['fecha_contrato'] != null ? DateTime.parse(json['fecha_contrato']) : null,
-      sociedad: json['sociedad'],
+      sociedades: (json['sociedades'] as List<dynamic>).map((e) => e as String).toList(),
       activo: json['activo'],
       contactos: (json['contactos'] as List).map((contacto) => Contacto.fromMap(contacto)).toList(),
     );
@@ -81,6 +84,7 @@ class Cliente {
       codigoCliente: json["codigo_cliente"],
       nombreFiscal: json['nombre_fiscal'],
       identificadorFiscal: json['identificador_fiscal'],
+      sociedadActual: json['sociedad'],
       direccion: json['direccion'],
       fechaRegistro: DateTime.now(),
       condicionPago: json['condicion_pago'],
@@ -88,27 +92,29 @@ class Cliente {
       bancoIndustrial: json['banco_industrial'],
       tipoCuenta: json['tipo_cuenta'],
       moneda: json['moneda'],
-      sociedad: json['sociedad'],
+      sociedades: [json['sociedad']],
       activo: true,
       contactos: [],
     );
   }
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMapTablaCliente() => {
         "codigo_cliente": codigoCliente,
-        "sociedad": sociedad,
         "nombre_fiscal": nombreFiscal,
         "identificador_fiscal": identificadorFiscal,
         "direccion": direccion,
-        "condicion_pago": condicionPago,
-        "numero_cuenta": numeroCuenta,
-        "tasa_anual": tasaAnual,
-        "tasa_preferencial": tasaPreferencial,
-        "facturacion_mayor_a": facturacionMayorA,
         "logo": imagen,
+        "numero_cuenta": numeroCuenta,
         "banco_industrial": bancoIndustrial,
         "tipo_cuenta": tipoCuenta,
         "moneda": moneda,
+      };
+
+  Map<String, dynamic> toMapTablaClienteSociedad() => {
+        "condicion_pago": condicionPago,
+        "tasa_anual": tasaAnual,
+        "tasa_preferencial": tasaPreferencial,
+        "facturacion_mayor_a": facturacionMayorA,
         "acuerdo_comercial": acuerdoComercial,
         "fecha_contrato": fechaContrato?.toIso8601String(),
       };

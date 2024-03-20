@@ -27,6 +27,8 @@ class ClientesProvider extends ChangeNotifier {
   bool activo = true;
 
   List<Cliente> clientes = [];
+  List<String> sociedadesValidacion = [];
+  String? sociedadSeleccionada;
 
   String? nombreImagen;
   Uint8List? webImage;
@@ -39,6 +41,8 @@ class ClientesProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     busquedaController.clear();
+    sociedadesValidacion.clear();
+    sociedadSeleccionada = null;
     await getClientes();
   }
 
@@ -61,6 +65,9 @@ class ClientesProvider extends ChangeNotifier {
     webImage = null;
 
     modificado = false;
+
+    sociedadesValidacion.clear();
+    sociedadSeleccionada = null;
 
     if (notify) notifyListeners();
   }
@@ -93,7 +100,7 @@ class ClientesProvider extends ChangeNotifier {
             'cliente_id': PlutoCell(value: cliente.clienteId),
             'cliente': PlutoCell(value: cliente),
             'fecha_registro': PlutoCell(value: dateFormat(cliente.fechaRegistro)),
-            'sociedad': PlutoCell(value: cliente.sociedad),
+            'sociedad': PlutoCell(value: cliente.sociedadActual),
             'moneda': PlutoCell(value: cliente.moneda),
             'tasa_anual': PlutoCell(value: '${cliente.tasaAnual.toString()}%'),
             'activo': PlutoCell(value: cliente.estatus),
@@ -106,34 +113,82 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> getCliente() async {
+  Future<void> getSociedadesCliente() async {
     try {
-      var res = await supabase.from('cliente').select('cliente_id').eq(
-            'codigo_cliente',
-            codigoClienteController.text,
-          ) as List;
+      final res =
+          await supabase.from('cliente_sap_b2b').select('sociedad').eq('codigo_cliente', codigoClienteController.text);
 
-      if (res.isNotEmpty) {
-        await ApiErrorHandler.callToast('Ya existe un cliente con este código');
-        return false;
+      if (res == null) return;
+
+      sociedadesValidacion.clear();
+
+      if ((res as List).isEmpty) {
+        sociedadSeleccionada = null;
+      } else {
+        for (Map elem in res) {
+          sociedadesValidacion.add(elem['sociedad']);
+        }
+        sociedadSeleccionada = sociedadesValidacion.first;
       }
 
-      res = await supabase.from('cliente_sap_b2b').select().eq(
-            'codigo_cliente',
-            codigoClienteController.text,
-          ) as List;
+      notifyListeners();
+    } catch (e) {
+      sociedadesValidacion.clear();
+      log('Error en getSociedadesCliente() - $e');
+    }
+  }
+
+  Future<bool> getCliente() async {
+    try {
+      var res = await supabase.rpc(
+        'validar_cliente',
+        params: {'codigo_cliente': codigoClienteController.text},
+      ) as List;
+
+      int? clienteId;
+      if (res.isNotEmpty) {
+        if (res.any((e) => e['sociedad'] == sociedadSeleccionada)) {
+          await ApiErrorHandler.callToast('Ya existe un cliente con este código y sociedad');
+          return false;
+        }
+        clienteId = res.first['cliente_id'];
+      }
+
+      res = await supabase
+          .from('cliente_sap_b2b')
+          .select()
+          .eq('codigo_cliente', codigoClienteController.text)
+          .eq('sociedad', sociedadSeleccionada) as List;
 
       if (res.isEmpty) {
-        await ApiErrorHandler.callToast('No se encontró un cliente con este código');
+        String mensaje = 'No se encontró un cliente con este código';
+        if (sociedadSeleccionada != null) mensaje = '$mensaje y sociedad';
+        await ApiErrorHandler.callToast(mensaje);
         return false;
       }
 
       cliente = Cliente.fromClienteSap(res.first);
+      cliente!.clienteId = clienteId;
 
       return true;
     } catch (e) {
       log('Error en getCliente() - $e');
       return false;
+    }
+  }
+
+  Future<void> cambiarCliente(String sociedad) async {
+    try {
+      final res = await supabase
+          .from('cliente_completo')
+          .select()
+          .eq('cliente_id', cliente!.clienteId)
+          .eq('sociedad', sociedad);
+      cliente = Cliente.fromMap(res.first);
+      initCliente(cliente!);
+      notifyListeners();
+    } catch (e) {
+      log('Error en cambiar cliente');
     }
   }
 
@@ -241,10 +296,10 @@ class ClientesProvider extends ChangeNotifier {
       if (cliente!.clienteId == null) {
         //nuevo cliente - insertar en tabla
 
-        final res = await supabase
+        var res = await supabase
             .from('cliente')
             .insert(
-              cliente!.toMap(),
+              cliente!.toMapTablaCliente(),
               defaultToNull: false,
             )
             .select('cliente_id');
@@ -252,6 +307,12 @@ class ClientesProvider extends ChangeNotifier {
         if ((res as List).isEmpty) return false;
 
         final clienteId = res.first['cliente_id'];
+
+        res = await supabase.from('cliente_sociedad').insert({
+          'cliente_fk': clienteId,
+          'sociedad_fk': cliente!.sociedadActual,
+          ...cliente!.toMapTablaClienteSociedad(),
+        });
 
         //Crear contactos
         if (modificado == true) {
@@ -261,7 +322,16 @@ class ClientesProvider extends ChangeNotifier {
         }
       } else {
         //cliente existente - actualizar tabla
-        await supabase.from('cliente').update(cliente!.toMap()).eq('cliente_id', cliente!.clienteId);
+        await supabase
+            .from('cliente_sociedad')
+            .upsert({
+              'cliente_fk': cliente!.clienteId,
+              'sociedad_fk': cliente!.sociedadActual,
+              ...cliente!.toMapTablaClienteSociedad(),
+            }, onConflict: 'cliente_fk, sociedad_fk')
+            .eq('cliente_fk', cliente!.clienteId)
+            .eq('sociedad_fk', cliente!.sociedadActual);
+
         //Crear o actualizar contactos
         for (var contacto in cliente!.contactos) {
           if (contacto.contactoId == null) {

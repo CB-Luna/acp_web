@@ -10,3 +10,7 @@ export 'package:acp_web/pages/seleccion_pagos_anticipados/seleccion_pagos_antici
 export 'package:acp_web/pages/cuentas_por_cobrar/aprobacion_seguimieto_pagos/aprobacion_seguimiento_pagos_page.dart';
 export 'package:acp_web/pages/login_page/login_page.dart';
 export 'package:acp_web/pages/page_not_found.dart';
+export 'package:acp_web/pages/registro_usuario_page/registro_usuario_page.dart';
+export 'package:acp_web/pages/configuracion/calculadora_pricing_page.dart';
+export 'package:acp_web/pages/reportes/dashboards/dashboards_page.dart';
+export 'package:acp_web/pages/reportes/reporte_pricing/reporte_pricing_page.dart';

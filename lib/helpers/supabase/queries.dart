@@ -29,6 +29,19 @@ class SupabaseQueries {
     }
   }
 
+  static Future<void> getSociedades() async {
+    try {
+      final sociedades = await supabase.from('sociedad').select("clave");
+
+      listaSociedades = sociedades.map<String>((item) => item['clave'] as String).toList();
+
+      //listaSociedades = ["G001", "GAP01", "G600", "GB04", "GB02", "GT08", "NATU", "GLAD"];
+      currentUser!.sociedadSeleccionada = listaSociedades!.first;
+    } catch (e) {
+      log('Error en getSociedades() - $e');
+    }
+  }
+
   static Future<Configuration?> getDefaultTheme(int themeId) async {
     try {
       final res = await supabase.from('theme').select('light, dark').eq('id', themeId);
@@ -43,8 +56,7 @@ class SupabaseQueries {
   static Future<Configuration?> getUserTheme() async {
     try {
       if (currentUser == null) return null;
-      final res =
-          await supabase.from('perfil_usuario').select('configuracion').eq('perfil_usuario_id', currentUser!.id);
+      final res = await supabase.from('perfil_usuario').select('configuracion').eq('perfil_usuario_id', currentUser!.id);
       return Configuration.fromJson(jsonEncode(res[0]['configuracion']));
     } catch (e) {
       log('Error en getUserTheme() - $e');

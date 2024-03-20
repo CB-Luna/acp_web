@@ -228,7 +228,16 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                                 icon: const Icon(Icons.receipt_long),
                                 color: AppTheme.of(context).primaryColor,
                               ),
-                            //Descargar
+                            //Descargar Excel
+                            IconButton(
+                              tooltip: 'Descargar Listado Excel',
+                              onPressed: () async {
+                               await provider.aprobacionseguimientoExcel(widget.propuesta);
+                              },
+                              icon: const Icon(Icons.download),
+                              color: AppTheme.of(context).primaryColor,
+                            ),
+                            //Descargar Anexo
                             if (widget.propuesta.estatus == 3 || widget.propuesta.estatus == 4 || widget.propuesta.estatus == 5 || widget.propuesta.estatus == 6)
                               IconButton(
                                 tooltip: 'Descargar',

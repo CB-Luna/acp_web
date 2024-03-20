@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:acp_web/providers/providers.dart';
+import 'package:acp_web/pages/widgets/sociedad_drop_down.dart';
 import 'package:acp_web/theme/theme.dart';
 
 class ClientesHeader extends StatefulWidget {
@@ -43,6 +45,15 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                   alignment: Alignment.center,
                   child: TextField(
                     controller: provider.codigoClienteController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[0-9]'),
+                      )
+                    ],
+                    onChanged: (value) async {
+                      await provider.getSociedadesCliente();
+                    },
                     decoration: InputDecoration(
                       isDense: true,
                       filled: true,
@@ -95,6 +106,16 @@ class _ClientesHeaderState extends State<ClientesHeader> {
               ],
             ),
             const SizedBox(width: 8),
+            provider.sociedadesValidacion.isNotEmpty
+                ? SociedadDropDown(
+                    sociedadSeleccionada: provider.sociedadSeleccionada,
+                    sociedades: provider.sociedadesValidacion,
+                    onSelect: (sociedad) async {
+                      provider.sociedadSeleccionada = sociedad;
+                    },
+                  )
+                : const SizedBox.shrink(),
+            const SizedBox(width: 8),
             ElevatedButton(
               onPressed: () async {
                 if (provider.codigoClienteController.text.isEmpty) {
@@ -112,7 +133,7 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                   return;
                 }
 
-                provider.clearControllers(notify: false);
+                provider.clearControllers();
 
                 if (!mounted) return;
                 await context.pushNamed('registro_cliente', extra: true);

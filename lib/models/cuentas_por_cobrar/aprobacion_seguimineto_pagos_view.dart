@@ -39,6 +39,7 @@ class Propuesta {
   final int year;
   final String moneda;
   final int estatus;
+  final String sociedad;
   final List<Factura> registrosPorDia;
   List<PlutoRow>? rows = [];
   bool isExpanded = false;
@@ -51,6 +52,7 @@ class Propuesta {
     required this.year,
     required this.moneda,
     required this.estatus,
+    required this.sociedad,
     required this.registrosPorDia,
   });
 
@@ -64,6 +66,7 @@ class Propuesta {
         year: json["year"],
         estatus: json["estatus"],
         moneda: json["moneda"],
+        sociedad: json["sociedad"],
         registrosPorDia: List<Factura>.from(json["registros_por_dia"].map((x) => Factura.fromMap(x))),
       );
 
@@ -73,7 +76,7 @@ class Propuesta {
         "year": year,
         "estatus": estatus,
         "moneda": moneda,
+        "sociedad": sociedad,
         "registros_por_dia": List<dynamic>.from(registrosPorDia.map((x) => x.toMap())),
       };
 }
-

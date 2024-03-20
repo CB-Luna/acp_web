@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 //import 'dart:typed_data';
 
+import 'package:acp_web/functions/date_format.dart';
+import 'package:acp_web/functions/money_format.dart';
+import 'package:excel/excel.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -67,7 +70,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         'autorizacion_solicitudes_pago_anticipado',
         params: {
           'busqueda': controllerBusqueda.text,
-          'ids_sociedades': [1, 2, 3], //TODO: Change
+          'nom_sociedades': [currentUser!.sociedadSeleccionada],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
@@ -93,6 +96,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
                   'pago_anticipado_field': PlutoCell(value: factura.pagoAnticipado),
                   'dias_pago_field': PlutoCell(value: factura.diasPago),
                   'dias_adicionales_field': PlutoCell(value: 0),
+                  'fecha_extraccion_field': PlutoCell(value: factura.fechaExtraccion),
                   'fecha_normal_pago_field': PlutoCell(value: factura.fechaNormalPago),
                   'estatus_id_field': PlutoCell(value: factura.estatusId),
                 },
@@ -240,7 +244,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       cliente.pagoAdelantado = 0;
       for (var row in cliente.rows!) {
         DateTime fnp = DateTime(row.cells["fecha_normal_pago_field"]!.value.year, row.cells["fecha_normal_pago_field"]!.value.month, row.cells["fecha_normal_pago_field"]!.value.day);
-        DateTime now = DateTime.now();
+        DateTime now = row.cells["fecha_extraccion_field"]!.value;
         DateTime fpa = DateTime(now.year, now.month, now.day);
         int dac = row.cells["dias_adicionales_field"]!.value;
 
@@ -399,5 +403,54 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       return false;
     }
     return true;
+  }
+
+  ////////////Excel////////////////
+  Future<bool> seleccionPagosExcel(AutorizacionSolicitudesPagoanticipado clientes) async {
+    try {
+      //Crear excel
+      Excel excel = Excel.createExcel();
+      Sheet sheet = excel['Autorización solicitudes pago anticipado'];
+
+      //Agregar primera lineas
+      sheet.getColumnAutoFits;
+      sheet.appendRow([
+        'Autorización solicitudes pago anticipado',
+        '',
+        'Usuario',
+        '${currentUser?.nombreCompleto}',
+        '',
+        'Fecha:',
+        dateFormat(DateTime.now()),
+        'Sociedad:',
+        currentUser!.sociedadSeleccionada!
+      ]);
+
+      //Agregar linea vacia
+      sheet.appendRow(['']);
+      sheet.appendRow(['Cuenta', 'Importe', '% Comisión', 'Comisión', 'Pago Anticipado', 'Días para pago', 'DAC']);
+      for (var factura in clientes.rows!) {
+        sheet.appendRow([
+          factura.cells['cuenta_field']!.value,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['importe_field']!.value)}',
+          '${moneyFormat(factura.cells['comision_porc_field']!.value * 100)} %',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['comision_cant_field']!.value)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cells['pago_anticipado_field']!.value)}',
+          factura.cells['dias_pago_field']!.value,
+          factura.cells['dias_adicionales_field']!.value,
+        ]);
+      }
+
+      //Borrar Sheet1 default
+      excel.delete('Sheet1');
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Autorizacion_solicitudes_pago_anticipado_${clientes.nombreFiscal}_${currentUser!.sociedadSeleccionada!}.xlsx");
+      if (fileBytes == null) return false;
+      return true;
+    } catch (e) {
+      log('error in excel-$e');
+      return false;
+    }
   }
 }

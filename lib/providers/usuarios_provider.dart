@@ -2,11 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:acp_web/functions/phone_format.dart';
-import 'package:acp_web/helpers/constants.dart';
-import 'package:acp_web/helpers/globals.dart';
-import 'package:acp_web/models/models.dart';
-import 'package:acp_web/services/api_error_handler.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:path/path.dart' as p;
 import 'package:random_password_generator/random_password_generator.dart';
@@ -16,6 +11,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:acp_web/functions/phone_format.dart';
+import 'package:acp_web/helpers/constants.dart';
+import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/models/models.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 
 class UsuariosProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -87,18 +88,17 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<void> getCliente() async {
     try {
-      final res = await supabase.from('cliente').select().eq('codigo_cliente', codigoClienteController.text);
+      final res = await supabase
+          .from('cliente_completo')
+          .select('cliente_id, codigo_cliente, sociedades')
+          .eq('codigo_cliente', codigoClienteController.text);
 
       if (res == null) return;
 
-      if ((res as List).length != 1) {
-        cliente = null;
-        sociedadClienteController.text = 'No se encontró';
-      } else {
-        cliente = ClienteUsuario.fromMap(res[0]);
-        sociedadClienteController.text = cliente?.sociedad ?? '';
-      }
+      cliente = ClienteUsuario.fromMap(res.first);
+      sociedadClienteController.text = cliente?.sociedades.join(', ') ?? '';
     } catch (e) {
+      sociedadClienteController.text = 'No se encontró';
       log('Error en getCliente() - $e');
     }
   }
@@ -114,7 +114,7 @@ class UsuariosProvider extends ChangeNotifier {
         return;
       }
 
-      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
+      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromMap(usuario)).toList();
 
       llenarPlutoGrid(usuarios);
     } catch (e) {
@@ -130,6 +130,11 @@ class UsuariosProvider extends ChangeNotifier {
         imageUrl = supabase.storage.from('avatars').getPublicUrl(usuario.imagen!);
       }
       Map<String, String?> infoUsuario = {'nombre': usuario.nombreCompleto, 'imagen': imageUrl};
+      String sociedad = '-';
+      if (usuario.cliente != null) {
+        final sociedades = usuario.cliente!.sociedades;
+        sociedad = sociedades.length == 1 ? sociedades.first : 'Múltiples';
+      }
       rows.add(
         PlutoRow(
           cells: {
@@ -139,7 +144,7 @@ class UsuariosProvider extends ChangeNotifier {
             'rol': PlutoCell(value: usuario.rol.nombre),
             'compania': PlutoCell(value: usuario.compania),
             'email': PlutoCell(value: usuario.email),
-            'sociedad': PlutoCell(value: usuario.cliente?.sociedad ?? '-'),
+            'sociedad': PlutoCell(value: sociedad),
             'activo': PlutoCell(value: usuario.estatus),
             'acciones': PlutoCell(value: usuario.id),
           },
@@ -264,7 +269,6 @@ class UsuariosProvider extends ChangeNotifier {
       return false;
     }
 
-    //TODO: validar que cliente no esta asignado a usuario
     try {
       await supabase.from('perfil_usuario').insert(
         {
@@ -309,7 +313,7 @@ class UsuariosProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> initEditarUsuario(Usuario usuario) async {
+  void initEditarUsuario(Usuario usuario) {
     nombreController.text = usuario.nombre;
     apellidoPaternoController.text = usuario.apellidoPaterno;
     apellidoMaternoController.text = usuario.apellidoMaterno ?? '';
@@ -323,7 +327,7 @@ class UsuariosProvider extends ChangeNotifier {
     if (cliente != null) {
       // await getCliente();
       codigoClienteController.text = cliente!.codigoCliente;
-      sociedadClienteController.text = cliente!.sociedad;
+      sociedadClienteController.text = cliente?.sociedades.join(', ') ?? '';
     }
   }
 

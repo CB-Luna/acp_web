@@ -1,3 +1,6 @@
+import 'package:acp_web/functions/money_format.dart';
+import 'package:acp_web/helpers/globals.dart';
+import 'package:acp_web/pages/usuarios_page/widgets/confirmacion_popup.dart';
 import 'package:acp_web/pages/widgets/custom_header_button.dart';
 import 'package:acp_web/pages/widgets/custom_input_field.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
@@ -7,9 +10,11 @@ import 'package:acp_web/pages/widgets/footer.dart';
 import 'package:acp_web/pages/widgets/imput_container.dart';
 import 'package:acp_web/providers/configuracion/calculadora_pricing_provider.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
+import 'package:acp_web/services/api_error_handler.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +40,7 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
         context,
         listen: false,
       );
-      await provider.getCalculadoraPricing();
+      await provider.updateState();
     });
   }
 
@@ -44,7 +49,7 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
     final formKey = GlobalKey<FormState>();
     // String? monedaSeleccionada = currentUser!.monedaSeleccionada;
     //double width = MediaQuery.of(context).size.width / 1440;
-    //double height = MediaQuery.of(context).size.height / 1024;
+    double height = MediaQuery.of(context).size.height / 1024;
 
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(11);
@@ -65,7 +70,10 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                     pantalla: 'Configuración',
                     controllerBusqueda: provider.controllerBusqueda,
                     onSearchChanged: (p0) async {
-                      await provider.search();
+                      await provider.tablaCalculadora();
+                    },
+                    onSociedadSeleccionada: () async {
+                      await provider.getCalculadoraPricing();
                     },
                     onMonedaSeleccionada: () async {
                       //await provider.aprobacionSeguimientoPagos();
@@ -76,7 +84,7 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                     child: SingleChildScrollView(
                       clipBehavior: Clip.none,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -108,7 +116,7 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                             ),
                                           );
                                         }
-                                        if (await provider.calculadoraPricing()) {
+                                        if (await provider.crearCalculadoraPricing()) {
                                           if (!mounted) return;
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             const SnackBar(
@@ -363,6 +371,285 @@ class _CalculadoraPricingPageState extends State<CalculadoraPricingPage> {
                                       ],
                                     ),
                                   ],
+                                ),
+                              ),
+                            ),
+                            //Tabla
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: SizedBox(
+                                height: height * 317,
+                                child: PlutoGrid(
+                                  key: UniqueKey(),
+                                  configuration: PlutoGridConfiguration(
+                                    localeText: const PlutoGridLocaleText.spanish(),
+                                    scrollbar: plutoGridScrollbarConfig(context),
+                                    style: plutoGridStyleConfig(context),
+                                    columnFilter: PlutoGridColumnFilterConfig(
+                                      filters: const [
+                                        ...FilterHelper.defaultFilters,
+                                      ],
+                                      resolveDefaultColumnFilter: (column, resolver) {
+                                        return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                      },
+                                    ),
+                                  ),
+                                  columns: [
+                                    PlutoColumn(
+                                      title: 'ID',
+                                      field: 'id',
+                                      width: 57,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.number(),
+                                      enableEditingMode: false,
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Sociedad',
+                                      field: 'sociedad',
+                                      width: 150,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Costo Financiero',
+                                      field: 'costo_financiero',
+                                      width: 130,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Text(
+                                          '${moneyFormat(rendererContext.cell.value)}%',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.of(context).bodyText2,
+                                        );
+                                      },
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Costo Operativo',
+                                      field: 'costo_operativo',
+                                      width: 150,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Tarifa GO',
+                                      field: 'tarifa_go',
+                                      width: 150,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                    ),
+                                    PlutoColumn(
+                                      title: 'ISR',
+                                      field: 'isr',
+                                      width: 130,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Text(
+                                          '${moneyFormat(rendererContext.cell.value)}%',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.of(context).bodyText2,
+                                        );
+                                      },
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Asiganacion Capital BILL',
+                                      field: 'capital_bill',
+                                      width: 130,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Text(
+                                          '${moneyFormat(rendererContext.cell.value)}%',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.of(context).bodyText2,
+                                        );
+                                      },
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Costo Capital',
+                                      field: 'costo_capital',
+                                      width: 130,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Text(
+                                          '${moneyFormat(rendererContext.cell.value)}%',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.of(context).bodyText2,
+                                        );
+                                      },
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Probabiliad Incremento BBB',
+                                      field: 'probabilidad_incremento',
+                                      width: 130,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Text(
+                                          '${moneyFormat(rendererContext.cell.value)}%',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.of(context).bodyText2,
+                                        );
+                                      },
+                                    ),
+                                    PlutoColumn(
+                                      title: 'Pérdida Incumplimiento',
+                                      field: 'perdida_incumplimiento',
+                                      width: 130,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Text(
+                                          '${moneyFormat(rendererContext.cell.value)}%',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.of(context).bodyText2,
+                                        );
+                                      },
+                                    ),
+
+                                    /* PlutoColumn(
+                                      title: 'Estado',
+                                      field: 'activo',
+                                      width: 111,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Container(
+                                          height: 32,
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(16),
+                                            color: rendererContext.cell.value == 'Activo' ? const Color(0xFF94D0FF) : Colors.grey[300],
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            rendererContext.cell.value,
+                                            style: AppTheme.of(context).bodyText2,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                     */
+                                    PlutoColumn(
+                                      title: 'Acciones',
+                                      field: 'acciones',
+                                      width: 160,
+                                      enableContextMenu: false,
+                                      enableDropToResize: false,
+                                      titleTextAlign: PlutoColumnTextAlign.center,
+                                      textAlign: PlutoColumnTextAlign.center,
+                                      type: PlutoColumnType.text(),
+                                      enableEditingMode: false,
+                                      renderer: (rendererContext) {
+                                        return Row(
+                                          children: [
+                                            Tooltip(
+                                              message: 'Cargar valores',
+                                              child: IconButton(
+                                                padding: EdgeInsets.zero,
+                                                icon: Transform.translate(
+                                                  offset: const Offset(0, -2.5),
+                                                  child: const Icon(
+                                                    FontAwesomeIcons.penToSquare,
+                                                    size: 24,
+                                                    color: Color(0xFF0090FF),
+                                                  ),
+                                                ),
+                                                splashRadius: 0.01,
+                                                onPressed: () async {
+                                                  await provider.cargarDatosCalculadoraPricing(rendererContext.row.cells["id"]!.value);
+                                                },
+                                              ),
+                                            ),
+                                            Tooltip(
+                                              message: 'Eliminar Registro',
+                                              child: IconButton(
+                                                padding: EdgeInsets.zero,
+                                                icon: const Icon(
+                                                  Icons.delete_outline_outlined,
+                                                  size: 24,
+                                                  color: Color(0xFF0090FF),
+                                                ),
+                                                splashRadius: 0.01,
+                                                onPressed: () async {
+                                                  final popupResult = await showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return const ConfirmacionPopup();
+                                                    },
+                                                  );
+                                                  if (popupResult == null || popupResult is! bool) return;
+                                                  if (popupResult == false) return;
+                                                  final res = await provider.borrarCalculadoraPricing(rendererContext.row.cells["id"]!.value);
+                                                  if (!res) {
+                                                    ApiErrorHandler.callToast('Error al borrar usuario');
+                                                    return;
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                  rows: provider.rows,
+                                  createFooter: (stateManager) {
+                                    stateManager.setPageSize(
+                                      20,
+                                      notify: false,
+                                    );
+                                    return PlutoPagination(stateManager);
+                                  },
+                                  onLoaded: (event) {
+                                    provider.stateManager = event.stateManager;
+                                  },
+                                  onRowChecked: (event) {},
                                 ),
                               ),
                             ),

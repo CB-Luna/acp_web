@@ -1,14 +1,10 @@
-import 'package:acp_web/functions/tokens.dart';
-import 'package:acp_web/pages/configuracion/calculadora_pricing_page.dart';
-import 'package:acp_web/pages/reportes/dashboards/dashboards_page.dart';
-import 'package:acp_web/pages/reportes/reporte_pricing/reporte_pricing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/models.dart';
+import 'package:acp_web/functions/tokens.dart';
 import 'package:acp_web/pages/pages.dart';
-import 'package:acp_web/pages/registro_usuario_page/registro_usuario_page.dart';
 import 'package:acp_web/services/navigation_service.dart';
 
 /// The route configuration.

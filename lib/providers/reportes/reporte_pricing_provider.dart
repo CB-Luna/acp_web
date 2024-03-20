@@ -9,7 +9,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:excel/excel.dart';
 
 class ReportePricingProvider extends ChangeNotifier {
-  late CalculadoraPricing calculadora;
+  List<CalculadoraPricing> calculadora=[];
   final taeController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', rightSymbol: '%');
   final montoQController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   TextEditingController fechaOperacionController = TextEditingController();
@@ -74,25 +74,31 @@ class ReportePricingProvider extends ChangeNotifier {
       }
 
       // Llamado de los datos de la calculadora pricing
-      var response = await supabase.from('calculadora_pricing').select().order('id', ascending: false).limit(1);
-      calculadora = CalculadoraPricing.fromJson(jsonEncode(response[0]));
+      var response = await supabase.rpc(
+        'get_calculadora_pricing',
+        params: {
+          "busqueda": controllerBusqueda.text,
+          "nom_sociedades": [currentUser!.sociedadSeleccionada!],
+        },
+      );
+      calculadora = (response as List<dynamic>).map((usuario) => CalculadoraPricing.fromJson(jsonEncode(usuario))).toList();
 
       //Operaciones fomrulario
-      iODescuento = ((((taeController.numberValue/100) / 360) * double.parse(diasControll.text)) * montoQController.numberValue);
+      iODescuento = ((((taeController.numberValue / 100) / 360) * double.parse(diasControll.text)) * montoQController.numberValue);
       tComercial = (montoQController.numberValue - iODescuento);
-      cFinanciero = ((((calculadora.costoFinanciero!/100) / 365) * double.parse(diasControll.text)) * tComercial);
+      cFinanciero = ((((calculadora.first.costoFinanciero! / 100) / 365) * double.parse(diasControll.text)) * tComercial);
       mFinanciero = (iODescuento - cFinanciero);
       pMFinanciero = (mFinanciero / iODescuento);
-      aGastoOperativo = (calculadora.tarifaGo! * double.parse(nOperacionesController.text));
+      aGastoOperativo = (calculadora.first.tarifaGo! * double.parse(nOperacionesController.text));
       mOperativo = (mFinanciero - aGastoOperativo);
       p1MOperativo = (mOperativo / iODescuento);
       p2MOperativo = ((mOperativo / montoQController.numberValue) * (360 / double.parse(diasControll.text)));
-      isr = (calculadora.isr!/100);
+      isr = (calculadora.first.isr! / 100);
       uNeta = (mOperativo - isr);
       p1UNeta = (uNeta / iODescuento);
       p2UNeta = ((uNeta / montoQController.numberValue) * (360 / double.parse(diasControll.text)));
-      aCapital = (tComercial * (calculadora.asignacionCapital!/100));
-      cCapital = (((calculadora.costoCapital!/100) / 365) * (double.parse(diasControll.text)) * (aCapital));
+      aCapital = (tComercial * (calculadora.first.asignacionCapital! / 100));
+      cCapital = (((calculadora.first.costoCapital! / 100) / 365) * (double.parse(diasControll.text)) * (aCapital));
       eva = (uNeta - cCapital);
       pEva = (eva / iODescuento);
       roe = ((uNeta / aCapital) * (360 / double.parse(diasControll.text)));
@@ -100,6 +106,9 @@ class ReportePricingProvider extends ChangeNotifier {
       //Registro Fechas para Excel
       fechaOperacionE = fechaOperacionController.text;
       fehcaPago = fechaPagoController.text;
+      /* print(currentUser!.sociedadSeleccionada!);
+      print(calculadora.first.costoFinanciero!);
+      print(calculadora.first.tarifaGo!); */
 
       notifyListeners();
     } catch (e) {

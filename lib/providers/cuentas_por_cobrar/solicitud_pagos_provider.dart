@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:acp_web/functions/date_format.dart';
 import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/constants.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/cuentas_por_cobrar/solicitud_pagos.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -35,49 +37,6 @@ class SolicitudPagosProvider extends ChangeNotifier {
   bool ejecBloq = false;
   bool listOpenned = true;
 
-  List<Map<String, dynamic>> listadoEjemplo1 = [
-    {
-      "factura": "F-2123123",
-      "importe": 1213513.00,
-      "comision": 135000.00,
-      "diaspago": '40',
-      "pagoAdelantado": 1078513.00,
-      "Estatus": 'Aprobado',
-    },
-    {
-      "factura": "F-2123123",
-      "importe": 1213513.00,
-      "comision": 135000.00,
-      "diaspago": '40',
-      "pagoAdelantado": 1078513.00,
-      "Estatus": 'Aprobado',
-    },
-    {
-      "factura": "F-2123123",
-      "importe": 1213513.00,
-      "comision": 135000.00,
-      "diaspago": '40',
-      "pagoAdelantado": 1078513.00,
-      "Estatus": 'Aprobado',
-    },
-    {
-      "factura": "F-2123123",
-      "importe": 1213513.00,
-      "comision": 135000.00,
-      "diaspago": '40',
-      "pagoAdelantado": 1078513.00,
-      "Estatus": 'Aprobado',
-    },
-    {
-      "factura": "F-2123123",
-      "importe": 1213513.00,
-      "comision": 135000.00,
-      "diaspago": '40',
-      "pagoAdelantado": 1078513.00,
-      "Estatus": 'Aprobado',
-    },
-  ];
-
   Future<void> clearAll() async {
     controllerBusqueda.clear();
     montoFacturacion = 0;
@@ -104,8 +63,8 @@ class SolicitudPagosProvider extends ChangeNotifier {
         'solicitud_pagos',
         params: {
           'busqueda': controllerBusqueda.text,
-          'ids_sociedades': [1],
-          'nom_monedas': ["GTQ", "USD"],
+          'nom_sociedades': [currentUser!.sociedadSeleccionada!],
+          'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
           'clienteid': currentUser!.cliente!.clienteId
         },
       ).select();
@@ -116,7 +75,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      log('Error en SeleccionaPagosanticipadosProvider - getRecords() - $e');
+      log('Error en solicitudPagos - $e');
     }
   }
 
@@ -129,42 +88,41 @@ class SolicitudPagosProvider extends ChangeNotifier {
       final correos = await supabase.rpc('correos_gerentes', params: {});
       for (var correo in correos) {
         final response = await http.post(
-        Uri.parse(apiGatewayUrl),
-        body: json.encode(
-          {
-            "user": "Web",
-            "action": "bonitaBpmCaseVariables",
-            "process": "ACP_Solicitud_de_pago_anticipado",
-            'data': {
-              'variables': [
-                {
-                  'name': 'cliente',
-                  'value': currentUser!.nombreCompleto,
-                },
-                {
-                  'name': 'numero',
-                  'value': cantidadFacturasSeleccionadas.toString(),
-                },
-                {
-                  'name': 'importe',
-                  'value': moneyFormat(montoFacturacion),
-                },
-                {
-                  'name': 'cliente_correo',
-                  'value': correo,
-                },
-              ]
+          Uri.parse(apiGatewayUrl),
+          body: json.encode(
+            {
+              "user": "Web",
+              "action": "bonitaBpmCaseVariables",
+              "process": "ACP_Solicitud_de_pago_anticipado",
+              'data': {
+                'variables': [
+                  {
+                    'name': 'cliente',
+                    'value': currentUser!.nombreCompleto,
+                  },
+                  {
+                    'name': 'numero',
+                    'value': cantidadFacturasSeleccionadas.toString(),
+                  },
+                  {
+                    'name': 'importe',
+                    'value': moneyFormat(montoFacturacion),
+                  },
+                  {
+                    'name': 'cliente_correo',
+                    'value': correo,
+                  },
+                ]
+              },
             },
-          },
-        ),
-      );
-      if (response.statusCode > 204) {
-        return false;
+          ),
+        );
+        if (response.statusCode > 204) {
+          return false;
+        }
+        log((response.body));
       }
-      log((response.body));
-        
-      }
-      
+
       for (var factura in facturas) {
         if (factura.ischeck == true) {
           await supabase.rpc(
@@ -253,5 +211,56 @@ class SolicitudPagosProvider extends ChangeNotifier {
       element.setChecked(false);
     }
     await checkInList();
+  }
+
+  ///////////////////Excel/////////////////////////
+  Future<bool> solicitudExcel() async {
+    try {
+      //Crear excel
+
+      Excel excel = Excel.createExcel();
+      Sheet sheet = excel['Solicitud Pagos'];
+
+      //Agregar primera lineas
+      sheet.getColumnAutoFits;
+      sheet.appendRow([
+        'Solicitud Pagos',
+        '',
+        'Usuario',
+        '${currentUser?.nombreCompleto}',
+        '',
+        'Fecha:',
+        dateFormat(DateTime.now()),
+        'Sociedad',
+        currentUser!.sociedadSeleccionada!,
+      ]);
+
+      //Agregar linea vacia
+      sheet.appendRow(['']);
+      sheet.appendRow(['Factura', 'Importe', 'Comisión', 'Días para pago','Pago Anticipado']);
+      for (var factura in facturas) {
+        sheet.appendRow([
+          factura.noDoc,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.importe!)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.comision!)}',
+          factura.diasPago,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.pagoAnticipado!)}'
+        ]);
+
+        //cantidadFacturas = cantidadFacturas + cliente.facturas!.length;
+      }
+
+      //Borrar Sheet1 default
+      excel.delete('Sheet1');
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Solicitud_Pagos_${currentUser!.sociedadSeleccionada!}.xlsx");
+      if (fileBytes == null) return false;
+
+      return true;
+    } catch (e) {
+      log('error in excel-$e');
+      return false;
+    }
   }
 }

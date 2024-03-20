@@ -1,3 +1,4 @@
+import 'package:acp_web/pages/widgets/sociedad_drop_down.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,7 +43,7 @@ class _DatosGeneralesWidgetState extends State<DatosGeneralesWidget> {
           const SizedBox(height: 16),
           Container(
             width: double.infinity,
-            height: 195,
+            height: 210,
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
@@ -78,12 +79,7 @@ class _DatosGeneralesWidgetState extends State<DatosGeneralesWidget> {
                                 data: provider.cliente!.codigoCliente,
                               ),
                             ),
-                            Expanded(
-                              child: ClienteDataWidget(
-                                title: 'Sociedad',
-                                data: provider.cliente!.sociedad,
-                              ),
-                            ),
+                            const Expanded(child: ClienteSociedadWidget()),
                             Expanded(
                               child: ClienteDataWidget(
                                 title: 'Dirección',
@@ -171,6 +167,55 @@ class ClienteDataWidget extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
         ),
+      ],
+    );
+  }
+}
+
+class ClienteSociedadWidget extends StatelessWidget {
+  const ClienteSociedadWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final ClientesProvider provider = Provider.of<ClientesProvider>(context);
+    final sociedadesCliente = provider.cliente!.sociedades;
+
+    final bool isMultiple = sociedadesCliente.length > 1;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          isMultiple ? 'Sociedades' : 'Sociedad',
+          style: AppTheme.of(context).subtitle1.override(
+                fontFamily: 'Gotham-Bold',
+                useGoogleFonts: false,
+                color: const Color(0x661C1C1C),
+              ),
+        ),
+        const SizedBox(height: 16),
+        isMultiple
+            ? SociedadDropDown(
+                sociedadSeleccionada: provider.cliente!.sociedadActual,
+                sociedades: sociedadesCliente,
+                onSelect: (sociedad) async {
+                  if (sociedad == null) return;
+                  await provider.cambiarCliente(sociedad);
+                },
+              )
+            : Text(
+                sociedadesCliente.first,
+                style: AppTheme.of(context).subtitle1.override(
+                      fontFamily: 'Gotham-Regular',
+                      useGoogleFonts: false,
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+              ),
       ],
     );
   }
