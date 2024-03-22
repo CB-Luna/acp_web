@@ -58,7 +58,13 @@ class _ClientesPageState extends State<ClientesPage> {
             child: Column(
               children: [
                 //Top Menu
-                const CustomTopMenu(pantalla: 'Clientes'),
+                CustomTopMenu(
+                  pantalla: 'Clientes',
+                  controllerBusqueda: provider.busquedaController,
+                  onSearchChanged: (busqueda) async {
+                    await provider.getClientes();
+                  },
+                ),
                 //Contenido
                 Expanded(
                   child: Padding(

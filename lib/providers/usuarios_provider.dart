@@ -107,7 +107,10 @@ class UsuariosProvider extends ChangeNotifier {
     try {
       final query = supabase.from('users').select();
 
-      final res = await query.like('nombre', '%${busquedaController.text}%').order(orden, ascending: true);
+      final res = await query
+          .ilike('nombre', '%${busquedaController.text}%')
+          .ilike('email', '%${busquedaController.text}%')
+          .order(orden, ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');

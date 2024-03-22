@@ -76,7 +76,7 @@ class ClientesProvider extends ChangeNotifier {
     try {
       final query = supabase.from('cliente_completo').select();
 
-      final res = await query.like('nombre_fiscal', '%${busquedaController.text}%').order(orden, ascending: true);
+      final res = await query.ilike('nombre_fiscal', '%${busquedaController.text}%').order(orden, ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');

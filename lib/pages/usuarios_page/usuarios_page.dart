@@ -59,7 +59,13 @@ class _UsuariosPageState extends State<UsuariosPage> {
             child: Column(
               children: [
                 //Top Menu
-                const CustomTopMenu(pantalla: 'Usuarios'),
+                CustomTopMenu(
+                  pantalla: 'Usuarios',
+                  controllerBusqueda: provider.busquedaController,
+                  onSearchChanged: (busqueda) async {
+                    await provider.getUsuarios();
+                  },
+                ),
                 //Contenido
                 Expanded(
                   child: Padding(

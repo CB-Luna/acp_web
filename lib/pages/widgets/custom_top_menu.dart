@@ -55,15 +55,8 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                         CustomHoverIcon(
                           size: 24,
                           icon: Icons.format_indent_decrease_outlined,
-                          onTap: () {
-                            visualState.toggleSideMenu();
-                          },
+                          onTap: () => visualState.toggleSideMenu(),
                         ),
-                        /* CustomHoverIcon(
-                          size: 24,
-                          icon: Icons.star_border_outlined,
-                          onTap: () {},
-                        ), */
                       ],
                     ),
                     Wrap(
@@ -101,8 +94,6 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                       sociedadSeleccionada: currentUser!.sociedadSeleccionada,
                       onSelect: (p0) async {
                         currentUser!.sociedadSeleccionada = p0;
-                        //var route = GoRouter.of(context).location;
-                        //context.pushReplacement(route);
                         if (widget.onSociedadSeleccionada != null) {
                           await widget.onSociedadSeleccionada!();
                         }
@@ -130,7 +121,9 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'USD' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'USD'
+                                      ? AppTheme.of(context).primaryColor
+                                      : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {
@@ -146,7 +139,9 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'GTQ' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'GTQ'
+                                      ? AppTheme.of(context).primaryColor
+                                      : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {
