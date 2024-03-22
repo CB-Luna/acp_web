@@ -123,7 +123,7 @@ class _ClientesPageState extends State<ClientesPage> {
                                         ),
                                         child: getUserImage(
                                           height: 24,
-                                          cliente.imagen,
+                                          cliente.imageUrl,
                                         ),
                                       ),
                                       const SizedBox(width: 8),

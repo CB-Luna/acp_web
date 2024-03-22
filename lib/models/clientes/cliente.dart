@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/models/clientes/contacto.dart';
 
 class Cliente {
@@ -50,6 +51,8 @@ class Cliente {
   List<Contacto> contactos;
 
   String get estatus => activo ? 'Activo' : 'Inactivo';
+
+  String? get imageUrl => imagen != null ? supabase.storage.from('logo-clientes').getPublicUrl(imagen!) : null;
 
   factory Cliente.fromJson(String str) => Cliente.fromMap(json.decode(str));
 
