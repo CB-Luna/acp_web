@@ -38,7 +38,7 @@ class Usuario {
   DateTime? fechaIngreso;
 
   String? monedaSeleccionada;
-  String? sociedadSeleccionada;
+  Sociedad? sociedadSeleccionada;
 
   String get nombreCompleto => '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
 

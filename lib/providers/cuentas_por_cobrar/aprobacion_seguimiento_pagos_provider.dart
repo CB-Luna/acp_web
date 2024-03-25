@@ -103,7 +103,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
         'aprobacion_segumiento_pagos',
         params: {
           'busqueda': controllerBusqueda.text,
-          'nom_sociedades': [currentUser!.sociedadSeleccionada!],
+          'nom_sociedades': currentUser!.sociedadSeleccionada!.clave == "Todas" ? listaSociedades!.map((sociedad) => sociedad.clave).toList() : [currentUser!.sociedadSeleccionada!.clave],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
           'clienteid': currentUser!.cliente!.clienteId
         },
@@ -168,8 +168,13 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
       sheet.appendRow(['']);
       sheet.appendRow(['Cuenta', 'Importe', 'Comisión', 'Pago Anticipado', 'Días para pago']);
       for (var factura in propuesta.registrosPorDia) {
-        sheet.appendRow(
-            [factura.noDoc, '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.importe!)}', '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cantComision!)}', '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.pagoAnticipado!)}', factura.diasPago]);
+        sheet.appendRow([
+          factura.noDoc,
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.importe!)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.cantComision!)}',
+          '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.pagoAnticipado!)}',
+          factura.diasPago
+        ]);
 
         //cantidadFacturas = cantidadFacturas + cliente.facturas!.length;
       }

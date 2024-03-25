@@ -70,7 +70,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
         'autorizacion_solicitudes_pago_anticipado',
         params: {
           'busqueda': controllerBusqueda.text,
-          'nom_sociedades': [currentUser!.sociedadSeleccionada],
+          'nom_sociedades': currentUser!.sociedadSeleccionada!.clave == "Todas" ? listaSociedades!.map((sociedad) => sociedad.clave).toList() : [currentUser!.sociedadSeleccionada!.clave],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
@@ -414,17 +414,8 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
 
       //Agregar primera lineas
       sheet.getColumnAutoFits;
-      sheet.appendRow([
-        'Autorización solicitudes pago anticipado',
-        '',
-        'Usuario',
-        '${currentUser?.nombreCompleto}',
-        '',
-        'Fecha:',
-        dateFormat(DateTime.now()),
-        'Sociedad:',
-        currentUser!.sociedadSeleccionada!
-      ]);
+      sheet.appendRow(
+          ['Autorización solicitudes pago anticipado', '', 'Usuario', '${currentUser?.nombreCompleto}', '', 'Fecha:', dateFormat(DateTime.now()), 'Sociedad:', currentUser!.sociedadSeleccionada!]);
 
       //Agregar linea vacia
       sheet.appendRow(['']);

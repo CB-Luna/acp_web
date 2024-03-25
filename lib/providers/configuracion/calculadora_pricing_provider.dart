@@ -43,7 +43,7 @@ class CalculadoraPricingProvider extends ChangeNotifier {
         'get_calculadora_pricing',
         params: {
           "busqueda": controllerBusqueda.text,
-          "nom_sociedades": [currentUser!.sociedadSeleccionada!],
+          "nom_sociedades": currentUser!.sociedadSeleccionada!.clave == "Todas" ? listaSociedades!.map((sociedad) => sociedad.clave).toList() : [currentUser!.sociedadSeleccionada!.clave],
         },
       );
       calculadora = (response as List<dynamic>).map((usuario) => CalculadoraPricing.fromJson(jsonEncode(usuario))).toList();
@@ -135,7 +135,7 @@ class CalculadoraPricingProvider extends ChangeNotifier {
       perdidaController.text = moneyFormat(calculadora.first.perdidaIncumplimineto!);
       notifyListeners();
     } catch (e) {
-      log('Error en getCalculadoraPricing- $e');
+      log('Error en cargarDatosCalculadoraPricing- $e');
     }
   }
 
@@ -148,7 +148,7 @@ class CalculadoraPricingProvider extends ChangeNotifier {
         'get_calculadora_pricing',
         params: {
           "busqueda": controllerBusqueda.text,
-          "nom_sociedades": listaSociedades,
+          "nom_sociedades": listaSociedades!.map((sociedad) => sociedad.clave).toList(),
         },
       );
       calculadoraList = (res as List<dynamic>).map((usuario) => CalculadoraPricing.fromJson(jsonEncode(usuario))).toList();

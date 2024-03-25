@@ -18,7 +18,7 @@ late final SharedPreferences prefs;
 
 Usuario? currentUser;
 
-List<String>? listaSociedades;
+List<Sociedad>? listaSociedades = [];
 
 Future<void> initGlobals() async {
   prefs = await SharedPreferences.getInstance();

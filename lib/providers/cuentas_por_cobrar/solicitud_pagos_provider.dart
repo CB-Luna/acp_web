@@ -63,7 +63,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
         'solicitud_pagos',
         params: {
           'busqueda': controllerBusqueda.text,
-          'nom_sociedades': [currentUser!.sociedadSeleccionada!],
+          'nom_sociedades': currentUser!.sociedadSeleccionada!.clave == "Todas" ? listaSociedades!.map((sociedad) => sociedad.clave).toList() : [currentUser!.sociedadSeleccionada!.clave],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"],
           'clienteid': currentUser!.cliente!.clienteId
         },
@@ -237,7 +237,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
 
       //Agregar linea vacia
       sheet.appendRow(['']);
-      sheet.appendRow(['Factura', 'Importe', 'Comisión', 'Días para pago','Pago Anticipado']);
+      sheet.appendRow(['Factura', 'Importe', 'Comisión', 'Días para pago', 'Pago Anticipado']);
       for (var factura in facturas) {
         sheet.appendRow([
           factura.noDoc,

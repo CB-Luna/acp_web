@@ -65,14 +65,14 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
     fondoDisponibleRestante = controllerFondoDisp.numberValue;
 
     try {
-      var res = await supabase.from("calculadora_pricing").select().eq("sociedad", currentUser!.sociedadSeleccionada).order("id", ascending: false).limit(1);
-      CalculadoraPricing calculadora = CalculadoraPricing.fromJson(jsonEncode(res[0]));
+      var responseCalc = await supabase.from("calculadora_pricing").select().order("id", ascending: false);
+      List<CalculadoraPricing> calculadoras = (responseCalc as List<dynamic>).map((calculadora) => CalculadoraPricing.fromJson(jsonEncode(calculadora))).toList();
 
       var response = await supabase.rpc(
         "seleccion_pagos_anticipados",
         params: {
           "busqueda": controllerBusqueda.text,
-          "nom_sociedades": [currentUser!.sociedadSeleccionada],
+          "nom_sociedades": currentUser!.sociedadSeleccionada!.clave == "Todas" ? listaSociedades!.map((sociedad) => sociedad.clave).toList() : [currentUser!.sociedadSeleccionada!.clave],
           "nom_monedas": currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();
@@ -85,6 +85,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         List<PlutoRow> rows = [];
 
         if (cliente.facturas != null && cliente.facturas!.isNotEmpty) {
+          CalculadoraPricing calculadora = calculadoras.firstWhere((element) => element.sociedad == cliente.sociedad);
           for (var factura in cliente.facturas!) {
             var imq = factura.importe!;
             var ago = calculadora.tarifaGo!; //Asignación de Gasto Operativo
@@ -321,8 +322,9 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       sumaMpfn = 0;
 
       //Obtenemos los datos colocados en la pantalla "Calculadora Pricing" para la obtención de datos como "Margen Operativo" y "Utilidad Neta"
-      var res = await supabase.from("calculadora_pricing").select().eq("sociedad", currentUser!.sociedadSeleccionada).order("id", ascending: false).limit(1);
-      CalculadoraPricing calculadora = CalculadoraPricing.fromJson(jsonEncode(res[0]));
+      var responseCalc = await supabase.from("calculadora_pricing").select().order("id", ascending: false);
+      List<CalculadoraPricing> calculadoras = (responseCalc as List<dynamic>).map((calculadora) => CalculadoraPricing.fromJson(jsonEncode(calculadora))).toList();
+      CalculadoraPricing calculadora = calculadoras.firstWhere((element) => element.sociedad == cliente.sociedad);
 
       for (var factura in cliente.facturas!) {
         var imq = factura.importe!;

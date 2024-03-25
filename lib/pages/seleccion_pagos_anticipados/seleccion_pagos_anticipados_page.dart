@@ -50,7 +50,7 @@ class _SeleccionPagosAnticipadosPageState extends State<SeleccionPagosAnticipado
 
     //final bool permisoCaptura = currentUser!.rol.permisos.extraccionDeFacturas == 'C';
     String? monedaSeleccionada = currentUser!.monedaSeleccionada;
-    String? sociedadSeleccionada = currentUser!.sociedadSeleccionada;
+    //String? sociedadSeleccionada = currentUser!.sociedadSeleccionada!.clave;
 
     final SeleccionaPagosanticipadosProvider provider = Provider.of<SeleccionaPagosanticipadosProvider>(context);
 

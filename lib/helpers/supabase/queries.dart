@@ -31,11 +31,18 @@ class SupabaseQueries {
 
   static Future<void> getSociedades() async {
     try {
-      final sociedades = await supabase.from('sociedad').select("clave");
+      if (currentUser?.cliente != null) {
+        final sociedades = await supabase.rpc("sociedades_cliente", params: {"clienteid": currentUser!.cliente!.clienteId});
+        listaSociedades = (sociedades as List<dynamic>).map((sociedad) => Sociedad.fromJson(jsonEncode(sociedad))).toList();
+        if (listaSociedades!.length >= 2) {
+          listaSociedades!.insert(0, Sociedad(clave: "Todas", sociedadId: 0, nombre: "Todas"));
+        }
+      } else {
+        final sociedades = await supabase.from("sociedad").select();
+        listaSociedades = (sociedades as List<dynamic>).map((sociedad) => Sociedad.fromJson(jsonEncode(sociedad))).toList();
+        listaSociedades!.insert(0, Sociedad(clave: "Todas", sociedadId: 0, nombre: "Todas"));
+      }
 
-      listaSociedades = sociedades.map<String>((item) => item['clave'] as String).toList();
-
-      //listaSociedades = ["G001", "GAP01", "G600", "GB04", "GB02", "GT08", "NATU", "GLAD"];
       currentUser!.sociedadSeleccionada = listaSociedades!.first;
     } catch (e) {
       log('Error en getSociedades() - $e');

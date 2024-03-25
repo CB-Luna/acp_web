@@ -46,7 +46,7 @@ class PagosProvider extends ChangeNotifier {
         'pagos',
         params: {
           'busqueda': controllerBusqueda.text,
-          'nom_sociedades': [currentUser!.sociedadSeleccionada],
+          'nom_sociedades': currentUser!.sociedadSeleccionada!.clave == "Todas" ? listaSociedades!.map((sociedad) => sociedad.clave).toList() : [currentUser!.sociedadSeleccionada!.clave],
           'nom_monedas': currentUser!.monedaSeleccionada != null ? [currentUser!.monedaSeleccionada] : ["GTQ", "USD"], //TODO: Change
         },
       ).select();

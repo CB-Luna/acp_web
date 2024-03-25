@@ -16,18 +16,15 @@ class SociedadDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return sociedades != null ||
-            (currentUser?.cliente != null && currentUser!.cliente!.sociedades.length > 1) ||
-            (currentUser?.cliente == null)
+    return sociedades != null || (currentUser?.cliente != null && listaSociedades!.length >= 2) || (currentUser?.cliente == null)
         ? Tooltip(
             message: sociedadSeleccionada == null ? 'Por favor seleccione un tipo de sociedad' : '',
             child: SizedBox(
-              width: 65,
+              width: currentUser?.cliente != null ? 200 : 65,
               child: CustomDropDown(
                 label: 'Sociedades',
                 key: UniqueKey(),
-                items:
-                    sociedades ?? (currentUser?.cliente != null ? currentUser!.cliente!.sociedades : listaSociedades!),
+                items: sociedades ?? (currentUser?.cliente != null ? listaSociedades!.map((sociedad) => sociedad.nombre).toList() : listaSociedades!.map((sociedad) => sociedad.clave).toList()),
                 value: sociedadSeleccionada,
                 onChanged: onSelect,
                 validator: (p0) {

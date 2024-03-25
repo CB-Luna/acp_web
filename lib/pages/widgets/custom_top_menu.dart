@@ -91,9 +91,14 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     SociedadDropDown(
-                      sociedadSeleccionada: currentUser!.sociedadSeleccionada,
+                      sociedadSeleccionada: currentUser?.cliente != null ? currentUser!.sociedadSeleccionada!.nombre : currentUser!.sociedadSeleccionada!.clave,
                       onSelect: (p0) async {
-                        currentUser!.sociedadSeleccionada = p0;
+                        if (currentUser?.cliente != null) {
+                          currentUser!.sociedadSeleccionada = listaSociedades!.firstWhere((element) => element.nombre == p0);
+                        } else {
+                          currentUser!.sociedadSeleccionada = listaSociedades!.firstWhere((element) => element.clave == p0);
+                        }
+
                         if (widget.onSociedadSeleccionada != null) {
                           await widget.onSociedadSeleccionada!();
                         }
@@ -121,9 +126,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'USD'
-                                      ? AppTheme.of(context).primaryColor
-                                      : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'USD' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {
@@ -139,9 +142,7 @@ class _CustomTopMenuState extends State<CustomTopMenu> {
                             style: AppTheme.of(context).title3.override(
                                   fontFamily: AppTheme.of(context).title3Family,
                                   useGoogleFonts: false,
-                                  color: currentUser!.monedaSeleccionada == 'GTQ'
-                                      ? AppTheme.of(context).primaryColor
-                                      : AppTheme.of(context).secondaryBackground,
+                                  color: currentUser!.monedaSeleccionada == 'GTQ' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryBackground,
                                 ),
                           ),
                           onTap: () async {

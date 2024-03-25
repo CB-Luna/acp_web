@@ -142,7 +142,7 @@ class _CustomListCardState extends State<CustomListCard> with SingleTickerProvid
                               SizedBox(
                                 width: width * 135,
                                 child: Text(
-                                  widget.cliente.nombreFiscal!,
+                                  '${widget.cliente.nombreFiscal!} - ${widget.cliente.sociedad!}',
                                   style: AppTheme.of(context).title3.override(
                                         fontFamily: AppTheme.of(context).title3Family,
                                         useGoogleFonts: false,

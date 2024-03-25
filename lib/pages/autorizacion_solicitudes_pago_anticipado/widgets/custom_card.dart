@@ -54,7 +54,7 @@ class _CustomCardState extends State<CustomCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.cliente.nombreFiscal!,
+                        '${widget.cliente.nombreFiscal!} - ${widget.cliente.sociedad!}',
                         overflow: TextOverflow.fade,
                         style: AppTheme.of(context).title3,
                       ),
