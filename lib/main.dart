@@ -15,8 +15,7 @@ import 'package:acp_web/theme/theme.dart';
 import 'package:acp_web/helpers/scroll_behavior.dart';
 import 'package:acp_web/internationalization/internationalization.dart';
 import 'package:acp_web/providers/configuracion/calculadora_pricing_provider.dart';
-import 'package:acp_web/providers/reportes/dashboards_provider.dart';
-import 'package:acp_web/providers/reportes/reporte_pricing_provider.dart';
+
 import 'package:acp_web/services/navigation_service.dart';
 import 'package:acp_web/pages/widgets/inactivity_popup.dart';
 
@@ -41,6 +40,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserState(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NotificacionesProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => ClientesProvider(),

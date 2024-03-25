@@ -1,6 +1,10 @@
+import 'package:acp_web/functions/date_format.dart';
+import 'package:acp_web/pages/widgets/custom_scrollbar.dart';
+import 'package:acp_web/providers/providers.dart';
 import 'package:acp_web/providers/visual_state/visual_state_provider.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
@@ -16,7 +20,23 @@ class CustomSideNotifications extends StatefulWidget {
 
 class _CustomSideNotificationsState extends State<CustomSideNotifications> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      NotificacionesProvider provider = Provider.of<NotificacionesProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height / 1024;
+
+    final NotificacionesProvider provider = Provider.of<NotificacionesProvider>(context);
     final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     return Row(
       children: [
@@ -38,7 +58,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                 header: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                   child: SizedBox(
-                    height: 300,
+                    //height: 300,
                     child: Column(
                       children: [
                         Row(
@@ -57,87 +77,105 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return data.isOpen
-                                ? SizedBox(
-                                    height: 50,
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 25,
-                                          height: 25,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(8),
-                                            color: Colors.green[100],
+                        SizedBox(
+                          height: height * 1000 - 40,
+                          child: CustomScrollBar(
+                            scrollDirection: Axis.vertical,
+                            thumbColor: AppTheme.of(context).primaryBackground,
+                            allwaysVisible: true,
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: provider.notificacionesNoLeidas.length,
+                              itemBuilder: (context, index) {
+                                return data.isOpen
+                                    ? Column(
+                                        children: [
+                                          SizedBox(
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: 25,
+                                                  height: 25,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                    color: Colors.green[100],
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.alarm_outlined,
+                                                    color: Colors.green[500],
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 175,
+                                                      child: MarkdownBody(
+                                                        data: provider.notificacionesNoLeidas[index].mensaje!,
+                                                        shrinkWrap: true,
+                                                        softLineBreak: true,
+                                                        styleSheet: MarkdownStyleSheet(
+                                                          p: AppTheme.of(context).title3.override(
+                                                                fontFamily: AppTheme.of(context).title3Family,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                                useGoogleFonts: false,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      dateFormat(provider.notificacionesNoLeidas[index].fechaRecepcion, true, true),
+                                                      overflow: TextOverflow.fade,
+                                                      style: AppTheme.of(context).bodyText2.override(
+                                                            fontFamily: AppTheme.of(context).bodyText2Family,
+                                                            color: AppTheme.of(context).primaryBackground,
+                                                            useGoogleFonts: false,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          child: Icon(
-                                            Icons.alarm_outlined,
-                                            color: Colors.green[500],
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Column(
+                                          SizedBox(height: 10),
+                                        ],
+                                      )
+                                    : SizedBox(
+                                        width: 180,
+                                        height: 50,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              'En espera de validación',
-                                              style: AppTheme.of(context).title3.override(
-                                                    fontFamily: AppTheme.of(context).title3Family,
-                                                    color: AppTheme.of(context).primaryBackground,
-                                                    useGoogleFonts: false,
-                                                  ),
-                                              overflow: TextOverflow.fade,
-                                            ),
-                                            Text(
-                                              'Justo ahora',
-                                              style: AppTheme.of(context).bodyText2.override(
-                                                    fontFamily: AppTheme.of(context).bodyText2Family,
-                                                    color: AppTheme.of(context).primaryBackground,
-                                                    useGoogleFonts: false,
-                                                  ),
-                                              overflow: TextOverflow.fade,
+                                            Container(
+                                              width: 25,
+                                              height: 25,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8),
+                                                color: Colors.green[100],
+                                              ),
+                                              child: Icon(
+                                                Icons.alarm_outlined,
+                                                color: Colors.green[500],
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                : SizedBox(
-                                    width: 180,
-                                    height: 50,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 25,
-                                          height: 25,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(8),
-                                            color: Colors.green[100],
-                                          ),
-                                          child: Icon(
-                                            Icons.alarm_outlined,
-                                            color: Colors.green[500],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                          },
+                                      );
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
                 items: [],
-                footer: data.isOpen
+                /* footer: data.isOpen
                     ? Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                         child: Column(
@@ -280,6 +318,7 @@ class _CustomSideNotificationsState extends State<CustomSideNotifications> {
                           ],
                         ),
                       ),
+               */
               );
             },
           ),

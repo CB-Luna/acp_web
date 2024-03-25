@@ -9,12 +9,14 @@ class CustomScrollBar extends StatefulWidget {
     required this.scrollDirection,
     this.clipBehavior = Clip.hardEdge,
     this.allwaysVisible = false,
+    this.thumbColor,
   });
 
   final Widget child;
   final Axis scrollDirection;
   final Clip clipBehavior;
   final bool allwaysVisible;
+  final Color? thumbColor;
 
   @override
   State<CustomScrollBar> createState() => _CustomScrollBarState();
@@ -41,7 +43,7 @@ class _CustomScrollBarState extends State<CustomScrollBar> {
   Widget build(BuildContext context) {
     return RawScrollbar(
       controller: yourScrollController,
-      thumbColor: AppTheme.of(context).primaryColor,
+      thumbColor: widget.thumbColor ?? AppTheme.of(context).primaryColor,
       radius: const Radius.circular(15),
       thickness: 5,
       thumbVisibility: widget.allwaysVisible,
