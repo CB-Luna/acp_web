@@ -79,7 +79,7 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                   //Contenido
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.all( 8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

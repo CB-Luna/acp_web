@@ -250,7 +250,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                     provider.facturas.isEmpty
                                         ? const CircularProgressIndicator()
                                         : Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.symmetric(vertical: 8),
                                             child: ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: provider.facturas.length,
