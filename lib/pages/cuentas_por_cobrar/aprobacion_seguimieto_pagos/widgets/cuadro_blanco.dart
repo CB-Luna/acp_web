@@ -79,6 +79,15 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                           overflow: TextOverflow.fade,
                         ),
                       ),
+                      //Sociedad
+                      SizedBox(
+                        width: width * 135,
+                        child: Text(
+                          widget.propuesta.sociedadNombre,
+                          style: AppTheme.of(context).subtitle1,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ),
                       //Descripcion
                       SizedBox(
                         width: width * 200,
@@ -232,7 +241,7 @@ class _CuadroBlancoState extends State<CuadroBlanco> with SingleTickerProviderSt
                             IconButton(
                               tooltip: 'Descargar Listado Excel',
                               onPressed: () async {
-                               await provider.aprobacionseguimientoExcel(widget.propuesta);
+                                await provider.aprobacionseguimientoExcel(widget.propuesta);
                               },
                               icon: const Icon(Icons.download),
                               color: AppTheme.of(context).primaryColor,

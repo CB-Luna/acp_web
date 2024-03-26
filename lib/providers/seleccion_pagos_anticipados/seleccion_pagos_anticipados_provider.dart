@@ -519,7 +519,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
         'Fecha:',
         dateFormat(DateTime.now()),
         'Sociedad',
-        currentUser!.sociedadSeleccionada!,
+        '${facturas.nombreFiscal}-${facturas.sociedad}',
       ]);
 
       //Agregar linea vacia
@@ -541,7 +541,7 @@ class SeleccionaPagosanticipadosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados_${facturas.nombreFiscal}_${currentUser!.sociedadSeleccionada!}.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Selección_Pagos_Anticipados_${facturas.nombreFiscal}_${facturas.sociedad!}.xlsx");
       if (fileBytes == null) return false;
 
       return true;

@@ -108,7 +108,20 @@ class _CustomeCardSolicitudPagosState extends State<CustomeCardSolicitudPagos> w
                       ),
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.fade,
-                ),
+                ),  
+              ),
+               //Sociedad
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1440 * 160,
+                child: Text(
+                  widget.propuesta.sociedad!,
+                  style: AppTheme.of(context).subtitle1.override(
+                        fontFamily: AppTheme.of(context).subtitle1Family,
+                        useGoogleFonts: false,
+                      ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                ),  
               ),
               //importe
               SizedBox(

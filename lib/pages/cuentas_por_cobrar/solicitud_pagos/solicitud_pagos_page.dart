@@ -134,6 +134,26 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
+                                    Icons.person,
+                                    size: 20,
+                                    color: AppTheme.of(context).primaryBackground,
+                                  ),
+                                  Text(
+                                    'Sociedad',
+                                    style: AppTheme.of(context).subtitle1.override(
+                                          fontFamily: AppTheme.of(context).subtitle1Family,
+                                          useGoogleFonts: false,
+                                          color: AppTheme.of(context).primaryBackground,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
                                     Icons.receipt_long,
                                     size: 20,
                                     color: AppTheme.of(context).primaryBackground,
@@ -149,6 +169,7 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                                 ],
                               ),
                             ),
+
                             Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

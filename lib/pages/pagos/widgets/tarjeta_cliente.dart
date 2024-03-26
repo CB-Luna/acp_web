@@ -197,7 +197,7 @@ class _TarjetaClienteState extends State<TarjetaCliente> {
                                   icon: Icons.download,
                                   size: 20,
                                   onTap: () async {
-                                    await provider.pagosExcel(widget.cliente.rows!,widget.cliente.nombreFiscal!);
+                                    await provider.pagosExcel(widget.cliente.rows!,widget.cliente.nombreFiscal!,widget.cliente.sociedad);
                                   },
                                 ),
                               ),

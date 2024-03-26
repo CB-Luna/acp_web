@@ -155,13 +155,13 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
       sheet.appendRow([
         'Aprobacion y seguimiento de pagos',
         '',
-        'Usuario',
+        'Usuario:',
         '${currentUser?.nombreCompleto}',
         '',
         'Fecha:',
         dateFormat(DateTime.now()),
         'Sociedad:',
-        propuesta.sociedad,
+        '${propuesta.sociedadNombre}-${propuesta.sociedad}',
       ]);
 
       //Agregar linea vacia
@@ -183,7 +183,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Aprobacion_seguimiento_pagos_${propuesta.sociedad}.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Aprobacion_seguimiento_pagos_${propuesta.sociedadNombre}_${propuesta.sociedad}.xlsx");
       if (fileBytes == null) return false;
 
       return true;
@@ -214,6 +214,7 @@ class AprobacionSeguimientoPagosProvider extends ChangeNotifier {
             'anticipo': propuesta.sumAnticipo,
             'comision': propuesta.sumComision,
             'cliente_id': currentUser!.cliente!.clienteId,
+            'sociedad_fk':currentUser!.sociedadSeleccionada!,
           },
         ).select())[0]['anexo_id'];
         if (docProveedor != null) {

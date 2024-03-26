@@ -196,7 +196,7 @@ class PagosProvider extends ChangeNotifier {
   }
 
   ///////////////////Excel/////////////////////////
-  Future<bool> pagosExcel(List<PlutoRow> facturas, String name) async {
+  Future<bool> pagosExcel(List<PlutoRow> facturas, String name,sociedad) async {
     try {
       //Crear excel
 
@@ -214,7 +214,7 @@ class PagosProvider extends ChangeNotifier {
         'Fecha:',
         dateFormat(DateTime.now()),
         'Sociedad:',
-        currentUser!.sociedadSeleccionada!,
+        '$name-$sociedad',
       ]);
 
       //Agregar linea vacia
@@ -237,7 +237,7 @@ class PagosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Pagos_${name}_${currentUser!.sociedadSeleccionada!}.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Pagos_${name}_$sociedad.xlsx");
       if (fileBytes == null) return false;
 
       return true;

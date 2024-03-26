@@ -142,6 +142,26 @@ class _AprobacionSeguimientoPagosPageState extends State<AprobacionSeguimientoPa
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Icon(
+                                            Icons.person,
+                                            size: 20,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Sociedad',
+                                            style: AppTheme.of(context).title3.override(
+                                                  fontFamily: AppTheme.of(context).title3Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
                                             Icons.assignment,
                                             size: 20,
                                             color: AppTheme.of(context).primaryBackground,

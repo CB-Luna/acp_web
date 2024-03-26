@@ -415,7 +415,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       //Agregar primera lineas
       sheet.getColumnAutoFits;
       sheet.appendRow(
-          ['Autorización solicitudes pago anticipado', '', 'Usuario', '${currentUser?.nombreCompleto}', '', 'Fecha:', dateFormat(DateTime.now()), 'Sociedad:', currentUser!.sociedadSeleccionada!]);
+          ['Autorización solicitudes pago anticipado', '', 'Usuario', '${currentUser?.nombreCompleto}', '', 'Fecha:', dateFormat(DateTime.now()), 'Sociedad:', '${clientes.nombreFiscal}-${clientes.sociedad}']);
 
       //Agregar linea vacia
       sheet.appendRow(['']);
@@ -436,7 +436,7 @@ class AutorizacionSolicitudesPagoAnticipadoProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Autorizacion_solicitudes_pago_anticipado_${clientes.nombreFiscal}_${currentUser!.sociedadSeleccionada!}.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Autorizacion_solicitudes_pago_anticipado_${clientes.nombreFiscal}_${clientes.sociedad}.xlsx");
       if (fileBytes == null) return false;
       return true;
     } catch (e) {

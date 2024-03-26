@@ -232,15 +232,16 @@ class SolicitudPagosProvider extends ChangeNotifier {
         'Fecha:',
         dateFormat(DateTime.now()),
         'Sociedad',
-        currentUser!.sociedadSeleccionada!,
+        '${currentUser!.sociedadSeleccionada!.nombre}-${currentUser!.sociedadSeleccionada!.clave}',
       ]);
 
       //Agregar linea vacia
       sheet.appendRow(['']);
-      sheet.appendRow(['Factura', 'Importe', 'Comisión', 'Días para pago', 'Pago Anticipado']);
+      sheet.appendRow(['Factura','Sociedad' ,'Importe', 'Comisión', 'Días para pago', 'Pago Anticipado']);
       for (var factura in facturas) {
         sheet.appendRow([
           factura.noDoc,
+          factura.sociedad,
           '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.importe!)}',
           '${currentUser!.monedaSeleccionada!} ${moneyFormat(factura.comision!)}',
           factura.diasPago,
@@ -254,7 +255,7 @@ class SolicitudPagosProvider extends ChangeNotifier {
       excel.delete('Sheet1');
 
       //Descargar
-      final List<int>? fileBytes = excel.save(fileName: "Solicitud_Pagos_${currentUser!.sociedadSeleccionada!}.xlsx");
+      final List<int>? fileBytes = excel.save(fileName: "Solicitud_Pagos_${currentUser!.sociedadSeleccionada!.nombre}_${currentUser!.sociedadSeleccionada!.clave}.xlsx");
       if (fileBytes == null) return false;
 
       return true;
