@@ -64,6 +64,7 @@ class _ClientesPageState extends State<ClientesPage> {
                   onSearchChanged: (busqueda) async {
                     await provider.getClientes();
                   },
+                  onSociedadSeleccionada: provider.getClientes,
                 ),
                 //Contenido
                 Expanded(

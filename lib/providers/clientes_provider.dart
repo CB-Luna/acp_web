@@ -76,6 +76,10 @@ class ClientesProvider extends ChangeNotifier {
     try {
       final query = supabase.from('cliente_completo').select();
 
+      if (currentUser!.sociedadSeleccionada?.nombre != 'Todas') {
+        query.eq('sociedad', currentUser!.sociedadSeleccionada!.clave);
+      }
+
       final res = await query.ilike('nombre_fiscal', '%${busquedaController.text}%').order(orden, ascending: true);
 
       if (res == null) {
