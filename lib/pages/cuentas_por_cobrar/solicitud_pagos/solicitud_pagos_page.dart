@@ -80,189 +80,199 @@ class _SolicitudPagosPageState extends State<SolicitudPagosPage> {
                   ),
 
                   //Contenido
-                  CustomHeaderOptions(
-                      encabezado: 'Solicitud de Pagos',
-                      filterSelected: filterSelected,
-                      gridSelected: gridSelected,
-                      onFilterSelected: () {
-                        setState(() {
-                          filterSelected = !filterSelected;
-                        });
-                      },
-                      ondownloadExcel: () async {
-                        await provider.solicitudExcel();
-                      },
-                      onGridSelected: null,
-                      onListSelected: null),
-                  const ContenedoresSolicitudPagos(),
-                  //Titulos
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16.0),
-                    child: Container(
-                      width: double.infinity,
-                      height: height * 79,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: const Color(0xFF0A0859),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.assignment,
-                                    size: 20,
-                                    color: AppTheme.of(context).primaryBackground,
-                                  ),
-                                  Text(
-                                    'Factura',
-                                    style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: AppTheme.of(context).subtitle1Family,
-                                          useGoogleFonts: false,
-                                          color: AppTheme.of(context).primaryBackground,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.person,
-                                    size: 20,
-                                    color: AppTheme.of(context).primaryBackground,
-                                  ),
-                                  Text(
-                                    'Sociedad',
-                                    style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: AppTheme.of(context).subtitle1Family,
-                                          useGoogleFonts: false,
-                                          color: AppTheme.of(context).primaryBackground,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.receipt_long,
-                                    size: 20,
-                                    color: AppTheme.of(context).primaryBackground,
-                                  ),
-                                  Text(
-                                    'Importe',
-                                    style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: AppTheme.of(context).subtitle1Family,
-                                          useGoogleFonts: false,
-                                          color: AppTheme.of(context).primaryBackground,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.credit_card,
-                                    color: AppTheme.of(context).primaryBackground,
-                                  ),
-                                  Text(
-                                    'Comisión',
-                                    style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: AppTheme.of(context).subtitle1Family,
-                                          useGoogleFonts: false,
-                                          color: AppTheme.of(context).primaryBackground,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_month,
-                                    color: AppTheme.of(context).primaryBackground,
-                                  ),
-                                  Text(
-                                    'Días para Pago',
-                                    style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: AppTheme.of(context).subtitle1Family,
-                                          useGoogleFonts: false,
-                                          color: AppTheme.of(context).primaryBackground,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.shopping_bag,
-                                    color: AppTheme.of(context).primaryBackground,
-                                  ),
-                                  Text(
-                                    'Pago Anticipado',
-                                    style: AppTheme.of(context).subtitle1.override(
-                                          fontFamily: AppTheme.of(context).subtitle1Family,
-                                          useGoogleFonts: false,
-                                          color: AppTheme.of(context).primaryBackground,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //const SizedBox(width: 65),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  //Lista
                   Expanded(
-                    child: SizedBox(
-                      child: CustomScrollBar(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          children: [
-                            provider.facturas.isEmpty
-                                ? const CircularProgressIndicator()
-                                : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: provider.facturas.length,
-                                      scrollDirection: Axis.vertical,
-                                      itemBuilder: (BuildContext ctx, index) {
-                                        return CustomeCardSolicitudPagos(
-                                          propuesta: provider.facturas[index],
-                                        );
-                                      },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          CustomHeaderOptions(
+                            encabezado: 'Solicitud de Pagos',
+                            filterSelected: filterSelected,
+                            gridSelected: gridSelected,
+                            onFilterSelected: () {
+                              setState(() {
+                                filterSelected = !filterSelected;
+                              });
+                            },
+                            ondownloadExcel: () async {
+                              await provider.solicitudExcel();
+                            },
+                            onGridSelected: null,
+                            onListSelected: null,
+                          ),
+                          const ContenedoresSolicitudPagos(),
+                          //Titulos
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Container(
+                              //width: double.infinity,
+                              height: height * 79,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: const Color(0xFF0A0859),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 24),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.assignment,
+                                            size: 20,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Factura',
+                                            style: AppTheme.of(context).subtitle1.override(
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                          ],
-                        ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.person,
+                                            size: 20,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Sociedad',
+                                            style: AppTheme.of(context).subtitle1.override(
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.receipt_long,
+                                            size: 20,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Importe',
+                                            style: AppTheme.of(context).subtitle1.override(
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.credit_card,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Comisión',
+                                            style: AppTheme.of(context).subtitle1.override(
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.calendar_month,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Días para Pago',
+                                            style: AppTheme.of(context).subtitle1.override(
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.shopping_bag,
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          Text(
+                                            'Pago Anticipado',
+                                            style: AppTheme.of(context).subtitle1.override(
+                                                  fontFamily: AppTheme.of(context).subtitle1Family,
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    //const SizedBox(width: 65),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          //Lista
+                          Expanded(
+                            child: SizedBox(
+                              child: CustomScrollBar(
+                                scrollDirection: Axis.vertical,
+                                child: Column(
+                                  children: [
+                                    provider.facturas.isEmpty
+                                        ? const CircularProgressIndicator()
+                                        : Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: provider.facturas.length,
+                                              scrollDirection: Axis.vertical,
+                                              itemBuilder: (BuildContext ctx, index) {
+                                                return CustomeCardSolicitudPagos(
+                                                  propuesta: provider.facturas[index],
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          //Footer
+                          const Footer(),
+                        ],
                       ),
                     ),
                   ),
-                  //Footer
-                  const Footer(),
                 ],
               ),
             ),
