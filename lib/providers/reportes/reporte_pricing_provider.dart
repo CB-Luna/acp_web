@@ -78,7 +78,7 @@ class ReportePricingProvider extends ChangeNotifier {
         'get_calculadora_pricing',
         params: {
           "busqueda": controllerBusqueda.text,
-          "nom_sociedades": [currentUser!.sociedadSeleccionada!],
+          "nom_sociedades": [currentUser!.sociedadSeleccionada!.clave],
         },
       );
       calculadora = (response as List<dynamic>).map((usuario) => CalculadoraPricing.fromJson(jsonEncode(usuario))).toList();
@@ -167,7 +167,7 @@ class ReportePricingProvider extends ChangeNotifier {
     excel.delete('Sheet1');
 
     //Descargar
-    final List<int>? fileBytes = excel.save(fileName: "Reporte_Pricing.xlsx");
+    final List<int>? fileBytes = excel.save(fileName: "Reporte_Pricing_${currentUser!.sociedadSeleccionada!.clave}.xlsx");
     if (fileBytes == null) return false;
 
     return true;

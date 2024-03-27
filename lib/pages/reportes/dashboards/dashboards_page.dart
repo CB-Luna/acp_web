@@ -1,8 +1,11 @@
+import 'package:acp_web/functions/date_format.dart';
+import 'package:acp_web/functions/money_format.dart';
 import 'package:acp_web/helpers/globals.dart';
 import 'package:acp_web/pages/reportes/dashboards/widgets/contenedores_dashboards.dart';
 import 'package:acp_web/pages/reportes/dashboards/widgets/graficas_dashboards.dart';
 import 'package:acp_web/pages/reportes/dashboards/widgets/marcadores.dart';
 import 'package:acp_web/pages/reportes/dashboards/widgets/tabla_dashboards.dart';
+import 'package:acp_web/pages/widgets/custom_button.dart';
 import 'package:acp_web/pages/widgets/custom_header_options.dart';
 import 'package:acp_web/pages/widgets/custom_side_menu.dart';
 import 'package:acp_web/pages/widgets/custom_side_notifications.dart';
@@ -33,10 +36,11 @@ class _DashboardsPageState extends State<DashboardsPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      /* final AprobacionSeguimientoPagosProvider provider = Provider.of<AprobacionSeguimientoPagosProvider>(
+      final DashboardsProvider provider = Provider.of<DashboardsProvider>(
         context,
         listen: false,
-      ); */
+      );
+      await provider.updateState();
     });
   }
 
@@ -64,6 +68,9 @@ class _DashboardsPageState extends State<DashboardsPage> {
                   CustomTopMenu(
                     pantalla: 'Reportes',
                     controllerBusqueda: provider.controllerBusqueda,
+                    onSociedadSeleccionada: () async {
+                      await provider.updateState();
+                    },
                     onSearchChanged: (p0) async {
                       await provider.search();
                     },
@@ -74,7 +81,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
                   //Contenido
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.all(8),
                       child: SingleChildScrollView(
                         controller: ScrollController(),
                         scrollDirection: Axis.vertical,
@@ -85,6 +92,38 @@ class _DashboardsPageState extends State<DashboardsPage> {
                               encabezado: 'Dashboards',
                               filterSelected: filterSelected,
                               gridSelected: gridSelected,
+                              calendar: true,
+                              calendarButton: CustomButton(
+                                options: ButtonOptions(
+                                  color: AppTheme.of(context).primaryColor,
+                                  textStyle: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                ),
+                                icon: Icon(Icons.calendar_month, color: AppTheme.of(context).primaryBackground),
+                                text: '${dateFormat(provider.range.start)} - ${dateFormat(provider.range.end)}',
+                                onPressed: () {
+                                  showDialog(
+                                    barrierColor: Colors.transparent,
+                                    context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                      shadowColor: AppTheme.of(context).gray,
+                                      backgroundColor: AppTheme.of(context).primaryBackground,
+                                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                      alignment: const Alignment(0.58, -0.76),
+                                      content: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: AppTheme.of(context).primaryBackground,
+                                          ),
+                                          width: MediaQuery.of(context).size.width * 0.415,
+                                          height: MediaQuery.of(context).size.height * 0.32,
+                                          child: provider.datePickerBuilder(
+                                            context,
+                                            (p0) {},
+                                          )),
+                                    ),
+                                  );
+                                },
+                              ),
                               onFilterSelected: () {
                                 setState(() {
                                   filterSelected = !filterSelected;
@@ -115,46 +154,46 @@ class _DashboardsPageState extends State<DashboardsPage> {
                                       Marcadores(
                                         width: width,
                                         titulo: 'Tasa Minima',
-                                        cantidad: '720',
-                                        porcentaje: 15,
-                                        icono: Icons.file_open,
-                                        moneda: 'GTQ',
+                                        cantidad: provider.indicadoresTaza.isEmpty ? '' : moneyFormat(provider.tMinima),
+                                        porcentaje: provider.indicadoresTaza.isEmpty ? 0 : provider.dMaxima,
+                                        icono: Icons.trending_down,
+                                        moneda: provider.indicadoresTaza.isEmpty ? '' : currentUser!.monedaSeleccionada!,
                                         color: AppTheme.of(context).blueBackground,
                                       ),
                                       Marcadores(
                                         width: width,
                                         titulo: 'Tasa Maxima',
-                                        cantidad: '720',
-                                        porcentaje: 15,
-                                        icono: Icons.file_open,
-                                        moneda: 'GTQ',
+                                        cantidad: provider.indicadoresTaza.isEmpty ? '' : moneyFormat(provider.tMaxima),
+                                        porcentaje: provider.indicadoresTaza.isEmpty ? 0 : provider.dMinima,
+                                        icono: Icons.trending_up,
+                                        moneda: provider.indicadoresTaza.isEmpty ? '' : currentUser!.monedaSeleccionada!,
                                         color: AppTheme.of(context).purpleBackground,
                                       ),
                                       Marcadores(
                                         width: width,
                                         titulo: 'Moda',
-                                        cantidad: '720',
-                                        porcentaje: 15,
-                                        icono: Icons.file_open,
-                                        moneda: 'GTQ',
+                                        cantidad: provider.indicadoresTaza.isEmpty ? '' : moneyFormat(provider.moda),
+                                        porcentaje: provider.indicadoresTaza.isEmpty ? 0 : provider.dModa,
+                                        icono: Icons.bar_chart,
+                                        moneda: provider.indicadoresTaza.isEmpty ? '' : currentUser!.monedaSeleccionada!,
                                         color: AppTheme.of(context).blueBackground,
                                       ),
                                       Marcadores(
                                         width: width,
                                         titulo: 'Media',
-                                        cantidad: '720',
-                                        porcentaje: 15,
-                                        icono: Icons.file_open,
-                                        moneda: 'GTQ',
+                                        cantidad: provider.indicadoresTaza.isEmpty ? '' : moneyFormat(provider.media),
+                                        porcentaje: provider.indicadoresTaza.isEmpty ? 0 : provider.dMedia,
+                                        icono: Icons.leaderboard,
+                                        moneda: provider.indicadoresTaza.isEmpty ? '' : currentUser!.monedaSeleccionada!,
                                         color: AppTheme.of(context).purpleBackground,
                                       ),
                                       Marcadores(
                                         width: width,
                                         titulo: 'Tasa Promedio\nPonderada',
-                                        cantidad: '720',
-                                        porcentaje: 15,
-                                        icono: Icons.file_open,
-                                        moneda: 'GTQ',
+                                        cantidad: provider.indicadoresTaza.isEmpty ? '' : moneyFormat(provider.tPromedio),
+                                        porcentaje: provider.indicadoresTaza.isEmpty ? 0 : provider.dPromedio,
+                                        icono: Icons.calculate,
+                                        moneda: provider.indicadoresTaza.isEmpty ? '' : currentUser!.monedaSeleccionada!,
                                         color: AppTheme.of(context).blueBackground,
                                       ),
                                     ],
@@ -178,21 +217,9 @@ class _DashboardsPageState extends State<DashboardsPage> {
                             const Padding(
                               padding: EdgeInsets.only(bottom: 16),
                               child: TablaDashboards(),
-
-
                             ),
                           ],
                         ),
-
-
-
-
-
-
-
-
-
-
                       ),
                     ),
                   ),

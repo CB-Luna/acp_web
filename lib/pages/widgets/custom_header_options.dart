@@ -1,3 +1,4 @@
+import 'package:acp_web/pages/widgets/custom_button.dart';
 import 'package:acp_web/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ class CustomHeaderOptions extends StatefulWidget {
     this.onGridSelected,
     this.onListSelected,
     this.ondownloadExcel,
+    this.calendar = false,
+    this.calendarButton,
     required this.encabezado,
   });
 
@@ -17,6 +20,9 @@ class CustomHeaderOptions extends StatefulWidget {
 
   final bool filterSelected;
   final bool gridSelected;
+  
+  final bool? calendar;
+  final CustomButton? calendarButton;
 
   final Function()? onFilterSelected;
   final Function()? onGridSelected;
@@ -41,6 +47,7 @@ class CustomHeaderOptionsState extends State<CustomHeaderOptions> {
           spacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
+            if (widget.calendar == true) widget.calendarButton!,
             Tooltip(
               message: 'Filtro',
               child: IconButton(

@@ -15,8 +15,10 @@ dependencies:
   email_validator: ^2.1.17
   excel: ^3.0.0
   file_picker: ^6.1.1
+  fl_chart: ^0.64.0
   flutter:
     sdk: flutter
+  flutter_date_range_picker: ^0.0.14
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.19

@@ -24,7 +24,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
     final DashboardsProvider provider = Provider.of<DashboardsProvider>(context);
 
     return Container(
-      width: width*800,//width * 490,
+      width: width * 800, //width * 490,
       height: height * 224,
       constraints: const BoxConstraints(minWidth: 400),
       decoration: BoxDecoration(
@@ -78,7 +78,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                     title: 'Cliente',
                     titleTextAlign: PlutoColumnTextAlign.center,
                     textAlign: PlutoColumnTextAlign.center,
-                    field: 'cuenta_field',
+                    field: 'cliente_field',
                     type: PlutoColumnType.text(),
                     enableEditingMode: false,
                     titleSpan: TextSpan(
@@ -103,7 +103,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                       );
                     },
                   ),
-                  PlutoColumn(
+                  /* PlutoColumn(
                     title: 'Moneda',
                     titleTextAlign: PlutoColumnTextAlign.center,
                     textAlign: PlutoColumnTextAlign.center,
@@ -131,12 +131,12 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                         ),
                       );
                     },
-                  ),
+                  ), */
                   PlutoColumn(
                     title: 'Tasa',
                     titleTextAlign: PlutoColumnTextAlign.center,
                     textAlign: PlutoColumnTextAlign.center,
-                    field: 'importe_field',
+                    field: 'tasa_field',
                     type: PlutoColumnType.text(),
                     enableEditingMode: false,
                     titleSpan: TextSpan(
@@ -158,7 +158,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         child: Text(
-                          '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
+                          moneyFormat(rendererContext.cell.value), //rendererContext.row.cells["moneda_field"]!.value}
                           style: AppTheme.of(context).bodyText2.override(
                                 fontFamily: AppTheme.of(context).bodyText2Family,
                                 useGoogleFonts: false,
@@ -169,7 +169,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                       );
                     },
                   ),
-                  PlutoColumn(
+                  /* PlutoColumn(
                     title: '% Comisión',
                     titleTextAlign: PlutoColumnTextAlign.center,
                     textAlign: PlutoColumnTextAlign.center,
@@ -205,13 +205,13 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                         ),
                       );
                     },
-                  ),
+                  ), */
                   PlutoColumn(
                     width: width * 160,
                     title: 'Suma de Importe en moneda',
                     titleTextAlign: PlutoColumnTextAlign.center,
                     textAlign: PlutoColumnTextAlign.center,
-                    field: 'pago_anticipado_field',
+                    field: 'importe_field',
                     type: PlutoColumnType.text(),
                     enableEditingMode: false,
                     titleSpan: TextSpan(
@@ -233,7 +233,7 @@ class _TablaDashboardsState extends State<TablaDashboards> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         child: Text(
-                          '${rendererContext.row.cells["moneda_field"]!.value} ${moneyFormat(rendererContext.cell.value)}',
+                          moneyFormat(rendererContext.cell.value), //${rendererContext.row.cells["moneda_field"]!.value}
                           style: AppTheme.of(context).bodyText2.override(
                                 fontFamily: AppTheme.of(context).bodyText2Family,
                                 useGoogleFonts: false,

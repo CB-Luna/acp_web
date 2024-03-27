@@ -49,10 +49,10 @@ class _ContenedoresDashboardsState extends State<ContenedoresDashboards> {
                           'Numero Anexos',
                           style: AppTheme.of(context).title3,
                         ),
-                        /*  Text(
-                          '${provider.numAnexos}',
-                          style: AppTheme.of(context).title3,
-                        ), */
+                        Text(
+                          provider.indicadoresAnexos.isEmpty ? '' : '${provider.genereados}',
+                          style: AppTheme.of(context).title2,
+                        ),
                         Container(
                           width: 30,
                           height: 30,
@@ -78,26 +78,11 @@ class _ContenedoresDashboardsState extends State<ContenedoresDashboards> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Generados',
-                              style: AppTheme.of(context).bodyText1,
-                            ),
-                            Text(
-                              '${provider.montoFacturacion}',
-                              style: AppTheme.of(context).title2,
-                            ),
-                          ],
-                        ),
-                        Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
                               'Aceptados',
                               style: AppTheme.of(context).bodyText1,
                             ),
                             Text(
-                              '${provider.cantidadFacturas}',
+                              provider.indicadoresAnexos.isEmpty ? '' : '${provider.aceptados}',
                               style: AppTheme.of(context).title2,
                             ),
                           ],
@@ -112,7 +97,22 @@ class _ContenedoresDashboardsState extends State<ContenedoresDashboards> {
                               style: AppTheme.of(context).bodyText1,
                             ),
                             Text(
-                              '${provider.totalPagos}',
+                              provider.indicadoresAnexos.isEmpty ? '' : '${provider.cancelados}',
+                              style: AppTheme.of(context).title2,
+                            ),
+                          ],
+                        ),
+                        Container(color: AppTheme.of(context).secondaryText, width: 1, height: 55),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Pagados',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            Text(
+                              provider.indicadoresAnexos.isEmpty ? '' : '${provider.pagados}',
                               style: AppTheme.of(context).title2,
                             ),
                           ],
@@ -213,11 +213,11 @@ class _ContenedoresDashboardsState extends State<ContenedoresDashboards> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          ' ${provider.fondoDisponibleRestante}%',
+                          provider.indicadoresDias.isEmpty ? '' : ' ${provider.dias}',
                           style: AppTheme.of(context).title2.override(
                                 fontFamily: AppTheme.of(context).title2Family,
                                 useGoogleFonts: false,
-                                color: provider.fondoDisponibleRestante < 0 ? AppTheme.of(context).red : AppTheme.of(context).primaryText,
+                                color: provider.dias < 0 ? AppTheme.of(context).red : AppTheme.of(context).primaryText,
                               ),
                         ),
                       ],
