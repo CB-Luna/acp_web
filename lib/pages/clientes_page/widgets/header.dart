@@ -210,59 +210,6 @@ class _ClientesHeaderState extends State<ClientesHeader> {
                 onPressed: () {},
               ),
               const Spacer(),
-              Container(
-                width: 160,
-                height: 28,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppTheme.of(context).primaryBackground,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: const Color(0x1A1C1C1C),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.search,
-                      color: Color(0x331C1C1C),
-                      size: 24,
-                    ),
-                    const SizedBox(width: 5),
-                    Expanded(
-                      child: TextFormField(
-                        controller: provider.busquedaController,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: GoogleFonts.inter(
-                            color: const Color(0x331C1C1C),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                        style: AppTheme.of(context).subtitle1,
-                        onChanged: (value) async {
-                          // await provider.getUsuarios();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
               IconButton(
                 padding: EdgeInsets.zero,
                 icon: const Icon(

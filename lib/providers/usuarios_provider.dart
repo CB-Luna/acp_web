@@ -108,8 +108,8 @@ class UsuariosProvider extends ChangeNotifier {
       final query = supabase.from('users').select();
 
       final res = await query
-          .ilike('nombre', '%${busquedaController.text}%')
-          .ilike('email', '%${busquedaController.text}%')
+          .or('nombre.ilike.%${busquedaController.text}%,email.ilike.%${busquedaController.text}%')
+          // .ilike('rol->>nombre', '%${busquedaController.text}%')
           .order(orden, ascending: true);
 
       if (res == null) {
